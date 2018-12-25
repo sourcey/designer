@@ -1,0 +1,14 @@
+/- content_for :designer_nav do
+  li.nav-item= link_to fa_icon('edit'), "#", data: {toggle: 'modal', target: "#feature-modal"}, class: 'nav-link'
+/- content_for :designer_form do
+  = render 'form',
+      resource_path: article_designer_path(@resource.id)
+
+= render 'designer/editor/show',
+    resource_path: editor_path(type: @resource.class.name, id: @resource.id)
+    / ,
+    / preview_path: preview_article_designer_path(@resource.id)
+
+/= render 'templates'
+/ = render 'form_modal',
+    resource_path: article_designer_path(@resource.id)
