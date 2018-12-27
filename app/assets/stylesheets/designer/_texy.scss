@@ -1,0 +1,311 @@
+//
+// Texy.scss
+// Semantic markup for web publishing.
+//
+// Copyright 2018 Kam Low
+// https://sourcey.com
+//
+
+@mixin texy(
+  $font-sans-serif: sans-serif,
+  $font-serif: serif,
+  $font-size: 18px,
+  $font-weight: 400,
+  $line-height: 32px,
+
+  $heading-weight: 600,
+  $heading-color: #111,
+
+  $caption-font-size: 14px,
+  $caption-font-weight: 400,
+  $caption-line-height: 1.5,
+  $caption-text-color: #454545,
+
+  $text-color: #333,
+  $link-color: #007bff,
+  $accent-color: #6610f2,
+  $separator-color: #eee,
+
+  $paragraph-margin: 1.75rem,
+  $block-margin: 3rem,
+  $pull-margin: 5rem) {
+
+  font-size: $font-size;
+  font-weight: $font-weight;
+
+
+  //
+  /// Headings
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: $paragraph-margin;
+    font-weight: $heading-weight;
+    color: $heading-color;
+
+    + .block {
+      margin-top: 0;
+    }
+  }
+  h1 {
+    margin-top: $block-margin;
+    font-size: $font-size * 2;
+  }
+  h2 {
+    margin-top: $block-margin;
+    font-size: $font-size * 1.75;
+  }
+  h3 {
+    font-size: $font-size * 1.5;
+  }
+  h4 {
+    font-size: $font-size * 1.33;
+  }
+  h5 {
+    font-size: $font-size * 1.25;
+  }
+
+
+  //
+  /// Typography
+
+  p, ul, ol, > pre, > img, > center {
+    margin-bottom: $paragraph-margin;
+  }
+
+  p, li, cite, figcaption {
+    a {
+      color: inherit;
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -.25rem;
+        z-index: -1;
+        border-bottom: 2px solid lighten($link-color, 30%);
+      }
+
+      &:hover {
+        text-decoration: none;
+        color: black;
+
+        &:before {
+          border-color: $link-color;
+        }
+      }
+    }
+  }
+
+  img {
+    max-width: 100%;
+
+    &.block {
+      display: block;
+    }
+    &.left {
+      float: left;
+      margin-right: $paragraph-margin;
+      margin-bottom: $paragraph-margin;
+    }
+    &.right {
+      float: left;
+      margin-left: $paragraph-margin;
+      margin-bottom: $paragraph-margin;
+    }
+  }
+
+  hr {
+    border-top: 1px solid $separator-color;
+    margin-top: $block-margin;
+    margin-bottom: $block-margin;
+    clear: both;
+  }
+
+
+  //
+  /// Helpers
+
+  .block {
+    margin-top: $block-margin;
+    margin-bottom: $block-margin;
+  }
+
+  .center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pull {
+    @include media-breakpoint-up(lg) {
+      margin-left: -$pull-margin;
+      margin-right: -$pull-margin;
+    }
+  }
+
+  .left {
+    float: left;
+    max-width: 40%;
+    margin-top: $block-margin * .75;
+    margin-bottom: $block-margin * .75;
+    margin-right: $block-margin;
+
+    // &.out,
+    // &.pull {
+    //   margin-left: -$pull-margin;
+    // }
+  }
+
+  .right {
+    float: right;
+    max-width: 40%;
+    margin-top: $block-margin * .75;
+    margin-bottom: $block-margin * .75;
+    margin-left: $block-margin;
+
+    // &.out,
+    // &.pull {
+    //   margin-right: -$pull-margin;
+    // }
+  }
+
+
+  //
+  /// Blockquotes
+
+  blockquote {
+    color: $gray-900;
+
+    img {
+      margin-bottom: $paragraph-margin;
+    }
+
+    p:only-of-type {
+      margin-bottom: 0;
+    }
+
+    cite {
+      font-size: $caption-font-size;
+      font-weight: $caption-font-weight;
+      line-height: $caption-line-height;
+      color: $caption-text-color;
+
+      &:before {
+        // Add a dash and space before citations
+        // &mdhash;&nbsp; in Hexadecimal
+        content:'\2014\00a0';
+      }
+    }
+
+    &.left,
+    &.right {
+      border-top: 6px solid $accent-color;
+      border-bottom: 1px solid $text-color;
+      padding-top: 1.5rem;
+      padding-bottom: 1rem;
+      font-weight: 500;
+      line-height: 1.725;
+
+      cite {
+        display: block;
+        margin-top: 0.75rem;
+        font-style: italic;
+      }
+    }
+
+    &.block {
+      font-family: $font-serif;
+      font-size: $font-size * 1.25;
+      font-weight: 400;
+      font-style: italic;
+
+      border-top: 3px solid $accent-color;
+      border-bottom: 1px solid $separator-color;
+      padding-top: $paragraph-margin;
+      // padding-bottom: $paragraph-margin;
+      // margin-top: $paragraph-margin;
+      // margin-bottom: $paragraph-margin;
+
+      cite {
+        font-family: $font-sans-serif;
+        margin-top: 1rem;
+        margin-bottom: 1.25rem;
+        display: block;
+        // font-style: normal;
+      }
+    }
+  }
+
+
+  //
+  /// Image Figure
+
+  figure {
+    margin-top: $block-margin;
+    margin-bottom: $block-margin;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    figcaption {
+      font-size: $caption-font-size;
+      font-weight: $caption-font-weight;
+      line-height: $caption-line-height;
+      color: $caption-text-color;
+      padding: .5rem 0 0;
+      // padding: .5rem 0;
+      // border-bottom: 2px solid $text-color;
+    }
+
+    // &.block {
+    //   // margin-top: 3rem;
+    //
+    //   figcaption {
+    //     // border-color: 2px solid $separator-color;
+    //   }
+    // }
+  }
+
+
+  // Full Layout
+  // @include media-breakpoint-up(lg) {
+  // }
+
+  // Mobile Layout
+  @include media-breakpoint-down(lg) {
+    figure {
+      &.left {
+        margin-left: 0 !important;
+        margin-right: $paragraph-margin !important;
+      }
+
+      &.right {
+        margin-left: $paragraph-margin !important;
+        margin-right: 0 !important;
+      }
+    }
+
+    blockquote {
+      &.left,
+      &.right {
+        margin: 0;
+        float: none;
+        max-width: none;
+
+        &.out,
+        &.pull {
+          margin: $paragraph-margin 0;
+          border-top: 3px solid $accent-color;
+          border-bottom: 1px solid $text-color;
+        }
+      }
+    }
+  }
+
+  // Mobile Layout
+  @include media-breakpoint-down(xs) {
+  }
+}

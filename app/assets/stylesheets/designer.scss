@@ -1,12 +1,19 @@
-// @import 'variables';
-@import 'bootstrap/scss/bootstrap';
-// @import 'font-awesome';
-// @import "font-awesome-sprockets";
-@import 'https://use.fontawesome.com/releases/v5.6.3/css/all.css';
+//
+// Page Designer SCSS
+//
 
+$link-color: #C72073;
+$font-size-base: 0.9rem;
+
+@import 'bootstrap/scss/bootstrap';
 @import 'toastr/build/toastr';
 @import 'simplemde/dist/simplemde.min';
 @import '@voerro/vue-tagsinput/dist/style';
+
+// @import 'font-awesome';
+// @import "font-awesome-sprockets";
+@import url('https://use.fontawesome.com/releases/v5.6.3/css/all.css');
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,500,600,700');
 
 
 html, body {

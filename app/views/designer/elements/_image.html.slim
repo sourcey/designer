@@ -3,6 +3,9 @@
 - classes = classes.join(' ') if classes.is_a?(Array)
 figure class=(classes)
   - if image
-    = image_tag image.service_url
+    - if local_assigns[:size]
+      = image_tag image.variant(resize: size)
+    - else
+      = image_tag image
   - if local_assigns[:caption]
     figcaption= caption

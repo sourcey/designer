@@ -3,6 +3,7 @@
 require "rails/engine"
 
 require "designer/configuration"
+require "designer/attribute"
 
 module Designer
   class Engine < Rails::Engine
@@ -11,6 +12,12 @@ module Designer
 
     Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', '*')
     Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', 'components', '*')
+
+    initializer "designer.acts_as_designer" do
+      ActiveSupport.on_load(:active_record) do
+        include Designer::Attribute
+      end
+    end
 
     initializer "designer.assets.precompile" do |app|
       app.config.assets.precompile += %w( designer.css )

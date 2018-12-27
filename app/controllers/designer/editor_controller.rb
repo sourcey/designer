@@ -3,14 +3,9 @@ require_dependency "designer/application_controller"
 module Designer
   class EditorController < ApplicationController
     before_action :set_resource
-    # before_action :authenticate_admin! # FIXME
     skip_before_action :verify_authenticity_token
 
-    # layout 'designer'
-
     def show
-      # raise Designer.configuration.inspect
-      # raise @resource.elements.inspect
     end
 
     def update
@@ -26,13 +21,6 @@ module Designer
     # end
 
     protected
-
-    # def generate_content
-    # end
-
-    # def resource_id
-    #   params[:newsletter_id] || params[:article_id] || params[:article_slug] || params[:id]
-    # end
 
     def resource_elements
       # BUG: The front end stringifies the elements JSON, but this is getting

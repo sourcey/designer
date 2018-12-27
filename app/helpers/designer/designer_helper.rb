@@ -1,40 +1,4 @@
 module Designer::DesignerHelper
-  def designer_resource_name
-    params[:resource_name] || designer_resource&.model_name&.route_key
-  end
-
-  def designer_set_resource resource
-    @_resource = resource
-  end
-
-  def designer_resource
-    @_resource || @resource
-  end
-
-  def designer_preview_path
-    path = designer_option(:preview_path) || ':resource_name/:id'
-    path_parts = path.split('/')
-    path_parts.map! do |part|
-      if part[0] == ':'
-        param = part[1..-1]
-        if params[param]
-          params[param]
-        else
-          designer_resource.send(param)
-        end
-      else
-        part
-      end
-    end
-    path_parts.join('/')
-  end
-
-  def designer_option key
-    unless Designer.configuration[designer_resource_name].has_key? key
-      raise "Mismatch designer option `#{val}` for `#{designer_resource_name}`"
-    end
-    Designer.configuration[designer_resource_name][key]
-  end
 
   def designer_embed element_id
     element = designer_resource.elements.find{|x| x['id'] == element_id }
@@ -46,7 +10,6 @@ module Designer::DesignerHelper
   def designer_render element
     element = element.symbolize_keys
     template_path = designer_option(:elements_template_path)
-    p element
     if lookup_context.exists?(element[:template], designer_option(:elements_template_path), true)
       render "#{template_path}/#{element[:template]}", designer_element_options(element)
     elsif lookup_context.exists?(element[:template], 'designer/elements', true)
@@ -83,21 +46,50 @@ module Designer::DesignerHelper
         assigns: { _resource: designer_resource }
   end
 
-  def designer_attributes_hash
-    attrs = designer_option(:attributes)
-    attrs.each_with_object({}) do |attr, hash|
-      hash[attr] = designer_resource.send(attr)
-    end
-  end
-
   # Render input text as markdown
   def designer_markdown text, options = {}
     return if text.blank?
     Kramdown::Document.new(text, {
-      # parse_block_html: true,
       syntax_highlighter_opts: {
         line_numbers: nil
       }
     }.merge(options)).to_html
+  end
+
+  def designer_preview_path
+    path = designer_option(:preview_path) || ':resource_name/:id'
+    path_parts = path.split('/')
+    path_parts.map! do |part|
+      if part[0] == ':'
+        param = part[1..-1]
+        if params[param]
+          params[param]
+        else
+          designer_resource.send(param)
+        end
+      else
+        part
+      end
+    end
+    path_parts.join('/')
+  end
+
+  def designer_option key
+    unless Designer.configuration[designer_resource_name].has_key? key
+      raise "Mismatch designer option `#{val}` for `#{designer_resource_name}`"
+    end
+    Designer.configuration[designer_resource_name][key]
+  end
+
+  def designer_resource_name
+    params[:resource_name] || designer_resource&.model_name&.route_key
+  end
+
+  def designer_set_resource resource
+    @_resource = resource
+  end
+
+  def designer_resource
+    @_resource || @resource
   end
 end

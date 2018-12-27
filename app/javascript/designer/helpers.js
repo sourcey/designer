@@ -22,8 +22,6 @@ export default {
 
           editor.mde.codemirror.on('change', function() {
             $textarea.val(editor.value())
-            // object[name] = editor.value()
-            // console.log('item value', self.object[name])
           })
 
           $modal.on('hidden.bs.modal', function(e) {

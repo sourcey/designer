@@ -1,4 +1,4 @@
 # TODO
 
 * Write README
-* Add textual.scss
+* Install migrations per modal

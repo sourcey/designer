@@ -1,7 +1,12 @@
 module Designer
   class ApplicationController < ActionController::Base
+    before_action :set_host_for_local_storage
 
-    private
+    protected
+
+    def set_host_for_local_storage
+      ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
+    end
 
     helper_method :resource_name, :resource_type
 
@@ -15,15 +20,14 @@ module Designer
 
     def set_resource
       @resource = resource_type.constantize.find(params[:id])
-      # if /\A\d+\z/.match(resource_id)
-      #   @resource = resource_type.constantize.find(resource_id)
-      # else
-      #   @resource = resource_type.constantize.find_by_slug!(resource_id)
-      # end
     end
 
     def resource_params
       params.require(:resource).permit!
+    end
+
+    def set_host_for_local_storage
+      ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
     end
   end
 end

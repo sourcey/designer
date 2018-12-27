@@ -1,3 +1,4 @@
 - text ||= nil
 - text = designer_text(text) if text.present?
-.text= text
+- text = designer_markdown(text) if text.present?
+.text= text&.html_safe

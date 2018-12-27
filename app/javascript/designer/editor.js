@@ -18,12 +18,11 @@ export default class Editor {
 
     this.mde.codemirror.on('drop', function(cm, event) {
       const id = event.dataTransfer.getData('id')
-      // const element = document.getElementById(id)
-      const code = event.dataTransfer.getData('code')
-      console.log('handleDrop', cm, event, id, code)
+      const embed = event.dataTransfer.getData('embed')
+      console.log('handleDrop', cm, event, id, embed)
 
       var coords = cm.coordsChar({ left: event.x, top: event.y })
-      cm.replaceRange(code, coords)
+      cm.replaceRange(embed, coords)
       event.preventDefault()
     })
   }

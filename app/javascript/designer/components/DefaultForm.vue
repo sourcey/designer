@@ -58,7 +58,7 @@ export default {
     onDragElement(event) {
       console.log('onDragElement', event, this)
       event.dataTransfer.setData('id', this.item.id)
-      event.dataTransfer.setData('code', this.getEmbedCode(this.item.id))
+      event.dataTransfer.setData('embed', this.getEmbedCode(this.item.id))
     }
   }
 }
