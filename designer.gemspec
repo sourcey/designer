@@ -16,7 +16,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.5.0"
 
   s.add_dependency "rails", ">= 5.2.0"
-  # s.add_dependency "nokogiri"
+  s.add_dependency "nokogiri"
+  s.add_dependency "kramdown"
 
   s.add_development_dependency "bundler", "~> 1.15"
   # s.add_development_dependency "mini_magick"

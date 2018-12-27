@@ -1,15 +1,17 @@
-import 'jquery/dist/jquery'
+import $ from 'jquery/dist/jquery'
 import Rails from 'rails-ujs/lib/assets/compiled/rails-ujs'
 import 'popper.js/dist/popper'
 import 'bootstrap/dist/js/bootstrap'
 import 'jquery-serializejson/jquery.serializejson'
 import 'jquery-resizable-dom/src/jquery-resizable'
 import * as toastr from 'toastr/toastr'
-// import Sortable from 'sortablejs/Sortable'
-import Vue from 'vue'
-import * as components from '../designer/components/'
+import Vue from 'vue/dist/vue.esm.js'
+
+import MediaGallery from '../designer/components/MediaGallery.vue'
+import DefaultForm from '../designer/components/DefaultForm.vue'
+
+import Draggable from 'vuedraggable'
 import Helpers from  '../designer/helpers'
-import Editor from  '../designer/editor'
 
 
 window.$ = $
@@ -19,23 +21,7 @@ toastr.options = {
   "positionClass": "toast-bottom-right"
 }
 
-
-Vue.filter('formatSize', (size) => {
-  if (size > 1024 * 1024 * 1024 * 1024) {
-    return (size / 1024 / 1024 / 1024 / 1024).toFixed(2) + ' TB'
-  } else if (size > 1024 * 1024 * 1024) {
-    return (size / 1024 / 1024 / 1024).toFixed(2) + ' GB'
-  } else if (size > 1024 * 1024) {
-    return (size / 1024 / 1024).toFixed(2) + ' MB'
-  } else if (size > 1024) {
-    return (size / 1024).toFixed(2) + ' KB'
-  }
-  return size.toString() + ' B'
-})
-
-Vue.filter('titleize', (str) => {
-  return str.replace(/[A-Z]/g, ' $&').replace(/_/g, ' ').replace(/^./, str => str.toUpperCase())
-})
+Vue.use(Helpers)
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,7 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let app = new Vue({
     el: '#app',
-    components: components,
+    components: {
+      MediaGallery, Draggable, DefaultForm
+    },
     props: ['elements', 'spec', 'resource_id', 'resource_type', 'resource_path', 'preview_path', 'upload_path'],
     beforeMount() {
       console.log('before mount', this.$attrs, this.$el.dataset.spec)
@@ -55,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     data() {
       return {
-        currentView: 'preview'
+        showPreview: true
       }
     },
     methods: {
@@ -70,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return []
         return this.elements.map(function(item) {
           if (!item.id)
-            item.id = item.template + '-' + Helpers.randomString(10)
+            item.id = item.template + '-' + self.randomString(10)
           const found = Object.values(self.spec).find(function(definition) {
             return definition.template == item.template
           })
@@ -84,20 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       addElement(template) {
         this.elements.push({
-          id: template + '-' + Helpers.randomString(10),
+          id: template + '-' + this.randomString(10),
           template: template,
           values: {}
         })
-      },
-      copyToClipboard(text) {
-        const dummy = document.createElement('input')
-        document.body.appendChild(dummy)
-        dummy.value = text
-        dummy.select()
-        document.execCommand('copy', false)
-        dummy.remove()
-        toastr.info("Copied!")
-        console.log('copied', text)
       },
       save() {
         console.log('saving', this.elements)
@@ -124,22 +102,23 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   //
-  // Markdown Editor
-
-  var $markdown = $('textarea.markdown')
-  if ($markdown.length) {
-    let editor = new Editor($markdown[0])
-
-    $('#sidebar [rel="editor"]').click(() => {
-      editor.refresh() // ensure content is redered
-    })
-  }
-
-  //
   // Resizable Panels
+  // TODO: Use Vue
 
   $('#sidebar').resizable({
     handleSelector: '.splitter',
     resizeHeight: false
   })
+
+  //
+  // Markdown Editor
+
+  // var $markdown = $('textarea.markdown')
+  // if ($markdown.length) {
+  //   let editor = new Editor($markdown[0])
+  //
+  //   $('#sidebar [rel="editor"]').click(() => {
+  //     editor.refresh() // ensure content is redered
+  //   })
+  // }
 })

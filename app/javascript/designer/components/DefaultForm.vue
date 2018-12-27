@@ -3,11 +3,11 @@
     <div class="card">
       <div class="card-header d-flex align-items-center drag-handle">
         <a data-toggle="collapse" href="#" v-bind:data-target="'#collapse-' + item.id" class="title px-0 flex-fill text-left">{{ item.title || spec.label }}</a>
-        <input type="checkbox" class="mr-1" :checked="!item.hidden" @change="item.hidden = !item.hidden">
+        <input type="checkbox" class="mr-3" :checked="!item.hidden" @change="item.hidden = !item.hidden">
         <div class="dropdown">
-          <button data-toggle="dropdown" type="button" class="btn btn-sm btn-info dropdown-toggle"></button>
+          <button data-toggle="dropdown" type="button" class="btn btn-sm btn-secondary dropdown-toggle"></button>
           <div class="dropdown-menu">
-            <a href="#" class="dropdown-item" @click="copyToClipboard(item.id)">Copy embed code</a>
+            <a href="#" class="dropdown-item" @click="copyToClipboard(getEmbedCode(item.id))">Copy embed code</a>
             <a href="#" class="dropdown-item" @click="$emit('remove')">Delete</a>
           </div>
         </div>
@@ -22,7 +22,7 @@
           <br>object: >>>
           <br>{{object}} -->
           <SortableInputArray
-            v-if="property.type == 'array'"
+            v-if="property.type == 'array' && property.properties"
             v-bind:item="object"
             v-bind:spec="property">
           </SortableInputArray>
@@ -57,25 +57,8 @@ export default {
   methods: {
     onDragElement(event) {
       console.log('onDragElement', event, this)
-      // var el = document.createElement('div')
-      // el.className = 'embed'
-      // for(const key in this.item) {
-      //   if (key == 'hidden') continue
-      //   el.dataset[key] = typeof(this.item[key]) === 'object' ?
-      //       JSON.stringify(this.item[key]) : this.item[key]
-      // }
-      // event.dataTransfer.setData('id', this.item.id)
-      // event.dataTransfer.setData('element', el.outerHTML)
-
-      // const data = {
-      //   id: this.item.id,
-      //   template: this.item.template,
-      //   values: this.item.values
-      // }
-      // const code = '<%= designer_render(' + JSON.stringify(data) + ') %>'
-
       event.dataTransfer.setData('id', this.item.id)
-      event.dataTransfer.setData('code', '<%= designer_embed("' + this.item.id + '") %>')
+      event.dataTransfer.setData('code', this.getEmbedCode(this.item.id))
     }
   }
 }

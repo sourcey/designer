@@ -4,11 +4,123 @@
   = render 'form',
       resource_path: article_designer_path(@resource.id)
 
-= render 'designer/editor/show',
+/= render 'designer/editor/show',
     resource_path: editor_path(type: @resource.class.name, id: @resource.id)
-    / ,
-    / preview_path: preview_article_designer_path(@resource.id)
-
+/ ,
+/ preview_path: preview_article_designer_path(@resource.id)
 /= render 'templates'
 / = render 'form_modal',
     resource_path: article_designer_path(@resource.id)
+/ - spec ||= "Designer::#{resource_type}".constantize::SPEC.to_json
+/ - raise Designer.configuration['articles'].inspect
+/ - raise resource_name.inspect
+/ - raise  Designer.configuration[resource_name][:preview_path].inspect
+/ (resource_id: @resource.id, resource_type: @resource.class.name)designer_
+
+
+/ Options
+- resource_id ||= @resource.id
+- resource_type ||= @resource.class.name
+
+- attributes ||= designer_attributes_hash.to_json
+/ designer_option(:attributes).map{|attr| @resource.send(attr)}
+- elements ||= @resource.elements.to_json
+/ - elements ||= (@resource.elements.is_a?(Hash) ? @resource.elements.values : @resource.elements).to_json
+- spec ||= designer_option(:spec).to_json
+- resource_path ||= editor_path(id: @resource.id, resource_name: resource_name)
+- uploads_path ||= images_path(id: @resource.id, resource_name: resource_name)
+- preview_path ||= designer_preview_path
+
+#app {
+    data-resource_id=(resource_id.to_json)
+    data-resource_type=(resource_type)
+    data-attributes=(attributes)
+    data-elements=(elements)
+    data-spec=(spec)
+    data-resource_path=(resource_path)
+    data-preview_path=(preview_path)
+    data-uploads_path=(uploads_path)
+  }
+
+  #sidebar :class="{'panel-left': true, 'w-100': !showPreview}"
+    / .panel-left.w-100
+    ul#menu.nav.nav-tabs role="tablist"
+      li.nav-item
+        a.nav-link.active data-toggle="tab" href="#elements" role="tab" Elements
+      li.nav-item
+        a.nav-link data-toggle="tab" href="#editor" role="tab" Editor
+        /a :class="{'nav-link': true, active: currentView == 'editor'}" href="#" @click="currentView = 'editor'" rel="editor" title="Editor"
+          i class="fa fa-edit"
+      li.nav-item
+        a.nav-link data-toggle="tab" href="#gallery" role="tab" Gallery
+      - if lookup_context.exists?('nav', designer_option(:designer_template_path), true)
+          = render "#{designer_option(:designer_template_path)}/nav", resource: @resource
+      / = yield(:designer_nav)
+      li.nav-item.flex-fill
+      li.nav-item
+        a.nav-link href="#" @click="refreshPreview()" title="Refresh Preview"
+          i class="fa fa-sync"
+      li.nav-item
+        a.nav-link href="#" @click="save()" title="Save"
+          i class="fa fa-save"
+      /li.nav-item
+        a :class="{'nav-link': true, active: currentView == 'editor'}" href="#" @click="currentView = 'editor'" rel="editor" title="Editor"
+          i class="fa fa-edit"
+      li.nav-item
+        a :class="{'nav-link': true, active: showPreview}"  href="#" @click="showPreview = !showPreview" rel="preview" title="Preview"
+          i class="fa fa-eye"
+    .tab-content
+      #elements.tab-pane.fade.show.active
+        / @update="refreshPreview()" @change="refreshPreview()"
+        .row.align-items-center
+          .col-6
+            / .tab-title.m-0.pl-1 Page Designer
+          .col-6.text-right
+            .dropdown.mr-2.my-2
+              button.btn.btn-sm.btn-success.dropdown-toggle data-toggle="dropdown" type="button" Add
+              .dropdown-menu
+                a.dropdown-item v-for="definition in spec" @click="addElement(definition.template)" href="#"= '{{definition.label}}'
+
+        /component {
+          :is="item.component || 'DefaultForm'"
+          v-for="(value, name) in attributes" :key="name"
+          v-bind:item="item"
+          v-bind:spec="getSpec(item.template)"
+          v-on:remove="elements.splice(index, 1)" }
+        Draggable v-model="elements" :options="{handle:'.drag-handle'}"
+          component {
+            :is="item.component || 'DefaultForm'"
+            v-for="(item, index) in elements" :key="item.id"
+            v-bind:item="item"
+            v-bind:spec="getSpec(item.template)"
+            v-on:remove="elements.splice(index, 1)" }
+
+      - if lookup_context.exists?('form', designer_option(:designer_template_path), true)
+        / #editor.panel-right v-show="currentView == 'editor'"
+        #editor.tab-pane.fade aria-labelledby="editor-tab" role="tabpanel"
+          = render "#{designer_option(:designer_template_path)}/form", resource: @resource, resource_path: resource_path
+      #gallery.tab-pane.fade aria-labelledby="gallery-tab" role="tabpanel"
+        component is="MediaGallery" v-bind:uploads_path="uploads_path"
+      - if lookup_context.exists?('tabs', designer_option(:designer_template_path), true)
+          = render "#{designer_option(:designer_template_path)}/tabs", resource: @resource
+      / = yield(:designer_tabs)
+  .splitter
+      /= yield(:designer_form)
+  / height="100%" width="100%" src=(preview_path)
+  iframe#preview.panel-right v-show="showPreview" height="100%" width="100%" src=(preview_path)
+
+/ Markdown Editor
+#markdown-editor-modal.modal role="dialog" tabindex="-1"
+  .modal-dialog role="document"
+    .modal-content
+      /.modal-header
+        h5.modal-title Modal title
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  ×
+      .modal-body.p-0.d-flex.flex-column
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  ×
+        textarea.flex-fill
+      /.modal-footer
+        button.btn.btn-primary type="button"  Save changes
+        button.btn.btn-secondary data-dismiss="modal" type="button"  Close

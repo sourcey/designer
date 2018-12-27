@@ -1,0 +1,7 @@
+- classes ||= ''
+- classes = classes.join(' ') if classes.is_a?(Array)
+blockquote class=(classes)
+  - if local_assigns[:text]
+    = text
+  - if local_assigns[:cite]
+    cite= cite

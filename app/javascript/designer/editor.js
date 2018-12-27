@@ -13,6 +13,9 @@ export default class Editor {
             'clean-block', 'fullscreen']
     })
 
+    // console.log(this.mde.gui.toolbar)
+    $(this.mde.gui.toolbar).find('.fa-header').attr('class', 'fa fa-heading')
+
     this.mde.codemirror.on('drop', function(cm, event) {
       const id = event.dataTransfer.getData('id')
       // const element = document.getElementById(id)
@@ -24,9 +27,15 @@ export default class Editor {
       event.preventDefault()
     })
   }
+  destroy() {
+    this.mde.toTextArea()
+  }
   refresh() {
     var self = this
     setTimeout(function() { self.mde.codemirror.refresh() }, 0)
+  }
+  value() {
+    return this.mde.value()
   }
   toggleFullscreen() {
     const elem = this.mde.options.element || document.documentElement;

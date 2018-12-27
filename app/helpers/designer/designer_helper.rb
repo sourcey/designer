@@ -1,34 +1,69 @@
 module Designer::DesignerHelper
+  def designer_resource_name
+    params[:resource_name] || designer_resource&.model_name&.route_key
+  end
+
+  def designer_set_resource resource
+    @_resource = resource
+  end
+
+  def designer_resource
+    @_resource || @resource
+  end
+
   def designer_preview_path
-    # preview_designer_path
-    # raise  Designer.configuration[resource_name][:preview_path].inspect
-    url_parts = Designer.configuration[resource_name][:preview_path].split('/')
-    url_parts.each do |part|
-      part = params[part] if part[0] == ':'
+    path = designer_option(:preview_path) || ':resource_name/:id'
+    path_parts = path.split('/')
+    path_parts.map! do |part|
+      if part[0] == ':'
+        param = part[1..-1]
+        if params[param]
+          params[param]
+        else
+          designer_resource.send(param)
+        end
+      else
+        part
+      end
     end
-    url_parts.join('/')
-    # if param[0]
-    # str
-    # hash.keys.each {|key| hash[key]='new value'}
-# _with_object('')
-    # (id: @resource.id, resource_name: resource_name)
+    path_parts.join('/')
+  end
+
+  def designer_option key
+    unless Designer.configuration[designer_resource_name].has_key? key
+      raise "Mismatch designer option `#{val}` for `#{designer_resource_name}`"
+    end
+    Designer.configuration[designer_resource_name][key]
   end
 
   def designer_embed element_id
-    # NOTE: internal calls to designer_embed only pass the id, so the instance
-    # variable needs to be set externally
-    elements ||= @_designer[:elements]
-    template_path ||= @_designer[:template_path]
+    element = designer_resource.elements.find{|x| x['id'] == element_id }
+    return "Cannot find element `#{element_id}`" unless element
 
-    element = elements.find{|x| x['id'] == element_id }
-    return "Cannot find element #{element_id}" unless element
-
-    designer_render element, template_path: template_path
+    designer_render element
   end
 
-  def designer_render element, template_path: nil
-    element.symbolize_keys!
-    render "#{template_path}/#{element[:template]}", designer_element_options(element)
+  def designer_render element
+    element = element.symbolize_keys
+    template_path = designer_option(:elements_template_path)
+    p element
+    if lookup_context.exists?(element[:template], designer_option(:elements_template_path), true)
+      render "#{template_path}/#{element[:template]}", designer_element_options(element)
+    elsif lookup_context.exists?(element[:template], 'designer/elements', true)
+      render "designer/elements/#{element[:template]}", designer_element_options(element)
+    else
+      raise "Missing designer template `#{element[:template]}`"
+    end
+  end
+
+  def designer_render_resource resource
+    return unless resource&.elements
+    designer_set_resource resource
+    resource.elements.each_with_object('') do |element, html|
+      next if element['hidden'] || element[:hidden]
+      result = designer_render element
+      html << result if result
+    end.html_safe
   end
 
   def designer_element_options element
@@ -36,5 +71,33 @@ module Designer::DesignerHelper
     options = {}
     options.merge!(element[:values]) if element[:values]
     options.symbolize_keys
+  end
+
+  def designer_attachment image_key
+    ActiveStorage::Attachment.joins(:blob).where(active_storage_blobs: {key: image_key}).first
+  end
+
+  def designer_text text
+    return if text.blank?
+    ApplicationController.render inline: text,
+        assigns: { _resource: designer_resource }
+  end
+
+  def designer_attributes_hash
+    attrs = designer_option(:attributes)
+    attrs.each_with_object({}) do |attr, hash|
+      hash[attr] = designer_resource.send(attr)
+    end
+  end
+
+  # Render input text as markdown
+  def designer_markdown text, options = {}
+    return if text.blank?
+    Kramdown::Document.new(text, {
+      # parse_block_html: true,
+      syntax_highlighter_opts: {
+        line_numbers: nil
+      }
+    }.merge(options)).to_html
   end
 end

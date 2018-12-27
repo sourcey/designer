@@ -7,20 +7,20 @@ module Designer
     skip_before_action :verify_authenticity_token
 
     def index
-      render json: jqfileupload_images_json
-      # { files: jqfileupload_images_json } #(@resource)
+      render json: designer_images_json
+      # { files: designer_images_json } #(@resource)
     end
 
     def create
-      @resource.images.attach(params[:file])
+      @resource.attachments.attach(params[:file])
 
-      render json: jqfileupload_images_json #(@resource)
-      # render json: { files: jqfileupload_images_json } #(@resource)
+      render json: designer_images_json #(@resource)
+      # render json: { files: designer_images_json } #(@resource)
     end
 
     def destroy
-      # raise @resource.images.to_a.inspect
-      # @image = @resource.images.to_a.find{|x| x.signed_id == params[:signed_id]}
+      # raise @resource.attachments.to_a.inspect
+      # @image = @resource.attachments.to_a.find{|x| x.signed_id == params[:signed_id]}
       # @image.purge_later
 
       @image = ActiveStorage::Attachment.where(record: @resource).joins(:blob).where(active_storage_blobs: {key: params[:key]}).first
@@ -31,45 +31,44 @@ module Designer
 
     private
 
-    def set_resource
-      # raise 'virtual'
-      # @resource = Newsletter.find(params[:resource_id])
+    # def set_resource
+    #   # raise 'virtual'
+    #   # @resource = Newsletter.find(params[:resource_id])
+    #
+    #   if /\A\d+\z/.match(resource_id)
+    #     @resource = params[:resource_type].constantize.find(resource_id)
+    #   else
+    #     @resource = params[:resource_type].constantize.find_by_slug!(resource_id)
+    #   end
+    # end
+    #
+    # def resource_id
+    #   params[:newsletter_id] || params[:article_id] || params[:resource_id] || params[:id]
+    # end
 
-      if /\A\d+\z/.match(resource_id)
-        @resource = params[:resource_type].constantize.find(resource_id)
-      else
-        @resource = params[:resource_type].constantize.find_by_slug!(resource_id)
-      end
-    end
-
-    def resource_id
-      params[:newsletter_id] || params[:article_id] || params[:resource_id] || params[:id]
-    end
-
-    def jqfileupload_images_json #resource
-      images = @resource.images.to_a
-      images << @resource.cover_image if @resource.respond_to?(:cover_image) && @resource.cover_image.attached?
-      images << @resource.title_image if @resource.respond_to?(:title_image) && @resource.title_image.attached?
+    def designer_images_json
+      images = @resource.attachments.to_a
+      images << @resource.cover if @resource.respond_to?(:cover) && @resource.cover.attached?
       images.map do |attachment|
-        jqfileupload_image_json attachment #resource,
+        designer_image_json attachment
       end
     end
 
-    def jqfileupload_image_json attachment #resource,
-      # raise @resource.cover_image.inspect
+    def designer_image_json attachment
+      # raise attachment.inspect
+      # include Sourcey::Application.routes.url_helpers
+
       {
-        # deleteType: 'DELETE',
         key: attachment.key,
         # signed_id: attachment.signed_id,
         # name: "#{attachment.name}: #{attachment.filename}",
         name: attachment.filename,
         size: attachment.byte_size,
         kind: attachment.name,
-        thumbnail_url: Image::UrlResolver.new(attachment, {size: :icon_square}).perform,
-        delete_url: designer_image_path(@resource, key: attachment.key, resource_type: params[:resource_type])
-        # originalName: attachment.filename,
+        thumbnail_url: attachment.variant(resize: '100x100').processed.service_url,
+        delete_url: image_path(key: attachment.key, id: @resource.id, resource_name: params[:resource_name])
         # url_for(attachment),
-        # type: nil,
+        # Image::UrlResolver.new(attachment, {size: :icon_square}).perform,
         # url: url_for(attachment),
         # sources: {
         #   'Image Key' => attachment.key,

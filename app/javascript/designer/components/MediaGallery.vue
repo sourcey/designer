@@ -11,7 +11,8 @@
     <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
   		<h3>Drop files to upload</h3>
     </div>
-    <div class="upload" v-show="!showOptions">
+    <div class="upload">
+      <!-- v-show="!showOptions" -->
       <div class="table-responsive">
         <table class="table table-hover">
           <thead>
@@ -61,7 +62,7 @@
               <td v-else-if="file.success">success</td>
               <td v-else-if="file.active">active</td>
               <td v-else></td>
-              <td>
+              <td align="right">
                 <div class="btn-group btn-group-sm">
                   <button class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" type="button"></button>
                   <div class="dropdown-menu" v-if="!file.persisted && !file.success">
@@ -87,8 +88,8 @@
           </tbody>
         </table>
       </div>
-      <div class="example-foorer">
-        <div class="btn-group">
+      <div class="gallery-foorer mx-2">
+        <div class="btn-group btn-group-sm">
           <file-upload
             class="btn btn-success dropdown-toggle"
             :post-action="postAction"
@@ -111,11 +112,11 @@
             <!-- <i class="fa fa-plus"></i> -->
             Select
           </file-upload>
-          <button type="button" class="btn btn-sm btn-info" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
+          <button type="button" class="btn btn-info" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
             Start Upload
           </button>
-          <button type="button" class="btn btn-sm btn-danger" v-else @click.prevent="$refs.upload.active = false">
+          <button type="button" class="btn btn-danger" v-else @click.prevent="$refs.upload.active = false">
             <i class="fa fa-stop" aria-hidden="true"></i>
             Stop Upload
           </button>
@@ -218,7 +219,6 @@
       </div>
     </div>
 
-
     <div :class="{'modal-backdrop': true, 'fade': true, show: addData.show}"></div>
     <div :class="{modal: true, fade: true, show: addData.show}" id="modal-add-data" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -307,7 +307,7 @@
 // import ImageCompressor from '@xkeshi/image-compressor'
 import FileUpload from 'vue-upload-component'
 export default {
-  name: 'ImageGallery',
+  name: 'MediaGallery',
   components: {
     FileUpload,
   },
@@ -336,19 +336,19 @@ export default {
       data: {
         '_csrf_token': 'xxxxxx',
       },
-      autoCompress: 1024 * 1024,
-      uploadAuto: false,
-      showOptions: false,
-      addData: {
-        show: false,
-        name: '',
-        type: '',
-        content: '',
-      },
-      editFile: {
-        show: false,
-        name: '',
-      }
+      // autoCompress: 1024 * 1024,
+      // uploadAuto: false,
+      // showOptions: false,
+      // addData: {
+      //   show: false,
+      //   name: '',
+      //   type: '',
+      //   content: '',
+      // },
+      // editFile: {
+      //   show: false,
+      //   name: '',
+      // }
     }
   },
   created() {
@@ -366,7 +366,6 @@ export default {
   },
   // watch: {
   //   'editFile.show'(newValue, oldValue) {
-  //     // 关闭了 自动删除 error
   //     if (!newValue && oldValue) {
   //       this.$refs.upload.update(this.editFile.id, { error: this.editFile.error || '' })
   //     }
@@ -397,16 +396,21 @@ export default {
     removeFile(index) {
       const file = this.files.splice(index, 1)[0]
       console.log('removing', file)
+
       if (file.delete_url) {
         $.ajax({
           type: 'DELETE',
           url: file.delete_url,
+          // url: this.uploads_path,
+          data: {
+            key: file.key
+          }
         })
       }
       this.$refs.upload.remove(file)
     },
     inputFilter(newFile, oldFile, prevent) {
-      console.log('inputFilter', newFile, oldFile)
+      console.log('input filter', newFile, oldFile)
       if (newFile && !oldFile) {
         // Before adding a file
         // Filter system files or hide files
@@ -450,7 +454,7 @@ export default {
     },
     // add, update, remove File Event
     inputFile(newFile, oldFile) {
-      console.log('inputFile', newFile, oldFile)
+      console.log('input file', newFile, oldFile)
       if (newFile && oldFile) {
         // update
         if (newFile.active && !oldFile.active) {
@@ -473,7 +477,6 @@ export default {
         }
       }
       if (!newFile && oldFile) {
-        alert('remove old file')
         // remove
         // if (oldFile.success && oldFile.response.id) {
         //   // $.ajax({
