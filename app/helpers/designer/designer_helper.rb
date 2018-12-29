@@ -40,7 +40,8 @@ module Designer::DesignerHelper
     ActiveStorage::Attachment.joins(:blob).where(active_storage_blobs: {key: image_key}).first
   end
 
-  def designer_text text
+  # Render input text embeds and ERB
+  def designer_content text
     return if text.blank?
     ApplicationController.render inline: text,
         assigns: { _resource: designer_resource }
