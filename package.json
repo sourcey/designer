@@ -2,7 +2,7 @@
   "name": "designer",
   "version": "0.2.0",
   "description": "Design rich text markdown pages in Rails applications",
-  "main": "app/javascript/designer/app.js",
+  "main": "app/javascript/designer/index.js",
   "files": [
     "app/javascript/designer/*.js"
   ],
