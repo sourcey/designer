@@ -1,1 +1,1 @@
-import '../designer/app'
+import '../designer'
