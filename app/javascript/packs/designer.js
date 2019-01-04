@@ -1,1 +1,2 @@
-import '../designer'
+import Designer from 'designer'
+Designer.start()

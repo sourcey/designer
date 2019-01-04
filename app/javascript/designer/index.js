@@ -44,7 +44,7 @@ export default {
       },
       props: ['elements', 'spec', 'resource_id', 'resource_type', 'resource_path', 'preview_path', 'upload_path'],
       beforeMount() {
-        console.log('before mount', this.$attrs, this.$el.dataset.spec)
+        console.log('before mount', this.$attrs, this.$el.dataset.elements, this.$el.dataset.spec)
         const dataset = this.$el.dataset
         for(const key in dataset) {
           this[key] = (dataset[key][0] === '{' || dataset[key][0] === '[') ? JSON.parse(dataset[key]) : dataset[key]

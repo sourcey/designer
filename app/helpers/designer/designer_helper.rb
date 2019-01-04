@@ -76,14 +76,13 @@ module Designer::DesignerHelper
   end
 
   def designer_option key
-    unless Designer.configuration[designer_resource_name].has_key? key
-      raise "Mismatch designer option `#{val}` for `#{designer_resource_name}`"
-    end
     Designer.configuration[designer_resource_name][key]
+  rescue
+    raise "Mismatch designer option `#{val}` for `#{designer_resource_name}`"
   end
 
   def designer_resource_name
-    params[:resource_name] || designer_resource&.model_name&.route_key
+    designer_resource&.model_name&.route_key || params[:resource_name]
   end
 
   def designer_set_resource resource

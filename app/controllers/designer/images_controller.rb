@@ -4,7 +4,7 @@ module Designer
   class ImagesController < ApplicationController
     before_action :set_resource
     before_action :set_attachment, only: [:destroy]
-    skip_before_action :verify_authenticity_token
+    # skip_before_action :verify_authenticity_token
 
     def index
       render json: designer_images_json

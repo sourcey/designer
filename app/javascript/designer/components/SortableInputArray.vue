@@ -14,20 +14,17 @@
           <span v-else>Item {{ index }}</span>
         </a>
       </div>
-      <div v-bind:id="'collapse-' + index" class="collapse card-body">
+      <div v-bind:id="'collapse-' + index" class="collapse card-body" @change="onUpdate">
         <!--
         <br>data ###########################
         {{data}}
         <br>item ###########################
         {{item}}
-        <br>property ###########################
-        {{property}}
         <br>object ###########################
-        {{object}} -->
+        {{object}}-->
         <DefaultInput
           v-for="(property, name) in spec.properties"
           :key="property.name"
-          v-on:change="onUpdate"
           v-bind:name="name"
           v-bind:item="data"
           v-bind:spec="property"></DefaultInput>
@@ -39,12 +36,10 @@
 <script>
 import DefaultInput from './DefaultInput.vue'
 import Draggable from 'vuedraggable'
-import Helpers from  '../helpers'
 
 export default {
   props: {
     item: {
-      // default: function() { return {object: {id: 'boom'}} },
       type: Object
     },
     scope: {
@@ -52,7 +47,6 @@ export default {
       type: String
     },
     spec: {
-      // default: {},
       type: Object
     }
   },
@@ -60,25 +54,20 @@ export default {
     DefaultInput, Draggable
   },
   created() {
-    console.log('SortableInputArray', this, this.object, this.scope, this.spec)
+    // console.log('SortableInputArray', this, this.object, this.scope, this.spec)
   },
   data() {
     return {
-      id: Helpers.randomString(10),
+      id: this.randomString(10),
       object: this.item && this.item[this.scope] ? this.item[this.scope] : []
     }
   },
   methods: {
     onUpdate() {
-      console.log('FormList onUpdate', this)
+      // console.log('FormList onUpdate', this)
 
       // FIXME: This is evil, but can't seem to to trigger the right event
       this.$set(this.$parent.item.values, this.scope, this.object)
-
-      // this.$emit('update:item.listings', this.object)
-      // this.$emit('update:item', this.object)
-      // this.$emit('update:listings', this.object)
-      // this.$parent.$emit('update', this.object)
     }
   }
 }
