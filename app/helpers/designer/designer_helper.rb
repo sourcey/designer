@@ -41,10 +41,10 @@ module Designer::DesignerHelper
   end
 
   # Render input text embeds and ERB
-  def designer_content text
+  def designer_content text, context={}
     return if text.blank?
     ApplicationController.render inline: text,
-        assigns: { _resource: designer_resource }
+        assigns: { _resource: designer_resource }.merge(context)
   end
 
   # Render input text as markdown
