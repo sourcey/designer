@@ -2,7 +2,7 @@
   <Draggable v-model="object" :options="{handle:'.drag-handle-child'}" @update="onUpdate">
     <div class="section-heading d-flex align-items-center">
       <div class="title flex-fill">{{ spec.label || spec.name }}</div>
-      <a class="btn btn-sm btn-success" @click.prevent="object.push({})" href="#"><i class="fa fa-plus"></i> Add</a>
+      <a class="btn btn-sm btn-success mr-2 my-2" @click.prevent="object.push({})" href="#">Add</a>
     </div>
     <div class="card child" v-for="(data, index) in object">
       <div class="card-header drag-handle-child">

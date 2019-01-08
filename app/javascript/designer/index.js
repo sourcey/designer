@@ -1,4 +1,4 @@
-import $ from 'jquery/dist/jquery'
+import $ from 'jquery'
 // import Rails from 'rails-ujs/lib/assets/compiled/rails-ujs'
 import 'popper.js/dist/popper'
 import 'bootstrap/dist/js/bootstrap'
@@ -7,11 +7,16 @@ import 'jquery-resizable-dom/src/jquery-resizable'
 import * as toastr from 'toastr/toastr'
 import Vue from 'vue/dist/vue.esm.js'
 
-import MediaGallery from '../designer/components/MediaGallery.vue'
-import DefaultForm from '../designer/components/DefaultForm.vue'
+// import MediaGallery from '../designer/components/MediaGallery.vue'
+// import DefaultForm from '../designer/components/DefaultForm.vue'
+
+// import MediaGallery from '@/designer/components/MediaGallery.vue'
+import MediaGallery from './components/MediaGallery.vue'
+import DefaultForm from './components/DefaultForm.vue'
 
 import Draggable from 'vuedraggable'
-import Helpers from  '../designer/helpers'
+// import Helpers from  '../designer/helpers'
+import Helpers from  './helpers'
 
 
 export default {

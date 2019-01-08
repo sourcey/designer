@@ -22,12 +22,14 @@
         a.nav-link.active data-toggle="tab" href="#elements" role="tab" Elements
       li.nav-item
         a.nav-link data-toggle="tab" href="#gallery" role="tab" Gallery
-      - if lookup_context.exists?('nav', designer_option(:designer_template_path), true)
-          = render "#{designer_option(:designer_template_path)}/nav", resource: @resource
       li.nav-item
         a.nav-link data-toggle="tab" href="#editor" role="tab" Editor
+      - if lookup_context.exists?('nav_items', designer_option(:designer_template_path), true)
+          = render "#{designer_option(:designer_template_path)}/nav_items", resource: @resource
       / = yield(:designer_nav)
       li.nav-item.flex-fill
+      - if lookup_context.exists?('nav_icons', designer_option(:designer_template_path), true)
+          = render "#{designer_option(:designer_template_path)}/nav_icons", resource: @resource
       li.nav-item
         a.nav-link href="#" @click="refreshPreview()" title="Refresh Preview"
           i class="fa fa-sync"

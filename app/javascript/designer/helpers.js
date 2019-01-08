@@ -22,6 +22,9 @@ export default {
 
           editor.mde.codemirror.on('change', function() {
             $textarea.val(editor.value())
+
+            $textarea[0].dispatchEvent(new Event('input', { bubbles: true }));
+            $textarea[0].dispatchEvent(new Event('change', { bubbles: true }));
           })
 
           $modal.on('hidden.bs.modal', function(e) {

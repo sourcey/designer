@@ -1,4 +1,5 @@
 import SimpleMDE from 'simplemde/dist/simplemde.min'
+import $ from 'jquery'
 
 export default class Editor {
   constructor(element) {
@@ -6,7 +7,7 @@ export default class Editor {
 
     this.mde = new SimpleMDE({
       element: element,
-      forceSync: true,
+      // forceSync: true,
       autoDownloadFontAwesome: false,
       toolbar: ['bold', 'italic', 'strikethrough', 'heading', '|',
             'unordered-list', 'ordered-list', 'quote', 'code', 'table', 'link', '|',
@@ -23,8 +24,21 @@ export default class Editor {
 
       var coords = cm.coordsChar({ left: event.x, top: event.y })
       cm.replaceRange(embed, coords)
-      event.preventDefault()
+      // event.preventDefault()
     })
+
+    // this.mde.codemirror.on('beforeChange', function() {
+    //   // element.trigger('input')
+    //   // element.trigger('change')
+    //   console.log('beforeChange')
+    //   element.change()
+    // })
+
+    // Trigger changed on the textarea
+    this.mde.codemirror.on('change', function() {
+      var event = new Event('change')
+      element.dispatchEvent(event)
+		})
   }
   destroy() {
     this.mde.toTextArea()

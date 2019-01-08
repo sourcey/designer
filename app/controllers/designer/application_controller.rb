@@ -23,6 +23,11 @@ module Designer
     end
 
     def resource_params
+      if params[:resource] &&
+        params[:resource][:elements].present? &&
+        params[:resource][:elements].is_a?(String)
+        params[:resource][:elements] = JSON.parse(params[:resource][:elements])
+      end
       params.require(:resource).permit!
     end
 
