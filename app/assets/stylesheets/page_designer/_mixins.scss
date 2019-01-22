@@ -1,0 +1,43 @@
+@mixin icon-button(
+  $color: $gray-600,
+  $hover-color: $gray-600
+) {
+  color: $color;
+  background: transparent;
+  // font-size: 1rem;
+  // padding: 0.25rem 0.5rem;
+  // padding: 0.25rem 0.4rem;
+
+  &:hover {
+    color: $hover-color;
+  }
+  &:active,
+  &.active,
+  &:focus {
+    color: darken($hover-color, 10%);
+  }
+}
+
+@mixin link-color($color: inherit, $hover-color: $link-color) {
+  color: $color;
+
+  &:hover {
+    color: $hover-color;
+    text-decoration: underline;
+
+    svg {
+      fill: $hover-color;
+    }
+  }
+
+  &.active,
+  &:active,
+  &:focus {
+    color: darken($hover-color, 10%);
+    text-decoration: underline;
+
+    svg {
+      fill: darken($hover-color, 10%);
+    }
+  }
+}

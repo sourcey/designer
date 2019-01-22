@@ -1,0 +1,402 @@
+//
+// Page PageDesigner SCSS
+//
+
+
+// $sidebar-background-color: #272E3C;
+// $sidebar-text-color: #272E3C;
+// $sidebar-link-color: #272E3C;
+// $sidebar-link-active-color: #fff;
+// $sidebar-highlight-color: #FDC228;
+// $sidebar-input-background-color: #1A1E2D;
+// $sidebar-input-border-color: #151721;
+
+@import 'page_designer/variables';
+@import 'page_designer/mixins';
+@import 'page_designer/utilities';
+@import 'page_designer/buttons';
+@import 'page_designer/components';
+@import 'bootstrap/scss/bootstrap';
+@import 'toastr/build/toastr';
+@import 'simplemde/dist/simplemde.min';
+@import '@voerro/vue-tagsinput/dist/style';
+
+
+
+// @import 'font-awesome';
+// @import "font-awesome-sprockets";
+@import url('https://use.fontawesome.com/releases/v5.6.3/css/all.css');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700');
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i');
+
+
+html, body {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  xtouch-action: none;
+
+  .panel-left {
+    flex: 0 0 auto;
+    width: 33%;
+    min-width: 200px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .splitter {
+    flex: 0 0 auto;
+    width: 2px;
+    background: $gray-300;
+    cursor: col-resize;
+  }
+
+  .panel-right {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  //
+  // Preview iFrame
+
+  #preview {
+    border: none;
+  }
+
+  //
+  // Sidebar
+
+  #sidebar {
+    background: $sidebar-background-color;
+
+    .nav-link {
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    header {
+      @extend .d-flex;
+      // @extend .align-items-end;
+      @extend .align-items-center;
+      // padding: .75rem $sidebar-section-padding-x .5rem;
+      padding: $sidebar-section-padding;
+      // margin: 1.25rem 1rem .75rem;
+      // margin-top: 1rem;
+      // border-bottom: 1px solid $border-color;
+
+      // a.btn-back {
+      //   @include link-color($color: inherit);
+      //   // color: inherit;
+      //   padding-right: .75rem;
+      //   font-size: 1.25rem;
+      //   line-height: 1;
+      //   // &:hover {
+      //   //   color: $link-color;
+      //   // }
+      // }
+
+      a.back-link {
+        @include link-color($color: inherit);
+
+        i {
+          // font-size: 1.25rem;
+          margin-right: .75rem;
+        }
+        // color: inherit;
+        // padding-right: .75rem;
+        // font-size: 1.25rem;
+        // line-height: 1;
+        // &:hover {
+        //   color: $link-color;
+        // }
+      }
+
+      h1 {
+        @extend .flex-fill;
+        font-size: 1.1rem;
+        // font-weight: bold;
+        font-weight: 600;
+        margin: 0;
+        // line-height: 30px;
+        // height: 30px; // height of small button
+        // margin: .5rem 0 .5rem;
+      }
+
+      h2 {
+        @extend .flex-fill;
+        // font-size: .825rem;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: $gray-600;
+        // color: $gray-600;
+        margin: 0;
+        height: 30px; // height of small button
+        line-height: 50px; // position at baseline
+      }
+    }
+
+    // .page-heading {
+    //   @extend .d-flex;
+    //   @extend .align-items-center;
+    //   // margin: 1.25rem 1rem .75rem;
+    //   // margin-top: 1.25rem;
+    //   padding: 1.25rem 1rem .75rem;
+    //   border-bottom: 1px solid $border-color;
+    //
+    //   .title {
+    //     @extend .flex-fill;
+    //     font-size: 1.1rem;
+    //     font-weight: bold;
+    //     // padding-left: 1rem;
+    //   }
+    // }
+
+    //
+    // == Sections
+
+    // .section-heading {
+    //   @extend .d-flex;
+    //   @extend .align-items-center;
+    //   // margin-top: 1.5rem;
+    //   padding: 1.5rem 1rem .75rem;
+    //
+    //   .title {
+    //     @extend .flex-fill;
+    //     font-size: .825rem;
+    //     font-weight: 600;
+    //     letter-spacing: 2px;
+    //     text-transform: uppercase;
+    //   }
+    // }
+
+    section {
+      background: white;
+      border-top: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+
+      > * {
+        border-bottom: 1px solid $border-color-light;
+        // padding: .5rem 1rem;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+
+      .section-header {
+        @extend .d-flex;
+        @extend .align-items-center;
+        padding: $sidebar-section-padding;
+
+        .title {
+          @extend .flex-fill;
+          color: $gray-900;
+          font-weight: 600;
+          font-size: .9rem;
+          // line-height: 30px;
+          // min-height: 30px; // height of small button
+          // font-size: 1.1rem;
+          // font-weight: bold;
+          // padding-left: 1rem;.
+        }
+      }
+
+      // form {
+      //   border-bottom: 1px solid $border-color-light;
+      //   // padding: .5rem 1rem;
+      //
+      //   &:last-child {
+      //     border-bottom: 0;
+      //   }
+      // }
+
+      // form,
+      .section-item,
+      .item-wrap {
+        // border-bottom: 1px solid $border-color-light;
+        padding: $sidebar-section-padding;
+
+        .item-wrap {
+          padding: 0;
+          // padding-right: 0;
+        }
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+
+      .no-data {
+        @extend .text-muted;
+        font-size: $font-size-sm;
+        padding: 0 $sidebar-section-padding-x;
+      }
+
+      .form-group {
+        margin: 0;
+
+        label {
+          font-size: .75rem;
+          font-weight: 600;
+          // letter-spacing: 2px;
+          // text-transform: uppercase;
+        }
+      }
+
+      .form-check {
+        // background: white;
+        margin: 0;
+        // padding: .5rem 1rem .5rem 2.5rem;
+        padding-left: 1.5rem;
+
+        label {
+          font-size: $font-size-sm;
+          // font-weight: 600;
+          // letter-spacing: 2px;
+          // text-transform: uppercase;
+        }
+        // border-bottom: 1px solid $border-color-light;
+        //
+        // &:last-child {
+        //   border-bottom: 0;
+        // }
+      }
+      // .form-row > .col, .form-row > [class*="col-"] {
+      //   padding-right: 0;
+      //   padding-left: 0;
+      // }
+    }
+
+    // == Blocks
+
+    .block-items {
+      // background: $sidebar-background-color;
+    }
+
+
+    #menu {
+      background: white;
+    }
+
+    //
+    // Page List
+
+    #designer {
+      position: relative;
+
+      // == Forms Style
+
+      // .card {
+      //   border-top: 0;
+      //   border-left: 0;
+      //   border-right: 0;
+      //
+      //   .card-header {
+      //     padding: $sidebar-section-padding;
+      //     border-bottom: 0;
+      //   }
+      //   .card-body {
+      //     padding: 0;
+      //   }
+      //
+      //   // Page card
+      //   // &.page-card {
+      //   //   .card-header {
+      //   //     background-color: #eee;
+      //   //   }
+      //   // }
+      //
+      //   // Page card
+      //   &.block-card {
+      //     .card-header {
+      //       background-color: #fdf4d9;
+      //     }
+      //   }
+      //
+      //   // &.child {
+      //   //   .card-header {
+      //   //     background-color: $border-color;
+      //   //     padding: .5rem 1rem;
+      //   //   }
+      //   //   .card-body {
+      //   //   }
+      //   // }
+      // }
+    }
+
+    //
+    // Media Gallery
+
+    #gallery {
+      .table-responsive {
+        overflow: inherit !important;
+      }
+    }
+
+    //
+    // Resource Form
+
+    #editor {
+      overflow-y: auto !important;
+      input, textarea {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+//
+// Markdown Editor
+
+#markdown-editor-modal {
+  .modal-dialog {
+    width: 98%;
+    height: 92%;
+    padding: 0;
+    max-width: none;
+  }
+
+  .modal-content {
+    height: 99%;
+  }
+
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+    // margin: 1rem;
+  }
+
+  .CodeMirror-wrap {
+    font-size: 1.1rem;
+  }
+
+  .markdown {
+    line-height: 1.5;
+    height: auto;
+  }
+}
+
+// .simplemde-fullscreen .modal-dialog {
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     bottom: 0;
+//     left: 0;
+//     width: 100%;
+//     max-width: 100%;
+//     margin: 0;
+// }
+@import 'verte/dist/verte.css';

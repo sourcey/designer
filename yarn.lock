@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@rails/activestorage@^6.0.0-alpha":
+  version "6.0.0-alpha"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-6.0.0-alpha.tgz#6eb6c0f49bcaa4ad68fcd13a750b9a17f76f086f"
+  dependencies:
+    spark-md5 "^3.0.0"
+
 "@voerro/vue-tagsinput@^1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@voerro/vue-tagsinput/-/vue-tagsinput-1.11.1.tgz#428371f9ee1ea086e1dc2782b13732836b9fe575"
@@ -36,9 +42,9 @@ bluebird@^3.1.1:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
 
-bootstrap@4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.3.tgz#0eb371af2c8448e8c210411d0cb824a6409a12be"
+bootstrap@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.2.1.tgz#8f8bdca024dbf0e8644da32e918c8a03a90a5757"
 
 chalk@^2.4.1:
   version "2.4.1"
@@ -63,6 +69,10 @@ color-convert@^1.9.0:
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
   dependencies:
     color-name "1.1.3"
+
+color-fns@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/color-fns/-/color-fns-0.0.9.tgz#6f98f0f2a8d92e5509d6d207f28c2d185a331bda"
 
 color-name@1.1.3:
   version "1.1.3"
@@ -217,6 +227,10 @@ source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
+spark-md5@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.0.tgz#3722227c54e2faf24b1dc6d933cc144e6f71bfef"
+
 supports-color@^5.3.0, supports-color@^5.4.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -236,6 +250,16 @@ typo-js@*:
 uniq@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
+
+verte@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/verte/-/verte-0.0.9.tgz#c4cbfe3cc7cf317bd026fa005a05d6cb0a9609ec"
+  dependencies:
+    color-fns "^0.0.9"
+
+vue-deepset@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/vue-deepset/-/vue-deepset-0.6.3.tgz#fdc644c496803bbaf8864bb3b6f639dad7e9a9dd"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.1"

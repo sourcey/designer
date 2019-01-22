@@ -1,0 +1,27 @@
+.btn {
+  &.no-caret {
+    &:after {
+      display: none;
+    }
+  }
+
+  // &.btn-gray-primary-icon {
+  //   @include icon-button($color: theme-color('primary'), $hover-color: theme-color('primary'));
+  // }
+  //
+  // &.btn-gray-danger-icon {
+  //   @include icon-button($hover-color: theme-color('primary'));
+  // }
+
+  &.btn-primary-icon {
+    @include icon-button($hover-color: theme-color('primary'));
+  }
+
+  &.btn-success-icon {
+    @include icon-button($hover-color: theme-color('success'));
+  }
+
+  &.btn-danger-icon {
+    @include icon-button($hover-color: theme-color('danger'));
+  }
+}

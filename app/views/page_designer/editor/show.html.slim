@@ -1,0 +1,183 @@
+/- data = {
+    resource_id: @resource.id,
+    resource_type: @resource.class.name,
+    metadata: @resource.metadata.to_json,
+    spec: page_designer_option(:spec),
+    resource_path: editor_path(id: @resource.id, resource_name: resource_name),
+    attachment_upload_path: attachments_path(id: @resource.id, resource_name: resource_name),
+    attachment_delete_path_template: attachment_path(":key", id: @resource.id, resource_name: resource_name),
+    attachment_thumbnail_path_template: attachment_thumbnail_path(":key", id: @resource.id, resource_name: resource_name),
+    preview_path: page_designer_preview_path,
+    direct_upload_url: main_app.rails_direct_uploads_url(resource_id: resource_id, resource_type: resource_type),
+    blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+  }
+/ - resource_id ||= @resource.id
+/ - resource_type ||= @resource.class.name
+/ - metadata ||= @resource.metadata.to_json
+/ - spec ||= page_designer_option(:spec).to_json
+/ - resource_path ||= editor_path(id: @resource.id, resource_name: resource_name)
+/ - attachment_upload_path ||= attachments_path(id: @resource.id, resource_name: resource_name)
+/ - attachment_delete_path_template ||= attachment_path(":key", id: @resource.id, resource_name: resource_name)
+/ - attachment_thumbnail_path_template ||= attachment_thumbnail_path(":key", id: @resource.id, resource_name: resource_name)
+/ - preview_path ||= page_designer_preview_path
+/ - direct_upload_url ||= main_app.rails_direct_uploads_url(resource_id: resource_id, resource_type: resource_type)
+/ - blob_url_template ||= main_app.rails_service_blob_url(":signed_id", ":filename")
+
+/ - direct_upload_url ||= main_app.direct_uploads_url(resource_id: resource_id, resource_type: resource_type)
+/ options[:data][:direct_upload_url] = main_app.rails_direct_uploads_url
+/ options[:data][:blob_url_template] = main_app.rails_service_blob_url(":signed_id", ":filename")
+
+/#app {
+    data-resource_id=(resource_id.to_json)
+    data-resource_type=(resource_type)
+    data-metadata=(metadata)
+    data-spec=(spec)
+    data-resource_path=(resource_path)
+    data-preview_path=(preview_path)
+    data-attachment_upload_path=(attachment_upload_path)
+    data-attachment_delete_path_template=(attachment_delete_path_template)
+    data-attachment_thumbnail_path_template=(attachment_thumbnail_path_template)
+    data-direct_upload_url=(direct_upload_url)
+    data-blob_url_template=(blob_url_template)
+  }
+
+/ - raise page_designer_option(:designer_template_path).inspect
+- has_form = lookup_context.exists?('form', page_designer_option(:designer_template_path), true)
+- has_nav_items = lookup_context.exists?('nav_items', page_designer_option(:designer_template_path), true)
+- has_nav_icons = lookup_context.exists?('nav_icons', page_designer_option(:designer_template_path), true)
+
+#app data=(page_designer_context.to_json)
+  #sidebar.panel-left
+    / :class="{'panel-left': true, 'w-100': !showPreview}"
+    ul#menu.nav.nav-tabs role="tablist"
+      li.nav-item v-for="(form, key) in spec.forms" :key="key"
+        a.nav-link data-toggle="tab" :href="'#' + key" role="tab" {{ form.label }}
+      /- if has_form
+        li.nav-item
+          a.nav-link data-toggle="tab" href="#editor" role="tab" Settings
+      - if has_nav_items
+          = render "#{page_designer_option(:designer_template_path)}/nav_items", resource: @resource
+      li.nav-item
+        a.nav-link data-toggle="tab" href="#designer" role="tab" {{ hasPages ? 'Pages' : 'Blocks'}}
+        /.active
+      li.nav-item v-if="enable_gallery !== false"
+        a.nav-link data-toggle="tab" href="#gallery" role="tab" Gallery
+      / = yield(:page_designer_nav)
+      li.nav-item.flex-fill
+      - if has_nav_icons
+          = render "#{page_designer_option(:designer_template_path)}/nav_icons", resource: @resource
+      li.nav-item
+        a.nav-link href="#" @click="refreshPreview()" title="Refresh Preview"
+          i class="fa fa-sync"
+      li.nav-item
+        a.nav-link href="#" @click="save()" title="Save"
+          i class="fa fa-save"
+      /li.nav-item
+        a :class="{'nav-link': true, active: currentView == 'editor'}" href="#" @click="currentView = 'editor'" rel="editor" title="Editor"
+          i class="fa fa-edit"
+      /li.nav-item
+        a :class="{'nav-link': true, active: showPreview}"  href="#" @click="showPreview = !showPreview" rel="preview" title="Preview"
+          i class="fa fa-eye"
+    .tab-content
+
+      / a.nav-link data-toggle="tab" href="'#' + key" role="tab" {{ form.label }}
+      / .active.active
+      .tab-pane v-for="(form, key) in spec.forms" :key="key" :id="key"
+        component :is="'ResourceForm'" v-bind:spec="form" v-bind:resource="resource"
+        /.fade.show
+
+      #designer.tab-pane
+        / .active
+        / .fade.show.active
+
+        / button @click="postPreviewMessage('selectBlock', { id: 'header_image_slider-OENlzhRB2V' })" Select Block
+        / button @click="postPreviewMessage('selectProperty', { id: 'header_image_slider-OENlzhRB2V', name: 'title' })" Select Property
+        / button @click="postPreviewMessage('updateProperty', { id: 'header_image_slider-OENlzhRB2V', name: 'title', value: 'weeeee' })" Update Property
+        / / button @click="postPreviewMessage('selectProperty', { name: 'button_text' })" Select Property
+        / button @click="postPreviewMessage('deselectBlock', { id: 'header_image_slider-OENlzhRB2V' })" Deselect Block
+        / button @click="postPreviewMessage('selectPage', { path: '/gallery'})" Select Page
+
+        // Pages root
+        .pages v-if="hasPages"
+          header.pt-15
+            h1 Page list
+            button.btn.btn-sm.btn-success v-if="hasCreatablePages" @click="createDefaultPage"
+              i class="fas fa-plus"
+            / .dropdown
+              / .mr-o5.my-o5
+              /button.btn.btn-sm.btn-success.dropdown-toggle data-toggle="dropdown" type="button" Add
+              /.dropdown-menu
+                a.dropdown-item v-for="definition in spec" @click="addBlock(definition.template)" href="#"= '{{definition.label}}'
+          Draggable v-model="metadata" element="section" :options="{handle:'.drag-page-handle'}"
+            component {
+              :is="item.form || 'PageForm'"
+              v-for="(item, index) in metadata" :key="item.id"
+              v-bind:item="item"
+              v-bind:spec="getPageSpec(item.page)"
+              v-on:remove="removePage(item)" }
+              / class="section-item"
+
+          /component {
+              is="AttachmentArrayInput"
+              name="images"
+              :item="{}"
+              :spec="{ 'label': 'Images', 'name': 'images', 'type': 'attachment_array', 'validate': { 'content_types': [ 'jpg', 'jpeg', 'png' ] } }"
+            }
+
+          /component {
+            :is="item.form || 'PageForm'"
+            v-for="(item, index) in metadata" :key="item.id"
+            v-bind:item="item"
+            v-bind:spec="getPageSpec(item.page)"
+            v-on:remove="metadata.splice(index, 1)" }
+
+        // Blocks root
+        /.blocks v-else=true
+          .row.align-items-center
+            .col-6
+              / .tab-title.m-0.pl-1 Page PageDesigner
+            .col-6.text-right
+              .dropdown.mr-2.my-2
+                button.btn.btn-sm.btn-success.dropdown-toggle data-toggle="dropdown" type="button" Add
+                .dropdown-menu
+                  a.dropdown-item v-for="definition in spec" @click="addBlock(definition.template)" href="#"= '{{definition.label}}'
+          Draggable v-model="metadata" :options="{handle:'.drag-handle'}"
+            component {
+              is="item.form || 'BlockForm'"
+              v-for="(item, index) in metadata" :key="item.id"
+              v-bind:item="item"
+              v-bind:spec="getBlockSpec(item.template)"
+              v-on:remove="metadata.splice(index, 1)" }
+
+      #gallery.tab-pane.fade aria-labelledby="gallery-tab" role="tabpanel"
+        component is="MediaGallery" v-bind:attachment_upload_path="attachment_upload_path"
+      /- if has_form
+        #editor.tab-pane.fade aria-labelledby="editor-tab" role="tabpanel"
+          = render "#{page_designer_option(:designer_template_path)}/form",
+              resource: page_designer_resource,
+              resource_path: page_designer_context[:resource_path]
+      /- if lookup_context.exists?('tabs', page_designer_option(:designer_template_path), true)
+        = render "#{page_designer_option(:designer_template_path)}/tabs", resource: @resource
+      / = yield(:page_designer_tabs)
+  .splitter
+      /= yield(:page_designer_form)
+  / height="100%" width="100%" src=(preview_path)
+  / v-show="showPreview"
+  iframe#preview.panel-right ref="preview" height="100%" width="100%" name="preview" :src="preview_path"
+  / src=(page_designer_context[:preview_path])
+
+/ Markdown Editor
+#markdown-editor-modal.modal role="dialog" tabindex="-1"
+  .modal-dialog role="document"
+    .modal-content
+      /.modal-header
+        h5.modal-title Modal title
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  ×
+      .modal-body.p-0.d-flex.flex-column
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  ×
+        textarea.flex-fill
+      /.modal-footer
+        button.btn.btn-primary type="button"  Save changes
+        button.btn.btn-secondary data-dismiss="modal" type="button"  Close
