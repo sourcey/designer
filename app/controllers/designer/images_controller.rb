@@ -37,6 +37,12 @@ module Designer
       end
     end
 
+    def get_thumbnail_url attachment
+      attachment.variant(resize: '100x100').processed.service_url
+    rescue
+      '#'
+    end
+
     def designer_image_json attachment
       {
         key: attachment.key,
