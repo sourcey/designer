@@ -50,7 +50,7 @@ module Designer
         name: attachment.filename,
         size: attachment.byte_size,
         kind: attachment.name,
-        thumbnail_url: get_thumbnail_url(attachment,
+        thumbnail_url: get_thumbnail_url(attachment),
         delete_url: image_path(key: attachment.key, id: @resource.id, resource_name: params[:resource_name])
         # sources: {
         #   'Image Key' => attachment.key,
