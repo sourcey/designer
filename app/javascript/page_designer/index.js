@@ -46,7 +46,7 @@ export default {
       components: {
         ImageInput, MediaGallery, Draggable, PageForm, BlockForm
       },
-      props: ['metadata', 'spec', 'resource_id', 'resource_type', 'resource_path', 'preview_path', 'image_upload_path'],
+      props: ['metadata', 'spec', 'resource_id', 'resource_type', 'resource_path', 'preview_url', 'image_upload_path'],
       beforeMount() {
         console.log('before mount', this.$attrs, this.$el.dataset.metadata, this.$el.dataset.spec)
         const dataset = this.$el.dataset

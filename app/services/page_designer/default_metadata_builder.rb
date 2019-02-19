@@ -9,33 +9,60 @@ module PageDesigner
       return if default_items.blank?
       return if @resource.metadata.present? && !@overwrite
 
-      default_items.each do |key, item|
-        @resource.send(key + '=', item)
-        # raise item.inspect if key == 'styles'
-        # raise @resource.styles.inspect if key == 'styles'
+      default_items.each do |key, data|
+        @resource.send(key + '=',
+          key == 'metadata' ? process_metadata(data) : data)
       end
-      process_metadata
+      # raise @resource.metadata.inspect
       @resource.save!
     end
 
-    def set_id item
-      name = item['name'] || item['page']
-      item['id'] = name + '-' + SecureRandom.urlsafe_base64(5)
-    end
-
-    def process_metadata
-      @resource.metadata.each do |item|
-        set_id item
-        next unless item['blocks']
-        item['blocks'].each do |block|
-          set_id block
+    def process_metadata(data)
+      data.each do |item|
+        if item['page']
+          build_page(item)
+          item['blocks'].each do |block|
+            build_block(block)
+          end
+        else
+          build_block(item)
         end
       end
     end
 
+    def config
+      PageDesigner.configuration[@resource.model_name.route_key]
+    end
+
     def default_items
-      @default_items ||= PageDesigner.configuration[@resource.model_name.route_key]['defaults'] || []
-      # @default_items ||= PageDesigner.configuration[@resource.model_name.route_key]['spec'].select{ |item| !!item['default'] }
+      @default_items ||= config['defaults'] || []
+    end
+
+    def item_id name
+      name + '-' + SecureRandom.urlsafe_base64(5)
+    end
+
+    def build_page page = {}
+      name = page['page']
+      spec = config['spec']['pages'][name]
+      data = (spec['data'] || {}).merge(page['data'] || {})
+      page.merge!({
+        id: item_id(name),
+        name: name,
+        data: data,
+        blocks: spec['blocks'] || []
+      })
+    end
+
+    def build_block block = {}
+      name = block['name']
+      spec = config['spec']['blocks'][name]
+      data = (spec['data'] || {}).merge(block['data'] || {})
+      block.merge!({
+        id: item_id(name),
+        name: name,
+        data: data
+      })
     end
   end
 end

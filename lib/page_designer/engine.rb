@@ -9,6 +9,8 @@ module PageDesigner
   class Engine < Rails::Engine
     isolate_namespace PageDesigner
     config.eager_load_namespaces << PageDesigner
+    config.autoload_paths << Engine.root.join('app', 'jobs', 'page_designer')
+    # += %W(#{config.root}/lib/modules)
 
     Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'page_designer', '*')
     Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'page_designer', 'components', '*')
@@ -20,7 +22,7 @@ module PageDesigner
     end
 
     initializer "page_designer.assets.precompile" do |app|
-      app.config.assets.precompile += %w( page_designer.css )
+      app.config.assets.precompile += %w( page_designer.css page_designer-vendor.css )
     end
 
     initializer "page_designer.helper" do

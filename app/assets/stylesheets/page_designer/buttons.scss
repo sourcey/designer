@@ -1,0 +1,191 @@
+#designer {
+
+  .btn {
+    &.no-caret {
+      &:after {
+        display: none;
+      }
+    }
+
+    > i {
+      margin-right: .375rem;
+    }
+  }
+
+  .text-btn {
+    font-weight: $btn-font-weight; //600;
+
+    > i {
+      margin-right: .375rem;
+    }
+
+    // Always show styles
+    &.text-success {
+      @include hover-focus {
+        text-decoration: underline;
+        color: darken(theme-color('success'), $emphasized-link-hover-darken-percentage) !important;
+      }
+    }
+  }
+
+  .btn-icon {
+    // box-shadow: none !important;
+    @include flex-center;
+
+    // min-width: 1.75rem;
+    // height: 1.75rem;
+    min-width: 26px;
+    height: 26px;
+    line-height: 1;
+    text-align: center;
+    font-size: 1rem; //.25rem;
+    padding: 0;
+    // font-size: 0.85rem;
+    // vertical-align: middle;
+    // border: 1px solid red;
+    box-shadow: none;
+
+    &:before,
+    &:after {
+      display: none;
+    }
+
+    &:focus,
+    &.focus,
+    &.active,
+    &:active,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      box-shadow: none;
+    }
+
+    // padding: 0.2rem;
+    // display: block;
+    // width: 1.25rem;
+    // height: 1.25rem;
+    // line-height: 1.2rem;
+    // text-align: center;
+    // font-size: 0.85rem;
+    // padding: 0;
+
+    > i {
+      margin: 0;
+    }
+  }
+
+  .btn-success,
+  .btn-secondary {
+    color: white;
+  }
+
+  // .btn-outline-success {
+  //   @include hover-focus-active {
+  //     color: white !important;
+  //   }
+  // }
+
+  .btn-text-secondary {
+    color: theme-color('secondary');
+    @include designer-text-hover-color('dark');
+  }
+
+  .btn-hover-primary {
+    @include designer-hover-button($hover-color: theme-color('primary'));
+  }
+
+  .btn-hover-success {
+    @include designer-hover-button($hover-color: theme-color('success'));
+  }
+
+  .btn-hover-danger {
+    @include designer-hover-button($hover-color: theme-color('danger'));
+  }
+
+
+  // .btn-gray-danger-icon {
+  //   @include designer-hover-button($hover-color: theme-color('primary'));
+  // }
+
+  // .btn-icon btn-active-primary {
+  //   @include designer-hover-button($hover-color: theme-color('primary'));
+  // }
+  //
+  // .btn-success-icon {
+  //   @include designer-hover-button($hover-color: theme-color('success'));
+  // }
+  //
+  // .btn-danger-icon {
+  //   @include designer-hover-button($hover-color: theme-color('danger'));
+  // }
+  // }
+}
+
+
+/*
+// == Toggle switch
+
+$switch-width: 42px;
+$switch-height: 24px;
+$switch-padding: 4px;
+$switch-color: theme-color('primary');
+
+.toggle-switch {
+  position: relative;
+  // display: inline-block;
+  width: $switch-width;
+  height: $switch-height;
+
+  // Hide default HTML checkbox
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  // The slider
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: '';
+    height: $switch-height - ($switch-padding * 2);
+    width: $switch-height - ($switch-padding * 2);
+    left: $switch-padding;
+    bottom: $switch-padding;
+    background-color: white;
+    transition: .4s;
+  }
+
+  input:checked + .toggle-slider {
+    background-color: $switch-color;
+  }
+
+  input:focus + .toggle-slider {
+    box-shadow: 0 0 1px $switch-color;
+  }
+
+  input:checked + .toggle-slider:before {
+    // -webkit-transform: translateX($switch-height - ($switch-padding * 2));
+    // -ms-transform: translateX($switch-height - ($switch-padding * 2));
+    transform: translateX($switch-height - ($switch-padding * 2));
+  }
+
+  // Rounded sliders
+  .toggle-slider.round {
+    border-radius: $switch-height;
+  }
+
+  .toggle-slider.round:before {
+    border-radius: 50%;
+  }
+}
+*/

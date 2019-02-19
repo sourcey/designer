@@ -57,22 +57,42 @@ module PageDesigner::PageDesignerHelper
     }.merge(options)).to_html
   end
 
-  def page_designer_preview_path
-    path = page_designer_option(:preview_path) || ':resource_name/:id'
-    path_parts = path.split('/')
-    path_parts.map! do |part|
-      if part[0] == ':'
-        param = part[1..-1]
-        if params[param]
-          params[param]
-        else
-          page_designer_resource.send(param)
-        end
+  def page_designer_preview_url
+    return page_designer_option(:preview_url) if page_designer_option?(:preview_url)
+    path = page_designer_option(:preview_url_template) || ':resource_name/:id'
+    page_designer_interpolate_path path
+  end
+
+  # Interpolate paths with `:param` system using request params or resource
+  # instance variables
+  def page_designer_interpolate_path path
+    path.gsub(/:([a-z]+)/) do |x|
+      param = Regexp.last_match[1]
+      if params[param]
+        params[param]
       else
-        part
+        page_designer_resource.send(param)
       end
     end
-    path_parts.join('/')
+
+    # path_parts = path.split('/')
+    # path_parts.map! do |part|
+    #   if part[0] == ':'
+    #     param = part[1..-1]
+    #     if params[param]
+    #       params[param]
+    #     else
+    #       page_designer_resource.send(param)
+    #     end
+    #   else
+    #     part
+    #   end
+    # end
+    # path_parts.join('/')
+  end
+
+  def page_designer_option? key
+    PageDesigner.configuration[page_designer_resource_name].has_key? key
   end
 
   def page_designer_option key
@@ -93,20 +113,23 @@ module PageDesigner::PageDesignerHelper
     @_resource || @resource
   end
 
-  def page_designer_context
+  def page_designer_context resource = nil
+    page_designer_set_resource(resource) if resource
     @page_designer_context ||= {
-      resource_id: page_designer_resource.id,
-      resource_type: page_designer_resource.class.name,
-      resource: page_designer_resource,
-      metadata: page_designer_resource.metadata,
+      resource_id: resource.id,
+      resource_type: resource.class.name,
+      resource: resource,
+      metadata: resource.metadata,
       # spec: page_designer_option(:spec),
-      resource_path: editor_path(id: page_designer_resource.id, resource_name: page_designer_resource_name),
-      preview_path: page_designer_preview_path,
-      attachment_upload_path: attachments_path(id: page_designer_resource.id, resource_name: page_designer_resource_name),
-      attachment_delete_path_template: attachment_path(":key", id: page_designer_resource.id, resource_name: page_designer_resource_name),
-      attachment_thumbnail_path_template: attachment_thumbnail_path(":key", id: page_designer_resource.id, resource_name: page_designer_resource_name),
-      direct_upload_url: main_app.rails_direct_uploads_url(resource_id: page_designer_resource.id, resource_type: page_designer_resource.class.name),
-      blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+      resource_path: page_designer.editor_path(id: resource.id, resource_name: page_designer_resource_name),
+      preview_url: page_designer_preview_url,
+      attachment_upload_path: page_designer.attachments_path(id: resource.id, resource_name: page_designer_resource_name),
+      attachment_direct_upload_url: main_app.rails_direct_uploads_url(record_id: resource.id, record_type: resource.class.name),
+      attachment_delete_path_template: page_designer.attachment_path(":key", id: resource.id, resource_name: page_designer_resource_name),
+      attachment_thumbnail_path_template: page_designer.attachment_thumbnail_path(":key", id: resource.id, resource_name: page_designer_resource_name),
+      attachment_cdn_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+      # blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
     }.merge(PageDesigner.configuration[page_designer_resource_name])
+    # raise @page_designer_context.inspect
   end
 end

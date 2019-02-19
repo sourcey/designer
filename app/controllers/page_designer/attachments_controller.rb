@@ -11,8 +11,12 @@ module PageDesigner
     end
 
     def create
+      # @resource.attachments.destroy_all
       attachments = @resource.attachments.attach(params[:file])
-      render json: page_designer_image_json(attachments.first)
+      attachment = attachments.first
+      attachment.blob.update!(metadata:
+        attachment.metadata.merge(metadata_params[:metadata])) if params[:metadata]
+      render json: page_designer_image_json(attachment)
     end
 
     def thumbnail
@@ -34,6 +38,10 @@ module PageDesigner
       @attachments ||= ActiveStorage::Attachment.where(record: @resource).joins(:blob)
     end
 
+    def metadata_params
+      params.permit(metadata: [:designer_page_id, :designer_block_id])
+    end
+
     def page_designer_images_json
       all_attachments.map do |attachment|
         page_designer_image_json attachment
@@ -48,6 +56,7 @@ module PageDesigner
         size: attachment.byte_size,
         kind: attachment.name,
         url: attachment.service_url,
+        metadata: attachment.metadata
         # thumbnail_url: attachment.variant(resize: '100x100').processed.service_url,
         # delete_url: image_path(key: attachment.key, id: @resource.id, resource_name: params[:resource_name])
         # sources: {

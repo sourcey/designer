@@ -1,32 +1,38 @@
 //
 // Theme variables
 // --------------------------------------------------
-$navbar-height: 4rem;
+// $navbar-height: 4rem;
 
 $font-raleway: 'Raleway', sans-serif;
-$font-poppins: 'Poppins', sans-serif;
-$font-opensans: 'Open Sans', sans-serif;
-$font-times: 'Cardo', 'Times New Roman', Times, serif;
-$font-playfair: 'Playfair Display', 'Times New Roman', Times, serif;
+// $font-poppins: 'Poppins', sans-serif !default;
+// $font-opensans: 'Open Sans', sans-serif !default;
+// $font-times: 'Cardo', 'Times New Roman', Times, serif !default;
+// $font-playfair: 'Playfair Display', 'Times New Roman', Times, serif !default;
 
-// $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-$font-family-monospace:  Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
-// $font-family-base:       $font-family-sans-serif;
-
-
-$brand-gold: #FFD043;
-// $brand-pink: #C72073;
-$brand-purple: #8a0775;
-// $brand-yellow: #fcc315;
-// $heart-red: red;
-$border-color: #dee2e6;
-$border-color-light: #eee;
+// $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+// $font-family-monospace:  Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace !default;
+// $font-family-base:       $font-family-sans-serif !default;
 
 
-$sidebar-background-color: #eee;
-$sidebar-section-padding-x: 1rem;
-$sidebar-section-padding-y: .75rem;
-$sidebar-section-padding: $sidebar-section-padding-y $sidebar-section-padding-x;
+// $brand-blue: #8a0775 !default;
+// $brand-gold: #FFD043 !default;
+// // $brand-pink: #C72073 !default;
+// $brand-purple: #8a0775 !default;
+// // $brand-yellow: #fcc315 !default;
+// // $heart-red: red !default;
+
+$link-color: #8a0775 !default;
+$border-color: #dee2e6 !default;
+$border-color-light: #F8F9FD !default;
+
+$designer-input-line-height: 1.75 !default;
+$designer-input-height: calc(1.75em + 0.75rem + 2px) !default;
+$designer-sidebar-background-color: #F8F9FD !default;
+$designer-sidebar-section-padding-x: 1rem !default;
+$designer-sidebar-section-padding-y: .75rem !default;
+$designer-sidebar-section-padding: $designer-sidebar-section-padding-y $designer-sidebar-section-padding-x !default;
+$designer-sidebar-item-padding-y: .5rem !default;
+
 
 //
 // Boostrap includes
@@ -35,56 +41,62 @@ $sidebar-section-padding: $sidebar-section-padding-y $sidebar-section-padding-x;
 @import 'bootstrap/scss/functions.scss';
 @import 'bootstrap/scss/mixins.scss';
 
+
 //
 // Boostrap overrides
 // --------------------------------------------------
 
-$font-family-serif: $font-raleway;
-$font-family-sans-serif: $font-raleway;
-$headings-font-family: $font-raleway;
+// $font-family-serif: $font-raleway !default;
+$font-family-sans-serif: $font-raleway !default;
+$headings-font-family: $font-raleway !default;
 
-// $font-family-serif: $font-playfair;
-// $font-family-sans-serif: $font-poppins;
-// $headings-font-family: $font-poppins;
+// $font-family-serif: $font-playfair !default;
+// $font-family-sans-serif: $font-poppins !default;
+// $headings-font-family: $font-poppins !default;
 
-$font-size-base: 1rem; // 1rem; // Assumes the browser default, typically `16px`
-$font-size-lg:   1.1rem;
-$font-size-sm:   .85rem;
+$font-size-base:              .9rem !default; // 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                1.1rem !default;
+$font-size-sm:                .75rem !default;
 
-$line-height-base:            1.65;
+$line-height-base:            1.65 !default;
 
-// $input-btn-font-size-sm:      $font-size-sm !default;
-// // $input-btn-font-size:         .85rem;
-// $input-btn-font-size-lg:      $font-size-lg !default;
+$input-btn-padding-y-sm:      .125rem !default;
+$input-btn-padding-x-sm:      .4rem !default;
+// $input-btn-font-size-sm:      .85rem !default;
+// // $input-btn-font-size:         .85rem !default;
+// $input-btn-font-size-lg:      $font-size-lg !default !default;
 
-$nav-tabs-link-active-bg:           $sidebar-background-color; // $body-bg !default;
+$btn-font-weight:             500 !default;
 
-$theme-colors: (
-  primary: $brand-purple
-);
+$nav-tabs-link-active-color:  inherit; // !default;
+// $nav-tabs-link-active-bg:           $designer-sidebar-background-color !default; // $body-bg !default !default;
+
+// $theme-colors: (
+//   primary: $brand-blue
+// );
 
 
 //== Options
 
 $enable-caret:                                true;
-$enable-rounded:                              false;
-$enable-shadows:                              false;
-$enable-gradients:                            false;
-$enable-transitions:                          true;
-$enable-prefers-reduced-motion-media-query:   true;
-$enable-hover-media-query:                    false; // Deprecated, no longer affects any compiled CSS
-$enable-grid-classes:                         true;
-$enable-print-styles:                         true;
-$enable-validation-icons:                     true;
+$enable-rounded:                              true;
+$enable-shadows:                              true;
+// $enable-gradients:                            false;
+// $enable-transitions:                          true;
+// $enable-prefers-reduced-motion-media-query:   true;
+// $enable-hover-media-query:                    false; // Deprecated, no longer affects any compiled CSS
+// $enable-grid-classes:                         true;
+// $enable-print-styles:                         true;
+// $enable-validation-icons:                     true;
 
 //== Spacing
 
 $spacer: 1rem;
 $spacers: (
   0: 0,
-  o25: ($spacer * .25),
-  o5: ($spacer * .5),
-  o75: ($spacer * .75),
+  '025': ($spacer * .25),
+  '05': ($spacer * .5),
+  '075': ($spacer * .75),
   1: $spacer,
   125: ($spacer * 1.25),
   15: ($spacer * 1.5),

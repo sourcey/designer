@@ -1,24 +1,4 @@
-@mixin icon-button(
-  $color: $gray-600,
-  $hover-color: $gray-600
-) {
-  color: $color;
-  background: transparent;
-  // font-size: 1rem;
-  // padding: 0.25rem 0.5rem;
-  // padding: 0.25rem 0.4rem;
-
-  &:hover {
-    color: $hover-color;
-  }
-  &:active,
-  &.active,
-  &:focus {
-    color: darken($hover-color, 10%);
-  }
-}
-
-@mixin link-color($color: inherit, $hover-color: $link-color) {
+@mixin designer-link-color($color: inherit, $hover-color: $link-color) {
   color: $color;
 
   &:hover {
@@ -33,11 +13,64 @@
   &.active,
   &:active,
   &:focus {
-    color: darken($hover-color, 10%);
+    color: darken($hover-color, $emphasized-link-hover-darken-percentage);
     text-decoration: underline;
 
     svg {
-      fill: darken($hover-color, 10%);
+      fill: darken($hover-color, $emphasized-link-hover-darken-percentage);
     }
   }
+}
+
+@mixin designer-text-hover-color($theme) {
+  &:hover {
+    color: theme-color($theme) !important;
+  }
+
+  &.active,
+  &:active,
+  &:focus {
+    color: darken(theme-color($theme), $emphasized-link-hover-darken-percentage) !important;
+  }
+}
+
+@mixin designer-hover-button(
+  $color: theme-color('secondary'),
+  $hover-color: $gray-600
+) {
+  color: $color;
+  background: transparent;
+
+  &:hover {
+    color: white;
+    background-color: $hover-color;
+  }
+  
+  &:active,
+  &.active,
+  &:focus {
+    color: white;
+    background-color: darken($hover-color, $emphasized-link-hover-darken-percentage);
+  }
+}
+
+
+
+@mixin flex-fill() {
+  flex: 1 1 auto !important; // .flex-fill
+}
+
+@mixin flex-shrink() {
+  flex: 0 0 auto !important; // .flex-shrink
+}
+
+@mixin flex-align($value: center) {
+  display: flex !important;
+  align-items: $value !important; // .align-items-#{value}
+}
+
+@mixin flex-center() {
+  display: flex !important;
+  align-items: center !important; // .align-items-#{value}
+  justify-content: center !important; // .justify-content-#{value}
 }

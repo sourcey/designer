@@ -1,4 +1,6 @@
 require_dependency "page_designer/application_controller"
+require_dependency "page_designer/attachemnt_cleanup_job"
+
 
 module PageDesigner
   class EditorController < ApplicationController
@@ -11,6 +13,7 @@ module PageDesigner
 
     def update
       if @resource.update(resource_params)
+        enqueue_attachment_cleanup
         render_success
       else
         render_error
@@ -21,7 +24,7 @@ module PageDesigner
 
     def render_success message = nil
       if request.xhr?
-        flash.now[:notice] = message || "#{resource_type.classify} saved"
+        flash.now[:notice] = message || "#{resource_title} saved"
         render :notifications
       else
         render json: @resource
@@ -39,6 +42,10 @@ module PageDesigner
 
     def reset_default_data
       @resource.reset_default_data! if Rails.env.development? && params[:reset_data]
+    end
+
+    def enqueue_attachment_cleanup
+      PageDesigner::AttachmentCleanupJob.perform_now(@resource)
     end
   end
 end

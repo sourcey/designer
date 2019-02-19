@@ -18,6 +18,10 @@ module PageDesigner
       params[:resource_name].classify
     end
 
+    def resource_title
+      PageDesigner.configuration[resource_name]['resource_title'] || resource_type.classify
+    end
+
     def set_resource
       @resource = resource_type.constantize.find(params[:id])
     end

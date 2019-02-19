@@ -1,46 +1,3 @@
-/- data = {
-    resource_id: @resource.id,
-    resource_type: @resource.class.name,
-    metadata: @resource.metadata.to_json,
-    spec: page_designer_option(:spec),
-    resource_path: editor_path(id: @resource.id, resource_name: resource_name),
-    attachment_upload_path: attachments_path(id: @resource.id, resource_name: resource_name),
-    attachment_delete_path_template: attachment_path(":key", id: @resource.id, resource_name: resource_name),
-    attachment_thumbnail_path_template: attachment_thumbnail_path(":key", id: @resource.id, resource_name: resource_name),
-    preview_path: page_designer_preview_path,
-    direct_upload_url: main_app.rails_direct_uploads_url(resource_id: resource_id, resource_type: resource_type),
-    blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
-  }
-/ - resource_id ||= @resource.id
-/ - resource_type ||= @resource.class.name
-/ - metadata ||= @resource.metadata.to_json
-/ - spec ||= page_designer_option(:spec).to_json
-/ - resource_path ||= editor_path(id: @resource.id, resource_name: resource_name)
-/ - attachment_upload_path ||= attachments_path(id: @resource.id, resource_name: resource_name)
-/ - attachment_delete_path_template ||= attachment_path(":key", id: @resource.id, resource_name: resource_name)
-/ - attachment_thumbnail_path_template ||= attachment_thumbnail_path(":key", id: @resource.id, resource_name: resource_name)
-/ - preview_path ||= page_designer_preview_path
-/ - direct_upload_url ||= main_app.rails_direct_uploads_url(resource_id: resource_id, resource_type: resource_type)
-/ - blob_url_template ||= main_app.rails_service_blob_url(":signed_id", ":filename")
-
-/ - direct_upload_url ||= main_app.direct_uploads_url(resource_id: resource_id, resource_type: resource_type)
-/ options[:data][:direct_upload_url] = main_app.rails_direct_uploads_url
-/ options[:data][:blob_url_template] = main_app.rails_service_blob_url(":signed_id", ":filename")
-
-/#app {
-    data-resource_id=(resource_id.to_json)
-    data-resource_type=(resource_type)
-    data-metadata=(metadata)
-    data-spec=(spec)
-    data-resource_path=(resource_path)
-    data-preview_path=(preview_path)
-    data-attachment_upload_path=(attachment_upload_path)
-    data-attachment_delete_path_template=(attachment_delete_path_template)
-    data-attachment_thumbnail_path_template=(attachment_thumbnail_path_template)
-    data-direct_upload_url=(direct_upload_url)
-    data-blob_url_template=(blob_url_template)
-  }
-
 / - raise page_designer_option(:designer_template_path).inspect
 - has_form = lookup_context.exists?('form', page_designer_option(:designer_template_path), true)
 - has_nav_items = lookup_context.exists?('nav_items', page_designer_option(:designer_template_path), true)
@@ -49,7 +6,7 @@
 #app data=(page_designer_context.to_json)
   #sidebar.panel-left
     / :class="{'panel-left': true, 'w-100': !showPreview}"
-    ul#menu.nav.nav-tabs role="tablist"
+    ul#menu.nav.nav-tabs.pt-025 role="tablist"
       li.nav-item v-for="(form, key) in spec.forms" :key="key"
         a.nav-link data-toggle="tab" :href="'#' + key" role="tab" {{ form.label }}
       /- if has_form
@@ -66,11 +23,11 @@
       li.nav-item.flex-fill
       - if has_nav_icons
           = render "#{page_designer_option(:designer_template_path)}/nav_icons", resource: @resource
-      li.nav-item
-        a.nav-link href="#" @click="refreshPreview()" title="Refresh Preview"
+      li.nav-item v-if="enable_refresh !== false"
+        a.nav-link href="#" @click="refreshPreview()" v-tooltip:bottom="'Refresh Preview'"
           i class="fa fa-sync"
       li.nav-item
-        a.nav-link href="#" @click="save()" title="Save"
+        a.nav-link href="#" @click="save()" v-tooltip:bottom="'Save'"
           i class="fa fa-save"
       /li.nav-item
         a :class="{'nav-link': true, active: currentView == 'editor'}" href="#" @click="currentView = 'editor'" rel="editor" title="Editor"
@@ -100,9 +57,10 @@
         // Pages root
         .pages v-if="hasPages"
           header.pt-15
-            h1 Page list
+            h2 My pages
             button.btn.btn-sm.btn-success v-if="hasCreatablePages" @click="createDefaultPage"
               i class="fas fa-plus"
+              | Page
             / .dropdown
               / .mr-o5.my-o5
               /button.btn.btn-sm.btn-success.dropdown-toggle data-toggle="dropdown" type="button" Add
@@ -113,7 +71,7 @@
               :is="item.form || 'PageForm'"
               v-for="(item, index) in metadata" :key="item.id"
               v-bind:item="item"
-              v-bind:spec="getPageSpec(item.page)"
+              v-bind:spec="getPageSpec(item.name)"
               v-on:remove="removePage(item)" }
               / class="section-item"
 
@@ -161,10 +119,10 @@
       / = yield(:page_designer_tabs)
   .splitter
       /= yield(:page_designer_form)
-  / height="100%" width="100%" src=(preview_path)
+  / height="100%" width="100%" src=(preview_url)
   / v-show="showPreview"
-  iframe#preview.panel-right ref="preview" height="100%" width="100%" name="preview" :src="preview_path"
-  / src=(page_designer_context[:preview_path])
+  iframe#preview.panel-right ref="preview" height="100%" width="100%" name="preview" :src="preview_url"
+  / src=(page_designer_context[:preview_url])
 
 / Markdown Editor
 #markdown-editor-modal.modal role="dialog" tabindex="-1"
