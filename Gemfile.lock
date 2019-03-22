@@ -74,7 +74,7 @@ GIT
 PATH
   remote: .
   specs:
-    page_designer (0.1.0)
+    designer (0.1.0)
       rails (>= 5.2.0)
 
 GEM
@@ -134,7 +134,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.15)
-  page_designer!
+  designer!
   rails!
   webpacker!
 

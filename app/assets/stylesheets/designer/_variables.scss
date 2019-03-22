@@ -1,0 +1,140 @@
+//
+// Theme variables
+// --------------------------------------------------
+// $navbar-height: 4rem;
+
+$font-raleway: 'Raleway', sans-serif;
+$font-opensans: 'Open Sans', sans-serif !default;
+
+$blue:    #6996E7 !default;
+$purple:  #9661e2 !default;
+$red:     #FE7A87 !default;
+$yellow:  #FFD043 !default;
+$green:   #3ECF8E !default;
+$gray:    #C0C6D4 !default;
+
+
+$link-color: $purple !default;
+$border-color: #eaeaea !default;
+$border-color-light: #f4f2f8 !default;
+
+// $border-color: #eaeaea;
+// $gray-section-background: #f4f2f8; // #F8F9FD;
+
+$designer-input-line-height: 1.75 !default;
+$designer-input-height: calc(1.75em + 0.75rem + 2px) !default;
+$designer-sidebar-background-color: #F8F9FD !default;
+$designer-sidebar-section-padding-x: 1rem !default;
+$designer-sidebar-section-padding-y: .75rem !default;
+$designer-sidebar-section-padding: $designer-sidebar-section-padding-y $designer-sidebar-section-padding-x !default;
+$designer-sidebar-item-padding-y: .5rem !default;
+
+
+//
+// Boostrap includes
+// --------------------------------------------------
+
+@import 'bootstrap/scss/functions.scss';
+@import 'bootstrap/scss/mixins.scss';
+
+
+//
+// Boostrap overrides
+// --------------------------------------------------
+
+// $font-family-serif: $font-raleway !default;
+$font-family-sans-serif: $font-opensans !default;
+$headings-font-family: $font-opensans !default;
+
+// $font-family-serif: $font-playfair !default;
+// $font-family-sans-serif: $font-poppins !default;
+// $headings-font-family: $font-poppins !default;
+
+$font-size-base:              .9rem !default; // 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                1.1rem !default;
+$font-size-sm:                .75rem !default;
+
+$line-height-base:            1.65 !default;
+
+$input-border-color:          $border-color !default; // $gray-400
+$input-btn-padding-y-sm:      .125rem !default;
+$input-btn-padding-x-sm:      .4rem !default;
+// $input-btn-font-size-sm:      .85rem !default;
+// // $input-btn-font-size:         .85rem !default;
+// $input-btn-font-size-lg:      $font-size-lg !default !default;
+
+$btn-font-weight:             500 !default;
+
+$nav-tabs-link-active-color:  inherit; // !default;
+// $nav-tabs-link-active-bg:           $designer-sidebar-background-color !default; // $body-bg !default !default;
+
+// $theme-colors: (
+//   primary: $brand-blue
+// );
+
+$theme-colors: (
+  primary: $purple,
+  secondary: darken(#C0C6D4, 10%),
+  success: darken(#59EFB2, 10%),
+  info: $blue,
+  warning: $yellow,
+  danger: darken(#FE7A87, 10%)
+);
+
+//== Options
+
+$enable-caret:                                true;
+$enable-rounded:                              true;
+$enable-shadows:                              true;
+// $enable-gradients:                            false;
+// $enable-transitions:                          true;
+// $enable-prefers-reduced-motion-media-query:   true;
+// $enable-hover-media-query:                    false; // Deprecated, no longer affects any compiled CSS
+// $enable-grid-classes:                         true;
+// $enable-print-styles:                         true;
+// $enable-validation-icons:                     true;
+
+//== Spacing
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  '025': ($spacer * .25),
+  '05': ($spacer * .5),
+  '075': ($spacer * .75),
+  1: $spacer,
+  125: ($spacer * 1.25),
+  15: ($spacer * 1.5),
+  175: ($spacer * 1.75),
+  2: ($spacer * 2),
+  25: ($spacer * 2.5),
+  3: ($spacer * 3),
+  35: ($spacer * 3.5),
+  4: ($spacer * 4),
+  45: ($spacer * 4.5),
+  5: ($spacer * 5)
+);
+
+//== Grid breakpoints
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 534px, // 544px, // 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1680px
+);
+
+//== Grid containers
+
+$container-max-widths: (
+  sm: 500px, // 510px, // 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1600px
+);
+
+
+@import 'bootstrap/scss/variables.scss';

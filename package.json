@@ -1,12 +1,12 @@
 {
-  "name": "page_designer",
+  "name": "designer",
   "version": "0.2.0",
   "description": "Design rich text markdown pages in Rails applications",
-  "main": "app/javascript/page_designer/index.js",
+  "main": "app/javascript/designer/index.js",
   "files": [
-    "app/javascript/page_designer/*.js"
+    "app/javascript/designer/*.js"
   ],
-  "repository": "https://github.com/sourcey/page_designer",
+  "repository": "https://github.com/sourcey/designer",
   "author": "Sourcey",
   "contributors": [
     "Kam Low <hello@sourcey.com>"

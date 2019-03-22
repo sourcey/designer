@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+    title Page Designer
+    = csrf_meta_tags
+    = stylesheet_link_tag 'designer'
+    = stylesheet_link_tag 'designer-vendor'
+    = javascript_pack_tag 'designer'
+  body
+    = yield

@@ -1,0 +1,11 @@
+.markdown-text-input {
+
+  .CodeMirror {
+    height: 300px;
+
+    &.CodeMirror-fullscreen {
+      height: auto;
+      font-size: 1.1rem;
+    }
+  }
+}

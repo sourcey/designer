@@ -1,4 +1,4 @@
-# Page PageDesigner
+# Page Designer
 
 Design rich text markdown pages in Rails application.
 
@@ -7,30 +7,30 @@ Design rich text markdown pages in Rails application.
 Add the gem to your Gemfile
 
 ``
-gem 'page_designer', github: 'sourcey/page_designer'
+gem 'designer', github: 'sourcey/designer'
 ```
 
 Run the installation task
 
 ```
-rake page_designer:run_installer
+rake designer:run_installer
 ```
 
-Add the page_designer engine to your routes
+Add the designer engine to your routes
 
 ```
-mount PageDesigner::Engine => "/page_designer"
+mount Designer::Engine => "/designer"
 ```
 
-Add `acts_as_page_designer` to each modal you want to use the page_designer on
+Add `acts_as_designer` to each modal you want to use the designer on
 
 ```
-acts_as_page_designer
+acts_as_designer
 ```
 
-Add page_designer.yml to your config folder.
+Add designer.yml to your config folder.
 
-Example config/page_designer.yml
+Example config/designer.yml
 
 ```
 ---
@@ -91,12 +91,12 @@ spec: &default_spec
         type: number
 articles:
   preview_path: /articles/:slug
-  page_designer_template_path: /articles/page_designer
+  designer_template_path: /articles/designer
   metadata_template_path: /articles/metadata
   spec: *default_spec
 projects:
   preview_path: /:slug
-  page_designer_template_path: /projects/page_designer
+  designer_template_path: /projects/designer
   metadata_template_path: /projects/metadata
   spec: *default_spec
 ```

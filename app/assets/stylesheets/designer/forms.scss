@@ -1,0 +1,39 @@
+#designer {
+
+  .form-control {
+    background-color: white;
+  }
+
+  .form-check {
+    // background: white;
+    margin: 0;
+    // padding: .5rem 1rem .5rem 2.5rem;
+    padding-left: 1.5rem;
+
+    label {
+      font-size: $font-size-sm;
+      // font-weight: 600;
+      // letter-spacing: 2px;
+      // text-transform: uppercase;
+    }
+    // border-bottom: 1px solid $border-color-light;
+    //
+    // &:last-child {
+    //   border-bottom: 0;
+    // }
+  }
+
+  // Right aligned custom controls without labels
+  .custom-control {
+    padding-left: 0;
+    width: 1.5rem;
+
+    .custom-control-label {
+      &:before,
+      &:after {
+        left: 0;
+      }
+    }
+
+  }
+}
