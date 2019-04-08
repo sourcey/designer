@@ -24,9 +24,9 @@
     "rails-ujs": "^5.2.1-1",
     "simplemde": "^1.11.2",
     "toastr": "^2.1.4",
-    "vue": "^2.5.17",
+    "vue": "^2.5.22",
     "vue-loader": "^15.4.2",
-    "vue-template-compiler": "^2.5.21",
+    "vue-template-compiler": "^2.5.22",
     "vue-upload-component": "^2.8.16",
     "vuedraggable": "^2.17.0"
   }
