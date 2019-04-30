@@ -9,12 +9,12 @@ module Designer::DesignerHelper
 
   def designer_render element
     element = element.symbolize_keys
-    template_path = designer_option(:block_views_path)
+    template_path = designer_option(:element_views_path)
 
-    if lookup_context.exists?(element[:name], designer_option(:block_views_path), true)
+    if lookup_context.exists?(element[:name], designer_option(:element_views_path), true)
       render "#{template_path}/#{element[:name]}", designer_element_options(element)
-    elsif lookup_context.exists?(element[:name], 'designer/metadata', true)
-      render "designer/metadata/#{element[:name]}", designer_element_options(element)
+    elsif lookup_context.exists?(element[:name], 'designer/elements', true)
+      render "designer/elements/#{element[:name]}", designer_element_options(element)
     else
       raise "Missing designer template `#{element[:name]}`"
     end
@@ -58,25 +58,6 @@ module Designer::DesignerHelper
     }.merge(options)).to_html
   end
 
-  def designer_preview_url
-    return designer_option(:preview_url) if designer_option?(:preview_url)
-    path = designer_option(:preview_url_template) || ':resource_name/:id'
-    designer_interpolate_path path
-  end
-
-  # Interpolate paths with `:param` system using request params or resource
-  # instance variables
-  def designer_interpolate_path path
-    path.gsub(/:([a-z]+)/) do |x|
-      param = Regexp.last_match[1]
-      if params[param] && param != 'subdomain'
-        params[param]
-      else
-        designer_resource.send(param)
-      end
-    end
-  end
-
   def designer_option? key
     designer_resource.designer_config.has_key? key
   end
@@ -99,6 +80,49 @@ module Designer::DesignerHelper
     @_resource || @resource
   end
 
+  def designer_preview_url
+    return designer_option(:preview_url) if designer_option?(:preview_url)
+    path = designer_option(:preview_url_template) || ':resource_name/:id'
+    designer_interpolate_path path
+  end
+
+  # Interpolate paths with `:param` system using request params or resource
+  # instance variables
+  def designer_interpolate_path path
+    path.gsub(/:([a-z]+)/) do |x|
+      param = Regexp.last_match[1]
+      if params[param] && param != 'subdomain'
+        params[param]
+      else
+        # raise designer_resource.send(param)
+        designer_resource.send(param)
+      end
+    end
+  end
+
+  def designer_context_paths resource = nil
+    designer_set_resource(resource) if resource
+    resource ||= designer_resource
+
+    # raise designer.thumbnail_attachment_path(":key").inspect
+    @designer_context_paths ||= {
+      resource_path: designer.editor_path(id: resource.id, resource_name: designer_resource_name),
+      preview_url: designer_preview_url,
+      attachment_upload_path_template: designer.attachments_path(name: ":name"),
+      attachment_direct_upload_url: designer.direct_uploads_attachments_path,
+      attachment_delete_path_template: designer.attachment_path(":key"),
+      attachment_thumbnail_path_template: designer.thumbnail_attachment_path(":key"),
+      attachment_cdn_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+      # resource_url_params: {
+      #   resource_id: resource.id,
+      #   resource_name: designer_resource_name
+      # }
+      #(record_id: resource.id, record_type: resource.class.name),
+      # attachment_direct_upload_url: main_app.rails_direct_uploads_path(record_id: resource.id, record_type: resource.class.name),
+      # blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+    }
+  end
+
   def designer_context resource = nil
     designer_set_resource(resource) if resource
     resource ||= designer_resource
@@ -106,18 +130,12 @@ module Designer::DesignerHelper
     @designer_context ||= {
       resource_id: resource.id,
       resource_type: resource.class.name,
+      resource_name: designer_resource_name,
       resource: resource.as_designer_json,
       metadata: resource.metadata,
-      attachments: resource.attachments_blobs,
-      # spec: designer_option(:spec),
-      resource_path: designer.editor_path(id: resource.id, resource_name: designer_resource_name),
-      preview_url: designer_preview_url,
-      attachment_upload_path_template: designer.attachments_path(id: resource.id, resource_name: designer_resource_name, name: ":name"),
-      attachment_direct_upload_url: main_app.rails_direct_uploads_path(record_id: resource.id, record_type: resource.class.name),
-      attachment_delete_path_template: designer.attachment_path(":key", id: resource.id, resource_name: designer_resource_name),
-      attachment_thumbnail_path_template: designer.attachment_thumbnail_path(":key", id: resource.id, resource_name: designer_resource_name),
-      attachment_cdn_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
-      # blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
-    }.merge(resource.designer_config)
+    }
+    .merge(designer_context_paths(resource))
+    .merge(resource.designer_config)
+    .transform_keys{ |key| key.to_s.camelize(:lower) }
   end
 end

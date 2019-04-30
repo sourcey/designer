@@ -10,6 +10,10 @@ module Designer
 
     helper_method :resource_name, :resource_type
 
+    def resource_id
+      params[:resource_id] || params[:id]
+    end
+
     def resource_name
       params[:resource_name]
     end
@@ -23,7 +27,7 @@ module Designer
     end
 
     def set_resource
-      @resource = resource_type.constantize.find(params[:id])
+      @resource = resource_type.constantize.find(resource_id)
     end
 
     def resource_params

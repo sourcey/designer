@@ -18,37 +18,37 @@ module Designer
 
     def process_metadata(data)
       data.each do |item|
-        if item['page']
-          build_page(item)
-          item['blocks'].each do |block|
-            build_block(block)
-          end
-        else
-          build_block(item)
-        end
+        # if item['page']
+        #   build_page(item)
+        #   item['elements'].each do |element|
+        #     build_element(element)
+        #   end
+        # else
+          build_element(item)
+        # end
       end
     end
 
-    def build_page page = {}
-      name = page['page']
-      spec = config['spec']['pages'][name]
-      data = (spec['data'] || {}).merge(page['data'] || {})
-      page.merge!({
-        id: item_id(name),
-        name: name,
-        data: data,
-        blocks: spec['blocks'] || []
-      })
-    end
+    # def build_page page = {}
+    #   name = page['page']
+    #   spec = config['spec']['pages'][name]
+    #   data = (spec['data'] || {}).merge(page['data'] || {})
+    #   page.merge!({
+    #     id: item_id(name),
+    #     name: name,
+    #     data: data,
+    #     elements: spec['elements'] || []
+    #   })
+    # end
 
-    def build_block block = {}
-      name = block['name']
-      spec = config['spec']['blocks'][name]
+    def build_element element = {}
+      name = element['name']
+      spec = config['spec']['elements'][name]
       # puts "name #{name}"
       # puts "spec['data'] #{spec['data']}"
-      # puts "block['data'] #{block['data']}"
-      data = (spec['data'] || {}).merge(block['data'] || {})
-      block.merge!({
+      # puts "element['data'] #{element['data']}"
+      data = (spec['data'] || {}).merge(element['data'] || {})
+      element.merge!({
         id: item_id(name),
         name: name,
         data: data

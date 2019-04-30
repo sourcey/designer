@@ -407,7 +407,7 @@ html, body {
 
     // == Blocks
 
-    .block-items {
+    .element-items {
       position: relative;
       padding: .5rem 0;
       // background: $designer-sidebar-background-color;
@@ -415,9 +415,9 @@ html, body {
       // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) inset;
     }
 
-    // .blocks,
+    // .elements,
     // .pages {
-    //   .block-items {
+    //   .element-items {
     //     position: relative;
     //     // border-bottom: 1px solid $border-color;
     //     // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
@@ -459,7 +459,7 @@ html, body {
     //   //   // }
     //   //
     //   //   // Page card
-    //   //   &.block-card {
+    //   //   &.element-card {
     //   //     .card-header {
     //   //       background-color: #fdf4d9;
     //   //     }

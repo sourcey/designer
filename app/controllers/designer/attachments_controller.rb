@@ -20,16 +20,21 @@ module Designer
         attachment = instance.last if instance.is_a?(ActiveStorage::Attached::Many)
         # attachment = instance.@resource.attachments.last
         attachment.blob.update!(metadata:
-          attachment.metadata.merge(metadata_params[:metadata])) if params[:metadata]
+          attachment.metadata.merge(params[:metadata].permit!)) if params[:metadata]
         render json: attachment.blob #designer_image_json(attachment)
       else
         head :bad_request
       end
     end
 
+    def direct_uploads
+      blob = ActiveStorage::Blob.create_before_direct_upload!(direct_upload_blob_args)
+      render json: direct_upload_json(blob)
+    end
+
     def thumbnail
-      redirect_to Image::UrlResolver.new(@attachment, {size: :icon_square}).perform
-      # @attachment.variant(resize: '100x100').processed.service_url
+      # redirect_to Image::UrlResolver.new(@attachment, {size: :icon_square}).perform
+      redirect_to @attachment.variant(resize: '200x').processed.service_url
     end
 
     def destroy
@@ -47,9 +52,20 @@ module Designer
       @attachments ||= ActiveStorage::Attachment.where(record: @resource).joins(:blob)
     end
 
-    def metadata_params
-      params.permit(metadata: [:designer_page_id, :designer_block_id])
+    def direct_upload_blob_args
+      params.require(:blob).permit(:filename, :byte_size, :checksum, :content_type, :metadata).to_h.symbolize_keys
     end
+
+    def direct_upload_json(blob)
+      blob.as_json(root: false, methods: :signed_id).merge(direct_upload: {
+        url: blob.service_url_for_direct_upload,
+        headers: blob.service_headers_for_direct_upload
+      })
+    end
+
+    # def metadata_params
+    #   params.permit(metadata: {})
+    # end
 
     # def designer_images_json
     #   all_attachments.map do |attachment|

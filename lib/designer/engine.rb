@@ -9,7 +9,8 @@ module Designer
   class Engine < Rails::Engine
     isolate_namespace Designer
     config.eager_load_namespaces << Designer
-    config.autoload_paths << Engine.root.join('app', 'jobs', 'designer')
+    # config.autoload_paths << Engine.root.join('app', 'jobs', 'designer')
+    # config.autoload_paths << Engine.root.join('app', 'jobs', 'designer', '*')
     # += %W(#{config.root}/lib/modules)
 
     Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', '*')

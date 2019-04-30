@@ -9,27 +9,29 @@ module Designer
         serialize :metadata, Array
 
         has_many_attached :attachments
+
+        # after_save :enqueue_attachment_cleanup
       end
     end
 
-    def find_item id
+    def find_element id
       metadata.each do |item|
         return item if item['id'] == id
-        next unless item['blocks']
-        item['blocks'].each do |block|
-          return block if block['id'] == id
-        end
+        # next unless item['elements']
+        # item['elements'].each do |element|
+        #   return element if element['id'] == id
+        # end
       end
       nil
     end
 
-    def find_page id
-      find_item id
-    end
-
-    def find_block id
-      find_item id
-    end
+    # def find_page id
+    #   find_item id
+    # end
+    #
+    # def find_element id
+    #   find_item id
+    # end
 
     # Custom configuration
     # Implement this to extend the static YML config with dynamic options
@@ -53,8 +55,17 @@ module Designer
       DefaultMetadataBuilder.new(self, overwrite: true).perform
     end
 
+    # Cleans up attachments for elements that may have been deleted.
+    # Calls `find_element` internally to check for existence.
     def enqueue_attachment_cleanup
-      Designer::AttachmentCleanupJob.perform_now(self)
+      # FIXME: AttachmentCleanupJob is undefined?
+      require_dependency Designer::Engine.root.join('app', 'jobs', 'designer', 'attachemnt_cleanup_job').to_s
+
+      if Rails.env.production?
+        Designer::AttachmentCleanupJob.perform_later(self)
+      else
+        Designer::AttachmentCleanupJob.perform_now(self)
+      end
     end
 
     def as_designer_json(options = {})

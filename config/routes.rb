@@ -3,6 +3,11 @@ Designer::Engine.routes.draw do
   patch ':resource_name/:id/edit', to: 'editor#update'
 
   resources :attachments, param: :key, only: [:index, :create, :destroy] do
-    get :thumbnail
+    collection do
+      post :direct_uploads
+    end
+    member do
+      get :thumbnail
+    end
   end
 end

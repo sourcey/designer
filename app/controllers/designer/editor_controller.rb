@@ -1,5 +1,5 @@
 require_dependency "designer/application_controller"
-require_dependency "designer/attachemnt_cleanup_job"
+# require_dependency "designer/attachemnt_cleanup_job"
 
 
 module Designer
