@@ -23,8 +23,16 @@ import MarkdownTextInput from './inputs/MarkdownTextInput.vue'
 export default {
   props: ['spec', 'name', 'item', 'parent', 'root'],
   components: {
-    StandardInput, AttachmentInput, AttachmentArrayInput, AttachmentBlobInput,
-    SortableArrayInput, ColorInput, FontInput, MarkdownTextInput //, TagsInput, TrixTextInput
+    StandardInput,
+    AttachmentInput,
+    AttachmentArrayInput,
+    AttachmentBlobInput,
+    SortableArrayInput,
+    ColorInput,
+    FontInput,
+    MarkdownTextInput
+    // TagsInput, 
+    // TrixTextInput
   },
   computed: {
     componentName () {

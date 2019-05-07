@@ -22,8 +22,10 @@ html, body {
 
   .panel-left {
     @include flex-shrink;
-    width: 33%;
-    min-width: 200px;
+    width: 30%;
+    // width: 33%;
+    min-width: 400px;
+    max-width: 500px;
     height: 100%;
     // min-height: 100vh;
     // max-height: 100vh;
@@ -126,18 +128,21 @@ html, body {
 
     .tab-pane {
       position: relative;
+
+      // padding-top:
     }
+  }
 
     header {
       // @extend .d-flex;
       // // @extend .align-items-end;
       // @extend .align-items-center;
       @include flex-align(center);
-      // padding: .75rem $designer-sidebar-section-padding-x .5rem;
+      // padding: 1.5rem $designer-sidebar-section-padding-x $designer-sidebar-section-padding-y;
       padding: $designer-sidebar-section-padding;
-      // margin: 1.25rem 1rem .75rem;
+      margin: 1rem 0 .5rem;
       // margin-top: 1rem;
-      // border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
 
       // a.btn-back {
       //   @include link-color($color: inherit);
@@ -180,10 +185,10 @@ html, body {
         line-height: 1.75rem;
       }
 
-      + section {
-        border-top: 1px solid $border-color;
-        // border-bottom: 1px solid $border-color;
-      }
+      // + section {
+      //   border-top: 1px solid $border-color;
+      //   // border-bottom: 1px solid $border-color;
+      // }
     }
 
 
@@ -192,7 +197,7 @@ html, body {
       // color: inherit;
       color: $gray-700;
       display: inline-block;
-      padding: $designer-sidebar-section-padding;
+      padding: 0 $designer-sidebar-section-padding-x;
       font-size: 1rem;
       // padding: $designer-sidebar-item-padding;
 
@@ -329,8 +334,8 @@ html, body {
       // form,
       .section-item,
       .item-wrap {
-        border-bottom: 1px solid $border-color-light;
-        padding: $designer-sidebar-item-padding-y $designer-sidebar-section-padding-y;
+        // border-bottom: 1px solid $border-color-light;
+        padding: $designer-sidebar-item-padding-y $designer-sidebar-section-padding-x;
 
         .item-wrap {
           padding: 0;
@@ -403,7 +408,7 @@ html, body {
       //   padding-right: 0;
       //   padding-left: 0;
       // }
-    }
+    // }
 
     // == Blocks
 

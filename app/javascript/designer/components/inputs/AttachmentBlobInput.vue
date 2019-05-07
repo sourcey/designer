@@ -72,7 +72,8 @@ export default {
     // },
     removeAttachment (attachment) {
       if (confirm("Are you sure?")) {
-        Attachments.destroy(attachment)
+        if (attachment.key)
+          Attachments.destroy(attachment)
         this.item[this.name] = null
         this.attachment = null
         this.$emit('update', this.name, null)

@@ -22,24 +22,21 @@
         @focusin="$emit('select', name)"
         @change="$emit('update', name, object[name])")
       option(v-if='!spec.required' value='') Please select one
-      option(v-for='(value, index) in spec.enum') {{ typeof(value) === 'string' ? value : value[Object.keys(value)[0]] }}
-      //- : {{ Object.keys(value) }} : {{ Object.keys(value)[0] }}
-      //- {{ typeof(value) === 'string' ? value : value[key] }} : {{ key }} : {{ value }} : {{ JSON.stringify(value) }}
+      option(v-for='(value, index) in spec.enum' :value='typeof(value) === "string" ? value : Object.keys(value)[0]') {{ typeof(value) === 'string' ? value : value[Object.keys(value)[0]] }}
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
   .form-group.form-row.align-items-center(v-else-if="spec.type === 'boolean'")
     label.col-form-label(v-if='spec.label !== false' :for="'input-' + id" v-b-tooltip :title='spec.hint') {{ itemLabel(name, spec) }}
-    //- form-label(:name='name' :spec='spec' :for="'input-' + id")
     .flex-fill
     div
-      //- .text-right
       .custom-control.custom-checkbox
-        input.custom-control-input(type='checkbox' :id="'input-' + id" v-model='object[name]')
+        input.custom-control-input(
+            type='checkbox'
+            v-model='object[name]'
+            :id="'input-' + id")
         label.custom-control-label(:for="'input-' + id")
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
   .form-group.align-items-center(v-else-if="spec.type === 'number'")
-    //- // <label v-if="spec.label !== false" :for="'input-' + id" class="col-lg-4 col-form-label">{{ itemLabel(name, spec) }}</label>
     label.col-form-label.form-label(v-if='spec.label !== false' :for="'input-' + id" v-b-tooltip :title='spec.hint') {{ itemLabel(name, spec) }}
-    //- .col
     input.form-control(type='number'
         v-model.number='object[name]'
         :placeholder='spec.placeholder'
@@ -89,13 +86,21 @@ export default {
         return this.designerState.validationErrors[this.name]
     }
   },
-  methods: {
-    tagArrayToObject(tags) {
-      return tags.reduce((acc, cur, i) => {
-        acc[cur] = cur
-        return acc
-      }, {})
-    }
-  }
+  // watch: {
+  //   object: {
+  //     handler: function(newValue) {
+  //       console.log('input object changed', this.object[this.name])
+  //     },
+  //     deep: true
+  //   },
+  // }
+  // methods: {
+  //   tagArrayToObject(tags) {
+  //     return tags.reduce((acc, cur, i) => {
+  //       acc[cur] = cur
+  //       return acc
+  //     }, {})
+  //   }
+  // }
 }
 </script>

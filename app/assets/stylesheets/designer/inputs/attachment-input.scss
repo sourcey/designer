@@ -104,8 +104,12 @@
     .preview-item {
       // max-width: initial;
       // padding-top: 62.5%;
-      width: 100px;
-      height: 100px;
+      // width: 100px;
+      // height: 100px;
+
+      max-width: 150px;
+      // max-height: 100px;
+      padding-bottom: 100%;
     }
   }
 }

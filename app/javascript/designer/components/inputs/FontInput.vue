@@ -9,7 +9,7 @@
     <br>{{object}}
   .form-group.form-row.align-items-center
     //- .no-gutters
-    label.col-xl-4.col-form-label(:for="'input-' + name") {{ itemLabel(name, spec) }}
+    label.col-xl-5.col-form-label(:for="'input-' + name") {{ itemLabel(name, spec) }}
     .col
       //- b-dropdown.font-picker.w-100(variant='block form-control' :title='state.errorText' @scroll='onScroll' no-caret)
         template(slot='button-content')
@@ -31,7 +31,7 @@
 
 <script>
 import { FontManager } from 'font-picker'
-import { store } from '../../store'
+// import { store } from '../../store'
 
 export default {
   props: ['spec', 'name', 'item', 'parent', 'root'],
@@ -44,7 +44,7 @@ export default {
         errorText: '',
         loadingStatus: 'loading' // possible values: 'loading', 'finished', 'error'
       },
-      apiKey: store.state.googleFontsApiKey,
+      // apiKey: store.state.googleFontsApiKey,
       options: {},
       fontManager: null,
     };
@@ -53,7 +53,7 @@ export default {
 
     // Initialize FontManager object and generate the font list
     this.fontManager = new FontManager(
-      this.apiKey,
+      this.designerState.googleFontsApiKey,
       this.activeFont,
       this.options
     )
@@ -77,6 +77,11 @@ export default {
         // console.error(this.state.errorText)
         // console.error(err)
       })
+
+    window.addEventListener('click', this.onWindowClick) //.bind(this)
+  },
+  beforeDestroy () {
+    window.removeEventListener('click', this.onWindowClick) //.bind(this)
   },
   // watch: {
   //   activeFont() {
@@ -86,34 +91,27 @@ export default {
   //   },
   // },
   methods: {
-    /**
-     * Set state object
-     */
+
+    // Set state object
     setState(state) {
       this.state = Object.assign(this.state, state)
     },
 
-    /**
-     * Get the font class for a specific font family
-     */
+    // Get the font class for a specific font family
     fontClass(fontFamily) {
       if (fontFamily) {
         return 'font-' + fontFamily.replace(/\s+/g, '-').toLowerCase()
       }
     },
 
-    /**
-     * Download the font previews for all visible font entries and the five after them
-     */
+    // Download the font previews for all visible font entries and the five after them
     onScroll(e) {
       const elementHeight = e.target.scrollHeight / this.fontManager.fonts.length;
       const downloadIndex = Math.ceil((e.target.scrollTop + e.target.clientHeight) / elementHeight)
       this.fontManager.downloadPreviews(downloadIndex + 5)
     },
 
-    /**
-     * Set the font with the given font list index as the active one
-     */
+    // Set the font with the given font list index as the active one
     setActiveFont(fontFamily) {
       const activeFontIndex = this.fontManager.setActiveFont(fontFamily)
       console.log('font input: set active', fontFamily, activeFontIndex)
@@ -138,9 +136,7 @@ export default {
       this.activeFont = fontFamily
     },
 
-    /**
-     * Handle change event
-     */
+    // Handle change event
     onChange(font) {
       const data = this.fontData(font)
       console.log('font changed', font, data)
@@ -160,6 +156,12 @@ export default {
             return '400i'
           return x.replace(/talic$/, '')
         })
+      }
+    },
+
+    onWindowClick (event) {
+      if (!this.$el.contains(event.target)) {
+        this.isShown = false
       }
     }
   }

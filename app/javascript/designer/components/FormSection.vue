@@ -1,10 +1,6 @@
 <template lang="pug">
 section
-  //
-    <br>item: >>>
-    <br>{{item}}
-    <br>itemData: >>>
-    <br>{{itemData}}
+  slot(name='start')
   dynamic-input(v-for='(property, name) in spec.properties',
       :key='property.name',
       :name='name',
@@ -15,6 +11,7 @@ section
       v-on='$listeners')
       //- @select='onSelect',
       //- @update='onUpdate'
+  slot(name='end')
 </template>
 
 <script>

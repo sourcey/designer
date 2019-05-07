@@ -61,15 +61,34 @@ export const store = {
   // Metadata
   // --------------------------------------------------
 
+  mergeSpecDefaults (item, spec) {
+    if (!item.id)
+      item.id = item.name + '-' + randomString(8)
+    if (!item.data)
+      item.data = {}
+    if (spec.properties) {
+      Object.keys(spec.properties).forEach(x => {
+        if (typeof(item.data[x]) === 'undefined' && typeof(spec.properties[x].default) !== 'undefined') {
+          item.data[x] = spec.properties[x].default
+        }
+      })
+    }
+
+    return item
+  },
+
   createElementData (name, section, data) {
     const spec = this.getElementSpec(name)
-    let element = {
+    const element = {
       id: name + '-' + randomString(10),
       name: name,
       // template: spec.template,
-      section: section,
-      data: Object.assign({}, spec.data, data)
+      // section: section,
+      // data: Object.assign({}, spec.data, data)
     }
+
+    // Merge spec defaults into element data
+    this.mergeSpecDefaults(element, spec)
 
     // Execute create actions
     Hooks.executeCreate (spec, element)

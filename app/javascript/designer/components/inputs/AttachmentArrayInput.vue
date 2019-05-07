@@ -9,6 +9,7 @@
     <br>{{spec.type}}
     <br>object: >>>
     <br>{{object}}
+  //- div {{attachments.length}}
   .form-group
     label.form-label.d-block(v-if='spec.label !== false' :for="'input-' + name") {{ itemLabel(name, spec) }}
     //- label.text-btn.text-success.btn-upload
@@ -43,15 +44,16 @@ export default {
   data() {
     return {
       object: this.item, // || {}
-      attachments: [],
+      attachments: [], //this.item[this.name],
     }
   },
   mounted () {
     if (!Array.isArray(this.object[this.name])) {
       this.object[this.name] = []
-    } else {
-      this.object[this.name] = this.object[this.name].filter(attachment => attachment.key)
     }
+    // else {
+    //   this.object[this.name] = this.object[this.name].filter(attachment => attachment.key)
+    // }
     this.object[this.name].forEach(attachment => this.attachments.push(attachment))
   },
   computed: {
@@ -83,12 +85,21 @@ export default {
           alert('Could not associate attachment with element')
           return
         }
+
+        // Add the object to the proxy `attachments` array.
+        // It wont be added to the main object until the upload has succeeded.
         this.attachments.push(attachment)
         Attachments.upload(attachment)
           .then(() => {
-            this.object[this.name] = Attachments.serialize(attachment)
-            this.$emit('update', this.name, this.object[this.name])
+            // HACK: Calling `push` is not triggering reactivity across frame borders,
+            // so the instance must be reassigned.
+            // this.object[this.name].push(Attachments.serialize(attachment))
 
+            // this.object[this.name] = this.attachments
+
+            console.log('SUCCESSSSSSSSSSS', this.object[this.name], this.attachments, Attachments.serialize(attachment))
+            // this.$emit('update', this.name, this.object[this.name])
+            this.update()
             // HACK: Save when an image is uploaded or it may be lost in space
             //this.designerStore.save(this)
           })
@@ -101,29 +112,50 @@ export default {
     //   meta.designer_element_id = this.parent.id
     //   return meta
     // },
+    update () {
+      // HACK: Calling `push` or `splice` on the array is not triggering reactivity
+      // across frame borders, but reassigning the instance does the trick.
+      this.object[this.name] = this.attachments.map(attachment => Attachments.serialize(attachment))
+      this.$emit('update', this.name, this.object[this.name])
+    },
     removeAttachment (attachment) {
       if (confirm("Are you sure?")) {
 
         // Delete from server
-        Attachments.destroy(attachment)
+        if (attachment.key)
+          Attachments.destroy(attachment)
 
         // Remove from object data
-        for (let i = 0; i < this.object[this.name].length; i++) {
-          if (this.object[this.name][i].key === attachment.key) {
-            this.object[this.name].splice(i, 1)
-            break
-          }
-        }
+        // const ia = this.object[this.name].findIndex(x => Object.is(x, attachment))
+        // if (ia !== -1) this.object[this.name].splice(ia, 1)
+        // for (let i = 0; i < this.object[this.name].length; i++) {
+        //   // if (this.object[this.name][i].key === attachment.key) {
+        //   if (Object.is(this.object[this.name][i], attachment)) {
+        //     this.object[this.name].splice(i, 1)
+        //     break
+        //   }
+        // }
 
         // Remove from attachments
-        for (let i = 0; i < this.attachments.length; i++) {
-          if (this.attachments[i].key === attachment.key) {
-            this.attachments.splice(i, 1)
-            break
-          }
-        }
+        this.attachments.splice(this.attachments.findIndex(x => Object.is(x, attachment)), 1)
+        // const ib = this.attachments.findIndex(x => Object.is(x, attachment))
+        // if (ib !== -1)
+        // for (let i = 0; i < this.attachments.length; i++) {
+        //   // if (this.attachments[i].key === attachment.key) {
+        //   if (Object.is(this.attachments[i], attachment)) {
+        //     this.attachments.splice(i, 1)
+        //     break
+        //   }
+        // }
 
-        this.$emit('update', this.name, this.object[this.name])
+        // HACK: Reassign the object variable. This seems to me the only way to
+        // trigger reactivity across the preview frame border.
+        // this.object[this.name] = this.attachments
+
+        // console.log('DELETTTTTTTTTT', ib, this.object[this.name], this.attachments)
+
+        this.update()
+        // this.$emit('update', this.name, this.object[this.name])
 
         // HACK: Save when a image is deleted or it may be lost in space
         //this.designerStore.save(this)

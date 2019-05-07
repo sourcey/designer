@@ -60,6 +60,6 @@ export default {
   },
 
   serialize (attachment) {
-    return pick(attachment, ['key', 'signed_id', 'filename', 'byte_size', 'content_type'])
+    return pick(attachment, ['key', 'signed_id', 'filename', 'byte_size', 'content_type', 'url'])
   },
 }
