@@ -45,7 +45,7 @@
     color: white;
     background-color: $hover-color;
   }
-  
+
   &:active,
   &.active,
   &:focus {
@@ -53,8 +53,6 @@
     background-color: darken($hover-color, $emphasized-link-hover-darken-percentage);
   }
 }
-
-
 
 @mixin flex-fill() {
   flex: 1 1 auto !important; // .flex-fill
@@ -73,4 +71,20 @@
   display: flex !important;
   align-items: center !important; // .align-items-#{value}
   justify-content: center !important; // .justify-content-#{value}
+}
+
+@mixin fill-parent() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0
+}
+
+@mixin no-button-outline() {
+  &:active,
+  &:focus,
+  &:hover {
+    outline: 0;
+  }
 }

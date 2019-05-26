@@ -1,0 +1,60 @@
+
+// == Color input
+
+.color-input {
+  // padding-top: .35rem !important;
+  // padding-bottom: .35rem !important;
+  // padding-right: 0 !important;
+  // border: 0 !important;
+  //
+  // .label-wrap {
+  //   border-bottom: 1px solid $border-color-light;
+  // }
+
+  // label {
+  //   margin: 0 !important;
+  // }
+  //
+  // .item-wrap {
+  //   padding-left: 1rem !important;
+  // }
+
+  // .picker-wrap {
+  //   position: relative;
+  //   padding-right: 0 !important;
+  //   // top: -$designer-sidebar-item-padding-y;
+  //   // bottom: -$designer-sidebar-item-padding-y;
+  //   // left: -$designer-sidebar-section-padding-x;
+  //   // right: -$designer-sidebar-section-padding-x;
+  // }
+
+  .verte {
+    width: 100%;
+    height: 100%;
+
+    .verte__guide {
+      width: 100%;
+      height: 100%;
+      min-height: 1rem;
+      // height: $designer-input-height;
+      // line-height: $designer-input-line-height;
+      // min-height: $input-height;
+      border-radius: $border-radius;
+      overflow: hidden;
+
+      svg {
+        border-radius: $border-radius;
+        overflow: hidden;
+        @include fill-parent;
+      }
+    }
+
+    .verte__menu-origin {
+      margin-top: $designer-input-height;
+    }
+
+    .verte__recent-color:after {
+      background: transparent;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <template lang="pug">
-  component(:is='componentName'
+  component(:is='loadComponent'
     :name='name'
     :item='item'
     :spec='spec'
@@ -9,31 +9,8 @@
 </template>
 
 <script>
-import StandardInput from './inputs/StandardInput.vue'
-import AttachmentInput from './inputs/AttachmentInput.vue'
-import AttachmentArrayInput from './inputs/AttachmentArrayInput.vue'
-import AttachmentBlobInput from './inputs/AttachmentBlobInput.vue'
-import SortableArrayInput from './inputs/SortableArrayInput.vue'
-// import TagsInput from './inputs/TagsInput.vue'
-import ColorInput from './inputs/ColorInput.vue'
-import FontInput from './inputs/FontInput.vue'
-import MarkdownTextInput from './inputs/MarkdownTextInput.vue'
-// import TrixTextInput from './inputs/TrixTextInput.vue'
-
 export default {
   props: ['spec', 'name', 'item', 'parent', 'root'],
-  components: {
-    StandardInput,
-    AttachmentInput,
-    AttachmentArrayInput,
-    AttachmentBlobInput,
-    SortableArrayInput,
-    ColorInput,
-    FontInput,
-    MarkdownTextInput
-    // TagsInput, 
-    // TrixTextInput
-  },
   computed: {
     componentName () {
       if (this.spec.type === 'array' && this.spec.properties)
@@ -48,14 +25,27 @@ export default {
         return 'AttachmentBlobInput'
       else if (this.spec.type === 'color')
         return 'ColorInput'
+      else if (this.spec.type === 'boolean')
+        return 'CheckboxInput'
       else if (this.spec.type === 'font')
         return 'FontInput'
+      else if (this.spec.enum)
+        return 'SelectInput'
+      else if (this.spec.input === 'range')
+        return 'RangeSliderInput'
+      else if (this.spec.type === 'string' && this.spec.multiline)
+        return 'TextareaInput'
+      // else if (this.spec.type === 'string')
+      //   return 'TextInput'
       // else if (this.spec.type === 'string' && this.spec.editor === 'trix')
       //   return 'TrixTextInput'
       // else if (this.spec.type === 'string' && this.spec.editor === 'markdown')
       //   return 'MarkdownTextInput'
       else
-        return 'StandardInput'
+        return 'TextInput'
+    },
+    loadComponent() {
+      return () => import(`./inputs/${this.componentName}.vue`)
     }
   },
   // created () {
@@ -64,7 +54,6 @@ export default {
   // methods: {
   //   onSelect(name) {
   //     console.log('dynamic input: on select', name)
-  //
   //   },
   //   onUpdate(name, value) {
   //     console.log('dynamic input: on update', name, value)

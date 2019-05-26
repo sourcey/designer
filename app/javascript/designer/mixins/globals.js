@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import Hooks from  '../hooks'
-import { randomString, titleize } from '../utils'
+import SvgIcon from '../components/SvgIcon'
+// import { randomString, titleize } from '../utils'
 import { store } from '../store'
 
 
 // Inject reusable component options
 export default {
+  components: {
+    'designer-icon': SvgIcon
+  },
   data () {
     return {
       designerStore: store,
@@ -13,27 +17,21 @@ export default {
     }
   },
   methods: {
-    getLayoutSpec (name) {
-      return store.getLayoutSpec(name)
-    },
+    // getLayoutSpec (name) {
+    //   return store.getLayoutSpec(name)
+    // },
+    //
+    // getElementSpec (name) {
+    //   return store.getElementSpec(name)
+    // },
 
-    getElementSpec (name) {
-      return store.getElementSpec(name)
-    },
-
-    itemId (item) {
-      if (!item.id) {
-        const name = (item.name || item.type || item.label || item.title).toLowerCase()
-        item.id = name + '-' + randomString(10)
-      }
-      return item.id
-    },
-
-    itemLabel (name, spec) {
-      if (spec.label)
-        return spec.label
-      return titleize(name)
-    },
+    // itemId (item) {
+    //   if (!item.id) {
+    //     const name = (item.name || item.type || item.label || item.title).toLowerCase()
+    //     item.id = name + '-' + randomString(10)
+    //   }
+    //   return item.id
+    // },
 
     copyToClipboard (text) {
       const dummy = document.createElement('input')
@@ -49,24 +47,6 @@ export default {
 
     getEmbedCode (itemId) {
       return '<%= designer_embed("' + itemId + '") %>'
-    },
-
-    fileMetadata () {
-      // return {
-      //   designer_element_id: this.item.id
-      // }
-      const meta = {}
-      if (this.parent && this.parent.id) { //this.root &&
-        // if (this.root.elements) // TODO: better way of detecting page
-        //   meta.designer_page_id = this.root.id
-        // if (this.root.id !== this.parent.id)
-          meta.designer_element_id = this.parent.id
-      }
-      // // else if (this.parent) {
-      // //   meta.designer_element_id = this.parent.id
-      // // }
-      // meta.designer_element_id = this.item.id
-      return meta
     }
   }
 }

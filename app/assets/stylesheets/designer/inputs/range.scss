@@ -1,0 +1,59 @@
+.range-input {
+
+  // padding-top: .35rem !important;
+  // padding-bottom: .35rem !important;
+  // padding-right: 0 !important;
+  // border: 0 !important;
+  //
+  // .label-wrap {
+  //   border-bottom: 1px solid $border-color-light;
+  // }
+
+  // label {
+  //   display: block;
+  //   margin: 0 !important;
+  //
+  //   .label-text {
+  //
+  //   }
+  // }
+
+  input.transparent {
+    text-align: right;
+    padding: 0;
+  }
+
+  .range-input-wrap {
+    position: relative;
+    width: 80%;
+
+    label {
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    input[type="range"] {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    &:hover {
+      label {
+        opacity: 0;
+      }
+      input[type="range"] {
+        opacity: 1;
+      }
+    }
+  }
+
+  // .item-wrap {
+  //   padding-left: 1rem !important;
+  // }
+}

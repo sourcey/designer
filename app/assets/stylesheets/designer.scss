@@ -74,19 +74,46 @@ html, body {
       top: .4rem;
     }
 
-    .designer-tabs {
-      // background: #182130; //white;
-      // background: white;
+    .tabs {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      // .designer-tabs {
+        // background: #182130; //white;
+        // background: white;
 
       .nav-tabs {
         background: theme-color-level('primary', -9);
         border-bottom-color: theme-color-level('primary', -6);
+        display: flex;
+
+        .nav-item {
+          margin-left: -1px;
+          @include flex-fill;
+          text-align: center;
+
+          &:first-child {
+            margin-left: 0;
+            .nav-link {
+              border-left: 0;
+            }
+          }
+
+          &:last-child {
+            .nav-link {
+              border-right: 0;
+            }
+          }
+        }
 
         .nav-link {
           font-size: .9rem;
           font-weight: 600;
           border-radius: 0;
           border-top: 0;
+
+          padding: .5rem 0;
           // border-color: theme-color-level('primary', -6);
           // color: theme-color-level('primary', -6);
           // theme-color-level($color, 6)
@@ -108,28 +135,24 @@ html, body {
           }
         }
 
-        .nav-item {
-          margin-left: -1px;
-          &:first-child {
-            margin-left: 0;
-            .nav-link {
-              border-left: 0;
-            }
-          }
-        }
-
         // .nav-item:first-child {
         //   .nav-link {
         //     border-left: 0;
         //   }
         // }
       }
-    }
+      // }
 
-    .tab-pane {
-      position: relative;
+      .tab-content {
+        flex: 1 1 auto;
+        position: relative;
 
-      // padding-top:
+        .tab-pane {
+          @include fill-parent;
+
+          // padding-top:
+        }
+      }
     }
   }
 
@@ -139,10 +162,10 @@ html, body {
       // @extend .align-items-center;
       @include flex-align(center);
       // padding: 1.5rem $designer-sidebar-section-padding-x $designer-sidebar-section-padding-y;
-      padding: $designer-sidebar-section-padding;
-      margin: 1rem 0 .5rem;
-      // margin-top: 1rem;
-      border-bottom: 1px solid $border-color;
+      padding: 1rem $designer-sidebar-section-padding-x 0;
+      // margin: 1rem 0 .5rem; // cannot use top margin or sliging-form top position will be off
+      // margin-bottom: .5rem;
+      // border-bottom: 1px solid $border-color;
 
       // a.btn-back {
       //   @include link-color($color: inherit);
@@ -156,33 +179,31 @@ html, body {
       // }
 
       h1 {
-        // @extend .flex-fill;
         @include flex-fill;
+        padding: .75rem 0;
         font-size: 1.1rem;
-        // font-weight: bold;
         font-weight: 600;
         margin: 0;
+        // font-weight: bold;
         // line-height: 30px;
         // height: 30px; // height of small button
         // margin: .5rem 0 .5rem;
       }
 
       h2 {
-        // @extend .flex-fill;
         @include flex-fill;
-        // font-size: .825rem;
+        padding: .75rem 0;
         font-size: .75rem;
         font-weight: 600;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: $gray-600;
-        // color: $gray-600;
         margin: 0;
         // height: 30px; // height of small button
         // line-height: 47px; // position at baseline
 
-        height: 1.25rem;
-        line-height: 1.75rem;
+        // height: 1.25rem;
+        // line-height: 1.75rem;
       }
 
       // + section {
@@ -191,19 +212,23 @@ html, body {
       // }
     }
 
-
     a.back-link {
       // @include designer-link-color($color: inherit);
       // color: inherit;
       color: $gray-700;
       display: inline-block;
       padding: 0 $designer-sidebar-section-padding-x;
-      font-size: 1rem;
+      // font-size: 1rem;
       // padding: $designer-sidebar-item-padding;
 
-      i {
-        // font-size: 1.25rem;
-        margin-right: .375rem; //.75rem;
+      // i {
+      //   // font-size: 1.25rem;
+      //   margin-right: .375rem; //.75rem;
+      // }
+
+      .icon {
+        margin-right: .375rem;
+        transition: all .2s ease-in-out;
       }
       // color: inherit;
       // padding-right: .75rem;
@@ -212,6 +237,11 @@ html, body {
       &:hover {
         // color: $link-color;
         color: inherit;
+
+        .icon {
+          transform: translateX(-2px);
+          // margin-right: .375rem;
+        }
       }
     }
 
@@ -288,7 +318,7 @@ html, body {
         // @extend .align-items-center;
         @include flex-align(center);
         padding: $designer-sidebar-section-padding;
-        border-bottom: 1px solid $border-color;
+        border-top: 1px solid $border-color;
         // margin: 0 $designer-sidebar-section-padding-x;
         background: white;
         // background: #f8f8f8;
@@ -306,6 +336,10 @@ html, body {
           // font-weight: bold;
           // padding-left: 1rem;.
         }
+
+        // &:first-child {
+        //   border-top: 1px solid $border-color;
+        // }
 
         + .collapse-content {
           border-bottom: 1px solid $border-color;
@@ -334,6 +368,7 @@ html, body {
       // form,
       .section-item,
       .item-wrap {
+        // position: relative;
         // border-bottom: 1px solid $border-color-light;
         padding: $designer-sidebar-item-padding-y $designer-sidebar-section-padding-x;
 
@@ -358,38 +393,6 @@ html, body {
         color: theme-color('secondary');
         font-size: $font-size-sm;
         padding: 0 $designer-sidebar-section-padding-x;
-      }
-
-      .form-group {
-        margin: 0;
-        // overflow-x: hidden;
-        min-height: $designer-input-height;
-
-        label {
-          font-size: .75rem;
-          font-weight: 600;
-          // letter-spacing: 2px;
-          // text-transform: uppercase;
-        }
-
-        &.form-row {
-          label {
-            margin: 0;
-          }
-        }
-      }
-
-      .col-form-label {
-        line-height: 1.4;
-        padding: 0;
-        // min-height: $designer-input-height;
-        // line-height: $designer-input-line-height;
-
-        @include media-breakpoint-down(lg) {
-          min-height: auto;
-          padding-top: 0;
-          padding-bottom: .25rem;
-        }
       }
 
       // .form-control {

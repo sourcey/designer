@@ -9,33 +9,25 @@
     //- (v-if="spec.type === 'string' && spec.multiline")
     //- a.float-right(href='#' @click="openMarkdownEditor()")
       i.fa.fa-edit
-    label.form-label(v-if='spec.label !== false' :for="'input-' + id" v-b-tooltip :title='spec.hint') {{ itemLabel(name, spec) }}
-    textarea.form-control(:id="'input-' + id" ref='textarea' rows='5'
+    label.form-label(v-if='spec.label !== false' :for="inputId" v-b-tooltip :title='spec.hint') {{ inputLabel }}
+    textarea.form-control(:id="inputId" ref='textarea' rows='5'
         v-model='object[name]'
         :placeholder='spec.placeholder'
-        @focusin="$emit('select', name)"
+        @focusin="emitSelect"
         @input="$emit('update', name, object[name])")
 </template>
 
 <script>
+import Input from '../../mixins/input'
+import SimpleMDE from 'simplemde/dist/simplemde.min'
+import { randomString } from '../../utils'
 // import Vue from 'vue'
 // import FormLabel from '../FormLabel'
-import { randomString } from '../../utils'
-import SimpleMDE from 'simplemde/dist/simplemde.min'
-
 // import MarkdownEditor from '../markdown'
 
+
 export default {
-  props: ['spec', 'name', 'item', 'parent', 'root'],
-  // components: {
-  //   FormLabel
-  // },
-  data() {
-    return {
-      id: this.item.id || randomString(5),
-      object: this.item // || {}
-    }
-  },
+  extends: Input,
   mounted() {
     this.openMarkdownEditor()
   },
@@ -91,7 +83,7 @@ export default {
       //   editor.destroy()
       //   $(window).off('resize', updateEditorHeight)
       // })
-    },
+    }
   }
 }
 </script>

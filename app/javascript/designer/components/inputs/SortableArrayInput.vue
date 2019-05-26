@@ -20,11 +20,11 @@ draggable(v-on='$listeners', v-model='object', :options="{handle:'.drag-handle-c
         {{item}}
         <br>object ###########################
         {{object}}
-      standard-input(v-for='(property, index) in spec.properties' :key='property.name' :item='data' :spec='property')
+      dynamic-input(v-for='(property, index) in spec.properties' :key='property.name' :item='data' :spec='property')
 </template>
 
 <script>
-import StandardInput from './StandardInput.vue'
+import DynamicInput from '../DynamicInput.vue'
 import Draggable from 'vuedraggable'
 
 export default {
@@ -41,7 +41,8 @@ export default {
     }
   },
   components: {
-    StandardInput, Draggable
+    DynamicInput,
+    Draggable
   },
   created() {
     // console.log('SortableArrayInput', this, this.object, this.scope, this.spec)

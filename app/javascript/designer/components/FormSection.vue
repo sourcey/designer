@@ -2,6 +2,7 @@
 section
   slot(name='start')
   dynamic-input(v-for='(property, name) in spec.properties',
+      v-if='!property.hidden',
       :key='property.name',
       :name='name',
       :item='itemData',
@@ -39,7 +40,7 @@ export default {
 
     // Set the item ID if not already set.
     // This is a fallback for when this component is used outside of the designer.
-    this.itemId(this.item)
+    // this.itemId(this.item) // Do not do this, pages can have no ID
   },
   // created() {
   //   console.log('form section: created', this, this.item, this.spec)

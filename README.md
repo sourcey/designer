@@ -28,6 +28,10 @@ Add `acts_as_designer` to each modal you want to use the designer on
 acts_as_designer
 ```
 
+The `svg-sprite-loader` package must be added to webpacker for icons.
+
+
+
 Add designer.yml to your config folder.
 
 Example config/designer.yml

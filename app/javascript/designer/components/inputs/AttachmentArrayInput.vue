@@ -1,23 +1,14 @@
 <template lang="pug">
 .item-wrap.attachment-input.attachment-array-input
-  //-
-    {{ object }}
-    <br>name: >>>
-    <br>spec: >>>
-    <br>{{spec}}
-    <br>spec type: >>>
-    <br>{{spec.type}}
-    <br>object: >>>
-    <br>{{object}}
-  //- div {{attachments.length}}
   .form-group
-    label.form-label.d-block(v-if='spec.label !== false' :for="'input-' + name") {{ itemLabel(name, spec) }}
+    label.form-label.d-block(v-if='spec.label !== false' :for="'input-' + name") {{ inputLabel }}
     //- label.text-btn.text-success.btn-upload
     small.text-muted.font-italic(v-if='validateMax') Maximum {{ spec.validate.max }} images
-    button.btn.btn-sm.btn-outline-success.btn-upload(v-else)
-      i.fas.fa-plus
-      span Upload
-      input.input-file(type='file' multiple='' :accept="spec.accept || 'image/*'" :name='name' @change='filesChange')
+    div(v-else)
+      label.btn-upload.dropzone.p-1(:for='inputId')
+        designer-icon.mb-025(name='upload-cloud' size='32')
+        .btn-text Upload
+      input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
   .form-row(v-if='attachments.length')
     //- .preview-items.clearfix.mt-1
     .col-4.col-lg-3(v-for='(attachment, index) in attachments')
@@ -35,26 +26,29 @@
 </template>
 
 <script>
+import Input from '../../mixins/input'
 import Attachments from '../../attachments'
+import { randomString } from '../../utils'
 
 
 export default {
-  props: ['spec', 'name', 'item', 'parent', 'root'],
+  extends: Input,
   // mixins: [Attachments],
   data() {
     return {
-      object: this.item, // || {}
+      // inputId: this.item.id || randomString(5),
+      // object: this.item, // || {}
       attachments: [], //this.item[this.name],
     }
   },
   mounted () {
-    if (!Array.isArray(this.object[this.name])) {
-      this.object[this.name] = []
+    if (!Array.isArray(this.value)) {
+      this.value = []
     }
     // else {
-    //   this.object[this.name] = this.object[this.name].filter(attachment => attachment.key)
+    //   this.value = this.value.filter(attachment => attachment.key)
     // }
-    this.object[this.name].forEach(attachment => this.attachments.push(attachment))
+    this.value.forEach(attachment => this.attachments.push(attachment))
   },
   computed: {
     validateMax () {
@@ -93,30 +87,19 @@ export default {
           .then(() => {
             // HACK: Calling `push` is not triggering reactivity across frame borders,
             // so the instance must be reassigned.
-            // this.object[this.name].push(Attachments.serialize(attachment))
+            // this.value.push(Attachments.serialize(attachment))
 
-            // this.object[this.name] = this.attachments
-
-            console.log('SUCCESSSSSSSSSSS', this.object[this.name], this.attachments, Attachments.serialize(attachment))
-            // this.$emit('update', this.name, this.object[this.name])
-            this.update()
+            this.emitUpdate()
             // HACK: Save when an image is uploaded or it may be lost in space
             //this.designerStore.save(this)
           })
       })
     },
-    // fileMetadata () {
-    //   const meta = {}
-    //   if (this.root.elements) // TODO: better way of detecting page
-    //     meta.designer_page_id = this.root.id
-    //   meta.designer_element_id = this.parent.id
-    //   return meta
-    // },
-    update () {
+    emitUpdate () {
       // HACK: Calling `push` or `splice` on the array is not triggering reactivity
       // across frame borders, but reassigning the instance does the trick.
-      this.object[this.name] = this.attachments.map(attachment => Attachments.serialize(attachment))
-      this.$emit('update', this.name, this.object[this.name])
+      this.value = this.attachments.map(attachment => Attachments.serialize(attachment))
+      this.$emit('update', this.name, this.value)
     },
     removeAttachment (attachment) {
       if (confirm("Are you sure?")) {
@@ -126,12 +109,12 @@ export default {
           Attachments.destroy(attachment)
 
         // Remove from object data
-        // const ia = this.object[this.name].findIndex(x => Object.is(x, attachment))
-        // if (ia !== -1) this.object[this.name].splice(ia, 1)
-        // for (let i = 0; i < this.object[this.name].length; i++) {
-        //   // if (this.object[this.name][i].key === attachment.key) {
-        //   if (Object.is(this.object[this.name][i], attachment)) {
-        //     this.object[this.name].splice(i, 1)
+        // const ia = this.value.findIndex(x => Object.is(x, attachment))
+        // if (ia !== -1) this.value.splice(ia, 1)
+        // for (let i = 0; i < this.value.length; i++) {
+        //   // if (this.value[i].key === attachment.key) {
+        //   if (Object.is(this.value[i], attachment)) {
+        //     this.value.splice(i, 1)
         //     break
         //   }
         // }
@@ -148,17 +131,11 @@ export default {
         //   }
         // }
 
-        // HACK: Reassign the object variable. This seems to me the only way to
-        // trigger reactivity across the preview frame border.
-        // this.object[this.name] = this.attachments
-
-        // console.log('DELETTTTTTTTTT', ib, this.object[this.name], this.attachments)
-
-        this.update()
-        // this.$emit('update', this.name, this.object[this.name])
+        this.emitUpdate()
+        // this.$emit('update', this.name, this.value)
 
         // HACK: Save when a image is deleted or it may be lost in space
-        //this.designerStore.save(this)
+        // this.designerStore.save(this)
       }
     }
   }

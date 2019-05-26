@@ -1,14 +1,27 @@
 
-// == Layout helpers
+// == Generic helpers
 
-// Fix horizontal scrollbar appearing
+.flex-center {
+  @include flex-center;
+}
+
+.flex-v-center {
+  @include flex-align(center);
+}
+
+.fill-parent {
+  @include fill-parent;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
 
+.wrapper {
+  position: relative;
+}
 
 // == Center container
-// Vertical and horizontal center items using flexbox
 
 .center-container {
   // @extend .d-flex;

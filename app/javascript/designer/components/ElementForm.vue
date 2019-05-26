@@ -9,7 +9,7 @@ form(:id='itemId(item)' :class="['block-form', 'collapsible', {'expand': showFor
       i.fas.fa-caret-right
     a.title(@click.prevent='showForm = !showForm' href='#') {{ item.title || spec.label }}
     button.drag-handle.drag-block-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
-      i.fas.fa-arrows-alt
+      icon(name='move-expand-vertical')
     b-dropdown(variant='icon btn-text-secondary' size='sm' no-caret)
       template(slot='button-content')
         i.fas.fa-ellipsis-v

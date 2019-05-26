@@ -4,18 +4,33 @@
 .attachment-input {
 
   .btn-upload {
+    display: block;
     position: relative;
     cursor: pointer;
 
-    .input-file {
-      opacity: 0; // invisible but it's there!
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      position: absolute;
-      cursor: pointer;
+    &.dropzone {
+      height: 100%;
+      text-align: center;
+      border-radius: $border-radius;
+      border: 1px solid $border-color;
+      background-color: white;
+      // box-shadow: $panel-shadow;
+      color: theme-color('secondary');
+
+      .label {
+        color: inherit;
+      }
+
+      @include hover-focus {
+        color: inherit; //theme-color('dark');
+      }
     }
+  }
+
+  input[type="file"] {
+    opacity: 0; // invisible but it's there!
+    top: 0;
+    position: absolute;
   }
 
   .preview-item {
@@ -41,7 +56,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     // img {

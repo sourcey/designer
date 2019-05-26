@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import IpcServer from './ipc-server'
 import Hooks from  './hooks'
-import { randomString } from './utils'
+import { randomString, mergeSpecDefaults, sortItemsBy } from './utils'
 import axios from 'axios'
 import buildURL from 'axios/lib/helpers/buildURL'
 
@@ -31,25 +31,13 @@ export const store = {
   // Spec
   // --------------------------------------------------
 
-  hasPages () {
-    return !!this.state.spec.pages //this.state.metadata.find(item => !!item.page)
-  },
-
-  hasCreatablePages () {
-    return !!Object.values(this.state.spec.pages).find(x => x.creatable)
-  },
-
-  getPageSpec (name) {
-    if (!this.state.spec.pages[name])
-      throw Error('No page spec for: ' + name)
-    return this.state.spec.pages[name]
-  },
-
-  getLayoutSpec (name) {
-    if (!this.state.spec.layouts[name])
-      throw Error('No layout spec for: ' + name)
-    return this.state.spec.layouts[name]
-  },
+  // hasPages () {
+  //   return !!this.state.spec.pages //this.state.metadata.find(item => !!item.page)
+  // },
+  //
+  // hasCreatablePages () {
+  //   return !!Object.values(this.state.spec.pages).find(x => x.creatable)
+  // },
 
   getElementSpec (name) {
     if (!this.state.spec.elements[name])
@@ -60,22 +48,6 @@ export const store = {
 
   // Metadata
   // --------------------------------------------------
-
-  mergeSpecDefaults (item, spec) {
-    if (!item.id)
-      item.id = item.name + '-' + randomString(8)
-    if (!item.data)
-      item.data = {}
-    if (spec.properties) {
-      Object.keys(spec.properties).forEach(x => {
-        if (typeof(item.data[x]) === 'undefined' && typeof(spec.properties[x].default) !== 'undefined') {
-          item.data[x] = spec.properties[x].default
-        }
-      })
-    }
-
-    return item
-  },
 
   createElementData (name, section, data) {
     const spec = this.getElementSpec(name)
@@ -88,7 +60,7 @@ export const store = {
     }
 
     // Merge spec defaults into element data
-    this.mergeSpecDefaults(element, spec)
+    mergeSpecDefaults(element, spec)
 
     // Execute create actions
     Hooks.executeCreate (spec, element)
@@ -105,19 +77,8 @@ export const store = {
     return element
   },
 
-  getElementsSortedByCategory () {
-    const res = {}
-    Object.keys(this.state.spec.elements).forEach(x => {
-      const elem = this.state.spec.elements[x]
-      if (elem.category) {
-        if (!res[elem.category]) {
-          res[elem.category] = []
-        }
-        elem.name = x
-        res[elem.category].push(elem)
-      }
-    })
-    return res
+  elementsSortedByCategory () {
+    return sortItemsBy(this.state.spec.elements, 'category')
   },
 
   verifyMetadata() {

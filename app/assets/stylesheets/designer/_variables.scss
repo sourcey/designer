@@ -13,20 +13,16 @@ $yellow:  #FFD043 !default;
 $green:   #3ECF8E !default;
 $gray:    #C0C6D4 !default;
 
-
 $link-color: $purple !default;
 $border-color: #eaeaea !default;
 $border-color-light: #f4f2f8 !default;
 
-// $border-color: #eaeaea;
-// $gray-section-background: #f4f2f8; // #F8F9FD;
-
 $designer-input-line-height: 1.75 !default;
 $designer-input-height: calc(1.75em + 0.75rem + 2px) !default;
-$designer-sidebar-background-color: #F8F9FD !default;
-$designer-sidebar-section-padding-x: 1rem !default;
+$designer-sidebar-background-color: #f3f2f9 !default;
+$designer-sidebar-section-padding-x: 1.25rem !default;
 $designer-sidebar-section-padding-y: .75rem !default;
-$designer-sidebar-section-padding: $designer-sidebar-section-padding-y $designer-sidebar-section-padding-x !default;
+$designer-sidebar-section-padding: $designer-sidebar-section-padding-y $designer-sidebar-section-padding-x !default; //1rem; //
 $designer-sidebar-item-padding-y: .5rem !default;
 
 

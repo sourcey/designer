@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export function debounce (func, immediate = false) {
   let timeout
   return function () {
@@ -69,7 +71,55 @@ export function pick(object, keys) {
   }, {})
 }
 
+export function clone(object) {
+  // NOTE: Use JSON serialization to clean references
+  return JSON.parse(JSON.stringify(object))
+}
+
 export function isObject(object) {
   const type = typeof object
   return type === 'function' || type === 'object' && !!object;
+}
+
+export function mergeSpecDefaults (item, spec) {
+  if (!item.id)
+    item.id = item.name + '-' + randomString(8)
+  if (!item.data)
+    item.data = {}
+  if (spec.properties) {
+    Object.keys(spec.properties).forEach(x => {
+      if (typeof(item.data[x]) === 'undefined') {
+        if (typeof(spec.properties[x].default) !== 'undefined')
+          item.data[x] = spec.properties[x].default
+        else
+          // NOTE: Initializing to null if there is no default is important
+          // in order to acheive reactivity with newly added items.
+          item.data[x] = null
+      }
+    })
+  }
+  if (spec.data) {
+    Object.assign(item.data, spec.data)
+  }
+  // if (spec.items) {
+  //   if (!item.items)
+  //     item.items = []
+  //   item.items.push(...spec.items)
+  // }
+  return item
+}
+
+export function sortItemsBy (items, member) {
+  const res = {}
+  Object.keys(items).forEach(x => {
+    const elem = items[x]
+    if (elem[member]) {
+      if (!res[elem[member]]) {
+        res[elem[member]] = []
+      }
+      elem.name = x
+      res[elem[member]].push(elem)
+    }
+  })
+  return res
 }

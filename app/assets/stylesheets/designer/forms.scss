@@ -1,32 +1,96 @@
 #designer {
 
-  .form-control {
-    background-color: white;
-  }
-
-  .form-check {
-    // background: white;
-    margin: 0;
-    // padding: .5rem 1rem .5rem 2.5rem;
-    padding-left: 1.5rem;
+  .form-group {
+    position: relative;
+    margin-bottom: 0;
+    // min-height: $designer-input-height;
+    min-height: 1.5rem;
 
     label {
-      font-size: $font-size-sm;
-      // font-weight: 600;
-      // letter-spacing: 2px;
-      // text-transform: uppercase;
+      font-size: .775rem;
+      font-weight: 600;
+      margin-bottom: 0.375rem;
     }
-    // border-bottom: 1px solid $border-color-light;
-    //
-    // &:last-child {
-    //   border-bottom: 0;
-    // }
+
+    &.form-row {
+      label {
+        margin: 0;
+      }
+    }
+
+    .form-control {
+      background-color: white;
+    }
+
+    .col-form-label {
+      padding-top: 0; // calc(0.375rem + 1px);
+      padding-bottom: 0; // calc(0.375rem + 1px);
+      margin-bottom: 0;
+      line-height: inherit;
+    }
+
+    input.transparent {
+      background: transparent !important;
+      border: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      appearance: none !important;
+    }
+
+    .dropdown-label {
+      cursor: pointer;
+      // padding-right: .2rem;
+      margin: 0 !important;
+      width: 100%;
+      @include flex-align(center);
+
+      .dropdown-label-text {
+        @include flex-fill;
+      }
+    }
   }
 
-  // Right aligned custom controls without labels
+  // .col-form-label {
+  //   line-height: 1.4;
+  //   padding: 0;
+  //   // min-height: $designer-input-height;
+  //   // line-height: $designer-input-line-height;
+  //
+  //   @include media-breakpoint-down(lg) {
+  //     min-height: auto;
+  //     padding-top: 0;
+  //     padding-bottom: .25rem;
+  //   }
+  // }
+
+  // .form-check {
+  //   margin: 0;
+  //   padding-left: 1.5rem;
+  // }
+  //
+  //   // background: white;
+  //   // padding: .5rem 1rem .5rem 2.5rem;
+  //
+  //   // label {
+  //   //   font-size: $font-size-sm;
+  //   //   // font-weight: 600;
+  //   //   // letter-spacing: 2px;
+  //   //   // text-transform: uppercase;
+  //   // }
+  //   // border-bottom: 1px solid $border-color-light;
+  //   //
+  //   // &:last-child {
+  //   //   border-bottom: 0;
+  //   // }
+  // }
+
+  // == Right aligned bootstrap custom controls
+
   .custom-control {
     padding-left: 0;
-    width: 1.5rem;
+    width: 1.15rem;
 
     .custom-control-label {
       &:before,
@@ -34,6 +98,5 @@
         left: 0;
       }
     }
-
   }
 }

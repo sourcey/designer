@@ -4,7 +4,7 @@
   header.pt-15
     h2 Media Gallery
     button.btn.btn-sm.btn-success.btn-upload
-      i.fas.fa-plus
+      designer-icon(name='plus')
       span Upload
       input.input-file(type='file' multiple='' accept="image/*" @change='filesChange')
   table.table.table-hover
