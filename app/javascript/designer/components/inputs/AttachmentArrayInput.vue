@@ -1,16 +1,14 @@
 <template lang="pug">
-.item-wrap.attachment-input.attachment-array-input
+.item-wrap.designer-attachment-input.attachment-array-input
   .form-group
-    label.form-label.d-block(v-if='spec.label !== false' :for="'input-' + name") {{ inputLabel }}
-    //- label.text-btn.text-success.btn-upload
-    small.text-muted.font-italic(v-if='validateMax') Maximum {{ spec.validate.max }} images
+    label.form-label.d-block(v-if='spec.label !== false' :for='inputId') {{ inputLabel }}
+    small.text-muted.font-italic(v-if='validateMax') Maximum {{ spec.max }} images
     div(v-else)
       label.btn-upload.dropzone.p-1(:for='inputId')
         designer-icon.mb-025(name='upload-cloud' size='32')
         .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
   .form-row(v-if='attachments.length')
-    //- .preview-items.clearfix.mt-1
     .col-4.col-lg-3(v-for='(attachment, index) in attachments')
       .preview-item.mt-05
         .overlay.center-container.h-100
@@ -19,7 +17,6 @@
           .loader.spinner-border(v-else-if='!attachment.key' role='status')
             span.sr-only Loading...
         a.delete(href='#' @click.prevent='removeAttachment(attachment)')
-        //- i.fas.fa-times
         img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')
         img.img-fluid(v-else-if='attachment.key' :src='designerStore.attachmentThumbnailUrl(attachment)')
         img.img-fluid(v-else-if='attachment.url' :src='attachment.url')
@@ -52,9 +49,8 @@ export default {
   },
   computed: {
     validateMax () {
-      if (this.spec.validate &&
-        this.spec.validate.max &&
-        this.attachments.length >= this.spec.validate.max)
+      if (this.spec.max &&
+        this.attachments.length >= this.spec.max)
         return true
       return false
     },
@@ -65,7 +61,7 @@ export default {
 
       Array.from(event.target.files).forEach(file => {
         if (this.validateMax) {
-          alert(`You've reached the maximum of ${this.spec.validate.max} images for this element.`)
+          alert(`You've reached the maximum of ${this.spec.max} images for this element.`)
           return
         }
 
@@ -99,7 +95,7 @@ export default {
       // HACK: Calling `push` or `splice` on the array is not triggering reactivity
       // across frame borders, but reassigning the instance does the trick.
       this.value = this.attachments.map(attachment => Attachments.serialize(attachment))
-      this.$emit('update', this.name, this.value)
+      this.emitUpdate()
     },
     removeAttachment (attachment) {
       if (confirm("Are you sure?")) {
@@ -132,7 +128,7 @@ export default {
         // }
 
         this.emitUpdate()
-        // this.$emit('update', this.name, this.value)
+        // this.emitUpdate()
 
         // HACK: Save when a image is deleted or it may be lost in space
         // this.designerStore.save(this)

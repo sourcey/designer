@@ -1,15 +1,7 @@
 <template lang="pug">
-.item-wrap.attachment-input.attachment-single-input
-  //-
-    <br>name: >>>
-    <br>spec: >>>
-    <br>{{spec}}
-    <br>spec type: >>>
-    <br>{{spec.type}}
-    <br>object: >>>
-    <br>{{object}}
+.item-wrap.designer-attachment-input.attachment-single-input
   .form-group
-    label.form-label.d-block(v-if='spec.label !== false' :for="'input-' + name") {{ inputLabel }}
+    label.form-label.d-block(v-if='spec.label !== false' :for='inputId') {{ inputLabel }}
     .preview-item(v-if='attachment')
       .overlay.center-container.h-100
         .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
@@ -27,12 +19,6 @@
         designer-icon.mb-025(name='upload-cloud' size='32')
         .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
-    //- button.btn
-      //- .btn-sm.btn-outline-success.btn-upload(v-else)
-      designer-icon(name='plus')
-      span Upload
-      input.input-file(type='file' :accept="spec.accept || 'image/*'", :name='name' @change='filesChange')
-  //- .preview-items.clearfix.mt-1
 </template>
 
 <script>
@@ -46,17 +32,11 @@ export default {
   data() {
     return {
       // object: this.item,
-      attachment: this.value // this.item && typeof(this.item[this.name]) === 'object' ? this.item[this.name] : null
+      attachment: null // this.item && typeof(this.item[this.name]) === 'object' ? this.item[this.name] : null
     }
   },
   mounted () {
-    // this.attachment = this.value
-    // if (!Array.isArray(this.value)) {
-    //   this.value = []
-    // } else {
-    //   this.value = this.value.filter(attachment => attachment.key)
-    // }
-    // this.value.forEach(attachment => this.attachments.push(attachment))
+    this.attachment = this.value
   },
   methods: {
     filesChange(event) {
@@ -100,7 +80,7 @@ export default {
           Attachments.destroy(attachment)
         this.value = null
         this.attachment = null
-        this.$emit('update', this.name, this.value)
+        this.emitUpdate()
 
         // HACK: Save when a new image is uploaded or it may be lost in space
         //this.designerStore.save(this)

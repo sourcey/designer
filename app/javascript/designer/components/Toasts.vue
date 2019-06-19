@@ -1,5 +1,5 @@
 <template lang="pug">
-#designer-toasts
+#toasts
   b-alert.mb-025(v-for='(toast, index) in toasts' v-bind:key='index'
       :variant='toast.variant'
       :show='toast.timeout'
@@ -46,3 +46,17 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+#toasts {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0 .5rem .5rem 0;
+  z-index: 2001;
+
+  .alert {
+    min-width: 275px;
+  }
+}
+</style>

@@ -9,11 +9,11 @@
     //- (v-if="spec.type === 'string' && spec.multiline")
     //- a.float-right(href='#' @click="openMarkdownEditor()")
       i.fa.fa-edit
-    label.form-label(v-if='spec.label !== false' :for="inputId" v-b-tooltip :title='spec.hint') {{ inputLabel }}
-    textarea.form-control(:id="inputId" ref='textarea' rows='5'
+    label.form-label(v-if='spec.label !== false' :for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+    textarea.form-control(:id='inputId' ref='textarea' rows='5'
         v-model='object[name]'
         :placeholder='spec.placeholder'
-        @focusin="emitSelect"
+        @focusin='emitSelect'
         @input="$emit('update', name, object[name])")
 </template>
 

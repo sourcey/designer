@@ -1,22 +1,23 @@
 <template lang="pug">
-.item-wrap.select-input
+.item-wrap.designer-select-input
   .form-group
+    a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     //- div {{ name}}
     //- div {{ value}}
     //- div {{ spec}}
-    label.dropdown-label(:for="inputId" v-b-tooltip :title='spec.hint')
+    label.dropdown-label(:for='inputId' v-b-tooltip :title='spec.hint')
       .dropdown-label-text
         | {{ inputLabel }}
-        span(v-if="value") : {{ displayValue }}
+        span(v-if='displayValue') : {{ displayValue }}
       icon(name='caret-down' size='16')
     //- .form-control
-    select(:id="inputId"
+    select(:id='inputId'
         v-model='value'
         :class="{'is-invalid': errorMessage}"
-        @focusin="emitSelect"
-        @change="emitUpdate")
+        @focusin='emitSelect'
+        @change='emitUpdate')
       option(v-if='!spec.required' value='') Select an option
-      option(v-for='(val, index) in spec.enum' :value='itemValue(val)') {{ itemLabel(val) }}
+      option(v-for='(label, key) in spec.options' :value='typeof(key) === "string" ? key : label') {{ label }}
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 
@@ -28,26 +29,8 @@ export default {
   extends: Input,
   computed: {
     displayValue () {
-      const value = this.item[this.name]
-      if (this.spec.enum) {
-        for (let index in this.spec.enum) {
-          const option = this.spec.enum[index]
-          if (value === index)
-            return value
-          else if (option[value])
-            return option[value]
-        }
-      }
-      return value
+      return isObject(this.spec.options) ? this.spec.options[this.value] : this.value
     },
-  },
-  methods: {
-    itemValue (item) {
-      return isObject(item) ? Object.keys(item)[0] : item
-    },
-    itemLabel (item) {
-      return isObject(item) ? Object.keys(item)[1] : item
-    }
   }
 }
 </script>

@@ -1,8 +1,8 @@
 <template lang="pug">
-#gallery.attachment-input
+#gallery.designer-attachment-input
   //- div {{ attachments }}
   header.pt-15
-    h2 Media Gallery
+    .form-title Media Gallery
     button.btn.btn-sm.btn-success.btn-upload
       designer-icon(name='plus')
       span Upload

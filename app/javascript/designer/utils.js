@@ -21,11 +21,13 @@ export function classify (str) {
 }
 
 export function dasherize (str) {
-  return str.replace(/([A-Z_])/g, ($1) => { return '-' + $1.toLowerCase() })
+  return str.replace(/[\W_]+/g,'-').toLowerCase()
+  // return str.replace(/([A-Z_])/g, ($1) => { return '-' + $1.toLowerCase() })
 }
 
 export function underscore (str) {
-  return str.replace(/([A-Z-])/g, ($1) => { return '_' + $1.toLowerCase() })
+  return str.replace(/[\W-]+/g,'_').toLowerCase()
+  // return str.replace(/([A-Z-])/g, ($1) => { return '_' + $1.toLowerCase() })
 }
 
 export function titleize (str) {
@@ -81,6 +83,19 @@ export function isObject(object) {
   return type === 'function' || type === 'object' && !!object;
 }
 
+export function copyValue(value) {
+  if (isObject(value))
+    return clone(value)
+  else if (typeof value === 'string')
+    return String(value)
+  return value
+}
+
+export function sanitizeDecimal (value) {
+  // if (typeof(value) !=)
+  return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
+}
+
 export function mergeSpecDefaults (item, spec) {
   if (!item.id)
     item.id = item.name + '-' + randomString(8)
@@ -122,4 +137,15 @@ export function sortItemsBy (items, member) {
     }
   })
   return res
+}
+
+export function mergeObject (target, source) {
+  Object.keys(source).forEach(key => { Vue.set(target, key, source[key]) })
+  return target
+}
+
+export function resetObject (target, source) {
+  Object.keys(target).forEach(key => { Vue.delete(target, key) })
+  if (source)
+    return mergeObject(target, source)
 }

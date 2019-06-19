@@ -15,8 +15,8 @@ div#designer
         //- .tab-pane
         //- div {{ designerStore.hasPages() }}
         //- .pages(v-if='designerStore.hasPages()')
-          header.pt-15
-            h2 My pages
+          header.form-header.pt-15
+            .form-title My pages
             button.btn.btn-sm.btn-success(v-if='designerStore.hasCreatablePages()' @click='designerStore.createDefaultPage()')
               i.fas.fa-plus
               span Page
@@ -29,8 +29,8 @@ div#designer
                 @remove='removePage(item)')
         .elements
           //- (v-else)
-          header.pt-15
-            h2 Page designer
+          header.form-header.pt-15
+            .form-title Page designer
             //- button.btn.btn-sm.btn-success(@click='createDefaultPage')
               i.fas.fa-plus
               | Page
@@ -38,7 +38,7 @@ div#designer
               template(slot='button-content')
                 i.fas.fa-plus
                 span Element
-                //- b-dropdown-header {{ sectionName }}
+                //- b-dropdown-header.form-header {{ sectionName }}
                 //- b-dropdown-divider
               b-dropdown-item(v-for='(element, elementName) in designerState.spec.elements'
                 :key='elementName' @click='createElement(elementName)') {{ element.label }}
@@ -80,8 +80,8 @@ div#designer
         component(:is="'ResourceForm'" :resource='designerState.resource' :spec='form')
       #designer-elements.tab-pane
         .pages(v-if='hasPages')
-          header.pt-15
-            h2 My pages
+          header.form-header.pt-15
+            .form-title My pages
             button.btn.btn-sm.btn-success(@click='createDefaultPage' v-if='hasCreatablePages')
               i.fas.fa-plus
               | Page

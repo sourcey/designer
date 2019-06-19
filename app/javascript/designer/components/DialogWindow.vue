@@ -1,16 +1,17 @@
 <template lang="pug">
-.dialog-window(
-    :id='id'
-    :style='dialogStyle'
-    :class='{"dragging": dragging}')
-  .dialog-overlay(ref='overlay' @click='onOverlayClick')
-    //:class="{ 'show': show, 'loading': loading }"
-  .dialog-header(v-if='title' @mousedown='mouseDown')
-    .title {{title}}
-  .dialog-body.flex-fill(:class='bodyClass')
-    slot
-      .blank-body
-  slot(name='footer')
+.dialog(:id='id' :style='overlayStyle' @click='onOverlayClick')
+  //- .dialog-overlay(ref='overlay' @click='onOverlayClick')
+  //- :class="{ 'show': show, 'loading': loading }"
+  .dialog-window(
+      ref='window'
+      :style='dialogStyle'
+      :class='[windowClass, {"dragging": dragging}]')
+    .dialog-header(v-if='title' @mousedown='mouseDown')
+      .title {{title}}
+    .dialog-body.flex-fill(:class='bodyClass')
+      slot
+        .blank-body
+    slot(name='footer')
 </template>
 
 <script>
@@ -30,7 +31,9 @@ export default {
       // drag: true,
       centered: false,
       dragging: false,
-      bodyClass: '',
+      bodyClass: undefined,
+      windowClass: undefined,
+      overlayStyle: {},
       // pX: 0,
       // pY: 0,
       availableOptions: [
@@ -39,7 +42,9 @@ export default {
         'width',
         'height',
         'centered',
-        'bodyClass'
+        'bodyClass',
+        'windowClass',
+        'overlayStyle'
       ]
     }
   },
@@ -91,7 +96,7 @@ export default {
     onOverlayClick(event) {
 
       // Close when overlay is clicked
-      if (event.target === this.$refs.overlay)
+      if (event.target === this.$el)
         this.close()
     },
     mouseOut (event) {
@@ -168,8 +173,8 @@ export default {
       }
       ww = ww || this.$parent.$el.clientWidth
       wh = wh || this.$parent.$el.clientHeight
-      this.left = (ww / 2) - (this.$el.clientWidth / 2)
-      this.top = (wh / 2) - (this.$el.clientHeight / 2)
+      this.left = (ww / 2) - (this.$refs.window.clientWidth / 2)
+      this.top = (wh / 2) - (this.$refs.window.clientHeight / 2)
     },
     close () {
       this.emit('close')
@@ -188,27 +193,28 @@ export default {
         top: this.top,
         x: this.left,
         y: this.top,
-        width: this.$el.clientWidth,
-        height: this.$el.clientHeight
+        width: this.$refs.window.clientWidth,
+        height: this.$refs.window.clientHeight
       }
       this.$emit(eventName, data)
     },
     autoPosition () {
 
       // Fix left position
-      if (this.left && this.$el.clientWidth) {
+      if (this.left && this.$refs.window.clientWidth) {
         const viewWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-        const leftOffset = (this.left + this.$el.clientWidth) - viewWidth //  + document.body.scrollLeft
+        const leftOffset = (this.left + this.$refs.window.clientWidth) - viewWidth //  + document.body.scrollLeft
+        console.log('dialog window: auto bottom position', this.left, viewWidth, leftOffset)
         if (leftOffset > 0)
           this.left -= leftOffset + 20
       }
 
       // Fix bottom position
-      if (this.$el.clientHeight) { // this.top && && this.options.height
-        const rect = this.$el.getBoundingClientRect()
+      if (this.$refs.window.clientHeight) { // this.top && && this.options.height
+        const rect = this.$refs.window.getBoundingClientRect()
         const viewHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-        // const topOffset = (this.top + this.$el.clientHeight) - (viewHeight) //  + document.body.scrollTop
-        const topOffset = (rect.top + this.$el.clientHeight) - (viewHeight) //  + document.body.scrollTop
+        // const topOffset = (this.top + this.$refs.window.clientHeight) - (viewHeight) //  + document.body.scrollTop
+        const topOffset = (rect.top + this.$refs.window.clientHeight) - (viewHeight) //  + document.body.scrollTop
         console.log('dialog window: auto bottom position', rect, viewHeight, topOffset)
         if (topOffset > 0) {
           if (!this.top) this.top = 0
@@ -239,5 +245,4 @@ export default {
 <style scoped lang="scss">
 // @import 'designer/app/assets/stylesheets/designer/_variables';
 // @import 'stylesheets/_dashboard-theme';
-
 </style>

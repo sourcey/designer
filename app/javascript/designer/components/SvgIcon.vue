@@ -1,10 +1,9 @@
 <template>
-  <span class="icon">
-    <!-- :class="[`icon-${name}`, `icon-${size}`]" -->
+  <i class="icon" :class="`icon-${name}`">
     <svg :style="svgStyle">
       <use :xlink:href="'#' + name"></use>
     </svg>
-  </span>
+  </i>
 </template>
 
 <script>
@@ -29,9 +28,12 @@ export default {
 
 <style lang="scss" scoped>
 .icon {
-  display: inline-block;
-  // vertical-align: middle;
-  line-height: 1;
+  // display: inline-block;
+  // line-height: 1; // throws out alignment with inline text
+  // vertical-align: middle; // necessary for buttons and navbar
+
+  display: inline-flex;
+  align-self: center;
   fill: currentColor;
 
   svg {

@@ -1,13 +1,13 @@
 <template lang="pug">
-draggable(v-on='$listeners', v-model='object', :options="{handle:'.drag-handle-child'}", @update='onUpdate')
+draggable(v-on='$listeners' v-model='object' :options="{handle:'.drag-handle-child'}" @update='onUpdate')
   .section-heading.d-flex.align-items-center
     .title.flex-fill {{ spec.label || spec.name }}
-    a.btn.btn-sm.btn-success.mr-2.my-2(@click.prevent='object.push({})', href='#') Add
+    a.btn.btn-sm.btn-success.mr-2.my-2(@click.prevent='object.push({})' href='#') Add
   .card.child(v-for='(data, index) in object')
     .card-header.drag-handle-child
-      a.btn.btn-sm.float-right(@click.prevent='object.splice(index, 1)', href='#')
+      a.btn.btn-sm.float-right(@click.prevent='object.splice(index, 1)' href='#')
         i.fa.fa-trash
-      a.title(data-toggle='collapse', :data-target="'#collapse-' + index", href='#')
+      a.title(data-toggle='collapse' :data-target="'#collapse-' + index" href='#')
         span(v-if='data.title') {{ data.title }}
         span(v-else-if='data.label') {{ data.label }}
         span(v-else-if='data.id') Item {{ data.id }}
@@ -24,33 +24,36 @@ draggable(v-on='$listeners', v-model='object', :options="{handle:'.drag-handle-c
 </template>
 
 <script>
+import Input from '../../mixins/input'
 import DynamicInput from '../DynamicInput.vue'
 import Draggable from 'vuedraggable'
 
+
 export default {
-  props: {
-    item: {
-      type: Object
-    },
-    scope: {
-      default: 'items',
-      type: String
-    },
-    spec: {
-      type: Object
-    }
-  },
+  extends: Input,
+  // props: {
+  //   item: {
+  //     type: Object
+  //   },
+  //   name: {
+  //     default: 'items',
+  //     type: String
+  //   },
+  //   spec: {
+  //     type: Object
+  //   }
+  // },
   components: {
     DynamicInput,
     Draggable
   },
   created() {
-    // console.log('SortableArrayInput', this, this.object, this.scope, this.spec)
+    // console.log('SortableArrayInput', this, this.object, this.name, this.spec)
   },
   data() {
     return {
-      id: this.randomString(10),
-      object: this.item && this.item[this.scope] ? this.item[this.scope] : []
+      // id: this.randomString(10),
+      object: this.item && this.item[this.name] ? this.item[this.name] : []
     }
   },
   methods: {
@@ -58,7 +61,7 @@ export default {
       // console.log('FormList onUpdate', this)
 
       // FIXME: This is evil, but can't seem to to trigger the right event
-      this.$set(this.$parent.item.values, this.scope, this.object)
+      this.$set(this.$parent.item.values, this.name, this.object)
     }
   }
 }

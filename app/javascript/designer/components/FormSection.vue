@@ -1,5 +1,5 @@
 <template lang="pug">
-section
+section.form-section
   slot(name='start')
   dynamic-input(v-for='(property, name) in spec.properties',
       v-if='!property.hidden',
@@ -36,7 +36,7 @@ export default {
     }
   },
   mounted() {
-    console.log('form section: mounted', this, this.item, this.spec)
+    // console.log('form section: mounted', this, this.item, this.spec)
 
     // Set the item ID if not already set.
     // This is a fallback for when this component is used outside of the designer.

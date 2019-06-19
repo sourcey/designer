@@ -5,60 +5,78 @@
     :spec='spec'
     :parent='parent'
     :root='root'
+    v-show='visible'
     v-on='$listeners')
 </template>
 
 <script>
 export default {
+  name: 'dynamic-input',
   props: ['spec', 'name', 'item', 'parent', 'root'],
   computed: {
+    visible () {
+      if (this.spec.hidden)
+        return false
+      if (this.spec.if) {
+        // match value exists
+        if (typeof(this.spec.if) === 'string') {
+          // console.log('dynamic input: visible: if exists', this.spec.if, this.item[this.spec.if])
+          return !!this.item[this.spec.if]
+        }
+
+        const key = Object.keys(this.spec.if)[0]
+        const val = this.spec.if[key]
+
+        // match exact value
+        if (typeof(val) === 'string') {
+          // console.log('dynamic input: visible: if matches', val, this.item[key])
+          return this.item[key] === val
+        }
+
+        else if (Array.isArray(val)) {
+          // console.log('dynamic input: visible: if contains', val, this.item[key])
+          return this.item[key] && val.includes(this.item[key])
+        }
+
+        // console.log('dynamic input: visible: no match')
+        return false
+      }
+      if (this.spec.unless)
+        return !this.item[this.spec.unless]
+      return true
+    },
     componentName () {
       if (this.spec.type === 'array' && this.spec.properties)
         return 'SortableArrayInput'
       else if (this.spec.type === 'array')
         return 'TagsInput'
+      else if (this.spec.options)
+        return 'SelectInput'
+      else if (this.spec.type === 'attachment' && this.spec.input === 'blob')
+        return 'AttachmentBlobInput'
       else if (this.spec.type === 'attachment')
         return 'AttachmentInput'
       else if (this.spec.type === 'attachment_array')
         return 'AttachmentArrayInput'
-      else if (this.spec.type === 'attachment_blob')
-        return 'AttachmentBlobInput'
       else if (this.spec.type === 'color')
         return 'ColorInput'
       else if (this.spec.type === 'boolean')
         return 'CheckboxInput'
       else if (this.spec.type === 'font')
         return 'FontInput'
-      else if (this.spec.enum)
-        return 'SelectInput'
       else if (this.spec.input === 'range')
         return 'RangeSliderInput'
-      else if (this.spec.type === 'string' && this.spec.multiline)
+      else if (this.spec.type === 'string' && this.spec.input === 'textarea')
         return 'TextareaInput'
-      // else if (this.spec.type === 'string')
-      //   return 'TextInput'
-      // else if (this.spec.type === 'string' && this.spec.editor === 'trix')
-      //   return 'TrixTextInput'
-      // else if (this.spec.type === 'string' && this.spec.editor === 'markdown')
-      //   return 'MarkdownTextInput'
       else
         return 'TextInput'
     },
     loadComponent() {
+      const component = this.designerStore.loadInputComponent(this.spec)
+      if (component)
+        return component
       return () => import(`./inputs/${this.componentName}.vue`)
     }
-  },
-  // created () {
-  //   console.log('dynamic input: created', this.$listeners)
-  // },
-  // methods: {
-  //   onSelect(name) {
-  //     console.log('dynamic input: on select', name)
-  //   },
-  //   onUpdate(name, value) {
-  //     console.log('dynamic input: on update', name, value)
-  //     // this.updateElementProperty(this.item, this.spec, name, value)
-  //   }
-  // }
+  }
 }
 </script>

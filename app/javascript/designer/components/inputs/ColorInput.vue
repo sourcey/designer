@@ -1,9 +1,11 @@
 <template lang="pug">
-.item-wrap.color-input
+.item-wrap.designer-color-input
+  //- div {{ value }}
   .form-group.form-row.align-items-center
+    a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     label.form-label.col-10.col-form-label(:for="'input-' + name") {{ inputLabel }}
     //- .col
-      input.form-control(type='text', :value='object', @focusin="emitSelect", @change="$emit('update', name, object = $event.target.value)")
+      input.form-control(type='text', :value='object', @focusin='emitSelect', @change="$emit('update', name, object = $event.target.value)")
       // v-model="object[name]"
     .col
       //- verte(display='picker')v-if='isShown'
@@ -13,7 +15,7 @@
           display='picker'
           picker='square'
           menuPosition='right'
-          :value='object'
+          :value='value'
           :enableAlpha='false'
           @input='onPickerChange')
         // :recentColors="null"
@@ -32,10 +34,10 @@ export default {
   data() {
     return {
       loaded: false,
-      object: this.item && this.item[this.name] ?
-        this.item[this.name] :
-        this.$set(this.item, this.name, '') // make it reactive
-        // this.spec.default
+      // object: this.item && this.item[this.name] ?
+      //   this.item[this.name] :
+      //   this.$set(this.item, this.name, '') // make it reactive
+      //   // this.spec.default
     }
   },
   mounted () {
@@ -48,7 +50,7 @@ export default {
         const picker = this.$refs.verte.$children[0]
         picker.pickerRect = picker.$refs.canvas.getBoundingClientRect()
         picker.updateSquareColors()
-        picker.handleValue(this.object)
+        picker.handleValue(this.value)
       })
     })
   },
@@ -63,8 +65,9 @@ export default {
 
       console.log('color input: picker changed', name, value)
       // this.object[this.name] = value
-      this.object = value
-      this.$emit('update', this.name, value)
+      this.value = value
+      this.emitUpdate()
+      // this.$emit('update', this.name, value)
     }
   }
 }

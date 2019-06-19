@@ -1,8 +1,3 @@
-// @import 'designer/variables';
-// @import 'designer/mixins';
-// @import 'designer/utilities';
-// @import 'designer/buttons';
-// @import 'designer/toasts';
 @import 'designer/*';
 @import 'designer/inputs/*';
 
@@ -17,7 +12,6 @@ html, body {
   width: 100%;
   height: 100%;
   height: 100vh;
-  // overflow: hidden;
   xtouch-action: none;
 
   .panel-left {
@@ -49,14 +43,14 @@ html, body {
   }
 
   //
-  // Preview iFrame
+  // == Preview iFrame
 
   #designer-preview {
     border: none;
   }
 
   //
-  // Sidebar
+  // == Sidebar
 
   #designer-sidebar {
     position: relative;
@@ -79,18 +73,14 @@ html, body {
       flex-direction: column;
       height: 100%;
 
-      // .designer-tabs {
-        // background: #182130; //white;
-        // background: white;
-
       .nav-tabs {
         background: theme-color-level('primary', -9);
         border-bottom-color: theme-color-level('primary', -6);
-        display: flex;
+        // display: flex;
 
         .nav-item {
           margin-left: -1px;
-          @include flex-fill;
+          // @include flex-fill;
           text-align: center;
 
           &:first-child {
@@ -112,8 +102,7 @@ html, body {
           font-weight: 600;
           border-radius: 0;
           border-top: 0;
-
-          padding: .5rem 0;
+          padding: .5rem $designer-sidebar-section-padding-x;
           // border-color: theme-color-level('primary', -6);
           // color: theme-color-level('primary', -6);
           // theme-color-level($color, 6)
@@ -125,23 +114,12 @@ html, body {
 
           &:active,
           &.active {
-            // color: #182130;
             background-color: $designer-sidebar-background-color;
             border-color: theme-color-level('primary', -6);
             border-bottom-color: $designer-sidebar-background-color;
-            // border-top-color: black;
-            // border-left-color: black;
-            // border-right-color: black;
           }
         }
-
-        // .nav-item:first-child {
-        //   .nav-link {
-        //     border-left: 0;
-        //   }
-        // }
       }
-      // }
 
       .tab-content {
         flex: 1 1 auto;
@@ -149,358 +127,16 @@ html, body {
 
         .tab-pane {
           @include fill-parent;
-
-          // padding-top:
         }
       }
     }
   }
 
-    header {
-      // @extend .d-flex;
-      // // @extend .align-items-end;
-      // @extend .align-items-center;
-      @include flex-align(center);
-      // padding: 1.5rem $designer-sidebar-section-padding-x $designer-sidebar-section-padding-y;
-      padding: 1rem $designer-sidebar-section-padding-x 0;
-      // margin: 1rem 0 .5rem; // cannot use top margin or sliging-form top position will be off
-      // margin-bottom: .5rem;
-      // border-bottom: 1px solid $border-color;
+  //
+  // == Blocks
 
-      // a.btn-back {
-      //   @include link-color($color: inherit);
-      //   // color: inherit;
-      //   padding-right: .75rem;
-      //   font-size: 1.25rem;
-      //   line-height: 1;
-      //   // &:hover {
-      //   //   color: $link-color;
-      //   // }
-      // }
-
-      h1 {
-        @include flex-fill;
-        padding: .75rem 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin: 0;
-        // font-weight: bold;
-        // line-height: 30px;
-        // height: 30px; // height of small button
-        // margin: .5rem 0 .5rem;
-      }
-
-      h2 {
-        @include flex-fill;
-        padding: .75rem 0;
-        font-size: .75rem;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: $gray-600;
-        margin: 0;
-        // height: 30px; // height of small button
-        // line-height: 47px; // position at baseline
-
-        // height: 1.25rem;
-        // line-height: 1.75rem;
-      }
-
-      // + section {
-      //   border-top: 1px solid $border-color;
-      //   // border-bottom: 1px solid $border-color;
-      // }
-    }
-
-    a.back-link {
-      // @include designer-link-color($color: inherit);
-      // color: inherit;
-      color: $gray-700;
-      display: inline-block;
-      padding: 0 $designer-sidebar-section-padding-x;
-      // font-size: 1rem;
-      // padding: $designer-sidebar-item-padding;
-
-      // i {
-      //   // font-size: 1.25rem;
-      //   margin-right: .375rem; //.75rem;
-      // }
-
-      .icon {
-        margin-right: .375rem;
-        transition: all .2s ease-in-out;
-      }
-      // color: inherit;
-      // padding-right: .75rem;
-      // font-size: 1.25rem;
-      // line-height: 1;
-      &:hover {
-        // color: $link-color;
-        color: inherit;
-
-        .icon {
-          transform: translateX(-2px);
-          // margin-right: .375rem;
-        }
-      }
-    }
-
-    // .page-heading {
-    //   @extend .d-flex;
-    //   @extend .align-items-center;
-    //   // margin: 1.25rem 1rem .75rem;
-    //   // margin-top: 1.25rem;
-    //   padding: 1.25rem 1rem .75rem;
-    //   border-bottom: 1px solid $border-color;
-    //
-    //   .title {
-    //     @extend .flex-fill;
-    //     font-size: 1.1rem;
-    //     font-weight: bold;
-    //     // padding-left: 1rem;
-    //   }
-    // }
-
-    //
-    // == Sections
-
-    // .section-heading {
-    //   @extend .d-flex;
-    //   @extend .align-items-center;
-    //   // margin-top: 1.5rem;
-    //   padding: 1.5rem 1rem .75rem;
-    //
-    //   .title {
-    //     @extend .flex-fill;
-    //     font-size: .825rem;
-    //     font-weight: 600;
-    //     letter-spacing: 2px;
-    //     text-transform: uppercase;
-    //   }
-    // }
-
-    section {
-      // background: white;
-      // box-shadow:
-      //     inset 100px 0 100px -75px rgba(0, 0, 0, 0.035),
-      //     inset -100px 0 100px -75px rgba(0, 0, 0, 0.035);
-
-      // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-
-    // box-shadow:
-    //     inset 0px 11px 8px -10px #CCC,
-    //     inset 0px -11px 8px -10px #CCC;
-      // border-top: 1px solid $border-color;
-      // border-bottom: 1px solid $border-color;
-
-      // Take care of those double borders
-      // > :last-child {
-      //   > .section-header {
-      //     border-bottom: 0;
-      //   }
-      // }
-
-      // section {
-      //   border-top: 0;
-      // }
-
-      > * {
-        // border-bottom: 1px solid $border-color-light;
-        // // padding: .5rem 1rem;
-        //
-        // &:last-child {
-        //   border-bottom: 0;
-        // }
-      }
-
-      .section-header {
-        // @extend .d-flex;
-        // @extend .align-items-center;
-        @include flex-align(center);
-        padding: $designer-sidebar-section-padding;
-        border-top: 1px solid $border-color;
-        // margin: 0 $designer-sidebar-section-padding-x;
-        background: white;
-        // background: #f8f8f8;
-        // border-radius: $border-radius * 2;
-
-        .title {
-          // @extend .flex-fill;
-          @include flex-fill;
-          color: $gray-900;
-          font-weight: 600;
-          font-size: .9rem;
-          // line-height: 30px;
-          // min-height: 30px; // height of small button
-          // font-size: 1.1rem;
-          // font-weight: bold;
-          // padding-left: 1rem;.
-        }
-
-        // &:first-child {
-        //   border-top: 1px solid $border-color;
-        // }
-
-        + .collapse-content {
-          border-bottom: 1px solid $border-color;
-        }
-      }
-
-      // .collapsible.expand {
-      //   .section-header {
-      //     // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) inset;
-      //     background: #f8f8f8;
-      //   }
-      // }
-
-
-      form {
-        // border-bottom: 1px solid $border-color-light;
-        // border-bottom: 1px solid $border-color;
-      //   // padding: .5rem 1rem;
-      //
-      //   &:last-child {
-      //     border-bottom: 0;
-      //   }
-        // margin-bottom: $designer-sidebar-section-padding-y;
-      }
-
-      // form,
-      .section-item,
-      .item-wrap {
-        // position: relative;
-        // border-bottom: 1px solid $border-color-light;
-        padding: $designer-sidebar-item-padding-y $designer-sidebar-section-padding-x;
-
-        .item-wrap {
-          padding: 0;
-          // padding-right: 0;
-        }
-
-        &:last-child {
-          border-bottom: 0;
-        }
-      }
-
-      .item-wrap {
-        // background: white;
-        // padding: 0;
-        // padding-right: 0;
-      }
-
-      .no-data {
-        // @extend .text-muted;
-        color: theme-color('secondary');
-        font-size: $font-size-sm;
-        padding: 0 $designer-sidebar-section-padding-x;
-      }
-
-      // .form-control {
-      //   // height: calc(2.25em + 0.75rem + 2px);
-      //   // line-height: 2.25;
-      //   height: $designer-input-height;
-      //   line-height: $designer-input-line-height;
-      //   background: #f8f8f8;
-      //
-      //   &:focus {
-      //     background: white;
-      //   }
-      // }
-
-      // .form-row > .col, .form-row > [class*="col-"] {
-      //   padding-right: 0;
-      //   padding-left: 0;
-      // }
-    // }
-
-    // == Blocks
-
-    .element-items {
-      position: relative;
-      padding: .5rem 0;
-      // background: $designer-sidebar-background-color;
-      // border-top: 0;
-      // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) inset;
-    }
-
-    // .elements,
-    // .pages {
-    //   .element-items {
-    //     position: relative;
-    //     // border-bottom: 1px solid $border-color;
-    //     // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-    //     // box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) inset;
-    //     // .item-wrap {
-    //     //   // background: white;
-    //     //   // padding: 0;
-    //     //   // padding-right: 0;
-    //     // }
-    //   }
-    // }
-
-    //
-    // == Page List
-
-    // #designer-blocks {
-    //   position: relative;
-    //
-    //   // == Forms Style
-    //
-    //   // .card {
-    //   //   border-top: 0;
-    //   //   border-left: 0;
-    //   //   border-right: 0;
-    //   //
-    //   //   .card-header {
-    //   //     padding: $designer-sidebar-section-padding;
-    //   //     border-bottom: 0;
-    //   //   }
-    //   //   .card-body {
-    //   //     padding: 0;
-    //   //   }
-    //   //
-    //   //   // Page card
-    //   //   // &.page-card {
-    //   //   //   .card-header {
-    //   //   //     background-color: #eee;
-    //   //   //   }
-    //   //   // }
-    //   //
-    //   //   // Page card
-    //   //   &.element-card {
-    //   //     .card-header {
-    //   //       background-color: #fdf4d9;
-    //   //     }
-    //   //   }
-    //   //
-    //   //   // &.child {
-    //   //   //   .card-header {
-    //   //   //     background-color: $border-color;
-    //   //   //     padding: .5rem 1rem;
-    //   //   //   }
-    //   //   //   .card-body {
-    //   //   //   }
-    //   //   // }
-    //   // }
-    // }
-
-    // //
-    // // Media Gallery
-    //
-    // #gallery {
-    //   .table-responsive {
-    //     overflow: inherit !important;
-    //   }
-    // }
-    //
-    // //
-    // // Resource Form
-    //
-    // #editor {
-    //   overflow-y: auto !important;
-    //   input, textarea {
-    //     font-size: 1rem;
-    //   }
-    // }
+  .element-items {
+    position: relative;
+    padding: .5rem 0;
   }
 }

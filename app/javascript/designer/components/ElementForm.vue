@@ -4,7 +4,7 @@
 //-   div ----------------------------------
 //-   div {{ JSON.stringify(item) }}
 form(:id='itemId(item)' :class="['block-form', 'collapsible', {'expand': showForm}]" @dragstart='onDragElement')
-  .section-header
+  .item-handle
     span.collapse-caret
       i.fas.fa-caret-right
     a.title(@click.prevent='showForm = !showForm' href='#') {{ item.title || spec.label }}

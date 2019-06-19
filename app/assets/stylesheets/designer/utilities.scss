@@ -21,14 +21,17 @@
   position: relative;
 }
 
+.no-data {
+  color: theme-color('secondary');
+  font-size: $font-size-sm;
+  padding: 0 $designer-sidebar-section-padding-x;
+}
+
+
 // == Center container
 
 .center-container {
-  // @extend .d-flex;
-  // @extend .align-items-center;
-  // @extend .justify-content-center;
   display: flex !important;
-  // @include flex-align(center);
   align-items: center !important; // .align-items-#{value}
   justify-content: center !important; // .justify-content-#{value}
 }

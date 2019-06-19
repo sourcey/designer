@@ -1,58 +1,83 @@
 <template lang="pug">
   form
-    //- div {{ model }}
     div(v-for='(section, sectionName) in spec.sections' :key='sectionName')
-      //- div {{ section, sectionName }}
-      header
-        h2 {{ section.label }}
-      section
+      header.form-header(v-if='section.label')
+        .form-title {{ section.label }}
+      section.form-section
         dynamic-input(v-for='(property, name) in section.properties'
             :key='name'
             :name='name'
             :item='propertyData(property)'
             :spec='property'
-            @update='onUpdate(sectionName, ...arguments)')
+            @update='emitUpdate(sectionName, ...arguments)')
 </template>
 
 <script>
 import Vue from 'vue'
 import DynamicInput from './DynamicInput.vue'
 import IpcServer from '../ipc-server'
+// import { clone, mergeObject } from '../utils'
+
 
 export default {
   props: ['resource', 'spec'],
   components: {
     DynamicInput
   },
-  data() {
-    return {
-      showForm: false,
-      // resourceElements: this.resource && this.resource.elements ? this.resource.elements : [],
-      // resourceData: this.resource && this.resource.data ? this.resource.data : {},
-      // sectionElements: {}
-    }
-  },
-  created() {
-    console.log('resource form', this, this.resource, this.spec)
-  },
-  computed: {
-    model () {
-      return this.resource //this.$deepModel(this.resource)
-    }
+  mounted () {
+    // this.initialValues = clone(this.formValues())
   },
   methods: {
-    propertyData(property) {
-      return property.member ? this.model[property.member] : this.model
+
+    // Get resource values present in the form spec
+    formValues (resource, formName) {
+      const data = {}
+      Object.keys(this.spec.sections).forEach(sectionName => {
+        const section = this.spec.sections[sectionName]
+        for (let name in section.properties) {
+          const prop = section.properties[name]
+          if (prop.member) {
+            if (!data[prop.member])
+              data[prop.member] = {}
+            data[prop.member][name] = this.resource[prop.member][name]
+          } else {
+            data[name] = this.resource[name]
+          }
+        }
+      })
+      return data
     },
-    onUpdate(sectionName, name, value) {
-      const spec = this.spec.sections[sectionName] //.properties
-      console.log('resource form: on update', this.model, spec, name, value)
+    propertyData (property) {
+      return property.member ? this.resource[property.member] : this.resource
+    },
+    emitUpdate (sectionName, name, value) {
+      const spec = this.spec.sections[sectionName].properties[name] //.properties
+      // console.log('resource form: on update', this.resource, spec, name, value)
       this.designerState.unsaved = true
-      IpcServer.updateResourceProperty(this.model, spec, name, value)
-    }
+      IpcServer.updateResourceProperty(this.resource, name, value, spec)
+      this.$emit('update', name, value, spec)
+    },
+    resetInitialValues () {
+      this.callInputs('setInitialValue')
+    },
+    restoreDefaultValues () {
+      this.callInputs('setDefaultValue')
+    },
+    saveValues () {
+      this.callInputs('saveValue')
+    },
+    callInputs (method) {
+      this.$children.forEach(x => {
+        if (x.$options.name === 'dynamic-input') {
+          if (x.$children[0][method]) {
+            x.$children[0][method]()
+          }
+        }
+        else if (x[method]) {
+          x[method]()
+        }
+      })
+    },
   }
 }
 </script>
-
-<!-- <style>
-</style> -->

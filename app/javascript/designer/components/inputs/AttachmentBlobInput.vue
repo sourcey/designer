@@ -1,15 +1,7 @@
 <template lang="pug">
-.item-wrap.attachment-input.attachment-single-input
-  //-
-    <br>name: >>>
-    <br>spec: >>>
-    <br>{{spec}}
-    <br>spec type: >>>
-    <br>{{spec.type}}
-    <br>object: >>>
-    <br>{{object}}
+.item-wrap.designer-attachment-input.attachment-single-input
   .form-group
-    label.form-label.d-block(v-if='spec.label !== false' :for="'input-' + name") {{ inputLabel }}
+    label.form-label.d-block(v-if='spec.label !== false' :for='inputId') {{ inputLabel }}
     .preview-item(v-if='attachment')
       .overlay.center-container.h-100
         .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
@@ -17,8 +9,6 @@
         .loader.spinner-border(v-else-if='!attachment.key' role='status')
           span.sr-only Loading...
       a.delete(href='#' @click.prevent='removeAttachment(attachment)')
-      //- i.fas.fa-times
-      //- span {{ attachment }}
       img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')
       img.img-fluid(v-else-if='attachment.key' :src='designerStore.attachmentThumbnailUrl(attachment)')
       img.img-fluid(v-else-if='attachment.url' :src='attachment.url')
@@ -27,10 +17,6 @@
         designer-icon.mb-025(name='upload-cloud' size='32')
         .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
-    //- button.btn.btn-sm.btn-outline-success.btn-upload(v-else)
-      designer-icon(name='plus')
-      span Upload
-      input.input-file(type='file' :accept="spec.accept || 'image/*'", :name='name' @change='filesChange')
 </template>
 
 <script>
@@ -45,10 +31,11 @@ export default {
   data() {
     return {
       // inputId: this.item.id || randomString(5),
-      attachment: this.value // this.item && typeof(this.value) === 'object' ? this.value : null
+      attachment: null //this.value // this.item && typeof(this.value) === 'object' ? this.value : null
     }
   },
   mounted () {
+    this.attachment = this.value
   },
   methods: {
     filesChange(event) {
@@ -64,7 +51,7 @@ export default {
           .then(() => {
             this.value = Attachments.serialize(attachment)
             this.emitUpdate()
-            // this.$emit('update', this.name, this.value)
+            // this.emitUpdate()
 
             // HACK: Save when an image is uploaded or it may be lost in space
             //this.designerStore.save(this)

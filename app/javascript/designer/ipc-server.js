@@ -14,16 +14,17 @@ export default {
     }
   },
 
-  updateResourceProperty (item, spec, name, value) {
-    const type = spec.properties[name].type
-    console.log('updateResourceProperty', item, spec, type, name, value)
-    if (type == 'font' || type == 'color') {
+  updateResourceProperty (item, name, value, spec) {
+    console.log('updateResourceProperty', item, name, value, spec)
+
+    this.postPreviewMessage('updateResourceProperty', {
+      name: name,
+      value: value,
+      member: spec ? spec.member : null
+    })
+
+    if (spec && (spec.type == 'font' || spec.type == 'color')) {
       this.postPreviewMessage('updateStyle', {
-        name: name,
-        value: value
-      })
-    } else {
-      this.postPreviewMessage('updateResourceProperty', {
         name: name,
         value: value
       })

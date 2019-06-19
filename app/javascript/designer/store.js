@@ -221,6 +221,14 @@ export const store = {
   },
 
 
+  // Inputs
+  // --------------------------------------------------
+
+  // This method privides the ability to override the dynamic input component
+  loadInputComponent (spec) {
+  },
+
+
   // Attachments
   // --------------------------------------------------
 

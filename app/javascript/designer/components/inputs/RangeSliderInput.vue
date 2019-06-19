@@ -1,26 +1,79 @@
 <template lang="pug">
-.item-wrap.range-input
+.item-wrap.designer-range-input
   .form-group
+    //- div {{ value }}
+    a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     .d-flex
-      .range-input-wrap
-        label.flex-fill(:for="inputId" v-b-tooltip :title='spec.hint') {{ inputLabel }}
+      .designer-range-input-wrap
+        label.flex-fill(:for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
         input(type='range'
-            v-model.number='value'
+            v-model.number='decimalValue'
             :min='spec.min'
             :max='spec.max'
-            @input="emitUpdate")
+            :step='spec.step || 1'
+            @input='emitUpdate')
       input.transparent(type='text'
-          v-model.number='value'
+          :value='value'
           :placeholder='spec.placeholder'
-          @focusin="emitSelect"
-          @input="emitUpdate")
+          @focusin='emitSelect(); enableEvents = false'
+          @input='emitUpdate'
+          @blur='enableEvents = true; value = $event.target.value')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 
 <script>
 import Input from '../../mixins/input'
+import { sanitizeDecimal } from '../../utils'
+
 
 export default {
-  extends: Input
+  extends: Input,
+  computed: {
+    decimalValue: {
+      get: function () {
+        // console.log('GET DECIMAL VAL', this.value, sanitizeDecimal(this.value))
+        return sanitizeDecimal(this.value)
+      },
+      set: function (newValue) {
+        // console.log('SET DECIMAL VAL', newValue)
+        this.value = newValue // sanitizeDecimal(newValue)
+      }
+    }
+  },
+  methods: {
+    formatValue (rawValue) {
+      const decimal = sanitizeDecimal(rawValue)
+
+      // While events are enabled (ie. the text input is not focused) we can
+      // mask the value on input
+      if (this.enableEvents && this.spec.unit) {
+        return decimal + this.spec.unit
+      } else {
+        return decimal
+      }
+    },
+    // console.log('set DESIMAL value', this.item, this.name, newValue)
+    // console.log('FORMAT', this.enableEvents, rawValue, decimal)
+    // updateValue () {
+    //   console.log('BLURRRRRRRRRRRR', this.enableEvents)
+    //   this.value = this.value
+    // }
+    // parseValue (value) {
+    //   if (this.format === 'currency' || this.format === 'decimal')
+    //     return sanitizeDecimal(value)
+    //   return value
+    // },
+    // formatValue (value) {
+    //   if (!value)
+    //     return
+    //   // console.log('formatValue', value)
+    //   if (this.format === 'currency')
+    //     return this.formatMoney(sanitizeDecimal(value))
+    //   else if (this.format === 'decimal')
+    //     return this.formatDecimal(sanitizeDecimal(value))
+    //   else
+    //     return value
+    // }
+  }
 }
 </script>

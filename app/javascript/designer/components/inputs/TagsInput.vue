@@ -7,7 +7,7 @@
           :id="'input-' + item.id"
           element-id='tags'
           v-model='item[name]'
-          :existing-tags='tagArrayToObject(spec.enum)'
+          :existing-tags='tagArrayToObject(spec.options)'
           :typeahead='true'
           :typeahead-activation-threshold='0'
           :only-existing-tags='!spec.custom')

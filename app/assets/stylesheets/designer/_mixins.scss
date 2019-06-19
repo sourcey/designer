@@ -54,6 +54,12 @@
   }
 }
 
+@mixin designer-label() {
+  font-size: .775rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
 @mixin flex-fill() {
   flex: 1 1 auto !important; // .flex-fill
 }
@@ -87,4 +93,10 @@
   &:hover {
     outline: 0;
   }
+}
+
+@mixin truncate() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
