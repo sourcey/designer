@@ -19,11 +19,11 @@ $border-color-light: #f4f2f8 !default;
 
 $designer-input-line-height: 1.75 !default;
 $designer-input-height: calc(1.75em + 0.75rem + 2px) !default;
-$designer-sidebar-background-color: #f3f2f9 !default;
-$designer-sidebar-section-padding-x: 2rem !default;
-$designer-sidebar-section-padding-y: .75rem !default;
-$designer-sidebar-section-padding: $designer-sidebar-section-padding-y $designer-sidebar-section-padding-x !default; //1rem; //
-$designer-sidebar-item-padding-y: .5rem !default;
+$designer-background-color: #f3f2f9 !default;
+$designer-section-padding-x: 2rem !default;
+$designer-section-padding-y: .75rem !default;
+$designer-section-padding: $designer-section-padding-y $designer-section-padding-x !default; //1rem; //
+$designer-item-padding-y: .5rem !default;
 
 
 //
@@ -62,7 +62,7 @@ $input-btn-padding-x-sm:      .4rem !default;
 $btn-font-weight:             500 !default;
 
 // $nav-tabs-link-active-color:  inherit; // !default;
-// $nav-tabs-link-active-bg:           $designer-sidebar-background-color !default; // $body-bg !default !default;
+// $nav-tabs-link-active-bg:           $designer-background-color !default; // $body-bg !default !default;
 
 // $theme-colors: (
 //   primary: $brand-blue

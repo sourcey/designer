@@ -1,0 +1,81 @@
+.designer-tags-input {
+
+  .tags-input-wrapper-default {
+    // padding: 0 !important;
+    // background: transparent;
+    // border-radius: 0;
+    // border: 0;
+
+    padding: .275rem .5rem;
+    border-radius: $border-radius;
+    border-color: $border-color;
+    background-color: white;
+    min-height: $designer-input-height;
+  }
+
+  .tags-input-badge {
+    // display: inline-block;
+    // padding: 0.25em 0.4em;
+    // font-size: 75%;
+    // font-weight: 700;
+    // line-height: 1;
+    // text-align: center;
+    // white-space: nowrap;
+    // vertical-align: baseline;
+    // border-radius: 0.25rem;
+
+    padding: .3rem .5rem !important;
+    border-radius: 10rem !important;
+  }
+
+  .typeahead-badges {
+    margin-top: .25rem;
+  }
+
+  // .typeahead-badges {
+  //   margin-top: .5rem;
+  //
+  //   .tags-input-badge {
+  //     // display: inline-block;
+  //     // padding: 0.25em 0.4em;
+  //     // font-size: 75%;
+  //     // font-weight: 700;
+  //     // line-height: 1;
+  //     // text-align: center;
+  //     // white-space: nowrap;
+  //     // vertical-align: baseline;
+  //     // border-radius: 0.25rem;
+  //
+  //     padding: .375rem .6rem !important;
+  //     border-radius: 10rem !important;
+  //   }
+  // }
+  //
+  // .typeahead-dropdown {
+  //   z-index: 2;
+  // }
+  //
+  // .tags-input-remove:before,
+  // .tags-input-remove:after {
+  //   background: white;
+  // }
+  //
+  // .tags-input-badge-selected-default {
+  //   color: white;
+  //   background-color: theme-color('info');
+  // }
+  //
+  //
+  // .tags-input-typeahead-item-default {
+  //   background-color: theme-color('info');
+  // }
+  //
+  // .tags-input-typeahead-item-highlighted-default {
+  //   background-color: theme-color('success');
+  // }
+  //
+  // .tags-input-badge-pill {
+  //   padding: .375rem .6rem !important;
+  //   border-radius: 10rem !important;
+  // }
+}

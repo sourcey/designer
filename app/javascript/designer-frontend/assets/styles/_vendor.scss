@@ -1,0 +1,142 @@
+
+//
+// ShuffleJS
+//
+
+// Hide the grid sizer
+.grid-sizer {
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+//
+// PhotoSwipe
+//
+
+// Small hack for transparent RoomOverlay navbar
+.pswp.viewroom {
+  .pswp__top-bar {
+    background-color: transparent;
+    width: 30%; // prevent covering color picker
+    left: 70%;
+
+    .pswp__button {
+      background-color: rgba(black, 0.5);
+    }
+  }
+}
+
+
+//
+// Verte
+//
+
+// Hack for non-scopable Verte button style
+.verte {
+  > button {
+    box-shadow: 0 0 20px rgba(black,.15);
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+
+    &:active {
+      box-shadow: 0 0 20px rgba(black,.15) inset;
+    }
+
+    > svg {
+      opacity: 0.5;
+    }
+  }
+}
+
+
+//
+// Flickity
+//
+
+.carousel {
+  .carousel-cell {
+    position: relative;
+  }
+
+  //
+  // Fill parent style
+
+  &.fill-parent {
+    .flickity-viewport {
+      // min-height: 100%;
+      height: 100% !important;
+      max-height: 100%;
+
+      .carousel-cell {
+        height: 100%;
+      }
+    }
+  }
+
+  //
+  // Buttons
+
+  .flickity-button {
+    transition: background-color .15s ease-in-out, opacity .15s ease-in-out;
+    background: rgba(white, 0.33);
+
+    &:hover {
+      background: rgba(white, 0.66);
+    }
+    &:disabled {
+      opacity: .2;
+    }
+
+    &.flickity-prev-next-button {
+      width: 40px;
+      height: 40px;
+      svg {
+        left: 25%;
+        top: 25%;
+        width: 50%;
+        height: 50%;
+      }
+    }
+  }
+
+  &.invert-arrows {
+    .flickity-button {
+      background: rgba(black, 0.1);
+
+      &:hover {
+        background: rgba(black, 0.4);
+      }
+
+      svg {
+        fill: #eee;
+      }
+    }
+  }
+
+  // Show the page dots inside the carousel so they dont overlay other elements.
+  .flickity-page-dots {
+    bottom: 20px;
+    z-index: 1;
+  }
+
+  // FOUC fix
+  // https://github.com/metafizzy/flickity/issues/211
+
+  .carousel-cell {
+    img, .cover-image {
+      transition: opacity .4s ease-in-out;
+      opacity: 0;
+    }
+  }
+
+  &.flickity-enabled {
+    .carousel-cell {
+      img, .cover-image {
+        opacity: 1;
+      }
+    }
+  }
+}

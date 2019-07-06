@@ -1,0 +1,170 @@
+@import 'mixins';
+
+//
+// Headings
+//
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  @include dynamic-font-property('heading-font');
+  @include dynamic-property('color', 'heading-color');
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  //$heading-margin-bottom;
+  // font-family: $heading-font-family;
+  // font-weight: $heading-font-weight;
+  // line-height: $heading-line-height;
+  // color: $heading-color;
+}
+
+h1, .h1 { font-size: $h1-font-size; }
+h2, .h2 { font-size: $h2-font-size; }
+h3, .h3 { font-size: $h3-font-size; }
+h4, .h4 { font-size: $h4-font-size; }
+h5, .h5 { font-size: $h5-font-size; }
+h6, .h6 { font-size: $h6-font-size; }
+
+
+//
+// Text
+//
+
+// Content from the WYSIWYG
+.text-content {
+  position: relative;
+  line-height: 1.75;
+  @include dynamic-property('color', 'primary-color');
+
+  > .ProseMirror > :only-child,
+  > .ProseMirror > :last-child,
+  > :only-child,
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.truncate {
+  @include truncate();
+}
+
+.semibold {
+  font-weight: 600 !important;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-small {
+  font-size: theme-option('font-size-sm'); //$font-size-sm;
+}
+
+.text-large {
+  font-size: theme-option('font-size-lg'); //$font-size-lg;
+}
+
+.text-primary {
+  @include dynamic-property('color', 'primary-color');
+}
+
+.text-secondary {
+  @include dynamic-property('color', 'secondary-color');
+}
+
+
+//
+// Links
+//
+
+.link-inherit {
+  @include link-color();
+}
+
+.link-white {
+  @include link-color($color: white);
+}
+
+.link-secondary {
+  @include link-color($color: 'secondary-color');
+}
+
+
+//
+// Borders
+//
+
+.border-top {
+  border-top: 1px solid;
+  border-color: theme-option('border-color');
+}
+
+.border-bottom {
+  border-bottom: 1px solid;
+  border-color: theme-option('border-color');
+}
+
+
+//
+// Inverted colors
+//
+
+.invert-colors {
+  @include dynamic-property('color', 'inverted-color');
+
+  a {
+    @include dynamic-property('color', 'inverted-color');
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    @include dynamic-property('color', 'inverted-color');
+  }
+
+  .text-content {
+    @include dynamic-property('color', 'inverted-color');
+
+    * {
+      @include dynamic-property('color', 'inverted-color');
+    }
+  }
+
+  .btn {
+    // Clear buttons have light text colour
+    &.btn-clear {
+      @include dynamic-property('color', 'inverted-color');
+    }
+
+    // Default buttons inherits inverted style
+    &.btn-default {
+      @include theme-button('inverted-color', 'button-color');
+    }
+  }
+}

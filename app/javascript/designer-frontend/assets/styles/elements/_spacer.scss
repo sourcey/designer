@@ -1,0 +1,10 @@
+.element-spacer {
+  min-height: 1.5rem;
+}
+
+// Hide spacers when they are the only column child on mobile
+@include media-breakpoint-down(md) {
+  .layout-col > .element-wrapper-spacer:only-child {
+    display: none;
+  }
+}

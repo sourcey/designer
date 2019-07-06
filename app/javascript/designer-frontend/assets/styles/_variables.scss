@@ -1,0 +1,215 @@
+// @import 'src/themes/synergy/assets/styles/mixins';
+// @import 'src/assets/styles/mixins';
+// @import 'src/assets/styles/functions';
+
+
+//
+// Core variables
+//
+
+
+/* Sizing */
+
+$spacer:                        1rem !default;
+$element-padding:               $spacer !default;
+$section-padding:               $spacer * 2 !default; // any less and text editor will overlap with section menu
+$grid-gutter-width:             30px !default;
+
+
+/* Fonts */
+
+$font-family-default:           -apple-system, BlinkMacSystemFont, Avenir, "Avenir Next", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-size-base:                1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                  1.25rem !default;
+$font-size-sm:                  .85rem !default;
+
+
+/* Colors */
+
+$body-color: #212529 !default;
+$black-color: #1b1b1b !default;
+$placebolder-background-color:  #f3f2f9 !default;
+
+
+/* Headings */
+
+$h1-font-size:                $font-size-base * 2.5 !default;
+$h2-font-size:                $font-size-base * 2 !default;
+$h3-font-size:                $font-size-base * 1.75 !default;
+$h4-font-size:                $font-size-base * 1.5 !default;
+$h5-font-size:                $font-size-base * 1.25 !default;
+$h6-font-size:                $font-size-base !default;
+
+
+/* Theme default variables */
+
+// This map contains all variables that may be overridden at the theme level
+// and accessed via the `theme-option` function.
+$theme-options: (
+  // Fonts
+  font-family: $font-family-default,
+  font-size: $font-size-base,
+  font-size-lg: $font-size-lg,
+  font-size-sm: $font-size-sm,
+
+  // Headings
+  heading-color: $black-color,
+  heading-font-family: $font-family-default,
+  heading-font-weight: 600,
+
+  // Buttons
+  btn-font-size: $font-size-base,
+  btn-padding-y: .5rem,
+  btn-padding-x: 1rem,
+  btn-font-size-lg: $font-size-lg,
+  btn-padding-y-lg: .5rem,
+  btn-padding-x-lg: 1rem,
+  btn-font-size-sm: $font-size-sm,
+  btn-padding-y-sm: .375rem,
+  btn-padding-x-sm: .75rem,
+  btn-font-weight: 500,
+);
+
+
+//
+// Boostrap overrides
+//
+
+/* Spacing */
+
+$spacers: (
+  0: 0,
+  '025': ($spacer * .25),
+  '05': ($spacer * .5),
+  '075': ($spacer * .75),
+  1: $spacer,
+  125: ($spacer * 1.25),
+  15: ($spacer * 1.5),
+  175: ($spacer * 1.75),
+  2: ($spacer * 2),
+  25: ($spacer * 2.5),
+  3: ($spacer * 3),
+  35: ($spacer * 3.5),
+  4: ($spacer * 4),
+  45: ($spacer * 4.5),
+  5: ($spacer * 5)
+);
+
+
+/* Grid breakpoints */
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 534px, // 544px, // 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1680px
+);
+
+
+/* Grid containers */
+
+$container-max-widths: (
+  sm: 500px, // 510px, // 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1600px
+);
+
+
+// @import 'node_modules/bootstrap/scss/functions';
+//
+// $body-bg:                     theme-option('background-color') !default;
+// $body-color:                  theme-option('primary-color') !default;
+//
+// /* Typography */
+//
+// $font-family-sans-serif:      var(--font-family) !default;
+// $heading-font-family:        var(--heading-font-family) !default;
+// $heading-font-weight:        var(--heading-font-weight) !default;
+//
+// $font-size-base:              theme-option('font-size-base') !default; // Assumes the browser default, typically `16px`
+// $font-size-lg:                theme-option('font-size-lg') !default;
+// $font-size-sm:                theme-option('font-size-sm') !default;
+//
+// $line-height-base:            1.65 !default;
+//
+// $btn-font-weight:             theme-option('font-font-weight') !default;
+// $btn-transition:              color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+//
+// /* Colors */
+//
+// $gray-900:                    theme-option('primary-color') !default; // Responsible for body-color, dropdown, code etc...
+// $gray-600:                    theme-option('secondary-color') !default; // Responsible for secondary, text-muted, placeholder, disabled etc...
+// $gray-200:                    theme-option('border-color') !default; // Responsible for dividers, nav borders, disabled backgrounds etc...
+//
+// $border-color:                theme-option('border-color') !default; // var(--heading-font-weight) !default; //$gray-300 !default;
+//
+// $link-color:                  theme-option('link-color') !default;
+// $link-hover-color:            theme-option('link-color') !default;
+//
+// $theme-colors: (
+//   primary: theme-option('highlight-color')
+// );
+
+// /* Options */
+//
+// // $enable-caret:                                false;
+// // $enable-rounded:                              false;
+// // $enable-shadows:                              false;
+// // $enable-gradients:                            false;
+// // $enable-transitions:                          true;
+// // $enable-prefers-reduced-motion-media-query:   true;
+// // $enable-hover-media-query:                    false; // Deprecated, no longer affects any compiled CSS
+// // $enable-grid-classes:                         true;
+// // $enable-print-styles:                         true;
+// // $enable-validation-icons:                     true;
+//
+// /* Spacing */
+//
+// $spacer: 1rem !default;
+// $spacers: (
+//   0: 0,
+//   '025': ($spacer * .25),
+//   '05': ($spacer * .5),
+//   '075': ($spacer * .75),
+//   1: $spacer,
+//   125: ($spacer * 1.25),
+//   15: ($spacer * 1.5),
+//   175: ($spacer * 1.75),
+//   2: ($spacer * 2),
+//   25: ($spacer * 2.5),
+//   3: ($spacer * 3),
+//   35: ($spacer * 3.5),
+//   4: ($spacer * 4),
+//   45: ($spacer * 4.5),
+//   5: ($spacer * 5)
+// );
+//
+//
+// /* Grid breakpoints */
+//
+// $grid-breakpoints: (
+//   xs: 0,
+//   sm: 534px, // 544px, // 576px,
+//   md: 768px,
+//   lg: 992px,
+//   xl: 1200px,
+//   xxl: 1680px
+// );
+//
+// /* Grid containers */
+//
+// $container-max-widths: (
+//   sm: 500px, // 510px, // 540px,
+//   md: 720px,
+//   lg: 960px,
+//   xl: 1140px,
+//   xxl: 1600px
+// );
+//
+// // /* Bootstrap variables and mixins */
+//
+// // @import 'node_modules/bootstrap/scss/_variables';

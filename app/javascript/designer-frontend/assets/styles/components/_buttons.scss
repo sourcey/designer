@@ -1,0 +1,232 @@
+//
+// Buttons
+//
+
+.btn {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent; //1px
+  transition: $btn-transition;
+  // font-weight: $btn-font-weight;
+  text-decoration: none !important;
+  outline: 0 !important;
+  cursor: pointer;
+  z-index: 1;
+
+  @include dynamic-property('color', 'button-color');
+  @include dynamic-property('font-size', 'btn-font-size');
+  @include dynamic-property('font-weight', 'btn-font-weight');
+  @include dynamic-property('padding-top', 'btn-padding-y');
+  @include dynamic-property('padding-bottom', 'btn-padding-y');
+  @include dynamic-property('padding-left', 'btn-padding-x');
+  @include dynamic-property('padding-right', 'btn-padding-x');
+
+  // @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
+
+  svg {
+    fill: currentColor;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+
+  //
+  // Button sizes
+
+  &.btn-large {
+    @include dynamic-property('font-size', 'btn-font-size-lg');
+    @include dynamic-property('padding-top', 'btn-padding-y-lg');
+    @include dynamic-property('padding-bottom', 'btn-padding-y-lg');
+    @include dynamic-property('padding-left', 'btn-padding-x-lg');
+    @include dynamic-property('padding-right', 'btn-padding-x-lg');
+    // padding-left: theme-button('highlight-color');
+    // padding-right: 1rem 2rem;
+    // @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-line-height-lg, $btn-border-radius-lg);
+  }
+
+  &.btn-small {
+    @include dynamic-property('font-size', 'btn-font-size-sm');
+    @include dynamic-property('padding-top', 'btn-padding-y-sm');
+    @include dynamic-property('padding-bottom', 'btn-padding-y-sm');
+    @include dynamic-property('padding-left', 'btn-padding-x-sm');
+    @include dynamic-property('padding-right', 'btn-padding-x-sm');
+    // @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-line-height-sm, $btn-border-radius-sm);
+  }
+
+
+  //
+  // Button styles
+
+  &.btn-default {
+    @include theme-button('button-color');
+  }
+
+  &.btn-highlight {
+    // @include theme-button('button-color');
+    @include theme-button('highlight-color');
+  }
+
+  &.btn-inverted {
+    // @include theme-button('button-color');
+    @include theme-button('inverted-color', 'button-color');
+
+    // &:not(.outline) {
+    //   @include dynamic-property('color', 'button-color');
+    // }
+  }
+
+  &.btn-clear {
+    border-color: transparent !important;
+    background: transparent !important;
+  }
+
+  &.btn-outline {
+    // handled inside @theme-button
+  }
+
+  &.btn-bold {
+    font-weight: bold;
+  }
+
+  &.btn-padded {
+    padding: 1rem 2rem;
+  }
+
+  &.btn-block {
+    display: block;
+    width: 100%;
+  }
+}
+
+
+//
+// Button types
+
+.btn-icon {
+  &:hover, &:focus, &:active {
+    @include dynamic-property('color', 'highlight-color');
+    svg {
+      fill: currentColor;
+    }
+  }
+}
+
+.btn-remove {
+  // @include theme-button-base;
+  border-radius: 50%;
+  padding: 0 !important;
+  width: 2rem;
+  height: 2rem;
+  line-height: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  overflow: hidden;
+  &:hover, &:focus, &:active {
+    color: white;
+    &:before {
+      border-radius: 50%;
+      @include dynamic-property('background-color', 'highlight-color');
+    }
+  }
+}
+
+
+//
+// Dropdowns
+//
+
+.dropdown {
+  position: relative;
+
+  // .dropdown-toggle {
+  //   position: relative;
+  //   // text-align: left;
+  //
+  //   // &.btn-btn-section {
+  //   //   padding-right: $btn-section-x-padding + .75rem;
+  //   // }
+  //
+  //   &:after {
+  //     content: '';
+  //     position: absolute;
+  //     right: 0;
+  //     top: 0;
+  //     bottom: 0;
+  //     width: 1.5rem;
+  //     float: none;
+  //     margin: 0;
+  //     // background: $custom-select-background;
+  //   }
+  // }
+
+  &.show {
+    .dropdown-toggle {
+      @include theme-button('button-color');
+
+      &.btn-outline {
+        // @include theme-button('button-color');
+
+
+        @include dynamic-property('background-color', 'button-color');
+        @include dynamic-property('color', 'inverted-color');
+        // @include dynamic-property('color', $background-property);
+        //
+        // &:hover,
+        // &:active {
+        //   @include dynamic-property('background-color', $background-property);
+        //   @include dynamic-property('color', $color-property);
+        // }
+      }
+    }
+
+    .dropdown-menu {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.dropdown-menu {
+  box-shadow: 1px 1px 16px rgba(black, 0.2);
+  background-color: white;
+  z-index: $zindex-dropdown;
+  // padding: $dropdown-padding-y 0;
+  // margin: $dropdown-spacer 0 0; // override default ul
+  display: none; // none by default, but block on "open" of the menu
+
+  > .dropdown-item {
+    // @include dynamic-property('color', 'primary-color');
+    display: block;
+    width: 100%; // For `<button>`s
+    white-space: nowrap; // prevent links from randomly breaking onto new lines
+    outline: 0 !important;
+    text-decoration: none;
+    text-align: inherit; // For `<button>`s
+
+    @include dynamic-property('color', 'button-color');
+    @include dynamic-property('font-size', 'btn-font-size');
+    @include dynamic-property('font-weight', 'btn-font-weight');
+    @include dynamic-property('padding-top', 'btn-padding-y');
+    @include dynamic-property('padding-bottom', 'btn-padding-y');
+    @include dynamic-property('padding-left', 'btn-padding-x');
+    @include dynamic-property('padding-right', 'btn-padding-x');
+
+    &.btn-active,
+    &:active {
+      color: white;
+      // @include dynamic-property('background-color', 'highlight-color');
+      @include dynamic-property('background-color', 'button-color');
+    }
+
+    i {
+      display: inline-block;
+      width: 30px;
+    }
+  }
+}

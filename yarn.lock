@@ -16,9 +16,9 @@
   dependencies:
     spark-md5 "^3.0.0"
 
-"@voerro/vue-tagsinput@^1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@voerro/vue-tagsinput/-/vue-tagsinput-1.11.1.tgz#428371f9ee1ea086e1dc2782b13732836b9fe575"
+"@voerro/vue-tagsinput@^1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@voerro/vue-tagsinput/-/vue-tagsinput-1.11.2.tgz#61bc701b198c87d0b2e102c1425954068818b6fd"
   dependencies:
     vue "^2.5.0"
 
@@ -42,12 +42,16 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-axios@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+array-parallel@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/array-parallel/-/array-parallel-0.1.3.tgz#8f785308926ed5aa478c47e64d1b334b6c0c947d"
+
+axios@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.0.tgz#8e09bff3d9122e133f7b8101c8fbdd00ed3d2ab8"
   dependencies:
-    follow-redirects "^1.3.0"
-    is-buffer "^1.1.5"
+    follow-redirects "1.5.10"
+    is-buffer "^2.0.2"
 
 big.js@^5.2.2:
   version "5.2.2"
@@ -57,16 +61,16 @@ bluebird@^3.1.1:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
 
-bootstrap-vue@^2.0.0-rc.19:
-  version "2.0.0-rc.21"
-  resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.0.0-rc.21.tgz#447c3859b39390355e4b875c91d288036d7d5dd1"
+bootstrap-vue@^2.0.0-rc.25:
+  version "2.0.0-rc.25"
+  resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.0.0-rc.25.tgz#5d53876a2547a0910d335fa7bb62b3069c62503c"
   dependencies:
     "@nuxt/opencollective" "^0.2.2"
     bootstrap "^4.3.1"
     core-js ">=2.6.5 <3.0.0"
     popper.js "^1.15.0"
-    portal-vue "^2.1.4"
-    vue-functional-data-merge "^2.0.7"
+    portal-vue "^2.1.5"
+    vue-functional-data-merge "^3.1.0"
 
 bootstrap@^4.3.1:
   version "4.3.1"
@@ -96,9 +100,9 @@ color-convert@^1.9.0:
   dependencies:
     color-name "1.1.3"
 
-color-fns@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/color-fns/-/color-fns-0.0.9.tgz#6f98f0f2a8d92e5509d6d207f28c2d185a331bda"
+color-fns@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/color-fns/-/color-fns-0.0.10.tgz#b03f34ab3bb3902ac24e7c86ff32d845fbbaf7bf"
 
 color-name@1.1.3:
   version "1.1.3"
@@ -122,11 +126,11 @@ de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
 
-debug@^3.2.6:
-  version "3.2.6"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
+debug@=3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:
-    ms "^2.1.1"
+    ms "2.0.0"
 
 dot-prop@^4.1.1:
   version "4.2.0"
@@ -142,11 +146,17 @@ escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-follow-redirects@^1.3.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
+fault@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/fault/-/fault-1.0.3.tgz#4da88cf979b6b792b4e13c7ec836767725170b7e"
   dependencies:
-    debug "^3.2.6"
+    format "^0.2.2"
+
+follow-redirects@1.5.10:
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
+  dependencies:
+    debug "=3.1.0"
 
 font-awesome@^4.7.0:
   version "4.7.0"
@@ -155,6 +165,10 @@ font-awesome@^4.7.0:
 font-picker@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/font-picker/-/font-picker-3.0.3.tgz#0eaa8b26f26ea1fdab4955c4fb476df56e27e680"
+
+format@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/format/-/format-0.2.2.tgz#d6170107e9efdc4ed30c9dc39016df942b5cb58b"
 
 has-flag@^3.0.0:
   version "3.0.0"
@@ -168,13 +182,17 @@ he@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
 
+highlight.js@~9.15.0:
+  version "9.15.8"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.8.tgz#f344fda123f36f1a65490e932cf90569e4999971"
+
 indexes-of@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/indexes-of/-/indexes-of-1.0.1.tgz#f30f716c8e2bd346c7b67d3df3915566a7c05607"
 
-is-buffer@^1.1.5:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
+is-buffer@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.3.tgz#4ecf3fcf749cbd1e472689e109ac66261a25e725"
 
 is-obj@^1.0.0:
   version "1.0.1"
@@ -208,6 +226,13 @@ loader-utils@^1.0.2, loader-utils@^1.1.0:
     emojis-list "^2.0.0"
     json5 "^1.0.1"
 
+lowlight@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/lowlight/-/lowlight-1.12.1.tgz#014acf8dd73a370e02ff1cc61debcde3bb1681eb"
+  dependencies:
+    fault "^1.0.2"
+    highlight.js "~9.15.0"
+
 lru-cache@^4.1.2:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
@@ -219,6 +244,10 @@ marked@*:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.5.2.tgz#3efdb27b1fd0ecec4f5aba362bddcd18120e5ba9"
 
+matches-selector@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/matches-selector/-/matches-selector-1.2.0.tgz#d1814e7e8f43e69d22ac33c9af727dc884ecf12a"
+
 merge-source-map@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/merge-source-map/-/merge-source-map-1.1.0.tgz#2fdde7e6020939f70906a68f2d7ae685e4c8c646"
@@ -229,13 +258,17 @@ minimist@^1.2.0:
   version "1.2.0"
   resolved "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-ms@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
+ms@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
 node-fetch@^2.3.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+
+orderedmap@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/orderedmap/-/orderedmap-1.0.0.tgz#d90fc2ba1ed085190907d601dec6e6a53f8d41ba"
 
 popper.js@^1.14.6:
   version "1.14.6"
@@ -245,9 +278,9 @@ popper.js@^1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
 
-portal-vue@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-2.1.4.tgz#1fc679d77e294dc8d026f1eb84aa467de11b392e"
+portal-vue@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-2.1.5.tgz#ecd0997cb32958205151cb72f40fd4f38d175e5c"
 
 postcss-selector-parser@^3.1.1:
   version "3.1.1"
@@ -269,6 +302,107 @@ prettier@1.13.7:
   version "1.13.7"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.7.tgz#850f3b8af784a49a6ea2d2eaa7ed1428a34b7281"
 
+prosemirror-collab@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/prosemirror-collab/-/prosemirror-collab-1.1.2.tgz#622fdc52692a83045ba6914c01a0416ff35f646a"
+  dependencies:
+    prosemirror-state "^1.0.0"
+
+prosemirror-commands@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.0.8.tgz#3b21e8b2f2e1c04ddb831b2d4055084b6d627bcc"
+  dependencies:
+    prosemirror-model "^1.0.0"
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.0.0"
+
+prosemirror-dropcursor@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-dropcursor/-/prosemirror-dropcursor-1.1.1.tgz#c60ed1ed6c58804a06a75db06a0d993b087b7622"
+  dependencies:
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.1.0"
+    prosemirror-view "^1.1.0"
+
+prosemirror-gapcursor@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/prosemirror-gapcursor/-/prosemirror-gapcursor-1.0.4.tgz#4ba663fb8511616e18ad222c904403cfbf6866dc"
+  dependencies:
+    prosemirror-keymap "^1.0.0"
+    prosemirror-model "^1.0.0"
+    prosemirror-state "^1.0.0"
+    prosemirror-view "^1.0.0"
+
+prosemirror-history@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/prosemirror-history/-/prosemirror-history-1.0.4.tgz#313a15489a78795321f3a37d53d8c68610c5adb6"
+  dependencies:
+    prosemirror-state "^1.2.2"
+    prosemirror-transform "^1.0.0"
+    rope-sequence "^1.2.0"
+
+prosemirror-inputrules@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/prosemirror-inputrules/-/prosemirror-inputrules-1.0.4.tgz#8ae84d9c147abb448b86063ff422e801c4b1658d"
+  dependencies:
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.0.0"
+
+prosemirror-keymap@^1.0.0, prosemirror-keymap@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-keymap/-/prosemirror-keymap-1.0.1.tgz#03ef32b828e3a859dfb570eb84928bf2e5330bc2"
+  dependencies:
+    prosemirror-state "^1.0.0"
+    w3c-keyname "^1.1.8"
+
+prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, prosemirror-model@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.7.1.tgz#f140a6e366e1e283aa7a94dbb8c2c7d13139689e"
+  dependencies:
+    orderedmap "^1.0.0"
+
+prosemirror-schema-list@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-schema-list/-/prosemirror-schema-list-1.0.3.tgz#539caafa4f9314000943bd783be4017165ec0bd6"
+  dependencies:
+    prosemirror-model "^1.0.0"
+    prosemirror-transform "^1.0.0"
+
+prosemirror-state@^1.0.0, prosemirror-state@^1.2.2, prosemirror-state@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-state/-/prosemirror-state-1.2.3.tgz#b61e88e55336a4e5be088c0d21ac05f18cdd3dcd"
+  dependencies:
+    prosemirror-model "^1.0.0"
+    prosemirror-transform "^1.0.0"
+
+prosemirror-tables@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-tables/-/prosemirror-tables-0.8.1.tgz#ea99ad4effec99dd4e2fdb0b33cce4d2547eed83"
+  dependencies:
+    prosemirror-keymap "^1.0.0"
+    prosemirror-model "^1.0.0"
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.0.0"
+    prosemirror-view "^1.0.0"
+
+prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transform@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-transform/-/prosemirror-transform-1.1.3.tgz#28cfdf1f9ee514edc40466be7b7db39eed545fdf"
+  dependencies:
+    prosemirror-model "^1.0.0"
+
+prosemirror-utils@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.9.2.tgz#1d0c9134a7dae12516e81e7d232dbb9290567a11"
+
+prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.9.10:
+  version "1.9.11"
+  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.9.11.tgz#7b419e2461c460730fa9f5067548aa67330aaff6"
+  dependencies:
+    prosemirror-model "^1.1.0"
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.1.0"
+
 pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
@@ -276,6 +410,19 @@ pseudomap@^1.0.2:
 rails-ujs@^5.2.1-1:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/rails-ujs/-/rails-ujs-5.2.2.tgz#ab01dd087a323975637b50e93e7afcc0f9068568"
+
+rope-sequence@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/rope-sequence/-/rope-sequence-1.2.2.tgz#49c4e5c2f54a48e990b050926771e2871bcb31ce"
+
+shufflejs@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/shufflejs/-/shufflejs-5.2.2.tgz#f9d5e7de834d73e0a68cb72c2aa3484b0f308465"
+  dependencies:
+    array-parallel "^0.1.3"
+    matches-selector "^1.0.0"
+    throttleit "^1.0.0"
+    tiny-emitter "^2.1.0"
 
 simplemde@^1.11.2:
   version "1.11.2"
@@ -307,6 +454,67 @@ supports-color@^5.3.0, supports-color@^5.4.0:
   dependencies:
     has-flag "^3.0.0"
 
+throttleit@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/throttleit/-/throttleit-1.0.0.tgz#9e785836daf46743145a5984b6268d828528ac6c"
+
+tiny-emitter@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+
+tiptap-commands@^1.10.8:
+  version "1.10.8"
+  resolved "https://registry.yarnpkg.com/tiptap-commands/-/tiptap-commands-1.10.8.tgz#b2fe4e5d0c1faa894a4c990b3c74aca7b0b768d6"
+  dependencies:
+    prosemirror-commands "^1.0.8"
+    prosemirror-inputrules "^1.0.4"
+    prosemirror-model "^1.7.1"
+    prosemirror-schema-list "^1.0.3"
+    prosemirror-state "^1.2.3"
+    prosemirror-tables "^0.8.1"
+    prosemirror-utils "^0.9.2"
+    tiptap-utils "^1.5.6"
+
+tiptap-extensions@^1.24.0:
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/tiptap-extensions/-/tiptap-extensions-1.24.0.tgz#c13328de0b442be956f05fdbba944e6dc56a17ba"
+  dependencies:
+    lowlight "^1.12.1"
+    prosemirror-collab "^1.1.2"
+    prosemirror-history "^1.0.4"
+    prosemirror-model "^1.7.1"
+    prosemirror-state "^1.2.3"
+    prosemirror-tables "^0.8.1"
+    prosemirror-transform "^1.1.3"
+    prosemirror-utils "^0.9.2"
+    prosemirror-view "^1.9.10"
+    tiptap "^1.23.0"
+    tiptap-commands "^1.10.8"
+
+tiptap-utils@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/tiptap-utils/-/tiptap-utils-1.5.6.tgz#f20aabc337ee33cc9da0bb6e5b9652020f31d87f"
+  dependencies:
+    prosemirror-model "^1.7.1"
+    prosemirror-state "^1.2.3"
+    prosemirror-tables "^0.8.1"
+    prosemirror-utils "^0.9.2"
+
+tiptap@^1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/tiptap/-/tiptap-1.23.0.tgz#aa97688f70e22d3889b82b4c344ec6f933a9646b"
+  dependencies:
+    prosemirror-commands "^1.0.8"
+    prosemirror-dropcursor "^1.1.1"
+    prosemirror-gapcursor "^1.0.4"
+    prosemirror-inputrules "^1.0.4"
+    prosemirror-keymap "^1.0.1"
+    prosemirror-model "^1.7.1"
+    prosemirror-state "^1.2.3"
+    prosemirror-view "^1.9.10"
+    tiptap-commands "^1.10.8"
+    tiptap-utils "^1.5.6"
+
 toastr@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/toastr/-/toastr-2.1.4.tgz#8b43be64fb9d0c414871446f2db8e8ca4e95f181"
@@ -321,19 +529,19 @@ uniq@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
 
-verte@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/verte/-/verte-0.0.9.tgz#c4cbfe3cc7cf317bd026fa005a05d6cb0a9609ec"
+verte@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/verte/-/verte-0.0.12.tgz#f91b3f82cf2d6ea81ac2ccad66bb9aefe7997503"
   dependencies:
-    color-fns "^0.0.9"
+    color-fns "^0.0.10"
 
 vue-deepset@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/vue-deepset/-/vue-deepset-0.6.3.tgz#fdc644c496803bbaf8864bb3b6f639dad7e9a9dd"
 
-vue-functional-data-merge@^2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-2.0.7.tgz#bdee655181eacdcb1f96ce95a4cc14e75313d1da"
+vue-functional-data-merge@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz#08a7797583b7f35680587f8a1d51d729aa1dc657"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.1"
@@ -356,7 +564,7 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.6.6:
+vue-template-compiler@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.10.tgz#323b4f3495f04faa3503337a82f5d6507799c9cc"
   dependencies:
@@ -375,7 +583,7 @@ vue@^2.5.0:
   version "2.5.21"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
 
-vue@^2.6.6:
+vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
 
@@ -384,6 +592,10 @@ vuedraggable@^2.17.0:
   resolved "https://registry.yarnpkg.com/vuedraggable/-/vuedraggable-2.17.0.tgz#489c16c9bcb9eb06f441944d3c52e5f2bb7060f9"
   dependencies:
     sortablejs "^1.7.0"
+
+w3c-keyname@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/w3c-keyname/-/w3c-keyname-1.1.8.tgz#4e2219663760fd6535b7a1550f1552d71fc9372c"
 
 yallist@^2.1.2:
   version "2.1.2"

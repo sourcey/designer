@@ -3,8 +3,6 @@
 - has_nav_items = lookup_context.exists?('nav_items', designer_option(:designer_templates_path), true)
 - has_nav_icons = lookup_context.exists?('nav_icons', designer_option(:designer_templates_path), true)
 
-/ a AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-/ = designer_context.inspect
 #app data=(designer_context.to_json)
   #sidebar.panel-left
     / :class="{'panel-left': true, 'w-100': !showPreview}"

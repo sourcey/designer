@@ -66,6 +66,90 @@ export function toggleFullscreen(elem) {
   }
 }
 
+export function isSet(value) {
+  if (typeof(value) === 'string')
+    return value.length > 0
+  if (typeof(value) === 'number')
+    return value > 0
+  return value !== null && typeof(value) !== 'undefined'
+}
+
+export function sanitizeDecimal (value) {
+  // if (typeof(value) !=)
+  return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
+}
+
+export function formatNumber(number, locale) {
+  locale = locale || navigator.language
+  try {
+    // number = parseFloat(number)
+    return number.toLocaleString(locale)
+  } catch (e) {
+    console.log('format number failed', e)
+    return number
+  }
+}
+
+export function formatMoney(number, currency, locale) {
+  locale = locale || navigator.language
+  currency = currency || 'EUR' // FIXME
+  number = parseFloat(number)
+  if (isNaN(number))
+    return null // do not parse non-numbers
+  try {
+    console.log('format currency', number)
+    return number.toLocaleString(locale, { style: 'currency', currency: currency })
+  } catch (e) {
+    console.log('format currency failed', e)
+    return number.toFixed(2)
+  }
+}
+
+export function mergeSpecDefaults (object, spec) {
+  if (!object.id)
+    object.id = object.name + '-' + randomString(8)
+  if (!object.data)
+    object.data = {}
+  if (spec.properties) {
+    Object.keys(spec.properties).forEach(x => {
+      if (typeof(object.data[x]) === 'undefined') {
+        if (typeof(spec.properties[x].default) !== 'undefined')
+          object.data[x] = spec.properties[x].default
+          // Vue.set(object.data, x, spec.properties[x].default)
+        else
+          // NOTE: Initializing to null if there is no default is important
+          // in order to acheive reactivity with newly added objects.
+          object.data[x] = null
+          // Vue.set(object.data, x, null)
+      }
+    })
+  }
+  if (spec.data) {
+    Object.assign(object.data, spec.data)
+  }
+  // if (spec.objects) {
+  //   if (!object.objects)
+  //     object.objects = []
+  //   object.objects.push(...spec.objects)
+  // }
+  return object
+}
+
+export function sortItemsBy (objects, member) {
+  const res = {}
+  Object.keys(objects).forEach(x => {
+    const elem = objects[x]
+    if (elem[member]) {
+      if (!res[elem[member]]) {
+        res[elem[member]] = []
+      }
+      elem.name = x
+      res[elem[member]].push(elem)
+    }
+  })
+  return res
+}
+
 export function pick(object, keys) {
   return keys.reduce((result, key) => {
     result[key] = object[key]
@@ -76,6 +160,11 @@ export function pick(object, keys) {
 export function clone(object) {
   // NOTE: Use JSON serialization to clean references
   return JSON.parse(JSON.stringify(object))
+}
+
+export function cloneValues(object, keys) {
+  const partial = pick(object, keys)
+  return clone(partial)
 }
 
 export function isObject(object) {
@@ -89,54 +178,6 @@ export function copyValue(value) {
   else if (typeof value === 'string')
     return String(value)
   return value
-}
-
-export function sanitizeDecimal (value) {
-  // if (typeof(value) !=)
-  return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
-}
-
-export function mergeSpecDefaults (item, spec) {
-  if (!item.id)
-    item.id = item.name + '-' + randomString(8)
-  if (!item.data)
-    item.data = {}
-  if (spec.properties) {
-    Object.keys(spec.properties).forEach(x => {
-      if (typeof(item.data[x]) === 'undefined') {
-        if (typeof(spec.properties[x].default) !== 'undefined')
-          item.data[x] = spec.properties[x].default
-        else
-          // NOTE: Initializing to null if there is no default is important
-          // in order to acheive reactivity with newly added items.
-          item.data[x] = null
-      }
-    })
-  }
-  if (spec.data) {
-    Object.assign(item.data, spec.data)
-  }
-  // if (spec.items) {
-  //   if (!item.items)
-  //     item.items = []
-  //   item.items.push(...spec.items)
-  // }
-  return item
-}
-
-export function sortItemsBy (items, member) {
-  const res = {}
-  Object.keys(items).forEach(x => {
-    const elem = items[x]
-    if (elem[member]) {
-      if (!res[elem[member]]) {
-        res[elem[member]] = []
-      }
-      elem.name = x
-      res[elem[member]].push(elem)
-    }
-  })
-  return res
 }
 
 export function mergeObject (target, source) {

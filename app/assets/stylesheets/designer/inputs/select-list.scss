@@ -1,0 +1,31 @@
+.select-list-input {
+  .dropdown-menu {
+    left: 40px;
+    right: 0;
+    // top: $input-height;
+    max-height: 275px;
+    overflow-y: scroll;
+
+    .dropdown-item {
+      &.active {
+        color: white;
+      }
+    }
+  }
+
+  .selected-list {
+    .selected-item {
+      height: $input-height;
+
+      border-bottom: 1px solid $border-color;
+      // line-height: $input-height;
+
+      .label {
+        font-weight: 500;
+        // font-size: .85rem;
+        font-size: $font-size-sm;
+        color: $gray-700;
+      }
+    }
+  }
+}

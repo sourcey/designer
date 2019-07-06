@@ -1,3 +1,6 @@
+//
+// == Designer helpers
+
 @mixin designer-link-color($color: inherit, $hover-color: $link-color) {
   color: $color;
 
@@ -54,11 +57,33 @@
   }
 }
 
+@mixin designer-titlebar() {
+  @include flex-align(center);
+  padding-left: $designer-section-padding-x;
+  padding-right: $designer-section-padding-x;
+
+  .actions {
+    display: flex;
+    margin-right: -.5rem;
+  }
+
+  > :first-child {
+    @include flex-fill;
+  }
+
+  > * {
+    min-width: 0; // flex text truncation fix
+  }
+}
+
 @mixin designer-label() {
   font-size: .775rem;
   font-weight: 600;
   line-height: 1.5rem;
 }
+
+//
+// == Generic helpers
 
 @mixin flex-fill() {
   flex: 1 1 auto !important; // .flex-fill

@@ -8,11 +8,19 @@ module Designer
     before_action :reset_default_data
     # skip_before_action :verify_authenticity_token
 
+    include DesignerHelper
+
     def show
       # @resource.theme.set_configuration_from_file
       # @resource.theme.save
       # puts @resource.metadata
       # raise @resource.as_designer_json.inspect
+      # if request.format.json?
+      # end
+    end
+
+    def data
+      render json: designer_context(@resource)
     end
 
     def update

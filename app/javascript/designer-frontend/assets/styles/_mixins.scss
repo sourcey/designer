@@ -1,0 +1,230 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+
+//
+// Theme CSS variables
+//
+
+@mixin dynamic-property($name, $property) {
+  #{$name}: #{theme-option($property)}; // fallback for older browsers
+  #{$name}: var(--#{$property});
+}
+
+@mixin dynamic-font-property($property) {
+  font-family: #{theme-option(#{$property}-family)}; // fallback for older browsers
+  font-family: var(--#{$property}-family);
+  font-weight: #{theme-option(#{$property}-weight)}; // fallback for older browsers
+  font-weight: var(--#{$property}-weight);
+  font-style: #{theme-option(#{$property}-style)}; // fallback for older browsers
+  font-style: var(--#{$property}-style, regular);
+}
+
+//
+// Buttons
+//
+
+// @mixin theme-button-base() {
+//   &:before {
+//     @include fill-parent;
+//     content: '';
+//     transition: $btn-transition;
+//     z-index: -2;
+//
+//     // Extensions can set background color on this selector
+//   }
+//
+//   // &:after {
+//   //   @include fill-parent;
+//   //   content: '';
+//   //   transition: $btn-transition;
+//   //   z-index: -1;
+//   //   box-shadow: 0 0 25px rgba(black, 0.2) inset, 0 0 5px rgba(black, 0.2);
+//   //   opacity: 0;
+//   // }
+//
+//   &:hover {
+//     &:before {
+//       // opacity: .8;
+//       // box-shadow: 0 0 50px rgba(black, 0.2) inset, 0 0 5px rgba(black, 0.2);
+//       box-shadow: 1px 1px 16px rgba(black, 0.2);
+//     }
+//   }
+//
+//   &:active,
+//   &.active,
+//   &:focus {
+//     &:before {
+//       // opacity: 1;
+//       // box-shadow: 0 0 50px rgba(black, 0.3) inset, 0 0 5px rgba(black, 0.3);
+//       box-shadow: 1px 1px 16px rgba(black, 0.4);
+//     }
+//   }
+// }
+
+// @mixin theme-button($property) {
+//   @include theme-button-base;
+//   color: white; // !important;
+//   @include hover-focus-active {
+//     color: white; // !important;
+//   }
+//   &:before {
+//     @include dynamic-property('background-color', $property);
+//   }
+// }
+
+// @mixin theme-outline-button($property) {
+//   @include theme-button-base;
+//   @include dynamic-property('border-color', $property);
+//   @include hover-focus-active {
+//     color: white; // !important;
+//     @include dynamic-property('border-color', 'highlight-color');
+//     &:before {
+//       @include dynamic-property('background-color', 'highlight-color');
+//     }
+//   }
+// }
+
+@mixin theme-button($background-property, $color-property: 'inverted-color') {
+  @include dynamic-property('border-color', $background-property);
+  &:disabled {
+    opacity: .6;
+  }
+  &:not(.btn-outline) {
+    @include dynamic-property('background-color', $background-property);
+    @include dynamic-property('color', $color-property);
+  }
+  &.btn-outline {
+    @include dynamic-property('color', $background-property);
+
+    &:not(:disabled) {
+      &:hover,
+      &:active {
+        @include dynamic-property('background-color', $background-property);
+        @include dynamic-property('color', $color-property);
+        opacity: 1; // no need to fade
+      }
+      &:active {
+        opacity: .9;
+      }
+    }
+  }
+}
+
+//
+// Sizing & position
+//
+
+@mixin fill-parent() {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  // right: 0;
+  // bottom: 0
+  width: 100%;
+  height: 100%;
+}
+
+@mixin cover-height(
+  $default: 50vh,
+  $min: 420px,
+  $max: 600px
+) {
+  height: $default;
+  min-height: $min;
+  max-height: $max;
+}
+
+
+//
+// Typography
+//
+
+@mixin link-color($color: inherit, $hover-color: 'button-color') {
+  @if $color == inherit or $color == white {
+    color: $color;
+  } @else {
+    @include dynamic-property('color', $color);
+  }
+
+  svg {
+    @if $color == inherit or $color == white {
+      fill: $color;
+    } @else {
+      @include dynamic-property('fill', $color);
+    }
+  }
+
+  &:hover,
+  &.active,
+  &:active,
+  &:focus {
+    @include dynamic-property('color', $hover-color);
+    text-decoration: underline;
+
+    svg {
+      @include dynamic-property('fill', $hover-color);
+    }
+  }
+}
+
+@mixin truncate() {
+  white-space: nowrap !important; // !important for ProseMirror override
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+//
+// Design and effects
+//
+
+@mixin inner-top-gradient(
+  $height: 100px,
+  $color: black,
+  $opacity: 0.5,
+  $z-index: 1
+) {
+  &:before {
+    content: ' ';
+    position: absolute;
+    height: $height;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: $z-index;
+    pointer-events: none;
+    opacity: $opacity;
+    background: rgba($color,0);
+    // background: -moz-linear-gradient(bottom, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    // background: -webkit-gradient(left bottom, left top, color-stop(0%, rgba($color,0)), color-stop(20%, rgba($color,0.2)), color-stop(100%, $color));
+    // background: -webkit-linear-gradient(bottom, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    // background: -o-linear-gradient(bottom, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    // background: -ms-linear-gradient(bottom, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    background: linear-gradient(to top, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+  }
+}
+
+@mixin inner-bottom-gradient(
+  $height: 100px,
+  $color: black,
+  $opacity: 0.5,
+  $z-index: 1
+) {
+  &:after {
+    content: ' ';
+    position: absolute;
+    height: $height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: $z-index;
+    pointer-events: none;
+    opacity: $opacity;
+    background: rgba($color,0);
+    // background: -moz-linear-gradient(top, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    // background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba($color,0)), color-stop(20%, rgba($color,0.2)), color-stop(100%, $color));
+    // background: -webkit-linear-gradient(top, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    // background: -o-linear-gradient(top, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    // background: -ms-linear-gradient(top, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+    background: linear-gradient(to bottom, rgba($color,0) 0%, rgba($color,0.2) 20%, $color 100%);
+  }
+}

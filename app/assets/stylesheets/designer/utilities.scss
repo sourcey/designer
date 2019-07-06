@@ -24,7 +24,7 @@
 .no-data {
   color: theme-color('secondary');
   font-size: $font-size-sm;
-  padding: 0 $designer-sidebar-section-padding-x;
+  padding: 0 $designer-section-padding-x;
 }
 
 
@@ -53,7 +53,7 @@
 
 .slidein-form {
   // background: white;
-  background: $designer-sidebar-background-color;
+  background: $designer-background-color;
   z-index: 101;
   position: absolute;
   overflow: hidden;

@@ -1,0 +1,689 @@
+$designer-indicator-color: #ccc;
+$designer-indicator-shadow: inset 0 0 0 1px $designer-indicator-color;
+$designer-indicator-focused-color: gray;
+$designer-indicator-focused-shadow: inset 0 0 0 1px $designer-indicator-focused-color;
+$designer-base-color: $gray-900;
+$designer-menu-item: 40px;
+$designer-transition: opacity .15s ease-in-out;
+
+// Override this on the outside app to factor in navbar height.
+$navbar-height: 0 !default;
+
+
+.designer-active {
+
+  .draggable {
+    cursor: move;
+    cursor: grab;
+  }
+
+
+  // Floating menu
+  // --------------------------------------------------
+
+  .designer-floating-menu {
+    display: flex;
+    position: absolute;
+    top: -$designer-menu-item;
+    left: 0;
+    right: 0;
+    z-index: $zindex-fixed;
+    transition: $designer-transition;
+
+    .menu-item {
+      // padding: .75rem 1.25rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      height: $designer-menu-item;
+      line-height: $designer-menu-item;
+      font-weight: 600;
+      font-size: .75rem;
+      display: inline-block;
+      background: $designer-base-color;
+      white-space: nowrap;
+    }
+
+    span {
+      color: #999;
+      // padding-left: .75rem .75rem;
+    }
+
+    a {
+      text-decoration: none;
+      text-transform: uppercase;
+      color: white;
+
+      &:hover {
+        background: black;
+      }
+    }
+  }
+
+
+  // Sections
+  // --------------------------------------------------
+
+  // .designer-section {
+  .section-wrapper {
+    .designer-section-controls {
+      font-family: $font-family-sans-serif;
+      // display: none;
+      opacity: 0;
+      transition: $designer-transition;
+    }
+
+    .section-empty {
+      padding: 3rem;
+      // margin: 3rem 0;
+      border: 1px dashed $designer-indicator-color;
+    }
+
+    .designer-section-menu {
+      // position: absolute;
+      // top: -$designer-menu-item;
+      // right: auto;
+      // width: 100%;
+      text-align: left;
+      height: 0;
+    }
+
+    &.editing {
+      // Always show menu when editing
+      .designer-section-controls {
+        // display: block;
+        opacity: 1;
+      }
+
+      .designer-section-menu {
+        background: $designer-base-color;
+      }
+    }
+
+    &:hover {
+      // box-shadow: inset 0 0 0 1px rgba(#ccc, .2);
+
+      .designer-section-controls {
+         // .designer-floating-menu
+        // display: block;
+        opacity: 1;
+      }
+    }
+  }
+
+  // Push the section menu down if the header is overlayed
+  .header-overlay #page > div:first-child .section-wrapper {
+    .designer-section-menu {
+      margin-top: $navbar-height; // $navbar-height should be set by the theme
+    }
+    &.editing .designer-section-menu {
+      margin-top: $designer-menu-item;
+    }
+  }
+
+
+  // Elements
+  // --------------------------------------------------
+
+  .element-wrapper {
+    .designer-element-controls {
+      font-family: $font-family-sans-serif;
+      text-align: center;
+
+      // &.draggable {
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   right: 0;
+      //   bottom: 0;
+      //   // cursor: move;
+      //   // cursor: grab;
+      // }
+
+      .designer-element-menu {
+        // background: $designer-base-color;
+        // @include flex-center;
+        // display: flex;
+        // display: none;
+        transition: $designer-transition;
+        opacity: 0;
+        // display: none;
+        justify-content: center;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        // text-align: center;
+        height: 0;
+        z-index: 2010; // above clip regions
+
+        .menu-item {
+          height: $designer-menu-item;
+          line-height: $designer-menu-item;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    // &:hover {
+    //   box-shadow: $designer-indicator-shadow;
+    //
+    //   .designer-floating-menu {
+    //     display: flex;
+    //   }
+    // }
+  }
+
+  .section-wrapper.editing {
+
+    // Disable mouse events for element components while editing
+    .element a,
+    .element iframe {
+      pointer-events: none;
+    }
+
+    .element-wrapper {
+      &:hover {
+        box-shadow: $designer-indicator-shadow;
+
+        .designer-element-menu {
+          // display: block;
+          opacity: 1;
+        }
+      }
+
+      &.focused {
+        box-shadow: $designer-indicator-focused-shadow !important;
+        // z-index: 101; // above the element overlay
+
+        // &.overlay {
+        //
+        // }
+      }
+
+      // .designer-element-controls {
+      //   display: block;
+      //
+      //   &:hover {
+      //     box-shadow: $designer-indicator-shadow;
+      //
+      //     .designer-floating-menu {
+      //       display: flex;
+      //     }
+      //   }
+      // }
+    }
+  }
+
+  // .section.dragging,
+  .section-wrapper.resizing {
+    .element-wrapper {
+      .designer-element-menu {
+        display: none !important;
+      }
+    }
+  }
+
+  // .designer-menu-hidden .designer-floating-menu {
+  //   display: none !important;
+  // }
+
+  // .designer-element-overlay {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   bottom: 0;
+  //   right: 0;
+  //   z-index: 100;
+  //   background: rgba(white, .01);
+  // }
+
+  // Insertion points
+  // --------------------------------------------------
+
+  .designer-insertion-point {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: block;
+    z-index: $zindex-fixed;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .1s ease-out;
+    border-bottom: 2px solid transparent;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -9px;
+      left: -20px;
+      height: 20px;
+      width: 20px;
+      background-color: $designer-base-color;
+      border-radius: 100px 100px 0;
+      transform: rotate(-45deg) scale(0);
+      transform-origin: center center;
+      transition: transform,background-color,opacity;
+      transition-duration: .1s;
+      transition-timing-function: ease-out;
+    }
+
+    &.top {
+      top: 0;
+    }
+
+    &.bottom {
+      bottom: 0;
+    }
+
+    &.show {
+      opacity: .5;
+
+      &:before {
+        transform: rotate(-45deg) scale(1);
+      }
+    }
+
+    &:hover {
+      border-color: $designer-base-color;
+      opacity: 1;
+    }
+  }
+
+  .layout-row > .designer-insertion-point {
+    left: -.5rem;
+  }
+
+  .section.dragging,
+  .section.resizing {
+    .designer-insertion-point {
+      display: none;
+    }
+  }
+
+
+  // Wysiwyg editor
+  // --------------------------------------------------
+
+  .editor {
+    .ProseMirror {
+      outline: 0;
+
+      > *:last-child {
+        margin-bottom: 0;
+      }
+
+      &:not(.ProseMirror-focused) .is-empty:first-child:before {
+        content: attr(data-empty-text);
+        pointer-events: none;
+        height: 0;
+      }
+    }
+    // p {
+    //   &.is-empty:first-child:before {
+    //     content: attr(data-empty-text);
+    //     pointer-events: none;
+    //     height: 0;
+    //     // color: #999;
+    //     // font-style: italic;
+    //   }
+    //
+    //   // &:last-child {
+    //   //   margin-bottom: 0;
+    //   // }
+    // }
+
+    .menubar {
+      background-color: $designer-base-color;
+      // margin-bottom: 1rem;
+      line-height: $line-height-base;
+      font-size: $font-size-base;
+      font-family: $font-family-sans-serif;
+      transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+      display: flex;
+      white-space: nowrap;
+      z-index: $zindex-fixed;
+
+      &.is-hidden {
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      &.is-focused {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0.2s, opacity 0.2s;
+      }
+
+      &__button {
+        font-weight: bold;
+        // display: inline-block;
+        background: transparent;
+        border: 0;
+        // border-radius: 0;
+        // color: black;
+        color: white;
+        padding: 0 0.75rem;
+        height: 26px;
+        margin: 0;
+        font-size: 13px;
+        line-height: 1;
+        cursor: pointer;
+
+        svg {
+          fill: white;
+        }
+
+        &:hover {
+          background-color: rgba(white, 0.05);
+        }
+
+        &.is-active {
+          background-color: rgba(white, 0.1);
+        }
+      }
+    }
+  }
+
+
+  // Designer resizable
+  // --------------------------------------------------
+
+  // .designer-resizable-col {
+  //   position: relative;
+  // }
+
+  .designer-resize-handle {
+    position: absolute;
+    display: block;
+    z-index: $zindex-fixed;
+    opacity: 0;
+
+    // .show,
+    &.dragging,
+    &:hover {
+      opacity: 1;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+    }
+
+    // &.top,
+    // &.bottom {
+    //   left: 0;
+    //   right: 0;
+    //   height: 1.5rem;
+    //   cursor: ns-resize;
+    //
+    //   &:before {
+    //     left: 0;
+    //     right: 0;
+    //     top: .75rem;
+    //     border-top: 1px solid $designer-indicator-color;
+    //   }
+    // }
+
+    &.left,
+    &.right {
+      top: 0;
+      bottom: 0;
+      width: 1.5rem;
+      cursor: ew-resize;
+
+      &:before {
+        top: 0;
+        bottom: 0;
+        left: .75rem;
+        border-left: 2px solid $designer-indicator-color;
+      }
+    }
+
+    // &.top {
+    //   top: -.75rem;
+    // }
+    //
+    // &.bottom {
+    //   bottom: -.75rem;
+    // }
+
+    &.left {
+      left: -.75rem;
+    }
+
+    &.right {
+      right: -.75rem;
+    }
+  }
+
+  .designer-element-resize-handle {
+    position: absolute;
+    z-index: $zindex-fixed;
+    bottom: -7px;
+    left: 50%;
+    margin-left: -8px;
+    height: 14px;
+    width: 14px;
+    border-radius: 100px;
+    background-color: $designer-indicator-focused-color;
+    cursor: ns-resize;
+
+    &:hover {
+      background-color: $designer-base-color;
+    }
+  }
+
+  // Hide certain elements while resizing
+  .section-wrapper.resizing {
+    .element-wrapper:hover {
+      box-shadow: none;
+    }
+    // .designer-element-menu,
+    // .designer-element:hover {
+    //   box-shadow: none;
+    // }
+    .designer-element-menu,
+    // .designer-resize-handle,
+    .designer-insertion-point,
+    .designer-drop-line-indicator {
+      display: none;
+    }
+  }
+
+
+  // Designer draggable
+  // --------------------------------------------------
+
+  .designer-drop-target {
+    position: absolute;
+    display: block;
+    z-index: $zindex-fixed;
+    opacity: .1;
+    // opacity: 1;
+    // pointer-events: none;
+
+    &.active {
+      opacity: 1;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    &.top,
+    &.bottom {
+      left: 0;
+      right: 0;
+      height: 2px;
+      // border-top: 2px solid $designer-base-color;
+      background-color: $designer-base-color;
+      // cursor: ns-resize;
+
+      // &:before {
+      //   left: 0;
+      //   right: 0;
+      //   top: .75rem;
+      //   border-left: 1px solid $designer-indicator-color;
+      // }
+    }
+
+    &.left,
+    &.right {
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: $designer-base-color;
+
+      // border-left: 2px solid $designer-base-color;
+
+      // width: 1.5rem;
+      // cursor: ew-resize;
+      //
+      // &:before {
+      //   top: 0;
+      //   bottom: 0;
+      //   left: .75rem;
+      //   border-left: 1px solid $designer-indicator-color;
+      // }
+    }
+
+    &.top {
+      top: -1px;
+    }
+
+    &.bottom {
+      bottom: -1px;
+    }
+
+    &.left {
+      left: -1px;
+    }
+
+    &.right {
+      right: -1px;
+    }
+
+    &.row-clip {
+      z-index: 2001;
+
+      &:before {
+        // background: red;
+        height: 20px;
+        top: -10px;
+      }
+    }
+    &.column-clip {
+      z-index: 2000;
+
+      &:before {
+        // background: green;
+        width: 50px;
+        left: -25px;
+      }
+    }
+    &.element-clip {
+      z-index: 1999;
+
+      &:before {
+        // background: rgba(yellow, .5);
+        height: 60px;
+        top: -10px; // dont clip above row
+      }
+
+      &.bottom:before {
+        top: -30px; // dont clip above row
+      }
+    }
+  }
+
+
+  // .designer-drop-line-indicator {
+  //   position: absolute;
+  //   display: block;
+  //   z-index: $zindex-fixed;
+  //   opacity: 0;
+  //   pointer-events: none;
+  //
+  //   &.show {
+  //     opacity: 1;
+  //   }
+  //
+  //   // &:before {
+  //   //   content: '';
+  //   //   position: absolute;
+  //   // }
+  //
+  //   &.top,
+  //   &.bottom {
+  //     left: 0;
+  //     right: 0;
+  //     height: 2px;
+  //     // border-top: 2px solid $designer-base-color;
+  //     background-color: $designer-base-color;
+  //     // cursor: ns-resize;
+  //
+  //     // &:before {
+  //     //   left: 0;
+  //     //   right: 0;
+  //     //   top: .75rem;
+  //     //   border-left: 1px solid $designer-indicator-color;
+  //     // }
+  //   }
+  //
+  //   &.left,
+  //   &.right {
+  //     top: 0;
+  //     bottom: 0;
+  //     width: 2px;
+  //     background-color: $designer-base-color;
+  //
+  //     // border-left: 2px solid $designer-base-color;
+  //
+  //     // width: 1.5rem;
+  //     // cursor: ew-resize;
+  //     //
+  //     // &:before {
+  //     //   top: 0;
+  //     //   bottom: 0;
+  //     //   left: .75rem;
+  //     //   border-left: 1px solid $designer-indicator-color;
+  //     // }
+  //   }
+  //
+  //   &.top {
+  //     top: -1px;
+  //   }
+  //
+  //   &.bottom {
+  //     bottom: -1px;
+  //   }
+  //
+  //   &.left {
+  //     left: -1px;
+  //   }
+  //
+  //   &.right {
+  //     right: -1px;
+  //   }
+  // }
+
+  // Hide certain elements while dragging
+  .section-wrapper.dragging {
+    // .designer-element:hover {
+    //   box-shadow: none;
+    // }
+    // .designer-element-menu,
+    .designer-resize-handle,
+    .designer-insertion-point {
+      display: none;
+    }
+  }
+}

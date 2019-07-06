@@ -1,0 +1,5 @@
+// @import 'src/themes/synergy/assets/styles/variables';
+
+@function theme-option($key) {
+  @return map-get($theme-options, $key);
+}

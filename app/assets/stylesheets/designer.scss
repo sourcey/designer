@@ -54,7 +54,7 @@ html, body {
 
   #designer-sidebar {
     position: relative;
-    background: $designer-sidebar-background-color;
+    background: $designer-background-color;
 
     * {
       // border: none !important;
@@ -102,7 +102,7 @@ html, body {
           font-weight: 600;
           border-radius: 0;
           border-top: 0;
-          padding: .5rem $designer-sidebar-section-padding-x;
+          padding: .5rem $designer-section-padding-x;
           // border-color: theme-color-level('primary', -6);
           // color: theme-color-level('primary', -6);
           // theme-color-level($color, 6)
@@ -114,9 +114,9 @@ html, body {
 
           &:active,
           &.active {
-            background-color: $designer-sidebar-background-color;
+            background-color: $designer-background-color;
             border-color: theme-color-level('primary', -6);
-            border-bottom-color: $designer-sidebar-background-color;
+            border-bottom-color: $designer-background-color;
           }
         }
       }

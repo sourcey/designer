@@ -1,0 +1,20 @@
+.element-heading {
+  margin: 0;
+
+  * {
+    margin: 0;
+  }
+
+  // Block titles display flush with the element below
+  &.block-title,
+  &.block-separator-title {
+    padding-bottom: 1rem;
+    margin-bottom: -($element-padding * 2) !important; // flush with next row
+  }
+
+  &.truncate > *,
+  &.truncate .ProseMirror,
+  &.truncate .ProseMirror:first-child {
+    @include truncate;
+  }
+}

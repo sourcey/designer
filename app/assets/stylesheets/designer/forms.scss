@@ -11,22 +11,12 @@
     min-width: 0; // flexbox truncation fix with .back-link
   }
 
-  // ,
-  // header
   .form-header {
-    // @include flex-align(center);
-    // padding: 0 $designer-sidebar-section-padding-x .5rem;
-    // margin: .5rem $designer-sidebar-section-padding-x 0;
     margin-top: 1.5rem;
-
-    // + section {
-    //   border-top: 1px solid $border-color;
-    //   // border-bottom: 1px solid $border-color;
-    // }
   }
 
   .form-section {
-    padding: $designer-sidebar-item-padding-y 0;
+    padding: $designer-item-padding-y 0;
   }
 
   .form-group {
