@@ -80,26 +80,6 @@ module Designer::DesignerHelper
     @_resource || @resource
   end
 
-  def designer_preview_url
-    return designer_option(:preview_url) if designer_option?(:preview_url)
-    path = designer_option(:preview_url_template) || ':resource_name/:id'
-    designer_interpolate_path path
-  end
-
-  # Interpolate paths with `:param` system using request params or resource
-  # instance variables
-  def designer_interpolate_path path
-    path.gsub(/:([a-z]+)/) do |x|
-      param = Regexp.last_match[1]
-      if params[param] && param != 'subdomain'
-        params[param]
-      else
-        # raise designer_resource.send(param)
-        designer_resource.send(param)
-      end
-    end
-  end
-
   def designer_context_paths resource = nil
     designer_set_resource(resource) if resource
     resource ||= designer_resource

@@ -40,8 +40,29 @@ module Designer
     end
 
     def designer_config
-      @designer_config ||= Designer.configuration[model_name.route_key].merge(custom_designer_config)
+      return @designer_config if @designer_config
+      @designer_config = Designer.configuration[model_name.route_key].dup
+      @designer_config['spec'] ||= {}
+      @designer_config['spec'].reverse_merge!(Designer.default_spec)
+      @designer_config.deep_merge!(custom_designer_config)
+      @designer_config
     end
+
+    # def designer_config
+    #   return @designer_config if @designer_config
+    #   @designer_config = Designer.configuration[model_name.route_key].dup
+    #   # @config.merge!(Designer.configuration[model_name.route_key].dup)
+    #
+    #   # Merge the default spec items
+    #   @designer_config['spec'] ||= {}
+    #   @designer_config['spec'].reverse_merge!(Designer.default_spec)
+    #
+    #   # Merge in the dynamic custom config if defined
+    #   @designer_config.deep_merge!(custom_designer_config)
+    #
+    #   @designer_config
+    #   # ||= Designer.configuration[model_name.route_key].merge(custom_designer_config)
+    # end
 
     # Called by the designer to update the model
     # Override to handle custom update logic

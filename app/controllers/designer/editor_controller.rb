@@ -20,7 +20,8 @@ module Designer
     end
 
     def data
-      render json: designer_context(@resource)
+      # render json: designer_context(@resource)
+      render json: Designer::ConfigBuilder.new(@resource).perform.transform_keys{ |key| key.to_s.camelize(:lower) }
     end
 
     def update

@@ -1,6 +1,0 @@
-import './icons/plus.svg'
-import './icons/cross.svg'
-import './icons/caret-down.svg'
-import './icons/chevron-down.svg'
-import './icons/upload-circle.svg'
-import './icons/upload-cloud.svg'
