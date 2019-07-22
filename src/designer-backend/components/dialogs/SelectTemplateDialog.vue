@@ -6,7 +6,7 @@ dialog-window(
   slot
     section.p-1.clearfix
       a.icon-select(
-          v-for='(template, name) in designerState.spec.templates' :key='name'
+          v-for='(template, name) in designerBackendState.spec.templates' :key='name'
           href='#'
           @click.prevent='selectTemplate(name)')
         icon(:name='"template-" + template.icon' size='32')
@@ -32,18 +32,19 @@ export default {
   },
   // computed: {
   //   templatesSortedByCategory () {
-  //     return sortItemsBy(this.designerState.templates, 'category')
+  //     return sortItemsBy(this.designerBackendState.templates, 'category')
   //   }
   // },
   methods: {
     selectTemplate (name) {
-      // const template = this.designerStore.selectTemplateData(name)
-      // const template = this.designerStore.selectTemplateData(name)
-      // this.designerStore.mergeSpecDefaults(this.section, this.templateSpec)
+      // const template = this.designerBackendStore.selectTemplateData(name)
+      // const template = this.designerBackendStore.selectTemplateData(name)
+      // this.designerBackendStore.mergeSpecDefaults(this.section, this.templateSpec)
       // console.log('create template dialog: create template', template)
 
       // this.$emit('update', template)
-      this.$emit('select', name)
+      this.$emit('apply', name)
+      // this.close
     }
   }
 }

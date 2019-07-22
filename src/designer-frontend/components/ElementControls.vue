@@ -209,7 +209,7 @@ export default {
       this.editing = true
       // const pos = event ? { x: event.clientX + 100, y: event.clientY } : {}
 
-      this.$store.commit('setDesignerEditingElement', this)
+      this.$store.commit('setDesignerEditingElement', this.element)
       this.designerBackend.editElement(event, this.element) // this.spec, this.meta
     },
     remove () {

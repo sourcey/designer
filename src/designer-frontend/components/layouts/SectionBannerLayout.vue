@@ -1,12 +1,9 @@
-<template>
-  <div class="layout layout-image-banner layout-banner d-flex align-items-center"
-      :class="['text-' + textAlignment, {'invert-colors': invertColors }]" :style="layoutCss">
-    <div class="container">
-      <slot />
-    </div>
-    <BackgroundOverlay v-if="overlay" v-bind="overlay" />
-    <ImageLoader :image="image" v-bind="imageOptions" />
-  </div>
+<template lang="pug">
+.layout.layout-image-banner.layout-banner.d-flex.align-items-center(:class="['text-' + textAlignment, {'invert-colors': invertColors }]" :style='layoutCss')
+  .container
+    slot
+  background-overlay(v-if='overlay' v-bind='overlay')
+    image-loader(:image='image' v-bind='imageOptions')
 </template>
 
 <script>

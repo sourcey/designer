@@ -266,7 +266,7 @@ elements:
       content:
         label: Text
         type: string
-        placeholder: 'Write a heading here...'
+        placeholder: 'Write heading here...'
         hidden: true
       size:
         label: Size
@@ -289,6 +289,7 @@ elements:
         type: string
         options:
           page-title: Page title
+          section-title: Section title
           block-title: Block title
           # block-separator-title: Block separator title
       # size:
@@ -469,35 +470,35 @@ elements:
   #
   banner:
     label: Banner
-    layout: element_banner_image
+    # layout: element_banner_image
     category: Rich Layouts
-    override: true
+    # override: true
     draggable: true
     icon: banner
-    children:
-      - name: text
-        data:
-          editor: title
-          placeholder: "<h1>Write title here...</h1>"
-      - name: text
-        data:
-          editor: title
-          placeholder: "<h3>Write subtitle here...</h3>"
-          # content: "<h1>Batch :<br>No. 1</h1><h3>Shop Now</h3>"
-      - name: button
-        data:
-          label: Button
+    # children:
+    #   - name: text
+    #     data:
+    #       editor: title
+    #       placeholder: "<h1>Write title here...</h1>"
+    #   - name: text
+    #     data:
+    #       editor: title
+    #       placeholder: "<h3>Write subtitle here...</h3>"
+    #       # content: "<h1>Batch :<br>No. 1</h1><h3>Shop Now</h3>"
+    #   - name: button
+    #     data:
+    #       label: Button
     properties:
-      # title:
-      #   label: Title
-      #   type: string
-      #   placeholder: Title
-      #   hidden: true
-      # subtitle:
-      #   label: Subtitle
-      #   type: string
-      #   placeholder: Subtitle
-      #   hidden: true
+      title:
+        label: Title
+        type: string
+        placeholder: Title
+        hidden: true
+      subtitle:
+        label: Subtitle
+        type: string
+        placeholder: Subtitle
+        hidden: true
       image:
         label: Image
         type: attachment
@@ -514,8 +515,8 @@ elements:
       <<: *background_overlay_properties
   card:
     label: Image Card
-    layout: element_image_card
-    override: true
+    # layout: element_image_card
+    # override: true
     draggable: true
     category: Rich Layouts
     icon: card
@@ -533,16 +534,16 @@ elements:
     #     data:
     #       label: Button
     properties:
-      # title:
-      #   label: Title
-      #   type: string
-      #   placeholder: Title
-      #   hidden: true
-      # subtitle:
-      #   label: Subtitle
-      #   type: string
-      #   placeholder: Subtitle
-      #   hidden: true
+      title:
+        label: Title
+        type: string
+        placeholder: Title
+        hidden: true
+      subtitle:
+        label: Subtitle
+        type: string
+        placeholder: Subtitle
+        hidden: true
       image:
         label: Image
         type: attachment
@@ -550,11 +551,29 @@ elements:
       image_placement:
         label: Image placement
         type: string
-        default: left
+        default: top
         required: true
         options:
+          top: Top
           left: Left
           right: Right
+      image_aspect_ratio:
+        label: Image aspect ratio
+        type: number
+        input: range
+        default: 1.33
+        step: .1
+        min: .1
+        max: 3
+      style:
+        label: Style
+        type: string
+        # default: left
+        # required: true
+        options:
+          # left: Left
+          # right: Right
+          overlay: Overlay
   image_carousel:
     label: Image Carousel
     # override: true

@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import DesignerInterface from '../mixins/designer-interface.js'
 import SpecTools from '../assets/scripts/spec-tools.js'
 
 export default {
@@ -19,6 +20,9 @@ export default {
       // default: () => {}
     }
   },
+  mixins: [
+    DesignerInterface
+  ],
   data () {
     return {
       active: false

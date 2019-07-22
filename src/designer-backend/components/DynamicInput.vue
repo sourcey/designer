@@ -20,8 +20,8 @@ export default {
       if (this.spec.if) {
         // match value exists
         if (typeof(this.spec.if) === 'string') {
-          // console.log('dynamic input: visible: if exists', this.spec.if, this.model[this.spec.if])
-          return !!this.model[this.spec.if]
+          // console.log('dynamic input: visible: if exists', this.spec.if, this.object[this.spec.if])
+          return !!this.object[this.spec.if]
         }
 
         const key = Object.keys(this.spec.if)[0]
@@ -29,20 +29,20 @@ export default {
 
         // match exact value
         if (typeof(val) === 'string') {
-          // console.log('dynamic input: visible: if matches', val, this.model[key])
-          return this.model[key] === val
+          // console.log('dynamic input: visible: if matches', val, this.object[key])
+          return this.object[key] === val
         }
 
         else if (Array.isArray(val)) {
-          // console.log('dynamic input: visible: if contains', val, this.model[key])
-          return this.model[key] && val.includes(this.model[key])
+          // console.log('dynamic input: visible: if contains', val, this.object[key])
+          return this.object[key] && val.includes(this.object[key])
         }
 
         // console.log('dynamic input: visible: no match')
         return false
       }
       if (this.spec.unless)
-        return !this.model[this.spec.unless]
+        return !this.object[this.spec.unless]
       return true
     },
     componentName () {

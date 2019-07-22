@@ -1,18 +1,10 @@
-<template>
-  <div class="element wrapper">
-    <div v-if="empty" class="placeholder">
-      <Icon name="video-placeholder" size="64" />
-    </div>
-    <!-- <div> -->
-     <!--video-responsive  :style="{'padding-bottom': (100 / aspect_ratio) + '%' }" -->
-      <iframe v-else :src="url" allowfullscreen allowtransparency frameborder="0" allow="autoplay"></iframe>
-    <!-- </div>  class="fill-parent"-->
-  </div>
+<template lang="pug">
+.element.wrapper
+  placeholder(v-if='empty' icon='video-placeholder')
+  iframe(v-else='' :src='url' allowfullscreen='' allowtransparency='' frameborder='0' allow='autoplay')
 </template>
 
 <script>
-import '../../assets/images/video-placeholder.svg'
-
 export default {
   props: {
     element: {

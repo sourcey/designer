@@ -1,8 +1,6 @@
-<template>
-  <div class="element" :class="'text-' + alignment">
-    <!-- {{ this.element.data }} -->
-    <router-link :to="sitePath(link)" class="btn" :class="classNames">{{ label }}</router-link>
-  </div>
+<template lang="pug">
+.element(:class="'text-' + alignment")
+  router-link.btn(:to='sitePath(link)' :class='classNames') {{ label }}
 </template>
 
 <script>

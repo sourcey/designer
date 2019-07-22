@@ -1,15 +1,14 @@
 import Vue from 'vue'
-import { DirectUpload } from '@rails/activestorage'
+// import { DirectUpload } from '@rails/activestorage'
 import { pick } from '../../designer/utils'
 // import { store } from './store'
 import axios from 'axios'
-import buildURL from 'axios/lib/helpers/buildURL'
+// import buildURL from 'axios/lib/helpers/buildURL'
 
 
 export default {
   methods: {
     uploadAttachment (attachment) {
-      console.log('uploading attachment', attachment)
       return new Promise((resolve, reject) => {
 
         // Create a thumbnail
@@ -21,6 +20,10 @@ export default {
         }
 
         // TODO: Use a presigned non-direct upload
+        const { DirectUpload } = require('@rails/activestorage')
+        // import { DirectUpload } from '@rails/activestorage'
+        // import { DirectUpload } from '@rails/activestorage'
+        console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl())
         const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(), this)
         directUpload.create((error, attributes) => {
           if (error) {
@@ -58,7 +61,12 @@ export default {
 
     destroyAttachment (attachment) {
       console.log('destroy attachment', attachment)
-      axios.delete(this.attachmentDeleteUrl(attachment))
+      return axios.delete(this.attachmentDeleteUrl(attachment))
+    },
+
+    loadAttachments () {
+      console.log('load attachments', this.attachmentsUrl())
+      return axios.get(this.attachmentsUrl())
     },
 
     attachmentVisible (attachment) {
@@ -79,8 +87,10 @@ export default {
     // --------------------------------------------------
 
     buildAttachmentUrl (baseUrl) {
-      return buildURL(baseUrl, this.designerBackendStore.resourceUrlParameters(
-        this.spec && this.spec.url_params ? this.spec.url_params : null))
+      return this.designerBackendStore.getters.buildResourceUrl(baseUrl,
+          this.spec && this.spec.url_params ? this.spec.url_params : null)
+      // return buildURL(baseUrl, this.designerBackendStore.getters.resourceUrlParameters(
+      //   this.spec && this.spec.url_params ? this.spec.url_params : null))
     },
 
     attachmentDirectUploadUrl (params) {
@@ -88,13 +98,13 @@ export default {
     },
 
     attachmentUploadUrl (attachment) {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentUploadPathTemplate)
+      return this.buildAttachmentUrl(this.designerBackendState.attachmentUploadUrlTemplate)
                 .replace(':name', attachment.name ? attachment.name : 'attachments')
                 .replace('%3Aname', attachment.name ? attachment.name : 'attachments')
     },
 
     attachmentDeleteUrl (attachment) {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentDeletePathTemplate)
+      return this.buildAttachmentUrl(this.designerBackendState.attachmentDeleteUrlTemplate)
                 .replace(':key', encodeURIComponent(attachment.key))
                 .replace("%3Akey", encodeURIComponent(attachment.key))
     },
@@ -109,16 +119,26 @@ export default {
 
     attachmentThumbnailUrl (attachment) {
       if (attachment.key) {
-        return this.buildAttachmentUrl(this.designerBackendState.attachmentThumbnailPathTemplate)
+
+        // If our `attachmentUrl` is defined on the instance then always use that
+        if (typeof this.attachmentUrl  === 'function') {
+          return this.attachmentUrl(attachment, 'thumb')
+        }
+
+        return this.buildAttachmentUrl(this.designerBackendState.attachmentThumbnailUrlTemplate)
                   .replace(':key', encodeURIComponent(attachment.key))
                   // .replace('%3Akey', encodeURIComponent(attachment.key))
       } else if (attachment.asset) {
 
         // This path is used for static preview assets displayed from the local filesystem
-        return this.buildAttachmentUrl(this.designerBackendState.previewUrl + this.designerBackendState.attachmentPreviewAssetPathTemplate)
+        return this.buildAttachmentUrl(this.designerBackendState.previewUrl + this.designerBackendState.attachmentPreviewAssetUrlTemplate)
                   .replace(':asset', attachment.asset)
 
       }
+    },
+
+    attachmentsUrl () {
+      return this.buildAttachmentUrl(this.designerBackendState.attachmentsUrl)
     }
   }
 }

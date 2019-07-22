@@ -1,11 +1,15 @@
-<template>
-  <div class="text-content">
-    <component :is="tagName" class="element element-heading" :class="classNames" v-html="content" />
-  </div>
+<template lang="pug">
+//- .element.element-heading.text-content
+editable-text(v-model='data.content' :content-tag='tagName' :content-class='classNames' :editor-options='{mode: "basic"}')
 </template>
 
 <script>
+import EditableText from '../EditableText.vue'
+
 export default {
+  components: {
+    EditableText
+  },
   props: {
     element: {
       type: Object,
@@ -33,7 +37,7 @@ export default {
       return `h${this.size}`
     },
     classNames () {
-      const arr = []
+      const arr = ['element', 'element-heading', 'text-content']
       if (this.size)
         arr.push(`heading-${this.size}`)
       if (this.style)

@@ -3,12 +3,13 @@
   //- div {{ attachments }}
   header.pt-15
     .form-title Media Gallery
-    button.btn.btn-sm.btn-success.btn-upload
-      designer-icon(name='plus')
+    button.btn.btn-sm.btn-success.btn-upload(:for='inputId')
+      icon(name='plus')
       span Upload
-      input.input-file(type='file' multiple='' accept="image/*" @change='filesChange')
+  input.input-file(:id='inputId' type='file' multiple='' accept="image/*" @change='filesChange')
+  //- div {{attachments}}
   table.table.table-hover
-    thead
+    //- thead
       tr
         th(style='width:80px')
         th Name
@@ -16,27 +17,26 @@
         //- th Status
         th
     tbody
-      tr(v-if='!attachments.length')
+      //- tr(v-if='!attachments.length')
         td(colspan='7')
           .text-center.p-5
             h4
               | Drop attachments anywhere to upload
               br
               | or
-            label.btn.btn-lg.btn-success(:for='name') Select Files
+            label.btn.btn-lg.btn-success(:for='inputId') Select Files
       tr(v-for='(attachment, index) in attachments' :key='attachment.id')
         // <td>{{index}}</td>
-        td
-
+        td(width='100px')
           img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')
-          img.img-fluid(v-else-if='attachment.key' :src='designerBackendStore.attachmentThumbnailUrl(attachment)')
+          img.img-fluid(v-else-if='attachment.key' :src='attachmentThumbnailUrl(attachment)')
           //- img(v-if='attachment.thumbnail || attachment.thumbnail_url' :src='attachment.thumbnail || attachment.thumbnail_url' width='50' height='auto')
           //- span(v-else='') No Image
         td
+          //- div {{ attachment }}
           .filename {{ attachment.filename }}
           .text-danger(v-if='attachment.error') {{ attachment.error }}
-          .loader.spinner-border(v-else-if='!attachment.key' role='status')
-            span.sr-only Loading...
+          .spinner(v-else-if='!attachment.key')
           .small.text-muted(v-else)
             div(v-if='attachment.byte_size') {{ attachment.byte_size | humanSize }}
             div {{ attachment.content_type}}
@@ -53,7 +53,7 @@
         //- td(v-else-if='attachment.active') active
         //- td(v-else='')
         //- td
-        td(align='right')
+        td.pr-125(align='right')
           b-dropdown(variant='icon btn-text-secondary' size='sm' no-caret)
             template(slot='button-content')
               icon(name='ellipsis-v')
@@ -100,17 +100,28 @@
 </template>
 
 <script>
-// import Attachments from '../../mixins/attachments'
+import Attachments from '../mixins/attachments'
+// import { randomString } from '../utils'
+import { randomString } from '../../designer/utils'
+import axios from 'axios'
 
 export default {
   // props: ['spec', 'name', 'object', 'parent', 'root'],
-  // mixins: [Attachments],
-  // data () {
-  //   return {
-  //     object: this.model, // || {}
-  //     // attachments: [],
-  //   }
-  // },
+  mixins: [
+    Attachments
+  ],
+  data () {
+    return {
+      inputId: `file-${randomString(5)}`
+      // object: this.model, // || {}
+      // attachments: [],
+    }
+  },
+  created () {
+    // this.loadAttachments()
+    //   .then(response => this.attachments = response.data)
+    this.$store.dispatch('loadAttachments')
+  },
   mounted () {
     // if (!Array.isArray(this.object[this.name])) {
     //   this.object[this.name] = []
@@ -132,7 +143,7 @@ export default {
     // },
   },
   methods: {
-    filesChange(event) {
+    filesChange (event) {
       console.log('attachments added', event.target.files)
 
       Array.from(event.target.files).forEach(file => {

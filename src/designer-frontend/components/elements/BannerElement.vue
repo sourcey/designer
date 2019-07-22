@@ -1,25 +1,21 @@
-<template>
-  <div class="element wrapper">
-    <ImageLoader :image="image" />
-    <BackgroundOverlay v-bind="overlay" />
-    <div class="fill-parent" :class="flexBoxClasses">
-      <slot>
-        <div class="text-content mx-auto" :class="'text-' + textAlignment">
-          <div class="h1 title" v-html="title"></div>
-          <div class="h3 subtitle" v-html="subtitle"></div>
-        </div>
-      </slot>
-    </div>
-  </div>
+<template lang="pug">
+.element.wrapper
+  image-loader(:image='image')
+  background-overlay(v-bind='overlay')
+  .fill-parent(:class='flexBoxClasses')
+    slot
+      .text-content.mx-auto(:class="'text-' + textAlignment")
+        editable-text(v-model='data.title' content-tag='h1' content-class='title' :editor-options='{mode: "basic"}')
+        editable-text(v-model='data.subtitle' content-tag='h3' content-class='subtitle' :editor-options='{mode: "basic"}')
 </template>
 
 <script>
-import ImageLoader from '../ImageLoader.vue'
 import BackgroundOverlay from '../BackgroundOverlay.vue'
+import EditableText from '../EditableText.vue'
 
 export default {
   components: {
-    ImageLoader
+    EditableText
   },
   props: {
     element: {
@@ -58,11 +54,12 @@ export default {
       }
     },
     overlay () {
-      if (this.data.overlay_type)
+      if (this.data.overlay_type) {
         return {
           type: this.data.overlay_type,
           opacity: this.data.overlay_opacity
         }
+      }
     }
   }
 }

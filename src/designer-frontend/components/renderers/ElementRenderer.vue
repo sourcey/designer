@@ -1,39 +1,24 @@
-<template>
-  <div :class="wrapperClass" :style="wrapperStyle">
-    <component v-if="designerEditingSection" ref="designerControls" :is="elementControlsComponent" :element="element" :meta="meta" />
-     <!-- v-bind="elementData" -->
-    <component :class="elementClass" :style="elementStyle" :is="elementComponent" :id="element.id" :element="element" :data="elementData" />
-  </div>
+<template lang="pug">
+div(:class='wrapperClass' :style='wrapperStyle')
+  component(v-if='designerEditingSection' ref='designerControls' :is='elementControlsComponent' :element='element' :meta='meta')
+  component(:class='elementClass' :style='elementStyle' :is='elementComponent' :id='element.id' :element='element' :data='elementData')
 </template>
 
 <script>
 import DesignerInterface from '../../mixins/designer-interface.js'
-import {
-  // importThemeLayout,
-  // importThemeElement,
-  // importDesignerElement,
-  classify,
-  dasherize
-} from '@/assets/scripts/utils'
+import { classify, dasherize } from '@/assets/scripts/utils'
 
 
 export default {
   props: {
     element: {
       type: Object,
-      required: true,
-      default: () => {}
+      required: true
     },
     meta: {
       type: Object,
-      required: true,
-      default: () => {}
-    },
-    // layout: {
-    //   type: String,
-    //   required: true,
-    //   default: 'element_default'
-    // }
+      required: true
+    }
   },
   mixins: [
     DesignerInterface
@@ -61,27 +46,35 @@ export default {
       // return this.importElement(this.element.name)
       const spec = this.$store.getters.designerElementSpec(this.element.name)
       const name = classify(this.element.name) + 'Element'
-      if (this.designerEditingSection && spec && spec.override) {
-        if (this.designerBackend && this.designerBackend.importCustomEditorElement) {
-          const element = this.designerBackend.importCustomEditorElement(name)
-          if (element)
-            return element
-        }
-        return () => import(/* webpackChunkName: "designer" */ `../editor-elements/${name}.vue`)
-      } else {
-        if (this.designerBackend && this.designerBackend.importCustomElement) {
-          const element = this.designerBackend.importCustomElement(name)
-          if (element)
-            return element
-        }
+      // if (this.designerEditingSection && spec && spec.override) {
+      //   // if (this.designerBackend && this.designerBackend.importCustomEditorElement) {
+      //   //   const element = this.designerBackend.importCustomEditorElement(name)
+      //   //   if (element)
+      //   //     return element
+      //   // }
+      //   const component = this.loadCustomComponent(name, 'editor-elements')
+      //   if (component)
+      //     return component
+      //   return () => import(/* webpackChunkName: "designer" */ `../editor-elements/${name}.vue`)
+      // } else {
+        const component = this.loadCustomComponent(name, 'elements')
+        // console.log('COMINATYA', component)
+        if (component)
+          return component
+        // if (this.designerBackend && this.designerBackend.importCustomElement) {
+        //   alert('here')
+        //   const element = this.designerBackend.importCustomElement(name)
+        //   if (element)
+        //     return element
+        // }
         return () => import(/* webpackChunkName: "designer" */ `../elements/${name}.vue`)
-      }
+      // }
       // return this.designerEditingSection && spec && spec.override ?
       //   importDesignerElement(this.element.name) :
       //   importThemeElement(this.$store.state.site.theme_name, this.element.name)
     },
     elementControlsComponent () {
-      return () => import(/* webpackChunkName: "designer" */ '../ElementControls.vue')
+      return () => import(/* webpackChunkName: "designer-vendor" */ '../ElementControls.vue')
     },
     elementStyle () {
       const style = {}

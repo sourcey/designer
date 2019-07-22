@@ -1,5 +1,5 @@
-<template>
-  <div class="element element-spacer" />
+<template lang="pug">
+  .element.element-spacer
 </template>
 
 <script>

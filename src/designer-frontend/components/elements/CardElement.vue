@@ -1,43 +1,41 @@
-<template>
-  <div class="element d-flex align-items-center" v-if="imagePlacement === 'left'">
-    <div class="w-50">
-      <ImageLoader class="img-fluid" :image="image" />
-    </div>
-    <div class="grid-spacer" />
-    <div class="text-content">
-      <!-- <slot /> -->
-      <div class="h1 title" v-html="title"></div>
-      <div class="h3 subtitle" v-html="subtitle"></div>
-    </div>
-  </div>
-  <div class="element d-flex align-items-center" v-else-if="imagePlacement === 'right'">
-    <div class="text-content">
-      <!-- <slot /> -->
-      <div class="h1 title" v-html="title"></div>
-      <div class="h3 subtitle" v-html="subtitle"></div>
-    </div>
-    <div class="grid-spacer" />
-    <div class="w-50">
-      <ImageLoader class="img-fluid" :image="image" />
-    </div>
-  </div>
+<template lang="pug">
+.element.card-image-top(v-if="imagePlacement === 'top'")
+  image-loader.img-fluid(:image='image' v-bind='imageOptions')
+  .card-content
+    editable-text(v-model='data.title' content-class='title' :editor-options='{mode: "basic"}')
+    editable-text(v-model='data.subtitle' content-class='subtitle' :editor-options='{mode: "basic"}')
+.element.card-image-left.d-flex.align-items-center(v-else-if="imagePlacement === 'left'")
+  .w-50
+    image-loader.img-fluid(:image='image')
+    //- div {{data}}
+  .grid-spacer
+  .card-content
+    editable-text(v-model='data.title' content-class='title' :editor-options='{mode: "basic"}')
+    editable-text(v-model='data.subtitle' content-class='subtitle' :editor-options='{mode: "basic"}')
+.element.card-image-right.d-flex.align-items-center(v-else-if="imagePlacement === 'right'")
+  .card-content
+    editable-text(v-model='data.title' content-class='title' :editor-options='{mode: "basic"}')
+    editable-text(v-model='data.subtitle' content-class='subtitle' :editor-options='{mode: "basic"}')
+  .grid-spacer
+  .w-50
+    image-loader.img-fluid(:image='image')
 </template>
 
 <script>
-import ImageLoader from '../ImageLoader.vue'
+import EditableText from '../EditableText.vue'
 
 export default {
   components: {
-    ImageLoader
+    EditableText
   },
   props: {
     element: {
       type: Object,
-      default: () => {}
+      required: true
     },
     data: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   computed: {
@@ -52,6 +50,19 @@ export default {
     },
     imagePlacement () {
       return this.data.image_placement
+    },
+    imageOptions () {
+      const opts = {}
+      if (this.data.image_fit) {
+        opts.fit = this.data.image_fit
+      }
+      if (this.data.image_aspect_ratio) {
+        if (!opts.fit) {
+          opts.fit = 'cover'
+        }
+        opts.aspectRatio = this.data.image_aspect_ratio
+      }
+      return opts
     }
   }
 }

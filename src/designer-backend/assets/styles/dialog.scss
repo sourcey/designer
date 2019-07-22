@@ -7,7 +7,7 @@ $dialog-border-color: $border-color;
   z-index: $zindex-modal;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 98%; // allow for scrollbar, may need to fix center positioning
   height: 100%;
 }
 
@@ -124,5 +124,60 @@ $dialog-border-color: $border-color;
   }
   100% {
     opacity: 1;
+  }
+}
+
+
+// Overrides the Designer dialog styles
+
+.dialog-window {
+
+  // label {
+  //   // display: block;
+  //   // line-height: inherit;
+  //   // padding: 0;
+  //   // margin-bottom: .375rem;
+  //   font-size: .75rem;
+  //   font-weight: 600;
+  // }
+
+  header {
+    clear: left;
+    border: 0 !important;
+    background: $border-color-light;
+    border-bottom: 1px solid $border-color;
+    padding-top: 0;
+
+    h2 {
+      font-weight: 500;
+    }
+  }
+
+  .icon-select {
+    width: 33%;
+    float: left;
+    padding: .75rem 1rem;
+    text-align: center;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid transparent;
+
+    &:hover {
+      // background-color: #eee;
+      border: 1px solid $gray-900;
+    }
+
+    .icon {
+      // height: 24px;
+      margin-bottom: .5rem;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .label {
+      font-size: .75rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
   }
 }

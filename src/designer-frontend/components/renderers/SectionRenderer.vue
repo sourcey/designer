@@ -1,21 +1,19 @@
-<template>
-  <div class="section-wrapper" :id="section.id">
-    <component v-if="designerEnabled" :is="designerSectionControls" :section="section" />
-    <component class="section-layout" :is="layoutComponent" :item="section" :data="section.data">
-      <component v-if="section.items && section.items.length" :is="itemsRenderer" :item="section" />
-      <div v-else class="element element-layout">
-        <div class="section-empty">
-          This section is empty.
-          <span v-if="designerEnabled">
-            <a href="#" @click="designerBackend.insertPageSection($event, designerPage)">Edit</a> and add some elements to get started.
-          </span>
-        </div>
-      </div>
-    </component>
-  </div>
+<template lang="pug">
+.section-wrapper(:id='section.id')
+  component(v-if='designerEnabled' :is='designerSectionControls' :section='section')
+  component.section-layout(:is='layoutComponent' :item='section' :data='section.data')
+    items-renderer(v-if='section.items && section.items.length' :item='section')
+    .element.element-layout(v-else='')
+      .section-empty
+        | This section is empty.
+        span(v-if='designerEnabled')
+          a(href='#' @click='designerBackend.insertPageSection($event, designerPage)')  Edit
+          |  and add some elements to get started.
+        span(v-if='designerEditingSection')  Add some elements to get started.
 </template>
 
 <script>
+import ItemsRenderer from './ItemsRenderer.vue'
 import DesignerInterface from '../../mixins/designer-interface.js'
 import { classify } from '@/assets/scripts/utils'
 
@@ -24,8 +22,11 @@ export default {
   props: {
     section: {
       type: Object,
-      default: () => {}
+      required: true
     }
+  },
+  components: {
+    ItemsRenderer
   },
   mixins: [
     DesignerInterface
@@ -47,22 +48,22 @@ export default {
       //   }
       //   return () => import(/* webpackChunkName: "designer" */ `../editor-elements/${name}.vue`)
       // } else {
-        const name = classify(this.layout) + 'Layout'
-        if (this.designerBackend && this.designerBackend.importCustomLayout) {
-          const element = this.designerBackend.importCustomElement(name)
-          if (element)
-            return element
-        }
-        return () => import(/* webpackChunkName: "designer" */ `../layouts/${name}.vue`)
-      // }
-      // return this.designerEditingSection && spec && spec.override ?
-      //   importDesignerElement(this.element.name) :
-      //   importThemeElement(this.$store.state.site.theme_name, this.element.name)
+      const name = classify(this.layout) + 'Layout'
+      const component = this.loadCustomComponent(name, 'layouts')
+      if (component)
+        return component
+
+      return () => import(/* webpackChunkName: "designer" */ `../layouts/${name}.vue`)
     },
     designerSectionControls () {
-      return () => import(/* webpackChunkName: "designer" */ '../SectionControls.vue')
+      return () => import(/* webpackChunkName: "designer-vendor" */ '../SectionControls.vue')
     }
   },
+  mounted () {
+    // this.$nextTick(() => this.initMenuObserver())
+  },
+  methods: {
+  }
   // watch: {
   //   section: {
   //     handler: (newValue) => {

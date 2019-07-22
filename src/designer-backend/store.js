@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import IpcServer from './ipc-server'
-import { randomString, mergeSpecDefaults, sortItemsBy } from '../designer/utils'
+import { randomString, mergeSpecDefaults, clone } from '../designer/utils'
+import buildURL from 'axios/lib/helpers/buildURL'
 import axios from 'axios'
 
 export default {
@@ -8,26 +9,33 @@ export default {
     // Data
     spec: {},
     resource: {},
-    metadata: [],
+    // content: [],
+    attachments: [],
     validationErrors: {},
-    attachmentMetadata: {},
+    // attachmentMetadata: {},
 
     // Options
     // enable_pages: false,
+    enableSections: false,
     enableGallery: false,
     enableElementEmbeds: false,
     enableRefresh: false,
     googleFontsApiKey: null,
     resourceUrlParameters: null,
 
-    // Attachemnt URLs
-    attachmentUploadPathTemplate: null,
-    attachmentDeletePathTemplate: null,
-    attachmentThumbnailPathTemplate: null,
-    attachmentPreviewAssetPathTemplate: null,
+    // API endpoints
+    resourceUrl: null,
+    attachmentUrl: null,
+    attachmentUploadUrlTemplate: null,
+    attachmentUploadUrlTemplate: null,
+    attachmentDeleteUrlTemplate: null,
+    attachmentThumbnailUrlTemplate: null,
+    attachmentPreviewAssetUrlTemplate: null,
     attachmentCdnUrlTemplate: null,
 
-    previewApp: null
+    previewApp: null,
+    previewExpanded: false,
+    backendInterface: null
   },
 
   // Mutations
@@ -39,6 +47,19 @@ export default {
       Vue.set(state, 'previewApp', instance)
     },
 
+    setPreviewExpanded (state, flag) {
+      Vue.set(state, 'previewExpanded', flag)
+    },
+
+    setDesignerResource (state, instance) {
+      // console.log('$$$$$$$$$$$$$$$$$$$$$ setDesignerResource', instance)
+      Vue.set(state, 'resource', instance)
+    },
+
+    setDesignerAttachemnts (state, attachments) {
+      Vue.set(state, 'attachments', attachments)
+    },
+
   },
 
 
@@ -48,11 +69,12 @@ export default {
   actions: {
 
     saveResource ({ commit, state }) { // (vm) {
-      console.log('designer: saving resource', state.metadata)
-      const data = { resource: state.resource }
-      if (state.metadata)
-        data.resource.metadata = JSON.stringify(state.metadata)
-      return axios.patch(state.resource_path, data)
+      const data = { resource: clone(state.resource) }
+      if (data.resource.content)
+        data.resource.content = JSON.stringify(data.resource.content)
+
+      console.log('designer: saving resource', data, state.resourceUrl)
+      return axios.patch(state.resourceUrl, data)
         .then(response => {
           Object.keys(state.validationErrors).forEach(key => { Vue.delete(state.validationErrors, key) })
           state.unsaved = false
@@ -75,13 +97,21 @@ export default {
     			}
         })
     },
+
+    loadAttachments ({ commit, state, getters }) {
+      axios.get(getters.buildResourceUrl(state.attachmentsUrl))
+          .then(response => commit('setDesignerAttachemnts', response.data))
+
+      // attachments
+      // this.designerBackendState.attachmentsUrl
+    }
   },
 
   // Getters
   // --------------------------------------------------
 
   getters: {
-    
+
     getPageSpec: (state) => (name) => {
       if (!state.spec.pages[name])
         throw Error('No page spec for: ' + name)
@@ -106,8 +136,9 @@ export default {
       return state.spec.elements[name]
     },
 
-    elementsSortedByCategory: (state) => {
-      return sortItemsBy(state.spec.elements, 'category')
+    // Get the default or custom resource URL parameters for making API requests.
+    buildResourceUrl: (state, getters) => (url, params) => {
+      return buildURL(url, getters.resourceUrlParameters(params))
     },
 
     // Get the default or custom resource URL parameters for making API requests.
@@ -119,7 +150,19 @@ export default {
     },
 
     // This method privides the ability to override the dynamic input component
-    loadInputComponent: (state) => (spec) => {
+    // loadInputComponent: (state) => (spec) => {
+    // },
+
+    designerPreviewApp: (state) => {
+      return state.previewApp
+    },
+
+    designerPreviewExpanded: (state) => {
+      return state.previewExpanded
+    },
+
+    designerBackendInterface: (state) => {
+      return state.backendInterface
     },
 
     // createDefaultPageData () {
@@ -156,15 +199,15 @@ export default {
     //   // NOTE: We only support a single creatable page type per spec
     //   const page = this.createDefaultPageData()
     //   console.log('createDefaultPage', page)
-    //   state.metadata.push(page)
+    //   state.content.push(page)
     //   state.unsaved = true
     //   IpcServer.postPreviewMessage('createPage', page)
     //   return page
     // },
     //
     // removePage(page) {
-    //   const index = state.metadata.findIndex(x => x.id === page.id)
-    //   state.metadata.splice(index, 1)
+    //   const index = state.content.findIndex(x => x.id === page.id)
+    //   state.content.splice(index, 1)
     //   state.unsaved = true
     //   IpcServer.postPreviewMessage('removePage', { id: page.id })
     // },
@@ -188,7 +231,7 @@ export default {
     //     page.elements.findIndex(x => x.id === element.id), 1)
     //   // this.sectionElements[element.section].splice(
     //   //   this.sectionElements[element.section].findIndex(x => x.id === element.id), 1)
-    //   // Hooks.executeDeleteElement(this.designerBackendStore.getElementSpec(element.name), element)
+    //   // Hooks.executeDeleteElement(this.designerBackendStore.getters.getElementSpec(element.name), element)
     //   IpcServer.postPreviewMessage('removeElement', {
     //     id: page.id,
     //     elementId: element.id

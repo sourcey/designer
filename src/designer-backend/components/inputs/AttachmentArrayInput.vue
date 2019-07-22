@@ -20,7 +20,7 @@
         slot(name='button')
           .btn-upload.dropzone.flex-center.p-1
             .icon-wrap
-              designer-icon.mb-025(:name='spec.icon || "upload-cloud"' size='32')
+              icon.mb-025(:name='spec.icon || "upload-cloud"' size='32')
               .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
 </template>

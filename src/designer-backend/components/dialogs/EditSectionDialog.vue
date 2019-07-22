@@ -53,7 +53,7 @@ export default {
         default: this.section.label
       }
     },
-    // previewStore () {
+    // designerPreviewStore () {
     //   return this.$store.getters.previewApp.$store
     // },
     section () {
@@ -65,14 +65,14 @@ export default {
       // This also means computed data will not update on this side unless the
       // object is passed as propData hence the best solution is just to clone
       // everything and update properties via the IPC service.
-      return clone(this.previewStore.getters.designerEditingSection.section)
+      return clone(this.designerPreviewStore.getters.designerEditingSection)
     },
     sectionCloned () {
       return clone(this.section)
     },
     layoutSpec () {
       // if (this.layout) //section.data.layout)
-      return this.designerStore.getLayoutSpec(this.layout || 'section_default') //.section.data.layout)
+      return this.designerBackendStore.getters.getLayoutSpec(this.layout || 'section_default') //.section.data.layout)
     }
   },
   created () {

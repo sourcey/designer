@@ -7,7 +7,7 @@ module Designer
     # skip_before_action :verify_authenticity_token
 
     def index
-      render json: all_attachments #designer_images_json
+      render json: designer_images_json
     end
 
     def create
@@ -66,6 +66,23 @@ module Designer
     # def metadata_params
     #   params.permit(metadata: {})
     # end
+
+    def designer_images_json
+      all_attachments.map do |attachment|
+        designer_image_json attachment
+      end
+    end
+
+    def designer_image_json attachment
+      {
+        key: attachment.key,
+        signed_id: attachment.signed_id,
+        filename: attachment.filename,
+        byte_size: attachment.byte_size,
+        content_type: attachment.content_type
+      }
+    end
+
 
     # def designer_images_json
     #   all_attachments.map do |attachment|

@@ -7,16 +7,16 @@ module Designer
 
     def perform
       return if default_items.blank?
-      return if @resource.metadata.present? && !@overwrite
+      return if @resource.content.present? && !@overwrite
 
       default_items.each do |key, data|
         @resource.send(key + '=',
-          key == 'metadata' ? process_metadata(data) : data)
+          key == 'content' ? process_content(data) : data)
       end
       # raise @resource.styles.inspect
     end
 
-    def process_metadata(data)
+    def process_content(data)
       data.each do |item|
         # if item['page']
         #   build_page(item)

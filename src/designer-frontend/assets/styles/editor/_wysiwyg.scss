@@ -1,0 +1,117 @@
+// @import '@/assets/styles/_variables.scss';
+// @import 'variables';
+
+// @import '../assets/styles/_texy.scss';
+
+
+// Wysiwyg editor
+// --------------------------------------------------
+
+
+.wysiwyg {
+  .ProseMirror {
+    outline: 0;
+    // min-height: 300px;
+
+    > p:last-child {
+      margin-bottom: 0;
+    }
+
+    &:not(.ProseMirror-focused) .is-empty:first-child:before {
+      content: attr(data-empty-text);
+      pointer-events: none;
+      height: 0;
+      color: #888;
+    }
+
+    //
+    /// Inline node editor
+
+    .block-editor {
+      white-space: initial;
+      position: relative;
+      min-width: 250px;
+
+      &:not(.selected) .is-empty:before {
+        content: attr(data-empty-text);
+        pointer-events: none;
+        height: 0;
+        color: #888;
+        position: absolute;
+      }
+
+      .menubar {
+        opacity: 0;
+      }
+    }
+
+    figure.block-editor {
+      .dropzone {
+        display: block;
+        margin: 0;
+      }
+
+      input[type="file"] {
+        opacity: 0;
+        top: 0;
+        position: absolute;
+      }
+    }
+  }
+
+  &.focused .block-editor:hover .menubar {
+    opacity: 1;
+  }
+
+  .menubar {
+    background-color: $designer-base-color;
+    // margin-bottom: 1rem;
+    line-height: $line-height-base;
+    font-size: $font-size-base;
+    font-family: $font-family-sans-serif;
+    transition: visibility 0.2s, opacity 0.2s;
+    // transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+    display: flex;
+    white-space: nowrap;
+    z-index: $zindex-fixed;
+
+    &.is-hidden {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    &.is-focused {
+      visibility: visible;
+      opacity: 1;
+      // transition: visibility 0.2s, opacity 0.2s;
+    }
+
+    &__button {
+      font-weight: bold;
+      // display: inline-block;
+      background: transparent;
+      border: 0;
+      // border-radius: 0;
+      // color: black;
+      color: white;
+      padding: 0 0.75rem;
+      height: $wysiwyg-menu-height;
+      line-height: $wysiwyg-menu-height;
+      margin: 0;
+      font-size: 13px;
+      cursor: pointer;
+
+      svg {
+        fill: white;
+      }
+
+      &:hover {
+        background-color: rgba(white, 0.05);
+      }
+
+      &.is-active {
+        background-color: rgba(white, 0.2);
+      }
+    }
+  }
+}

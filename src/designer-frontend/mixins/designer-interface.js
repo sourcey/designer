@@ -18,6 +18,8 @@ export default {
       return this.$store.getters.designerPage //(this.$route.meta.id)
     },
     pageData () {
+      if (!this.designerPage.data)
+        this.$set(this.designerPage, 'data', {})
       return this.designerPage.data
     },
 
@@ -44,28 +46,28 @@ export default {
       // this.setElementDefaults(this.element) // FIXME
       return this.element.data
     },
-    dynamicSections () {
-      // return this.designerPage.sections
-      return this.designerPage.sections.map((section, index) => {
-        if (!section.id)
-          throw 'Invalid section data'
-        // if (!section.instance)
-        //   section.instance = this.sectionRenderer
-        section.index = index
-        return section
-        // if (!section.id)
-        //   section.id = randomString(8)
-        // this.setSectionDefaults(section) // FIXME
-        // if (section.layout) {
-        //   const spec = this.$store.getters.designerLayoutSpec(section.layout)
-        //   mergeSpecDefaults(section, spec)
-        // }
-        // return Object.assign({
-        //   instance: this.sectionRenderer //(this.$store.state.site.theme_name, section.layout),
-        //   // instance: importThemeLayout(this.$store.state.site.theme_name, section.layout),
-        // }, section)
-      })
-    },
+    // dynamicSections () {
+    //   // return this.designerPage.sections
+    //   return this.designerPage.sections.map((section, index) => {
+    //     if (!section.id)
+    //       throw 'Invalid section data'
+    //     // if (!section.instance)
+    //     //   section.instance = this.sectionRenderer
+    //     section.index = index
+    //     return section
+    //     // if (!section.id)
+    //     //   section.id = randomString(8)
+    //     // this.setSectionDefaults(section) // FIXME
+    //     // if (section.layout) {
+    //     //   const spec = this.$store.getters.designerLayoutSpec(section.layout)
+    //     //   mergeSpecDefaults(section, spec)
+    //     // }
+    //     // return Object.assign({
+    //     //   instance: this.sectionRenderer //(this.$store.state.site.theme_name, section.layout),
+    //     //   // instance: importThemeLayout(this.$store.state.site.theme_name, section.layout),
+    //     // }, section)
+    //   })
+    // },
     // dynamicElements () {
     //   return this.designerPage.elements.map(element => {
     //     if (!element.id)
@@ -82,25 +84,25 @@ export default {
     // },
     // Used in layouts/*
     // Used in layouts/*
-    itemsRenderer () {
-      return () => import(/* webpackChunkName: "core" */ '../components/renderers/ItemsRenderer.vue')
-
-      // return this.$store.state.designerEnabled && this.editing ?
-      //   () => import(/* webpackChunkName: "designer" */ '@/designer/components/renderers/ItemsRenderer.vue') :
-      //   () => import(/* webpackChunkName: "core" */ '../components/renderers/ItemsRenderer.vue')
-    },
+    // itemsRenderer () {
+    //   return () => import(/* webpackChunkName: "core" */ '../components/renderers/ItemsRenderer.vue')
+    //
+    //   // return this.$store.state.designerEnabled && this.editing ?
+    //   //   () => import(/* webpackChunkName: "designer" */ '@/designer/components/renderers/ItemsRenderer.vue') :
+    //   //   () => import(/* webpackChunkName: "core" */ '../components/renderers/ItemsRenderer.vue')
+    // },
     // elementContainer () {
     //   return () => import(/* webpackChunkName: "core" */ '../components/renderers/ElementWrap.vue')
     //   // return this.$store.state.designerEnabled && this.editing ?
     //   //   () => import(/* webpackChunkName: "designer" */ '@/designer/components/renderers/ElementWrap.vue') :
     //   //   () => import(/* webpackChunkName: "core" */ '../components/renderers/ElementWrap.vue')
     // },
-    elementRenderer () {
-      return () => import(/* webpackChunkName: "core" */ '../components/renderers/ElementRenderer.vue')
-      // return this.$store.state.designerEnabled ?
-      //   () => import(/* webpackChunkName: "designer" */ '@/designer/components/renderers/ElementRenderer.vue') :
-      //   () => import(/* webpackChunkName: "core" */ '../components/renderers/ElementRenderer.vue')
-    },
+    // elementRenderer () {
+    //   return () => import(/* webpackChunkName: "core" */ '../components/renderers/ElementRenderer.vue')
+    //   // return this.$store.state.designerEnabled ?
+    //   //   () => import(/* webpackChunkName: "designer" */ '@/designer/components/renderers/ElementRenderer.vue') :
+    //   //   () => import(/* webpackChunkName: "core" */ '../components/renderers/ElementRenderer.vue')
+    // },
     // layoutComponent () {
     //
     //
@@ -117,11 +119,11 @@ export default {
     //
 
     designerBackend () {
-      return this.$store.state.designerBackend
+      return this.$store.getters.designerBackend
     },
 
     designerEnabled () {
-      return this.$store.state.designerEnabled && this.designerBackend
+      return this.$store.getters.designerEnabled && this.designerBackend
     },
 
     designerEditingSection () {
@@ -136,6 +138,18 @@ export default {
         this.$parent.$el.classList.add(className)
       else
         this.$parent.$el.classList.remove(className)
+    },
+
+    loadCustomComponent (name, category) {
+      const reference = {
+        name: name,
+        category: category,
+        instance: null
+      }
+      this.$root.$emit('load-designer-component', reference)
+      if (reference.instance)
+        return reference.instance
+      return false
     },
 
     // setSectionDefaults (section) {

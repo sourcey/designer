@@ -1,99 +1,117 @@
-<template>
-  <!-- <div /> -->
-  <div v-if='dynamicSections && dynamicSections.length'>
-    <!-- {{ page }} -->
-    <div
-      v-for="(section, index) in dynamicSections"
-      :key="index">
-      <slot v-if="section.main" />
-      <component
-        v-else
-        :is="sectionRenderer"
-        :ref="section.name"
-        :id="section.id"
-        :section="section" />
-    </div>
-    <!-- <component
-    :is="section.instance"
-      v-for="(section, index) in dynamicSections"
-      :key="index"
-      :is="section.instance"
-      :ref="section.name"
-      :id="section.id"
-      :section="section" /> -->
-  </div>
-  <div v-else class="main container">
-    <div class="section-wrapper section-layout">
-      <div class="section section-empty">
-        This page is empty.
-        <span v-if="designerEnabled">
-          <a href="#" @click="designerBackend.insertPageSection($event, page)">Add</a> a new section to get started.
-        </span>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+div(v-if='dynamicSections && dynamicSections.length')
+  div(v-for='(section, index) in dynamicSections' :key='index')
+    slot(v-if='section.main')
+    section-renderer(v-else :ref='section.name' :id='section.id' :section='section')
+.main.container(v-else)
+  .section-wrapper.section-layout
+    .section.section-empty
+      | This page is empty.
+      span(v-if='designerEnabled')
+        a(href='#' @click='designerBackend.insertPageSection($event, designerPage)') Add
+        |  a new section to get started.
 </template>
 
 <script>
 import DesignerInterface from '../../mixins/designer-interface.js'
-// import SectionRenderer from './SectionRenderer.vue'
+import SectionRenderer from './SectionRenderer.vue'
+import IpcClient from '../../assets/scripts/ipc-client.js'
 
 export default {
-  // components: {
-  //   SectionRenderer
-  // },
-  props: {
-    page: {
-      type: Object,
-      required: true
-    }
+  components: {
+    SectionRenderer
   },
+  // props: {
+  //   page: {
+  //     type: Object,
+  //     required: true
+  //   }
+  // },
   mixins: [
     DesignerInterface
   ],
   computed: {
     // page () {
-    //   return this.page //$store.getters.page
+    //   return this.$store.getters.designerPage
     // },
     dynamicSections () {
-      if (!this.page || !this.page.sections)
+      if (!this.designerPage || !this.designerPage.content)
         return
-      return this.page.sections.map((section, index) => {
-        // if (!section.id)
-        //   throw 'Invalid section data'
-        // if (!section.instance)
-        //   section.instance = this.sectionRenderer
+      return this.designerPage.content.map((section, index) => {
         section.index = index
         return section
-        // if (!section.id)
-        //   section.id = randomString(8)
-        // this.setSectionDefaults(section) // FIXME
-        // if (section.layout) {
-        //   const spec = this.$store.getters.designerLayoutSpec(section.layout)
-        //   mergeSpecDefaults(section, spec)
-        // }
-        // return Object.assign({
-        //   instance: this.sectionRenderer //(this.$store.state.site.theme_name, section.layout),
-        //   // instance: importThemeLayout(this.$store.state.site.theme_name, section.layout),
-        // }, section)
       })
-    },
-    sectionRenderer () {
-      return () => import(/* webpackChunkName: "core" */ './SectionRenderer.vue')
-      // return this.$store.state.designerEnabled ? //
-      //   () => import(/* webpackChunkName: "designer" */ '../renderers/SectionRenderer.vue') :
-      //   () => import(/* webpackChunkName: "core" */ '../renderers/SectionRenderer.vue')
-    },
+    }
   },
-  // created () {
-  //   this.$store.commit('setDesignerPage', this.page)
-  //   // setSite (state, data) {
-  //   //   console.log('store: set site', data)
-  //   //   state.site = data
-  //   // },
-  // },
   mounted () {
+    // if (this.designerEnabled) {
+      IpcClient.registerApp(this.$root)
+      // this.initMenuObserver()
+    // }
+
+    // this.$nextTick(() => this.initMenuObserver())
+    // setTimeout(() => this.initMenuObserver(), 1000)
     this.$emit('ready')
+  },
+  destroyed () {
+    if (this.designerEnabled) {
+      IpcClient.unregisterApp(this.$root)
+    }
+  },
+  methods: {
+
+    // Ensure the menu is stays visible on the viewport while the section is onscreen.
+    // initMenuObserver () {
+    //   if (!('IntersectionObserver' in window)) return
+    //
+    //   let topSection = false, nextOnscreenSection = false
+    //   const observer = new IntersectionObserver((entries, observer) => {
+    //     entries.forEach(entry => {
+    //       console.log('page section onscreen observer', entry.target.id, entry.isIntersecting, entry)
+    //
+    //       // When a new element scrolls into view it will be marked as onscreen
+    //       // when the previous element scrolls out of view
+    //
+    //       if (entry.isIntersecting) {
+    //
+    //         if (nextOnscreenSection) {
+    //           nextOnscreenSection.classList.remove('onscreen')
+    //           console.log('offscreen', nextOnscreenSection.id)
+    //         }
+    //
+    //         // Mark the top element as onscreen when loaded
+    //         if (topSection === false) {
+    //           topSection = entry.target
+    //           topSection.classList.add('onscreen')
+    //           console.log('top section onscreen', topSection.id)
+    //         }
+    //         // else {
+    //         //   console.log('onscreen cause null', entry.target.id)
+    //         //   entry.target.classList.add('onscreen')
+    //         // }
+    //         nextOnscreenSection = entry.target
+    //       }
+    //       else {
+    //         // if (nextOnscreenSection) {
+    //           nextOnscreenSection.classList.add('onscreen')
+    //           console.log('onscreen', nextOnscreenSection.id)
+    //           // nextOnscreenSection = null
+    //         // }
+    //
+    //         // if (topSection && topSection != entry.target) {
+    //         //   topSection.classList.remove('onscreen')
+    //         //   console.log('top section offscreen', topSection.id, entry.target)
+    //         // }
+    //       }
+    //     })
+    //   }, {
+    //     rootMargin: '-50px',
+    //     threshold: 0
+    //   })
+    //
+    //   const sections = this.$el.querySelectorAll('.section-wrapper')
+    //   sections.forEach(x => observer.observe(x))
+    // },
   }
 }
 </script>

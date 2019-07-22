@@ -6,7 +6,7 @@ module Designer
 
     class_methods do
       def acts_as_designer(options = {})
-        serialize :metadata, Array
+        # serialize :content, Array
 
         has_many_attached :attachments
 
@@ -15,7 +15,7 @@ module Designer
     end
 
     def find_element id
-      metadata.each do |item|
+      content.each do |item|
         return item if item['id'] == id
         # next unless item['elements']
         # item['elements'].each do |element|
@@ -33,19 +33,26 @@ module Designer
     #   find_item id
     # end
 
-    # Custom configuration
-    # Implement this to extend the static YML config with dynamic options
-    def custom_designer_config
-      { }
-    end
-
+    # Returns the designer config and spec for this class
     def designer_config
       return @designer_config if @designer_config
       @designer_config = Designer.configuration[model_name.route_key].dup
-      @designer_config['spec'] ||= {}
-      @designer_config['spec'].reverse_merge!(Designer.default_spec)
-      @designer_config.deep_merge!(custom_designer_config)
+      # @designer_config['spec'] ||= {}
+      # @designer_config['spec'].reverse_merge!(Designer.default_spec)
+      @designer_config['spec'] = Designer.default_spec.dup.deep_merge(@designer_config['spec'])
+      @designer_config.deep_merge!(designer_custom_config) if designer_custom_config.present?
       @designer_config
+    end
+
+    # Custom configuration options
+    # Implement this to override the static YML config with dynamic options,
+    # such as custom API endpoints
+    def designer_custom_config
+    end
+
+    # Returns the full designer data object for this instance
+    def designer_data
+      Designer::DataBuilder.new(self).perform
     end
 
     # def designer_config
@@ -58,10 +65,10 @@ module Designer
     #   @designer_config['spec'].reverse_merge!(Designer.default_spec)
     #
     #   # Merge in the dynamic custom config if defined
-    #   @designer_config.deep_merge!(custom_designer_config)
+    #   @designer_config.deep_merge!(designer_custom_config)
     #
     #   @designer_config
-    #   # ||= Designer.configuration[model_name.route_key].merge(custom_designer_config)
+    #   # ||= Designer.configuration[model_name.route_key].merge(designer_custom_config)
     # end
 
     # Called by the designer to update the model
@@ -92,10 +99,10 @@ module Designer
     def as_designer_json(options = {})
       as_json(options)
       # as_json({
-      #   only: [:id, :metadata, :created_at],
+      #   only: [:id, :content, :created_at],
       #   include: {
       #     attachments: {
-      #       methods: [:key, :signed_id, :filename, :byte_size, :name, :metadata]
+      #       methods: [:key, :signed_id, :filename, :byte_size, :name, :content]
       #     }}}.merge(options))
     end
   end

@@ -55,7 +55,7 @@ export default {
       // Select a layout and create the section
       // The $parent must be the Designer page
       this.$parent.selectTemplate(event, (layout) => {
-        const spec = this.designerStore.getLayoutSpec(layout)
+        const spec = this.designerBackendStore.getters.getLayoutSpec(layout)
         const section = {
           label: 'New Section',
           items: [],

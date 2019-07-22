@@ -66,10 +66,10 @@
               /button.btn.btn-sm.btn-success.dropdown-toggle data-toggle="dropdown" type="button" Add
               /.dropdown-menu
                 a.dropdown-item v-for="definition in spec" @click="addBlock(definition.template)" href="#"= '{{definition.label}}'
-          Draggable v-model="metadata" element="section" :options="{handle:'.drag-page-handle'}"
+          Draggable v-model="content" element="section" :options="{handle:'.drag-page-handle'}"
             component {
               :is="item.form || 'PageForm'"
-              v-for="(item, index) in metadata" :key="item.id"
+              v-for="(item, index) in content" :key="item.id"
               v-bind:item="item"
               v-bind:spec="getPageSpec(item.name)"
               v-on:remove="removePage(item)" }
@@ -84,10 +84,10 @@
 
           /component {
             :is="item.form || 'PageForm'"
-            v-for="(item, index) in metadata" :key="item.id"
+            v-for="(item, index) in content" :key="item.id"
             v-bind:item="item"
             v-bind:spec="getPageSpec(item.page)"
-            v-on:remove="metadata.splice(index, 1)" }
+            v-on:remove="content.splice(index, 1)" }
 
         // Blocks root
         /.elements v-else=true
@@ -99,13 +99,13 @@
                 button.btn.btn-sm.btn-success.dropdown-toggle data-toggle="dropdown" type="button" Add
                 .dropdown-menu
                   a.dropdown-item v-for="definition in spec" @click="addBlock(definition.template)" href="#"= '{{definition.label}}'
-          Draggable v-model="metadata" :options="{handle:'.drag-handle'}"
+          Draggable v-model="content" :options="{handle:'.drag-handle'}"
             component {
               is="item.form || 'BlockForm'"
-              v-for="(item, index) in metadata" :key="item.id"
+              v-for="(item, index) in content" :key="item.id"
               v-bind:item="item"
               v-bind:spec="getBlockSpec(item.template)"
-              v-on:remove="metadata.splice(index, 1)" }
+              v-on:remove="content.splice(index, 1)" }
 
       #gallery.tab-pane.fade aria-labelledby="gallery-tab" role="tabpanel"
         component is="MediaGallery" v-bind:attachment_upload_path="attachment_upload_path"

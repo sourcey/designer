@@ -84,8 +84,8 @@ export default {
     },
     itemPageSelectSpec () {
       const options = {}
-      this.previewStore.state.site.pages.forEach(x => {
-        if (!this.designerState.spec.pages[x.name].dynamic && x.data.title)
+      this.designerPreviewStore.state.site.pages.forEach(x => {
+        if (!this.designerBackendState.spec.pages[x.name].dynamic && x.data.title)
           options[x.reference] = x.data.title
       })
 

@@ -1,16 +1,11 @@
-<template>
-  <div class="layout layout-banner-carousel layout-banner d-flex align-items-center"
-      :class="['text-' + textAlignment, {'invert-colors': invertColors }]" :style="layoutCss">
-    <div class="container">
-      <slot />
-    </div>
-    <flickity v-if="showFlickity" class="carousel fill-parent" ref="flickity" :options="flickityOptions">
-      <div v-for="(image, index) in images" :key="index" class="carousel-cell w-100">
-        <ImageLoader :image="image" v-bind="imageOptions" />
-      </div>
-    </flickity>
-    <BackgroundOverlay v-if="overlay" v-bind="overlay" />
-  </div>
+<template lang="pug">
+.layout.layout-banner-carousel.layout-banner.d-flex.align-items-center(:class="['text-' + textAlignment, {'invert-colors': invertColors }]" :style='layoutCss')
+  .container
+    slot
+  flickity.carousel.fill-parent(v-if='showFlickity' ref='flickity' :options='flickityOptions')
+    .carousel-cell.w-100(v-for='(image, index) in images' :key='index')
+      image-loader(:image='image' v-bind='imageOptions')
+  background-overlay(v-if='overlay' v-bind='overlay')
 </template>
 
 <script>

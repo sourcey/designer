@@ -1,15 +1,10 @@
-<template>
-  <div class="image" :class="classNames" :style="backgroundCss">
-    <div v-if="empty" class="placeholder">
-      <Icon name="image-placeholder" size="64" />
-    </div>
-    <img v-if="!this.cover" :src="url" />
-  </div>
+<template lang="pug">
+.image(:class='classNames' :style='backgroundCss' v-on='$listeners')
+  placeholder(v-if='empty')
+  img(v-if='!this.fit' :src='url')
 </template>
 
 <script>
-import '../assets/images/image-placeholder.svg'
-
 export default {
   props: {
     image: {
@@ -20,7 +15,7 @@ export default {
       type: String,
       default: 'zoom'
     },
-    cover: {
+    fit: {
       type: String, // fill | contain
       default: null
     },
@@ -59,9 +54,6 @@ export default {
     classNames () {
       return {
         'cover': this.isCover,
-        // 'cover': this.cover === 'cover',
-        // 'contain': this.cover === 'contain',
-        // 'overlay': this.overlay,
         'empty': this.empty,
         'fill-parent': this.fillParent,
         'scale-width': this.scaleWidth,
@@ -69,18 +61,14 @@ export default {
       }
     },
     isCover () {
-      return this.cover && this.cover !== '' && this.cover !== 'none'
+      return this.fit && this.fit !== '' && this.fit !== 'none'
     },
     backgroundCss () {
       const css = {}
       if (this.isCover) {
-        // const css = {
-        //   'background-image': 'url("' + this.url + '")',
-        //   'background-size': this.cover === 'contain' ? 'contain' : 'cover'
-        // }
         css['background-image'] = 'url("' + this.url + '")'
-        css['background-size'] = this.cover === 'contain' ? 'contain' : 'cover'
-        if (this.aspectRatio && !this.fillParent && this.autoSize) {
+        css['background-size'] = this.fit === 'contain' ? 'contain' : 'cover'
+        if (this.aspectRatio && this.autoSize && !this.fillParent) {
           css['padding-bottom'] = (100 / this.aspectRatio) + '%'
         }
       }
@@ -126,8 +114,8 @@ export default {
     updateScale () {
       // Scale the width based on the height. This is designed to be used in
       // conjunction with a 100% height layout.
-      this.$el.cover.width = 'auto'
-      this.$el.cover.width = `${this.$el.offsetHeight / this.scaleRatio}px`
+      this.$el.fit.width = 'auto'
+      this.$el.fit.width = `${this.$el.offsetHeight / this.scaleRatio}px`
       // console.log('scale image', this.$el.offsetHeight, this.scaleRatio)
       this.triggerLayout()
     },
@@ -149,7 +137,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
 
-  // Use .img-fluid logic by default
+  // Fill but don't overflow the parent element
   img {
     max-width: 100%;
     height: auto;
@@ -166,82 +154,16 @@ export default {
     }
   }
 
-  // Set a default height for non-expanding empty images
-  // &:not(.cover).empty,
-  // &:not(.contain).empty,
-  // &:not(.fill-parent).empty {
-  //   padding-bottom: 56.25%; // 75%;
-  // }
+  // Set a default height for non-expanding empty images.
+  // This will be overridden depending on the `aspectRatio`
   &.auto-size.empty {
     width: 100%;
     padding-bottom: 56.25%; // 75%;
   }
 
-  // // Show the placeholder
-  // .placeholder {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   right: 0;
-  //   bottom: 0;
-  //   background-color: $placebolder-background-color;
-  //
-  //   .icon {
-  //     display: inline-block;
-  //     position: absolute;
-  //     top: 50%;
-  //     left: 50%;
-  //     margin-top: -32px;
-  //     margin-left: -32px;
-  //
-  //     /deep/ svg {
-  //       fill: darken($placebolder-background-color, 5);
-  //     }
-  //   }
-  // }
-
-  // Cover the element using the background image method
-  // &.cover {
-  //   // position: absolute;
-  //   // top: 0;
-  //   // left: 0;
-  //   // right: 100%;
-  //   // height: 100%;
-  //
-  //   // .cover-image {
-  //   //   position: absolute;
-  //   //   top: 0;
-  //   //   left: 0;
-  //   //   right: 0;
-  //   //   bottom: 0;
-  //     // background-size: cover;
-  //   // }
-  // }
-
-  // Show the overlay pattern
-  // .overlay {
-  //   // z-index: -1;
-  //   @include fill-parent;
-  //
-  //   &.solid {
-  //     background-color: rgba(black, .3);
-  //   }
-  //
-  //   &.pattern {
-  //     background-image: url('../assets/images/overlay-pattern.png');
-  //   }
-  //
-  //   // &:before {
-  //   // content: '';
-  //   // background-color: rgba(black, .3);
-  //   // background-image: url('../assets/images/overlay-pattern.png');
-  //   // position: absolute;
-  //   // top: 0;
-  //   // left: 0;
-  //   // right: 0;
-  //   // bottom: 0;
-  //   // z-index: 1;
-  //   // }
-  // }
+  &.round {
+    border-radius: 50%;
+    overflow: hidden;
+  }
 }
 </style>

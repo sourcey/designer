@@ -14,11 +14,12 @@ $spacer:                        1rem !default;
 $element-padding:               $spacer !default;
 $section-padding:               $spacer * 2 !default; // any less and text editor will overlap with section menu
 $grid-gutter-width:             30px !default;
+$line-height-base:              1.65 !default;
 
 
 /* Fonts */
 
-$font-family-default:           -apple-system, BlinkMacSystemFont, Avenir, "Avenir Next", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-sans-serif:           -apple-system, BlinkMacSystemFont, Avenir, "Avenir Next", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-size-base:                1rem !default; // Assumes the browser default, typically `16px`
 $font-size-lg:                  1.25rem !default;
 $font-size-sm:                  .85rem !default;
@@ -41,20 +42,43 @@ $h5-font-size:                $font-size-base * 1.25 !default;
 $h6-font-size:                $font-size-base !default;
 
 
+/* Editor */
+
+$designer-indicator-color: #ccc;
+$designer-indicator-shadow: inset 0 0 0 1px $designer-indicator-color;
+$designer-indicator-focused-color: gray;
+$designer-indicator-focused-shadow: inset 0 0 0 1px $designer-indicator-focused-color;
+$designer-base-color: $black-color;
+$designer-menu-item: 40px;
+$designer-transition: opacity .15s ease-in-out;
+$wysiwyg-menu-height: 26px;
+
+
+/* Z-index master list */
+
+$zindex-dropdown:                   1000 !default;
+$zindex-sticky:                     1020 !default;
+$zindex-fixed:                      1030 !default;
+$zindex-modal-backdrop:             1040 !default;
+$zindex-modal:                      1050 !default;
+$zindex-popover:                    1060 !default;
+$zindex-tooltip:                    1070 !default;
+
+
 /* Theme default variables */
 
 // This map contains all variables that may be overridden at the theme level
 // and accessed via the `theme-option` function.
 $theme-options: (
   // Fonts
-  font-family: $font-family-default,
+  font-family: $font-family-sans-serif,
   font-size: $font-size-base,
   font-size-lg: $font-size-lg,
   font-size-sm: $font-size-sm,
 
   // Headings
   heading-color: $black-color,
-  heading-font-family: $font-family-default,
+  heading-font-family: $font-family-sans-serif,
   heading-font-weight: 600,
 
   // Buttons
@@ -91,7 +115,7 @@ $spacers: (
   3: ($spacer * 3),
   35: ($spacer * 3.5),
   4: ($spacer * 4),
-  45: ($spacer * 4.5),
+  45: ($spacer * 4.5),$black-color
   5: ($spacer * 5)
 );
 

@@ -1,7 +1,6 @@
-<template>
-  <div class="layout layout-default container">
-    <slot />
-  </div>
+<template lang="pug">
+.layout.layout-default.container
+  slot
 </template>
 
 <script>

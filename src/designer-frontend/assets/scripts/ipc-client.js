@@ -43,14 +43,14 @@ const utils = {
 }
 
 const appActions = {
-	createPage(vm, command) {
+	createPage (vm, command) {
 		// if (command.path)
 		vm.$store.commit('addPage', command)
 		if (command.data.path)
 			vm.$router.push(command.data.path)
 	},
 
-	removePage(vm, command) {
+	removePage (vm, command) {
 		// if (command.path)
 		console.log('designer ipc: removePage', vm.$store.state.pageId, command.id)
 		if (vm.$store.state.pageId == command.id)
@@ -61,48 +61,55 @@ const appActions = {
 		// 	vm.$router.push(command.data.path)
 	},
 
-	selectPage(vm, command) {
+	selectPage (vm, command) {
 		console.log('designer ipc: selectPage', vm.$store.state.pageId, command)
 		if (command.path)
 			vm.$router.push(vm.sitePath(command.path))
 	},
 
-	createElement(vm, command) {
-		vm.$store.commit('addElement', {
-			pageId: command.id,
-			block: command.block
-		})
-	},
+	// createElement(vm, command) {
+	// 	vm.$store.commit('addElement', {
+	// 		pageId: command.id,
+	// 		block: command.block
+	// 	})
+	// },
+	//
+	// removeElement(vm, command) {
+	// 	vm.$store.commit('removeElement', {
+	// 		pageId: command.id,
+	// 		blockId: command.blockId
+	// 	})
+	// },
+	//
+	// reorderElement(vm, command) {
+	// 	vm.$store.commit('reorderElement', {
+	// 		pageId: vm.$root.designerPage.id,
+	// 		blockId: command.id,
+	// 		oldIndex: command.oldIndex,
+	// 		newIndex: command.newIndex
+	// 	})
+	// },
+	//
+	// selectElement (vm, command) {
+	// 	const element = document.getElementById(command.blockId)
+	// 	utils.scrollTo(element) // FIXME
+	// 	utils.pulseClass(element, 'block-selected')
+	// },
+	//
+	// selectProperty (vm, command, elementData) {
+	// 	const element = document.getElementById(command.blockId)
+	// 	const property = element.querySelector(`[data-bind="${command.name}"]`)
+	// 	if (property && property.classList) {
+	// 		utils.scrollTo(property)
+	// 		utils.pulseClass(property, 'property-selected')
+	// 	}
+	// },
 
-	removeElement(vm, command) {
-		vm.$store.commit('removeElement', {
-			pageId: command.id,
-			blockId: command.blockId
-		})
-	},
 
-	reorderElement(vm, command) {
-		vm.$store.commit('reorderElement', {
-			pageId: vm.$root.designerPage.id,
-			blockId: command.id,
-			oldIndex: command.oldIndex,
-			newIndex: command.newIndex
-		})
-	},
 
-	selectElement (vm, command) {
-		const element = document.getElementById(command.blockId)
-		utils.scrollTo(element) // FIXME
-		utils.pulseClass(element, 'block-selected')
-	},
-
-	selectProperty (vm, command, elementData) {
-		const element = document.getElementById(command.blockId)
-		const property = element.querySelector(`[data-bind="${command.name}"]`)
-		if (property && property.classList) {
-			utils.scrollTo(property)
-			utils.pulseClass(property, 'property-selected')
-		}
+	removeSection (vm, command) {
+		console.log('designer ipc: removeSection', command)
+		vm.$store.commit('removeDesignerSection', command.sectionId)
 	},
 
 	updateResourceProperty(vm, command) {
@@ -112,7 +119,7 @@ const appActions = {
 		else
 			vm.$set(vm.$store.state.site, command.name, command.value)
 
-			console.log('designer ipc: updateResourceProperty', vm.$store.state.site[command.member])
+		console.log('designer ipc: updateResourceProperty', vm.$store.state.site[command.member])
 		// NOTE: since we are mutating elementData the block.data must contain a
 		// default value for this property or it wont be updated
     // vm.$store.commit('setElementProperty', {
@@ -132,17 +139,17 @@ const appActions = {
 	updateSectionProperty(vm, command) {
 		console.log('designer ipc: updateSectionProperty', command)
 
-		let data = vm.$store.getters.designerEditingSection.section.data
+		let data = vm.$store.getters.designerEditingSection.data
 		vm.$set(data, command.name, command.value)
 	},
 
 	updateElementProperty(vm, command) {
 		console.log('designer ipc: updateElementProperty', command)
 
-		let data = vm.$store.getters.designerEditingElement.element.data
+		let data = vm.$store.getters.designerEditingElement.data
 		console.log('designer ipc: updateElementProperty data', vm.$store.getters.designerEditingElement.element)
 		vm.$set(data, command.name, command.value)
-		vm.$store.getters.designerEditingElement.$forceUpdate()
+		// vm.$store.getters.designerEditingElement.$forceUpdate()
 		// vm.$set(vm.findElementData(command.blockId), command.name, command.value)
 
 		// NOTE: since we are mutating elementData the block.data must contain a
@@ -249,11 +256,13 @@ export default {
 			}
 		}
 		window.addEventListener('message', handlers[vm])
-		// utils.addClass(document.body, 'designer-active')
+		// vm.$el.classNames.add('designer-active')
+		utils.addClass(document.body, 'designer-active')
 	},
 	unregister (vm) {
 		window.removeEventListener('message', handlers[vm])
-		// utils.removeClass(document.body, 'designer-active')
+		// vm.$el.classNames.remove('designer-active')
+		utils.removeClass(document.body, 'designer-active')
 	}
 }
 

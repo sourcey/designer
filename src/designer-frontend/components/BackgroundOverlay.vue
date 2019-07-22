@@ -1,27 +1,33 @@
-<template>
-  <div class="overlay" :class="type" :style="css" />
+<template lang="pug">
+.overlay(:class='type' :style='css')
 </template>
 
 <script>
-import '../assets/images/image-placeholder.svg'
-
 export default {
   props: {
     type: {
       type: String, // solid | pattern
       default: 'solid'
     },
+    color: {
+      type: String,
+      default: 'black'
+    },
     opacity: {
       type: Number,
-      // default: .3
+      default: .3
     }
   },
   computed: {
     css () {
-      // if (this.type === 'solid') {
-      if (typeof this.opacity === 'number') {
-        return { 'background-color': `rgba(0,0,0,${this.opacity})` }
+      const style = {}
+      if (typeof this.color !== 'undefined') {
+        style.backgroundColor = this.color
       }
+      if (typeof this.opacity === 'number') {
+        style.opacity = this.opacity
+      }
+      return style
     }
   }
 }

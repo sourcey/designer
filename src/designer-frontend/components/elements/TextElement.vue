@@ -1,11 +1,15 @@
-<template>
-  <!-- <div> -->
-    <div class="element text-content" v-html="contentHtml"></div>
-  <!-- </div> -->
+<template lang="pug">
+//- .element.text-content(v-html='contentHtml')
+editable-text(v-model='data.content' :content='contentHtml' content-class='element text-content')
 </template>
 
 <script>
+import EditableText from '../EditableText.vue'
+
 export default {
+  components: {
+    EditableText
+  },
   props: {
     element: {
       type: Object,
@@ -15,14 +19,6 @@ export default {
       type: Object,
       default: () => {}
     }
-    // placeholder: {
-    //   type: String,
-    //   default: null // 'Write here...'
-    // },
-    // content: {
-    //   type: String,
-    //   default: null // 'Write here...'
-    // }
   },
   computed: {
     contentHtml () {

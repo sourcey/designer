@@ -79,26 +79,26 @@
 //
 // Placeholder (image and video)
 //
-
-.placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: $placebolder-background-color;
-
-  .icon {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -32px;
-    margin-left: -32px;
-
-    // /deep/ svg {
-    svg {
-      fill: darken($placebolder-background-color, 5);
-    }
-  }
-}
+// 
+// .placeholder {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: $placebolder-background-color;
+//
+//   .icon {
+//     display: inline-block;
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     margin-top: -32px;
+//     margin-left: -32px;
+//
+//     // /deep/ svg {
+//     svg {
+//       fill: darken($placebolder-background-color, 5);
+//     }
+//   }
+// }

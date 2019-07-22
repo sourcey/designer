@@ -42,7 +42,7 @@ export default {
     }
   },
   computed: {
-    // previewStore () {
+    // designerPreviewStore () {
     //   return this.$store.getters.previewApp.$store
     // },
     element () {
@@ -54,14 +54,14 @@ export default {
       // This also means computed data will not update on this side unless the
       // object is passed as propData hence the best solution is just to clone
       // everything and update properties via the IPC service.
-      console.log(this.previewStore.getters.designerEditingElement)
-      return JSON.parse(JSON.stringify(this.previewStore.getters.designerEditingElement.element))
+      console.log(this.designerPreviewStore.getters.designerEditingElement)
+      return JSON.parse(JSON.stringify(this.designerPreviewStore.getters.designerEditingElement))
     },
     restoreState () {
       return JSON.parse(JSON.stringify(this.element))
     },
     elementSpec () {
-      return this.designerStore.getElementSpec(this.element.name)
+      return this.designerBackendStore.getters.getElementSpec(this.element.name)
     }
   },
   methods: {

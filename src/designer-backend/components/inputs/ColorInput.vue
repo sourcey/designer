@@ -8,8 +8,7 @@
       input.form-control(type='text', :value='object', @focusin='emitSelect', @change="$emit('update', name, object = $event.target.value)")
       // v-model="object[name]"
     .col
-      //- verte(display='picker')v-if='isShown'
-      verte(
+      //- verte(
           ref='verte'
           model='hex'
           display='picker'
@@ -17,6 +16,15 @@
           menuPosition='right'
           :value='value'
           :enableAlpha='false'
+          @input='onPickerChange')
+      verte(
+          ref='verte'
+          model='rgb'
+          display='picker'
+          picker='square'
+          menuPosition='right'
+          :value='value'
+          :enableAlpha='true'
           @input='onPickerChange')
         // :recentColors="null"
         svg
@@ -36,6 +44,8 @@ export default {
     }
   },
   mounted () {
+    console.log('color input: ', this.parent, this.object, this.name)
+
     this.$nextTick(() => {
       this.loaded = true
 

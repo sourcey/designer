@@ -1,16 +1,17 @@
-<template>
-  <div class="element">
-    <ImageLoader :image="image" />
-    <div class="caption" v-html="caption"></div>
-  </div>
+<template lang="pug">
+figure.element
+  image-loader(:image='image')
+  editable-text(v-model='data.caption' content-tag='figcaption' :editor-options='{mode: "basic"}')
+  //- content-class='caption'
+  //- div {{data}}
 </template>
 
 <script>
-import ImageLoader from '../ImageLoader.vue'
+import EditableText from '../EditableText.vue'
 
 export default {
   components: {
-    ImageLoader
+    EditableText
   },
   props: {
     element: {
@@ -26,9 +27,9 @@ export default {
     image () {
       return this.data.image
     },
-    caption () {
-      return this.data.caption
-    }
+    // caption () {
+    //   return this.data.caption
+    // }
   }
 }
 </script>

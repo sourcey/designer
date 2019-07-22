@@ -1,24 +1,12 @@
-<template>
-  <div class="element wrapper">
-    <!-- {{ images }} -->
-    <!-- type="ImageCarouselElement" :id="id" data-navbar-action="invert" -->
-    <flickity v-if="images.length > 0" class="carousel fill-parent invert-arrows" ref="flickity" :options="flickityOptions">
-      <div v-for="(image, index) in images" :key="index" class="carousel-cell h-100">
-        <!-- <HorizontalExpander :aspectRatio="image.aspect_ratio" /> -->
-        <!-- <CoverImage :image="image" size="zoom" /> -->
-        <ImageLoader :image="image" size="zoom" :scaleWidth="true" />
-      </div>
-    </flickity>
-  </div>
+<template lang="pug">
+.element.wrapper
+  flickity.carousel.fill-parent.invert-arrows(v-if='images.length > 0' ref='flickity' :options='flickityOptions')
+    .carousel-cell.h-100(v-for='(image, index) in images' :key='index')
+      image-loader(:image='image' size='zoom' :scalewidth='true')
 </template>
 
 <script>
-import ImageLoader from '../ImageLoader.vue'
-
 export default {
-  components: {
-    ImageLoader
-  },
   props: {
     element: {
       type: Object,

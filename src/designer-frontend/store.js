@@ -2,14 +2,15 @@ import Vue from 'vue'
 
 export default {
   state: {
-    designerEnabled: true,
-    designerBackend: null,
+    enabled: true,
+    backend: null,
     designerPage: null,
-    designerDragging: false,
-    designerResizing: false,
-    designerEditingSection: null,
-    designerEditingElement: null,
+    dragging: false,
+    resizing: false,
+    editingSection: null,
+    editingElement: null,
     designerStore: null,
+    designerSpec: null,
   },
 
   mutations: {
@@ -19,12 +20,46 @@ export default {
       // Vue.set(state, 'designerPage', page)
       state.designerPage = page
     },
+
+    setDesignerEditingSection (state, section) {
+      console.log('designer frontend store: set editing section', section)
+      // Vue.set(state, 'designerPage', page)
+      state.editingSection = section
+    },
+
+    setDesignerEditingElement (state, element) {
+      console.log('designer frontend store: set editing element', element)
+      // Vue.set(state, 'designerPage', page)
+      state.editingElement = element
+    },
+
+    removeDesignerSection (state, sectionId) {
+      // const page = state.site.pages.find(x => x.id === params.pageId)
+      // const index = page.sections.findIndex(x => x.id === params.sectionId)
+      // if (index !== -1)
+      //   page.sections.splice(index, 1)
+      // const index = params.page.sections.findIndex(x => x.id === params.sectionId)
+      // // if (index !== -1)
+      // console.log('store: remove section', params, index)
+      // params.page.sections.splice(index, 1)
+      const index = state.designerPage.content.findIndex(x => x.id === sectionId)
+      console.log('designer frontend store: remove section', index, sectionId, state.designerPage.content)
+      if (index !== -1)
+        state.designerPage.content.splice(index, 1)
+
+      // NOTE: Resetting the array will not trigger updates across iframe boundaries
+      state.designerPage.content = [...state.designerPage.content]
+    },
   },
 
   getters: {
 
     isEditingSection: (state) => (id) => {
-      return state.designerEditingSection && state.designerEditingSection.section.id === id
+      return state.editingSection && state.editingSection.id === id
+    },
+
+    isEditingElement: (state) => (id) => {
+      return state.editingElement && state.editingElement.id === id
     },
 
     designerPage: (state) => {
@@ -32,20 +67,42 @@ export default {
       return state.designerPage
     },
 
+    designerPage: (state) => {
+      // if (state.designer)
+      return state.designerPage
+    },
+
+    designerEnabled: (state) => {
+      return state.enabled
+    },
+
+    designerBackend: (state) => {
+      return state.backend
+    },
+
+    // Required for use with backend attachments mixin
+    designerBackendStore: (state) => {
+      return state.backend.designerBackendStore
+    },
+
+    designerBackendState: (state) => {
+      return state.backend.designerBackendState
+    },
+
     designerDragging: (state) => {
-      return state.designerDragging
+      return state.dragging
     },
 
     designerResizing: (state) => {
-      return state.designerResizing
+      return state.resizing
     },
 
     designerEditingSection: (state) => {
-      return state.designerEditingSection
+      return state.editingSection
     },
 
     designerEditingElement: (state) => {
-      return state.designerEditingElement
+      return state.editingElement
     },
 
     designerElementSpec: (state) => (name) => {

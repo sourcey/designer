@@ -115,18 +115,18 @@ export default {
       // console.log('PROPS', this.spec, this.$props)
     },
     formatValue (value) {
-      console.log('!!!! format value', value)
+      // console.log('!!!! format value', value)
       return value
     },
     setInitialValue () {
-      console.log('!!!! set default value', this.model, this.name, this.defaultValue)
+      // console.log('!!!! set default value', this.model, this.name, this.defaultValue)
       // this.model[this.name] !== 'undefined' ? clone(this.model[this.name]) : null
 
       this.value = this.initialValue
       this.emitUpdate()
     },
     setDefaultValue () {
-      console.log('!!!! set default value', this.model, this.name, this.defaultValue)
+      // console.log('!!!! set default value', this.model, this.name, this.defaultValue)
       this.value = this.defaultValue
       this.emitUpdate()
     },

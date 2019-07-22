@@ -8,7 +8,7 @@ module Designer
     before_action :reset_default_data
     # skip_before_action :verify_authenticity_token
 
-    include DesignerHelper
+    # include DesignerHelper
 
     def show
       # @resource.theme.set_configuration_from_file
@@ -20,8 +20,9 @@ module Designer
     end
 
     def data
-      # render json: designer_context(@resource)
-      render json: Designer::ConfigBuilder.new(@resource).perform.transform_keys{ |key| key.to_s.camelize(:lower) }
+      Designer.reload_configuration! if Rails.env.development?
+      render json: @resource.designer_data.transform_keys{ |key| key.to_s.camelize(:lower) }
+      # render json: Designer::ConfigBuilder.new(@resource).perform.transform_keys{ |key| key.to_s.camelize(:lower) }
     end
 
     def update

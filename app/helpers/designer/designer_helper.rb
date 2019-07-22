@@ -1,7 +1,7 @@
 module Designer::DesignerHelper
 
   def designer_embed element_id
-    element = designer_resource.metadata.find{|x| x['id'] == element_id }
+    element = designer_resource.content.find{|x| x['id'] == element_id }
     return "Cannot find element `#{element_id}`" unless element
 
     designer_render element
@@ -21,9 +21,9 @@ module Designer::DesignerHelper
   end
 
   def designer_render_resource resource
-    return unless resource&.metadata
+    return unless resource&.content
     designer_set_resource resource
-    resource.metadata.each_with_object('') do |element, html|
+    resource.content.each_with_object('') do |element, html|
       next if element['hidden'] || element[:hidden]
       result = designer_render element
       html << result if result
@@ -80,42 +80,50 @@ module Designer::DesignerHelper
     @_resource || @resource
   end
 
-  def designer_context_paths resource = nil
-    designer_set_resource(resource) if resource
-    resource ||= designer_resource
+  # def designer_resource_config
+  #   # resource = nil
+  #   # esigner_set_resource(resource) if resource
+  #   # resource ||= designer_resource
+  #   # raise
+  #   Designer::ConfigBuilder.new(designer_resource).perform
+  # end
 
-    # raise designer.thumbnail_attachment_path(":key").inspect
-    @designer_context_paths ||= {
-      resource_path: designer.editor_path(id: resource.id, resource_name: designer_resource_name),
-      preview_url: designer_preview_url,
-      attachment_upload_path_template: designer.attachments_path(name: ":name"),
-      attachment_direct_upload_url: designer.direct_uploads_attachments_path,
-      attachment_delete_path_template: designer.attachment_path(":key"),
-      attachment_thumbnail_path_template: designer.thumbnail_attachment_path(":key"),
-      attachment_cdn_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
-      # resource_url_params: {
-      #   resource_id: resource.id,
-      #   resource_name: designer_resource_name
-      # }
-      #(record_id: resource.id, record_type: resource.class.name),
-      # attachment_direct_upload_url: main_app.rails_direct_uploads_path(record_id: resource.id, record_type: resource.class.name),
-      # blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
-    }
-  end
-
-  def designer_context resource = nil
-    designer_set_resource(resource) if resource
-    resource ||= designer_resource
-
-    @designer_context ||= {
-      resource_id: resource.id,
-      resource_type: resource.class.name,
-      resource_name: designer_resource_name,
-      resource: resource.as_designer_json,
-      metadata: resource.metadata,
-    }
-    .merge(designer_context_paths(resource))
-    .merge(resource.designer_config)
-    .transform_keys{ |key| key.to_s.camelize(:lower) }
-  end
+  # def designer_context_paths resource = nil
+  #   designer_set_resource(resource) if resource
+  #   resource ||= designer_resource
+  #
+  #   # raise designer.thumbnail_attachment_path(":key").inspect
+  #   @designer_context_paths ||= {
+  #     resource_path: designer.editor_path(id: resource.id, resource_name: designer_resource_name),
+  #     preview_url: designer_preview_url,
+  #     attachment_upload_path_template: designer.attachments_path(name: ":name"),
+  #     attachment_direct_upload_url: designer.direct_uploads_attachments_path,
+  #     attachment_delete_path_template: designer.attachment_path(":key"),
+  #     attachment_thumbnail_path_template: designer.thumbnail_attachment_path(":key"),
+  #     attachment_cdn_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+  #     # resource_url_params: {
+  #     #   resource_id: resource.id,
+  #     #   resource_name: designer_resource_name
+  #     # }
+  #     #(record_id: resource.id, record_type: resource.class.name),
+  #     # attachment_direct_upload_url: main_app.rails_direct_uploads_path(record_id: resource.id, record_type: resource.class.name),
+  #     # blob_url_template: main_app.rails_service_blob_url(":signed_id", ":filename"),
+  #   }
+  # end
+  #
+  # def designer_context resource = nil
+  #   designer_set_resource(resource) if resource
+  #   resource ||= designer_resource
+  #
+  #   @designer_context ||= {
+  #     resource_id: resource.id,
+  #     resource_type: resource.class.name,
+  #     resource_name: designer_resource_name,
+  #     resource: resource.as_designer_json,
+  #     content: resource.content,
+  #   }
+  #   .merge(designer_context_paths(resource))
+  #   .merge(resource.designer_config)
+  #   .transform_keys{ |key| key.to_s.camelize(:lower) }
+  # end
 end
