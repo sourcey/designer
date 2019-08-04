@@ -1,0 +1,65 @@
+// @import 'src/base/assets/styles/designer';
+// @import 'editor';
+
+@import 'variables';
+@import 'mixins';
+@import 'vendor';
+@import 'utilities';
+@import 'typography';
+// @import 'buttons';
+@import 'components';
+// @import 'base';
+// @import 'layouts';
+// @import 'pages';
+@import 'elements';
+
+
+//
+// CSS variables
+//
+
+:root {
+  @each $name, $value in $theme-options {
+    --#{$name}: #{$value};
+  }
+}
+
+
+//
+// Layout
+//
+
+body {
+  @include dynamic-property('color', 'primary-color');
+  @include dynamic-property('background-color', 'background-color');
+  @include dynamic-font-property('font');
+}
+
+.main {
+  position: relative;
+}
+
+.main-layout {
+  position: relative;
+  padding: $element-padding;
+}
+
+.section-wrapper {
+  position: relative;
+}
+
+.section-layout {
+  position: relative;
+  padding-top: $section-padding;
+  padding-bottom: $section-padding;
+}
+
+.element-wrapper {
+  position: relative;
+  padding: $element-padding;
+}
+
+.layout-row,
+.layout-col {
+  position: relative;
+}
