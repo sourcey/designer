@@ -1,15 +1,16 @@
 <template lang="pug">
 .item-wrap.textarea-input
   .form-group
-    label.control-label(v-if='spec.label !== false' :for='inputId' v-b-tooltip :title='spec.tooltip') {{ inputLabel }}
-    small.form-text(v-if='spec.hint' v-html='spec.hint')
-    textarea.form-control(:id='inputId' :rows='spec.rows || 5'
+    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+    small.form-text(v-if='hint' v-html='hint')
+    textarea.form-control(:id='inputId'
         v-model='currentValue'
-        :name='spec.field || spec.name'
-        :placeholder='spec.placeholder'
+        :name='field || name'
+        :rows='rows'
+        :placeholder='placeholder'
         :class="{'is-invalid': errorMessage}"
-        @focusin='emitSelect'
-        @input='emitUpdate')
+        @focusin='emitSelect(); focused = true'
+        @focusout='focused = false')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 
@@ -17,6 +18,12 @@
 import Input from '../../mixins/input'
 
 export default {
-  extends: Input
+  extends: Input,
+  props: {
+    rows: {
+      type: Number,
+      default: 5
+    }
+  },
 }
 </script>

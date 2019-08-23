@@ -26,12 +26,12 @@ export default {
     // API endpoints
     resourceUrl: null,
     attachmentUrl: null,
-    attachmentUploadUrlTemplate: null,
-    attachmentUploadUrlTemplate: null,
-    attachmentDeleteUrlTemplate: null,
-    attachmentThumbnailUrlTemplate: null,
-    attachmentPreviewAssetUrlTemplate: null,
-    attachmentCdnUrlTemplate: null,
+    attachmentUploadUrl: null,
+    attachmentUploadUrl: null,
+    attachmentDeleteUrl: null,
+    attachmentThumbnailUrl: null,
+    attachmentPreviewAssetUrl: null,
+    attachmentCdnUrl: null,
 
     previewApp: null,
     previewExpanded: false,

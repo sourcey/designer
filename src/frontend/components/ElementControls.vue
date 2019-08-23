@@ -22,8 +22,8 @@ import DropTarget from './DropTarget.vue'
 import DesignerInterface from '../mixins/designer-interface.js'
 import SpecTools from '../assets/scripts/spec-tools.js'
 
-import '../assets/images/move.svg'
-import '../assets/images/trash.svg'
+import '../assets/images/move.svg?sprite=true'
+import '../assets/images/trash.svg?sprite=true'
 
 export default {
   components: {

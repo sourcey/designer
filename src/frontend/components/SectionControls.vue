@@ -26,7 +26,8 @@
 <script>
 import DesignerInterface from '../mixins/designer-interface.js'
 import SpecTools from '../assets/scripts/spec-tools.js'
-import '../assets/images/trash.svg'
+
+import '../assets/images/trash.svg?sprite=true'
 
 export default {
   props: {

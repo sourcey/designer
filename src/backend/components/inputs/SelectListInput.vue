@@ -1,9 +1,9 @@
 <template lang="pug">
 .item-wrap.select-list-input
   .form-group(:class="{'is-invalid': errorMessage, 'is-focus': focused}")
-    label.control-label(v-if='spec.label') {{ spec.label }}
-    p.hint(v-if='spec.hint') {{ spec.hint }}
-    .dropdown(:class='{"dropup": spec.dropup}' @click='$event.stopPropagation()')
+    label.control-label(v-if='label') {{ label }}
+    p.hint(v-if='hint') {{ hint }}
+    .dropdown(:class='{"dropup": dropup}' @click='$event.stopPropagation()')
       .input-group.transparent-input-group
         slot(name='prepend')
           .input-group-prepend
@@ -12,7 +12,7 @@
         input.form-control(
             ref='input'
             type='text'
-            :placeholder='spec.placeholder'
+            :placeholder='placeholder'
             :class="{'is-invalid': errorMessage}"
             @focusin='focused = true'
             @input='filterValue = $event.target.value')
@@ -35,7 +35,7 @@
         //- :selected='optionIsSelected(value[0])'
     .selected-list
       .selected-item.flex-v-center(v-for='(option, index) in selectedOptions')
-        input(type='hidden' :name='spec.field || spec.name' :value='option.value')
+        input(type='hidden' :name='field || name' :value='option.value')
         .label.flex-fill {{ option.label }}
         button.btn.ml-1(@click.prevent="select(option)")
           i.fal.fa-trash-alt
@@ -60,22 +60,22 @@ export default {
     // name: {
     //   type: String
     // },
-    name: {
-      type: String
-    },
-    label: {
-      type: String
-    },
-    placeholder: {
-      type: String
-    },
-    hint: {
-      type: String
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
+    // name: {
+    //   type: String
+    // },
+    // label: {
+    //   type: String
+    // },
+    // placeholder: {
+    //   type: String
+    // },
+    // hint: {
+    //   type: String
+    // },
+    // required: {
+    //   type: Boolean,
+    //   default: false
+    // },
     dropup: {
       type: Boolean,
       default: false
@@ -128,12 +128,12 @@ export default {
     // },
     visibleOptions () {
       if (this.filterValue)
-        return this.spec.options.filter(x => x.label.toLowerCase().indexOf(this.filterValue) !== -1)
-      return this.spec.options
+        return this.options.filter(x => x.label.toLowerCase().indexOf(this.filterValue) !== -1)
+      return this.options
     },
     selectedOptions () {
       const result = []
-      this.spec.options.forEach(option => {
+      this.options.forEach(option => {
         if (this.value.includes(option.value)) {
           option.selected = true
           result.push(option)

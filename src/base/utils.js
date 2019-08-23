@@ -79,10 +79,19 @@ export function sanitizeDecimal (value) {
   return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
 }
 
+export function defaultLocale(locale) {
+  if (locale) return locale
+  if (typeof(navigator) !== 'undefined') return navigator.language
+  return 'en'
+}
+
 export function formatNumber(number, locale) {
-  locale = locale || navigator.language
+  locale = defaultLocale(locale)
   try {
-    // number = parseFloat(number)
+    number = parseFloat(number)
+    if (isNaN(number))
+      return null // do not parse non-numbers
+    // if (!number) return 0
     return number.toLocaleString(locale)
   } catch (e) {
     console.log('format number failed', e)
@@ -91,13 +100,13 @@ export function formatNumber(number, locale) {
 }
 
 export function formatMoney(number, currency, locale) {
-  locale = locale || navigator.language
+  locale = defaultLocale(locale)
   currency = currency || 'EUR' // FIXME
   number = parseFloat(number)
   if (isNaN(number))
     return null // do not parse non-numbers
   try {
-    console.log('format currency', number)
+    // console.log('format currency', number)
     return number.toLocaleString(locale, { style: 'currency', currency: currency })
   } catch (e) {
     console.log('format currency failed', e)

@@ -1,7 +1,7 @@
 <template lang="pug">
 draggable(v-on='$listeners' v-model='object' :options="{handle:'.drag-handle-child'}" @update='onUpdate')
   .section-heading.d-flex.align-items-center
-    .title.flex-fill {{ spec.label || spec.name }}
+    .title.flex-fill {{ label || name }}
     a.btn.btn-sm.btn-success.mr-2.my-2(@click.prevent='object.push({})' href='#') Add
   .card.child(v-for='(data, index) in object')
     .card-header.drag-handle-child
@@ -13,7 +13,7 @@ draggable(v-on='$listeners' v-model='object' :options="{handle:'.drag-handle-chi
         span(v-else-if='data.id') Item {{ data.id }}
         span(v-else='') Item {{ index }}
     .collapse.card-body(:id="'collapse-' + index", @change='onUpdate')
-      dynamic-input(v-for='(property, index) in spec.properties' :key='property.name' :object='data' :spec='property')
+      dynamic-input(v-for='(property, index) in properties' :key='property.name' :object='data' :spec='property')
 </template>
 
 <script>

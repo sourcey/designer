@@ -5,17 +5,17 @@
     a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     .d-flex
       .designer-range-input-wrap
-        label.flex-fill(:for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+        label.flex-fill(:for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
         input(type='range'
             v-model.number='decimalValue'
-            :min='spec.min'
-            :max='spec.max'
-            :step='spec.step || 1'
+            :min='min'
+            :max='max'
+            :step='step || 1'
             @input='emitUpdate')
       input.transparent(type='text'
           :value='value'
-          :name='spec.field || spec.name'
-          :placeholder='spec.placeholder'
+          :name='field || name'
+          :placeholder='placeholder'
           @focusin='emitSelect(); enableEvents = false'
           @input='emitUpdate'
           @blur='enableEvents = true; value = $event.target.value')
@@ -47,8 +47,8 @@ export default {
 
       // While events are enabled (ie. the text input is not focused) we can
       // mask the value on input
-      if (this.enableEvents && this.spec.unit) {
-        return decimal + this.spec.unit
+      if (this.enableEvents && this.unit) {
+        return decimal + this.unit
       } else {
         return decimal
       }

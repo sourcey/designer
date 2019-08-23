@@ -3,7 +3,7 @@
   .item-wrap
     .form-group.designer-select
       a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
-      label.dropdown-label(:for='inputId' v-b-tooltip :title='spec.hint' @click.prevent='showFontDialog')
+      label.dropdown-label(:for='inputId' v-b-tooltip :title='hint' @click.prevent='showFontDialog')
         .dropdown-label-text {{ inputLabel }}
         icon(name='caret-down' size='16')
       .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
@@ -11,7 +11,7 @@
     .item-wrap
       .form-group.designer-select(:title='state.errorText')
         a.input-reset(v-if='!isDefaultFontFamily' @click.prevent='restoreDefaultFontFamily' href='#') x
-        label.dropdown-label(:for='inputId' v-b-tooltip :title='spec.hint' @click.prevent='showFamilyDialog')
+        label.dropdown-label(:for='inputId' v-b-tooltip :title='hint' @click.prevent='showFamilyDialog')
           .dropdown-label-text.font-name(:style='fontStyle(activeFontFamily)') {{activeFontFamily}}
           span.icon.spinner-border.spinner-border-sm(v-if="state.loadingStatus === 'loading'" role='status' aria-hidden='true')
           icon(name='caret-down' size='16')
@@ -82,23 +82,23 @@ export default {
       return this.value ? this.value.family : null
     },
     // defaultValue () {
-    //   return clone(this.spec.default)
+    //   return clone(this.default)
     // },
     isDefaultValue () {
-      return !this.spec.default || !this.value || (
-        this.spec.default.family === this.value.family &&
-        this.spec.default.weight === this.value.weight &&
-        this.spec.default.style === this.value.style)
+      return !this.default || !this.value || (
+        this.default.family === this.value.family &&
+        this.default.weight === this.value.weight &&
+        this.default.style === this.value.style)
     },
     isDefaultFontFamily () {
-      return !this.spec.default || !this.value || (
-        this.spec.default.family === this.value.family)
+      return !this.default || !this.value || (
+        this.default.family === this.value.family)
     },
     fontWeightSpec () {
       return {
         label: 'Weight',
         options: this.value.weights.filter(x => String(x).indexOf('i') === -1),
-        default: String(this.spec.default.weight || '400'),
+        default: String(this.default.weight || '400'),
         required: true
       }
     },
@@ -106,7 +106,7 @@ export default {
       return {
         label: 'Style',
         options: ['regular', 'italic'],
-        default: String(this.spec.default.style || 'regular'),
+        default: String(this.default.style || 'regular'),
         required: true
       }
     },

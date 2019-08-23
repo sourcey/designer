@@ -5,7 +5,7 @@
     //- div {{ name}}
     //- div {{ value}}
     //- div {{ spec}}
-    label.dropdown-label(:for='inputId' v-b-tooltip :title='spec.hint')
+    label.dropdown-label(:for='inputId' v-b-tooltip :title='hint')
       .dropdown-label-text
         | {{ inputLabel }}
         span(v-if='displayValue') : {{ displayValue }}
@@ -13,12 +13,12 @@
     //- .form-control
     select(:id='inputId'
         v-model='currentValue'
-        :name='spec.field || spec.name'
+        :name='field || name'
         :class="{'is-invalid': errorMessage}"
         @focusin='emitSelect'
         @change='emitUpdate')
-      option(v-if='!spec.required' value='') {{ spec.placeholder || 'Select an option' }}
-      option(v-for='(label, key) in spec.options' :value='typeof(key) === "string" ? key : label') {{ label }}
+      option(v-if='!required' value='') {{ placeholder || 'Select an option' }}
+      option(v-for='(label, key) in options' :value='typeof(key) === "string" ? key : label') {{ label }}
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 
@@ -30,12 +30,12 @@ export default {
   extends: Input,
   computed: {
     displayValue () {
-      return isObject(this.spec.options) ? this.spec.options[this.value] : this.value
+      return isObject(this.options) ? this.options[this.value] : this.value
     },
   },
   // created () {
   //   // Must be an array or Vue will complain
-  //   if (this.spec.multiple && !Array.isArray(this.value)) {
+  //   if (this.multiple && !Array.isArray(this.value)) {
   //     this.value = []
   //   }
   // }

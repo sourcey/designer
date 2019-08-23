@@ -1,7 +1,7 @@
 import { Mark } from 'tiptap'
 import { toggleMark, markInputRule } from 'tiptap-commands'
 
-import '../../../images/editor/at.svg'
+import '../../../images/editor/at.svg?sprite=true'
 
 export default class Cite extends Mark {
 

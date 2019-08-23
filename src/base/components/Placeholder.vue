@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import '../assets/images/image-placeholder.svg'
-import '../assets/images/video-placeholder.svg'
+import '../assets/images/image-placeholder.svg?sprite=true'
+import '../assets/images/video-placeholder.svg?sprite=true'
 
 export default {
   name: 'placeholder',

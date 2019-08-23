@@ -13,14 +13,14 @@
         img.img-fluid(v-else-if='attachment.key || attachment.asset' :src='attachmentThumbnailUrl(attachment)')
         img.img-fluid(v-else-if='attachment.url' :src='attachment.url')
   .form-group
-    label.control-label.d-block(v-if='spec.label !== false' :for='inputId') {{ inputLabel }}
-    small.text-muted.font-italic(v-if='validateMax') Maximum {{ spec.max }} images
+    label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
+    small.text-muted.font-italic(v-if='validateMax') Maximum {{ max }} images
     div(v-else)
       label(:for='inputId')
         slot(name='button')
           .btn-upload.dropzone.flex-center.p-1
             .icon-wrap
-              icon.mb-025(:name='spec.icon || "upload-cloud"' size='32')
+              icon.mb-025(:name='icon || "upload-cloud"' size='32')
               .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
 </template>
@@ -38,6 +38,14 @@ export default {
   components: {
     Spinner
   },
+  props: {
+    icon: {
+      type: String
+    },
+    url_params: {
+      type: Object
+    }
+  },
   data () {
     return {
       // inputId: this.object.id || randomString(5),
@@ -47,14 +55,14 @@ export default {
   },
   created () {
     if (!Array.isArray(this.value)) {
-      this.value = []
+      this.currentValue = []
     }
-    this.value.forEach(attachment => this.attachments.push(attachment))
+    this.currentValue.forEach(attachment => this.attachments.push(attachment))
   },
   computed: {
     validateMax () {
-      if (this.spec.max &&
-        this.attachments.length >= this.spec.max)
+      if (this.max &&
+        this.attachments.length >= this.max)
         return true
       return false
     },
@@ -65,7 +73,7 @@ export default {
 
       Array.from(event.target.files).forEach(file => {
         if (this.validateMax) {
-          alert(`You've reached the maximum of ${this.spec.max} images for this element.`)
+          alert(`You've reached the maximum of ${this.max} images for this element.`)
           return
         }
 
@@ -84,6 +92,8 @@ export default {
         // Add the object to the proxy `attachments` array.
         // It wont be added to the main object until the upload has succeeded.
         this.attachments.push(attachment)
+
+        this.createThumbnail(attachment)
         this.uploadAttachment(attachment)
           .then(() => {
             // HACK: Calling `push` is not triggering reactivity across frame borders,
@@ -99,8 +109,8 @@ export default {
     triggerUpdate () {
       // HACK: Calling `push` or `splice` on the array is not triggering reactivity
       // across frame borders, but reassigning the instance does the trick.
-      this.value = this.attachments.map(attachment => this.serializeAttachment(attachment))
-      this.emitUpdate()
+      this.currentValue = this.attachments.map(attachment => this.serializeAttachment(attachment))
+      // this.emitUpdate()
     },
     removeAttachment (attachment) {
       if (confirm("Are you sure?")) {

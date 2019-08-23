@@ -1,7 +1,7 @@
 <template lang="pug">
 .item-wrap.designer-attachment-input.attachment-single-input
   .form-group
-    label.control-label.d-block(v-if='spec.label !== false' :for='inputId') {{ inputLabel }}
+    label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
     .preview-item(v-if='attachmentVisible(attachment)' :class="{'is-invalid': attachment.error}")
       .preview-overlay.flex-center
         .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
@@ -14,7 +14,7 @@
     div(v-else)
       label.btn-upload.dropzone.flex-center.p-15(:for='inputId')
         .icon-wrap
-          icon.mb-025(:name='spec.icon || "upload-cloud"' size='32')
+          icon.mb-025(:name='icon || "upload-cloud"' size='32')
           .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
 </template>
@@ -33,6 +33,14 @@ export default {
   components: {
     Spinner
   },
+  props: {
+    icon: {
+      type: String
+    },
+    url_params: {
+      type: Object
+    }
+  },
   data () {
     return {
       // object: this.model,
@@ -47,7 +55,7 @@ export default {
     // initializing to NULL is not sufficient. This issue was noticed when
     // changing section layout on Artzine.
     // if (!this.value)
-      this.value = {}
+    //   this.value = {}
   },
   methods: {
     filesChange(event) {
@@ -59,7 +67,7 @@ export default {
           metadata: this.fileMetadata ()
         }
 
-        console.log('uploading attachment', this.parent, this.model, attachment, this.spec.url_names)
+        console.log('uploading attachment', this.parent, this.model, attachment, this.url_names)
 
         // Sanity check (for designer elements)
         if (this.root && this.parent && // && this.root.elements
@@ -68,15 +76,16 @@ export default {
           return
         }
 
+        this.createThumbnail(attachment)
         this.uploadAttachment(attachment)
           .then(() => {
-            this.value = this.serializeAttachment(attachment)
+            this.currentValue = this.serializeAttachment(attachment)
             // this.recomputeValue = true
 
             // this.$nextTick(() => {
             // // this.model[this.name] = this.serializeAttachment(attachment)
             // console.log('UPPPPPPPPPPP', this.value, this.model[this.name], attachment, this.serializeAttachment(attachment))
-            this.emitUpdate()
+            // this.emitUpdate()
             // })
 
             // HACK: Save when an image is uploaded or it may be lost in space
@@ -101,9 +110,9 @@ export default {
       if (confirm("Are you sure?")) {
         if (attachment.key)
           this.destroyAttachment(attachment)
-        this.value = null
+        this.currentValue = null
         this.attachment = null
-        this.emitUpdate()
+        // this.emitUpdate()
 
         // HACK: Save when a new image is uploaded or it may be lost in space
         //this.designerBackendStore.save(this)

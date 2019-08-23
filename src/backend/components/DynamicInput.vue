@@ -1,8 +1,8 @@
 <template lang="pug">
   component(:is='loadComponent'
-    v-model='object[name]'
+    v-model='model[name]'
     :name='name'
-    :spec='spec'
+    v-bind='spec'
     v-show='visible'
     v-on='$listeners'
     @input='onInput')
@@ -17,9 +17,27 @@ export default {
   props: ['spec', 'name', 'object', 'parent', 'root'],
   computed: {
     onInput (value) {
-      // Emit the update event
-      this.$emit('update', this.name, this.object[this.name])
+      // Emit the update event for the designer IPC
+      // this.$emit('update', this.name, this.object[this.name])
+      this.$emit('update', this.name, this.value)
     },
+    parentForm () {
+      let parent = this.$parent
+      while (parent) {
+        if (parent.validationErrors)
+          return parent
+        parent = parent.$parent
+      }
+    },
+    model () {
+      if (this.object)
+        return this.object
+      else if (this.parentForm && this.parentForm.object)
+        return this.parentForm.object
+    },
+    // value () {
+    //   return this.model[this.name]
+    // },
     visible () {
       if (this.spec.hidden)
         return false
@@ -84,16 +102,12 @@ export default {
       else
         return 'TextInput'
     },
-    loadComponent() {
+    loadComponent () {
       if (this.designerBackendStore && this.designerBackendStore.loadInputComponent) {
         const component = this.designerBackendStore.loadInputComponent(this.spec)
         if (component)
           return component
       }
-      // const component = this.designerBackendStore.loadInputComponent(this.spec.input)
-      // if (component)
-      //   return () => import(`./inputs/${this.componentName}.vue`)
-        // return component
       return () => import(`./inputs/${this.componentName}.vue`)
     }
   }

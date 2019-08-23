@@ -8,21 +8,21 @@ import axios from 'axios'
 
 export default {
   methods: {
+    createThumbnail (attachment) {
+
+      // Create a thumbnail
+      var fReader = new FileReader()
+      fReader.readAsDataURL(attachment.file)
+      fReader.onload = (event) => {
+        console.log('attachment thumbnail created')
+        Vue.set(attachment, 'thumbnail', event.target.result)
+      }
+    },
     uploadAttachment (attachment) {
       return new Promise((resolve, reject) => {
 
-        // Create a thumbnail
-        var fReader = new FileReader()
-        fReader.readAsDataURL(attachment.file)
-        fReader.onload = (event) => {
-          console.log('attachment thumbnail created')
-          Vue.set(attachment, 'thumbnail', event.target.result)
-        }
-
         // TODO: Use a presigned non-direct upload
         const { DirectUpload } = require('@rails/activestorage')
-        // import { DirectUpload } from '@rails/activestorage'
-        // import { DirectUpload } from '@rails/activestorage'
         console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl())
         const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(), this)
         directUpload.create((error, attributes) => {
@@ -83,34 +83,63 @@ export default {
     },
 
 
+    // Authorization
+    // --------------------------------------------------
+
+    accessToken () {
+
+      // Return the auth token if the `$api` object is defined
+      if (this.$api)
+        return this.$api.token
+    },
+
+    directUploadWillCreateBlobWithXHR (xhr) {
+      if (this.accessToken())
+        xhr.setRequestHeader('Authorization', this.accessToken())
+    },
+
+
     // URLs
     // --------------------------------------------------
 
-    buildAttachmentUrl (baseUrl) {
-      return this.designerBackendStore.getters.buildResourceUrl(baseUrl,
-          this.spec && this.spec.url_params ? this.spec.url_params : null)
-      // return buildURL(baseUrl, this.designerBackendStore.getters.resourceUrlParameters(
-      //   this.spec && this.spec.url_params ? this.spec.url_params : null))
+    buildAttachmentUrl (endpointName, ...rest) {
+      // NOTE: If no designer backend store is available then the instance must
+      // define the `$api.routes` object.
+      if (this.$api && this.$api.routes && typeof this.$api.routes[endpointName] === 'function') {
+        const args = [...rest, this.url_params].filter(_ => _)
+        return this.$api.routes[endpointName].apply(null, args)
+        // (...rest, this.url_params)
+      }
+      else if (this.designerBackendStore) {
+        const baseUrl = this.designerBackendState[endpointName]
+        return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.url_params)
+      }
+      else {
+        alert('Attachment endpoint not defined: ' + endpointName)
+      }
     },
 
     attachmentDirectUploadUrl (params) {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentDirectUploadUrl)
+      return this.buildAttachmentUrl('attachmentDirectUploadUrl')
     },
 
     attachmentUploadUrl (attachment) {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentUploadUrlTemplate)
+      return this.buildAttachmentUrl('attachmentUploadUrl', attachment.name)
                 .replace(':name', attachment.name ? attachment.name : 'attachments')
                 .replace('%3Aname', attachment.name ? attachment.name : 'attachments')
     },
 
     attachmentDeleteUrl (attachment) {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentDeleteUrlTemplate)
+      return this.buildAttachmentUrl('attachmentDeleteUrl',
+          encodeURIComponent(attachment.key))
                 .replace(':key', encodeURIComponent(attachment.key))
                 .replace("%3Akey", encodeURIComponent(attachment.key))
     },
 
     attachmentCdnUrl (attachment) {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentCdnUrlTemplate)
+      return this.buildAttachmentUrl('attachmentCdnUrl',
+          encodeURIComponent(attachment.signed_id),
+          encodeURIComponent(attachment.filename))
                 .replace(':signed_id', encodeURIComponent(attachment.signed_id))
                 .replace('%3Asigned_id', encodeURIComponent(attachment.signed_id))
                 .replace(':filename', encodeURIComponent(attachment.filename))
@@ -121,24 +150,25 @@ export default {
       if (attachment.key) {
 
         // If our `attachmentUrl` is defined on the instance then always use that
-        if (typeof this.attachmentUrl  === 'function') {
+        if (typeof this.attachmentUrl === 'function') {
           return this.attachmentUrl(attachment, 'thumb')
         }
 
-        return this.buildAttachmentUrl(this.designerBackendState.attachmentThumbnailUrlTemplate)
+        return this.buildAttachmentUrl('attachmentThumbnailUrl')
                   .replace(':key', encodeURIComponent(attachment.key))
                   // .replace('%3Akey', encodeURIComponent(attachment.key))
-      } else if (attachment.asset) {
-
-        // This path is used for static preview assets displayed from the local filesystem
-        return this.buildAttachmentUrl(this.designerBackendState.previewUrl + this.designerBackendState.attachmentPreviewAssetUrlTemplate)
-                  .replace(':asset', attachment.asset)
-
       }
+      // else if (attachment.asset) {
+      //
+      //   // This path is used for static preview assets displayed from the local filesystem
+      //   return this.buildAttachmentUrl(previewUrl + this.designerBackendState.attachmentPreviewAssetUrl)
+      //             .replace(':asset', attachment.asset)
+      //
+      // }
     },
 
     attachmentsUrl () {
-      return this.buildAttachmentUrl(this.designerBackendState.attachmentsUrl)
+      return this.buildAttachmentUrl('attachmentsUrl')
     }
   }
 }

@@ -2,16 +2,16 @@
 .item-wrap.checkbox-input
   .form-group
     //- Left aligned checkbox
-    .custom-control.custom-checkbox(v-if='spec.align === "left"')
+    .custom-control.custom-checkbox(v-if='align === "left"')
       input.custom-control-input(
           type='checkbox'
           v-model='currentValue'
           :id='inputId'
           @change='emitUpdate')
-      label.custom-control-label(:for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+      label.custom-control-label(:for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
     //- Right aligned checkbox
     .d-flex.align-items-center(v-else)
-      label.flex-fill(v-if='spec.label !== false' :for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+      label.flex-fill(v-if='label !== false' :for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
       .custom-control.custom-checkbox
         input.custom-control-input(
             type='checkbox'
@@ -26,6 +26,11 @@
 import Input from '../../mixins/input'
 
 export default {
-  extends: Input
+  extends: Input,
+  props: {
+    align: {
+      type: String
+    }
+  }
 }
 </script>

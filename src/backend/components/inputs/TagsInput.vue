@@ -2,18 +2,18 @@
 .item-wrap.designer-tags-input
   .form-group
     //- .form-row.align-items-center
-    label.control-label(v-if='spec.label !== false' :for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
     //- .col
     voerro-tags-input(
         :id='inputId'
         element-id='tags'
         v-model='currentValue'
-        :existing-tags='spec.options'
+        :existing-tags='options'
         :typeahead='true'
         :typeahead-activation-threshold='0'
-        :only-existing-tags='!spec.custom'
+        :only-existing-tags='!custom'
         @tags-updated='emitUpdate')
-        //- :existing-tags='tagArrayToObject(spec.options)'
+        //- :existing-tags='tagArrayToObject(options)'
 </template>
 
 <script>

@@ -2,7 +2,7 @@
 .item-wrap.checkbox-input
   .form-group
     .d-flex.align-items-center
-      label.flex-fill(v-if='spec.label !== false' :for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+      label.flex-fill(v-if='label !== false' :for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
       .custom-control.custom-checkbox
         input.custom-control-input(
             type='checkbox'
