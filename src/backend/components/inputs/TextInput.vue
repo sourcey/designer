@@ -1,23 +1,26 @@
 <template lang="pug">
-.item-wrap.text-input
-  .form-group(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
-    //- .form-group.align-items-center
-    //- div {{item}}
-    //- div {{value}}
-    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
-    .input-group
-      slot(name='prepend')
-      input.form-control(:type='input || "text"'
-          v-model='currentValue'
-          :name='field || name'
-          :placeholder='placeholder'
-          :class="{'is-invalid': errorMessage}"
-          @focusin='emitSelect(); focused = true'
-          @focusout='focused = false')
-      //- v-on='$listeners'
-      //- @input='emitUpdate'
-      slot(name='append')
-    .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
+.form-group.item-wrap.text-input(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
+  //- .form-group.align-items-center
+  //- div {{item}}
+  //- div {{value}}
+  label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+  .input-group
+    slot(name='prepend')
+    //- div {{currentValue}}
+    input.form-control(:type='input || "text"'
+        :value='displayValue'
+        :name='field || name'
+        :placeholder='placeholder'
+        :class="{'is-invalid': errorMessage}"
+        @blur='currentValue = $event.target.value'
+        @focusin='emitSelect(); focused = true'
+        @focusout='focused = false')
+    //- v-model='currentValue'
+    //- v-on='$listeners'
+    //- @input='emitUpdate'
+    slot(name='append')
+  .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
+  .hint.mt-075(v-if='hint' v-html='hint')
 </template>
 
 <script>

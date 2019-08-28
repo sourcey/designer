@@ -2,7 +2,7 @@
 .item-wrap.designer-tags-input
   .form-group
     //- .form-row.align-items-center
-    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='hint') {{ inputLabel }}
+    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
     //- .col
     voerro-tags-input(
         :id='inputId'

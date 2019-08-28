@@ -2,7 +2,7 @@
 .item-wrap.designer-select-input
   .form-group
     a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
-    label.control-label(v-if='label !== false' :for="inputId" v-b-tooltip :title='hint') {{ inputLabel }}
+    label.control-label(v-if='label !== false' :for="inputId" v-b-tooltip :title='tooltip') {{ inputLabel }}
     select.form-control(:id='inputId'
         v-model='currentValue'
         :name='field || name'
@@ -19,6 +19,7 @@
           :selected='optionSelected(value)'
           :value='typeof(key) === "string" ? key : optionValue(value)') {{ optionLabel(value) }}
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
+    .hint.mt-075(v-if='hint') {{ hint }}
 </template>
 
 <script>
@@ -39,10 +40,29 @@ export default {
   },
   methods: {
     optionValue (value) {
-      return isObject(value) && value.value ? value.value : value
+      // For options that are an array of arrays ie:
+      // [ [ 'Facebook', 'facebook' ] ]
+      if (Array.isArray(value))
+        return value[1]
+
+      // For options that are an array of objects ie:
+      // [ { lable: 'Facebook', value: 'facebook' } ]
+      if (isObject(value) && value.value)
+        return value.value
+      return value
     },
     optionLabel (value) {
-      return isObject(value) && value.label ? value.label : value
+      // For options that are an array of arrays ie:
+      // [ [ 'Facebook', 'facebook' ] ]
+      if (Array.isArray(value))
+        return value[0]
+
+      // For options that are an array of objects ie:
+      // [ { lable: 'Facebook', value: 'facebook' } ]
+      if (isObject(value) && value.label)
+        return value.label
+
+      return value
     },
     optionDisabled (value) {
       return isObject(value) && value.disabled

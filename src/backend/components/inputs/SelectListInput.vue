@@ -3,12 +3,12 @@
   .form-group(:class="{'is-invalid': errorMessage, 'is-focus': focused}")
     label.control-label(v-if='label') {{ label }}
     p.hint(v-if='hint') {{ hint }}
+    //- div {{ object }}
+    //- div ------------------------
+    //- div {{ value }}
     .dropdown(:class='{"dropup": dropup}' @click='$event.stopPropagation()')
       .input-group.transparent-input-group
         slot(name='prepend')
-          .input-group-prepend
-            span.input-group-text
-              i.fal.fa-search
         input.form-control(
             ref='input'
             type='text'
@@ -38,7 +38,8 @@
         input(type='hidden' :name='field || name' :value='option.value')
         .label.flex-fill {{ option.label }}
         button.btn.ml-1(@click.prevent="select(option)")
-          i.fal.fa-trash-alt
+          icon(name='trash-alt')
+          //- i.fal.fa-trash-alt
     //- div.mb-2 {{ options }}
     //- div {{ value }}
 </template>
@@ -53,29 +54,6 @@ export default {
   name: 'select-list',
   extends: Input,
   props: {
-    // modal: {
-    //   type: Object,
-    //   default: () => {}
-    // },
-    // name: {
-    //   type: String
-    // },
-    // name: {
-    //   type: String
-    // },
-    // label: {
-    //   type: String
-    // },
-    // placeholder: {
-    //   type: String
-    // },
-    // hint: {
-    //   type: String
-    // },
-    // required: {
-    //   type: Boolean,
-    //   default: false
-    // },
     dropup: {
       type: Boolean,
       default: false
@@ -85,61 +63,28 @@ export default {
       default: () => []
       // [Object, Array]
     },
-    // validationErrors: {
-    //   type: Object,
-    //   default: () => {}
-    // },
   },
   data () {
     return {
-      // focused: false,
-      // object: this.modal || this.$parent.modal || {},
-      // value: [],
       filterValue: null,
-      // visibleOptions: this.options,
-      // errors: this.validationErrors || this.$parent.validationErrors,
       showSelected: true
     }
   },
   computed: {
-    // object () {
-    //   return this.object || this.$parent.object
-    // },
-    // value: {
-    //   get: function () {
-    //     if (typeof(this.object[this.name]) === 'undefined')
-    //       this.$set(this.object, this.name, [])
-    //       // this.object[this.name] = this.defaultValue
-    //       // this.setDefaultValue() // $set(this.object, this.name, null) // setting a null value will ensure reactivity if unset
-    //     return this.object[this.name]
-    //   },
-    //   set: function (newValue) {
-    //     console.log('set input value', this.object, this.name, newValue)
-    //     this.$set(this.object, this.name, this.formatValue(newValue))
-    //     // this.object[this.name] = newValue
-    //   }
-    // },
-    // inputId () {
-    //   return this.name + '-' + randomString(10)
-    // },
-    // errorMessage () {
-    //   if (this.errors && this.errors[this.name])
-    //     return this.errors[this.name]
-    // },
     visibleOptions () {
-      if (this.filterValue)
+      if (this.currentValue && this.filterValue)
         return this.options.filter(x => x.label.toLowerCase().indexOf(this.filterValue) !== -1)
       return this.options
     },
     selectedOptions () {
       const result = []
       this.options.forEach(option => {
-        if (this.value.includes(option.value)) {
-          option.selected = true
+        if (this.currentValue && this.currentValue.includes(option.value)) {
+          this.$set(option, 'selected', true)
           result.push(option)
         }
         else
-          option.selected = false
+          this.$set(option, 'selected', false)
       })
       return result
     },
@@ -153,15 +98,26 @@ export default {
   },
   methods: {
     select (option) {
-      console.log('select', option)
-      const index = this.value.findIndex(x => x === option.value)
-      const doSelect = index === -1
-      this.$set(option, 'selected', doSelect)
-      if (doSelect)
-        this.value.push(option.value)
-      else {
-        this.value.splice(index, 1)
+      console.log('select', option, this.currentValue)
+      const selected = this.currentValue ? [].concat(this.currentValue) : []
+      if (selected.includes(option.value)) {
+        selected.splice(selected.indexOf(option.value), 1)
+      } else {
+        selected.push(option.value)
       }
+      console.log('selected', selected)
+      this.currentValue = selected // will trigger $emit 'input'
+      this.$nextTick(() => this.$forceUpdate()) // required to update dropdown selected values
+
+      // console.log('select', option)
+      // const index = this.value.findIndex(x => x === option.value)
+      // const doSelect = index === -1
+      // this.$set(option, 'selected', doSelect)
+      // if (doSelect)
+      //   this.value.push(option.value)
+      // else {
+      //   this.value.splice(index, 1)
+      // }
       // console.log('VALS', this.value)
       // this.$emit('input', this.name, this.value)
       this.$refs.input.dispatchEvent(new Event('input', { bubbles: true }))

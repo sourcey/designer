@@ -3,7 +3,7 @@
   .item-wrap
     .form-group.designer-select
       a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
-      label.dropdown-label(:for='inputId' v-b-tooltip :title='hint' @click.prevent='showFontDialog')
+      label.dropdown-label(:for='inputId' v-b-tooltip :title='tooltip' @click.prevent='showFontDialog')
         .dropdown-label-text {{ inputLabel }}
         icon(name='caret-down' size='16')
       .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
@@ -11,7 +11,7 @@
     .item-wrap
       .form-group.designer-select(:title='state.errorText')
         a.input-reset(v-if='!isDefaultFontFamily' @click.prevent='restoreDefaultFontFamily' href='#') x
-        label.dropdown-label(:for='inputId' v-b-tooltip :title='hint' @click.prevent='showFamilyDialog')
+        label.dropdown-label(:for='inputId' v-b-tooltip :title='tooltip' @click.prevent='showFamilyDialog')
           .dropdown-label-text.font-name(:style='fontStyle(activeFontFamily)') {{activeFontFamily}}
           span.icon.spinner-border.spinner-border-sm(v-if="state.loadingStatus === 'loading'" role='status' aria-hidden='true')
           icon(name='caret-down' size='16')

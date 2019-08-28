@@ -1,27 +1,14 @@
 import Vue from 'vue'
-// import { DirectUpload } from '@rails/activestorage'
 import { pick } from '../../base/utils'
-// import { store } from './store'
 import axios from 'axios'
-// import buildURL from 'axios/lib/helpers/buildURL'
 
 
 export default {
   methods: {
-    createThumbnail (attachment) {
-
-      // Create a thumbnail
-      var fReader = new FileReader()
-      fReader.readAsDataURL(attachment.file)
-      fReader.onload = (event) => {
-        console.log('attachment thumbnail created')
-        Vue.set(attachment, 'thumbnail', event.target.result)
-      }
-    },
     uploadAttachment (attachment) {
       return new Promise((resolve, reject) => {
 
-        // TODO: Use a presigned non-direct upload
+        // TODO: Remove @rails/activestorage dependency
         const { DirectUpload } = require('@rails/activestorage')
         console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl())
         const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(), this)
@@ -69,6 +56,16 @@ export default {
       return axios.get(this.attachmentsUrl())
     },
 
+    // Create a thumbnail from a file
+    createThumbnail (attachment) {
+      var fReader = new FileReader()
+      fReader.readAsDataURL(attachment.file)
+      fReader.onload = (event) => {
+        console.log('attachment thumbnail created')
+        Vue.set(attachment, 'thumbnail', event.target.result)
+      }
+    },
+
     attachmentVisible (attachment) {
        return attachment && (
          attachment.key ||
@@ -82,13 +79,21 @@ export default {
       return pick(attachment, ['key', 'signed_id', 'filename', 'byte_size', 'content_type', 'url', 'asset'])
     },
 
+    // Designer metadata used to associate attachments with elements
+    fileMetadata () {
+      const meta = {}
+      if (this.parent && this.parent.id) {
+        meta.designer_element_id = this.parent.id
+      }
+      return meta
+    },
+
 
     // Authorization
     // --------------------------------------------------
 
+    // Return the API auth token if the `$api` object is defined
     accessToken () {
-
-      // Return the auth token if the `$api` object is defined
       if (this.$api)
         return this.$api.token
     },

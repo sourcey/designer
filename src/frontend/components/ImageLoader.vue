@@ -146,7 +146,7 @@ export default {
 
 .image {
   position: relative;
-  // overflow: hidden;
+  overflow: hidden;
   // text-align: center;
   // background-position: center;
   // background-repeat: no-repeat;

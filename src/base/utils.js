@@ -88,7 +88,7 @@ export function defaultLocale(locale) {
 export function formatNumber(number, locale) {
   locale = defaultLocale(locale)
   try {
-    number = parseFloat(number)
+    number = sanitizeDecimal(number)
     if (isNaN(number))
       return null // do not parse non-numbers
     // if (!number) return 0
@@ -102,7 +102,7 @@ export function formatNumber(number, locale) {
 export function formatMoney(number, currency, locale) {
   locale = defaultLocale(locale)
   currency = currency || 'EUR' // FIXME
-  number = parseFloat(number)
+  number = sanitizeDecimal(number)
   if (isNaN(number))
     return null // do not parse non-numbers
   try {

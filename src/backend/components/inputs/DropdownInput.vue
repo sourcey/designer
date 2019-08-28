@@ -5,7 +5,7 @@
     //- div {{ name}}
     //- div {{ value}}
     //- div {{ spec}}
-    label.dropdown-label(:for='inputId' v-b-tooltip :title='hint')
+    label.dropdown-label(:for='inputId' v-b-tooltip :title='tooltip')
       .dropdown-label-text
         | {{ inputLabel }}
         span(v-if='displayValue') : {{ displayValue }}

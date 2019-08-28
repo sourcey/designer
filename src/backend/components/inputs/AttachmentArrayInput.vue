@@ -3,15 +3,15 @@
   div(v-if='attachments.length')
     div(v-for='(attachment, index) in attachments')
       //- div {{attachmentThumbnailUrl(attachment)}}
-      .preview-item.mb-05(v-if='attachmentVisible(attachment)')
-        .preview-overlay.flex-center
-          .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
-            i.fas.fa-exclamation-triangle
-          spinner(v-else-if='!attachment.key')
-        a.delete(href='#' @click.prevent='removeAttachment(attachment)')
-        img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')
-        img.img-fluid(v-else-if='attachment.key || attachment.asset' :src='attachmentThumbnailUrl(attachment)')
-        img.img-fluid(v-else-if='attachment.url' :src='attachment.url')
+      attachment-preview-item.mb-05(v-if='attachmentVisible(attachment)' :attachment='attachment' @remove='removeAttachment')
+      //- .preview-overlay.flex-center
+      //-   .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
+      //-     i.fas.fa-exclamation-triangle
+      //-   spinner(v-else-if='!attachment.key')
+      //- a.delete(href='#' @click.prevent='removeAttachment(attachment)')
+      //- img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')
+      //- img.img-fluid(v-else-if='attachment.key || attachment.asset' :src='attachmentThumbnailUrl(attachment)')
+      //- img.img-fluid(v-else-if='attachment.url' :src='attachment.url')
   .form-group
     label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
     small.text-muted.font-italic(v-if='validateMax') Maximum {{ max }} images
@@ -28,6 +28,7 @@
 <script>
 import Input from '../../mixins/input'
 import Attachments from '../../mixins/attachments'
+import AttachmentPreviewItem from './AttachmentPreviewItem'
 import Spinner from '../../../base/components/Spinner'
 import { randomString } from '../../../base/utils'
 
@@ -36,6 +37,7 @@ export default {
   extends: Input,
   mixins: [ Attachments ],
   components: {
+    AttachmentPreviewItem,
     Spinner
   },
   props: {
@@ -54,7 +56,7 @@ export default {
     }
   },
   created () {
-    if (!Array.isArray(this.value)) {
+    if (!Array.isArray(this.currentValue)) {
       this.currentValue = []
     }
     this.currentValue.forEach(attachment => this.attachments.push(attachment))

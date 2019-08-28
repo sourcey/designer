@@ -12,6 +12,13 @@ export default {
       required: true
     },
 
+    // The option input object.
+    // If this is defined it will be used instead of the parent form object.
+    object: {
+      type: Object,
+      // default: () => {}
+    },
+
     // HTML field name (if different to `name` ie. scoped)
     field: {
       type: String
@@ -46,15 +53,23 @@ export default {
       type: String
     },
 
-    // The output format type
-    format: {
-      type: String
+    // The display format function
+    // This formats the value displayed to the user
+    formatter: {
+      type: [String, Function]
+    },
+
+    // The value sanitizer function
+    // This formats the value saved to the backend
+    sanitizer: {
+      type: [Function]
     },
 
     // The HTML input type ie. text, password
     input: {
       type: String
     },
+
     // The spec definition for this input.
     // spec: {
     //   type: Object,
@@ -86,73 +101,65 @@ export default {
     }
   },
   computed: {
-    // value: {
-    //   get: function () {
-    //     if (typeof(this.model[this.name || this.name]) === 'undefined') {
-    //       this.$set(this.model, this.name, this.defaultValue)
-    //     }
-    //     return this.model[thi.model[this.name || this.name]) === 'undefined') {
-        //   this.$set(this.model, this.name, this.defaultValue)
-        // }
-        // return this.model[this.name || this.names.name || this.name]
-    //   },
-    //   set: function (newValue) {
-    //     // this.$set(this.model, this.name, this.formatValue(newValue))
-    //
-    //     this.model[this.name || this.name] = this.formatValue(newValue)
-    //   }
-    // },
     currentValue: {
       get: function () {
-        // if (typeof(this.model[this.name || this.name]) === 'undefined') {
-        //   this.$set(this.model, this.name, this.defaultValue)
-        // }
-        // return this.model[this.name || this.name]
-        return this.value
+        if (this.value) {
+          // console.log('input: get value', this.name, this.value)
+          return this.value
+        }
+        if (this.currentObject) {
+          // console.log('input: get object value', this.name, this.currentObject, this.currentObject[this.name])
+          if (typeof(this.currentObject[this.name]) === 'undefined') {
+            this.$set(this.currentObject, this.name, this.defaultValue)
+          }
+          // console.log('input: get object value 1', this.name, this.currentObject, this.currentObject[this.name])
+          return this.currentObject[this.name]
+        }
       },
       set: function (newValue) {
-        // this.$set(this.model, this.name, this.formatValue(newValue))
-        const value = this.formatValue(newValue)
+        const value = this.sanitizeValue(newValue)
+        // if (this.currentObject && typeof(newValue) !== 'undefined') {
+        //   this.$set(this.currentObject, this.name, value)
+        // }
+        if (this.currentObject && typeof(newValue) !== 'undefined') {
+          this.$set(this.currentObject, this.name, value)
+        }
         this.$emit('input', value)
-        // this.model[this.name || this.name] = this.formatValue(newValue)
       }
     },
-    // defaultValue () {
-    //   return this.spec.default || null
-    // },
-    // attribute () {
-    //   return this.spec.name || null
-    // },
+    displayValue: {
+      get: function () {
+        // if (this.formatter) {
+        //   return this.formatValue(this.currentValue)
+        // }
+        return this.formatValue(this.currentValue)
+      },
+      // set: function (value) {
+      //   // const value = this.formatValue(newValue)
+      //   // if (this.currentObject && typeof(newValue) !== 'undefined') {
+      //   //   this.$set(this.currentObject, this.name, value)
+      //   // }
+      //   if (this.currentObject && typeof(value) !== 'undefined') {
+      //     this.$set(this.currentObject, this.name, value)
+      //   }
+      //   this.$emit('input', value)
+      // }
+    },
+    currentObject () {
+      if (this.object)
+        return this.object
+      if (this.parentForm)
+        return this.parentForm.object
+    },
     isDefaultValue () {
       return this.currentValue === this.defaultValue
     },
-    inputLabel () { //name, spec
+    inputLabel () {
       if (this.label)
         return this.label
-      // if (this.spec)
-      //   return titleize(this.spec)
       if (this.name)
         return titleize(this.name)
-      // if (this.name)
-      //   return titleize(this.name)
     },
-    // inputId () {
-    //   // var s = `input-${randomString(5)}`
-    //   // console.log('inputId', this.name, s)
-    //   // return 's' //`input-${randomString(5)}`
-    //   return `input-${this.name}`
-    // },
-    // model () {
-    //   if (this.object)
-    //     return this.object
-    //   if (this.$parent.object)
-    //     return this.$parent.object
-    //   if (this.$parent.$parent.object)
-    //     return this.$parent.$parent.object
-    //   this.$set(this, 'object', {})
-    //   return this.object
-    // },
-
     parentForm () {
       let parent = this.$parent
       while (parent) {
@@ -162,9 +169,6 @@ export default {
       }
     },
     validationErrors () {
-      // console.log('input: this.parentForm', this.parentForm)
-      // console.log('input: this.parentForm.validationErrors', this.parentForm.validationErrors)
-
       if (this.parentForm)
         return this.parentForm.validationErrors
       if (this.designerBackendState)
@@ -173,13 +177,23 @@ export default {
     },
     errorMessage () {
       // console.log('input: validation errors', this.validationErrors, this.validationErrors[this.name], this.name, this.name)
-      if (this.validationErrors && this.validationErrors[this.name])
-        return this.validationErrors[this.name]
+      if (this.validationErrors) {
+        if (this.validationErrors[this.name])
+          return this.validationErrors[this.name]
+
+        // Sometimes validation error keys will be scoped by the model ie. `user.password`,
+        // so attempt to match the last part of the key.
+        const match = Object.keys(this.validationErrors).find(x => x.endsWith('.' + this.name))
+        if (match) {
+          return this.validationErrors[match]
+        }
+      }
     }
   },
   created () {
     // this.mergePropsIntoSpec()
     this.saveValue()
+    // this.setInitialValue() // set the initial value with potential formatting
   },
   methods: {
     // mergePropsIntoSpec () {
@@ -189,26 +203,33 @@ export default {
     //   // console.log('PROPS', this.spec, this.$props)
     // },
     formatValue (value) {
-      // console.log('!!!! format value', value)
+      if (typeof(this.formatter) === 'function')
+        return this.formatter(value)
+      return value
+    },
+    sanitizeValue (value) {
+      if (typeof(this.sanitizer) === 'function')
+        return this.sanitizer(value)
       return value
     },
     setInitialValue () {
-      // console.log('!!!! set initial value', this.model, this.name, this.defaultValue)
+      console.log('!!!! set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
       // this.model[this.name || this.name] !== 'undefined' ? clone(this.model[this.name || this.name]) : null
 
-      this.currentValue = this.initialValue
-      this.emitUpdate()
+      this.currentValue = this.initialValue // this.formatValue(this.initialValue)
+      // this.formatValue()
+      // this.emitUpdate()
     },
     setDefaultValue () {
-      // console.log('!!!! set default value', this.model, this.name, this.defaultValue)
+      // console.log('!!!! set default value', this.value, this.name, this.defaultValue)
       this.currentValue = this.defaultValue
-      this.emitUpdate()
+      // this.emitUpdate()
     },
 
     // This can be called when the outside form is saved to update the initial
     // value, so next time the form is reset it will revert to this value
     saveValue () {
-      this.initialValue = copyValue(this.value)
+      this.initialValue = copyValue(this.value || this.currentValue)
     },
 
     emitSelect () {
@@ -216,7 +237,7 @@ export default {
         this.$emit('select', this.name)
     },
     emitUpdate () {
-      console.log('!!!! emit update', this.name, this.currentValue, this.value) //model[this.name || this.name])
+      // console.log('!!!! emit update', this.name, this.currentValue, this.value) //model[this.name || this.name])
       this.$emit('input', this.currentValue)
       // if (this.enableEvents)
       //
@@ -225,16 +246,6 @@ export default {
       //   // when changing section layout and uploading an attachment on Artzine.
       //   // this.$emit('update', this.name, this.model[this.name || this.name])
       //   this.$emit('update', this.name, this.currentValue)
-    },
-
-    // @deprecated
-    // Just used for attachments
-    fileMetadata () {
-      const meta = {}
-      if (this.parent && this.parent.id) {
-        meta.designer_element_id = this.parent.id
-      }
-      return meta
     }
   }
 }
