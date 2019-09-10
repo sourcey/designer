@@ -68,7 +68,7 @@ export default {
     },
     backgroundCss () {
       const css = {}
-      if (this.aspectRatio) {
+      if (this.aspectRatio && this.isCover) {
         css['padding-bottom'] = (100 / this.aspectRatio) + '%'
         // css['background-color'] = this.backgroundColor
       }

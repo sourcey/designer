@@ -36,8 +36,11 @@ export default {
 //   align-self: center;
 
   svg {
-    display: inline-block;
-    vertical-align: middle;
+    display: inline-flex;
+    align-self: center;
+
+    // display: inline-block;
+    // vertical-align: middle;
     // width: 100%;
     // height: 100%;
     fill: currentColor;

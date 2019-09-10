@@ -20,7 +20,7 @@
         slot(name='button')
           .btn-upload.dropzone.flex-center.p-1
             .icon-wrap
-              icon.mb-025(:name='icon || "upload-cloud"' size='32')
+              icon.mb-025(:name='icon || "camera"' size='32')
               .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
 </template>
@@ -46,6 +46,9 @@ export default {
     },
     url_params: {
       type: Object
+    },
+    max: {
+      type: Number
     }
   },
   data () {

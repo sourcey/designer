@@ -34,6 +34,14 @@ export function titleize (str) {
   return str.replace(/[A-Z]/g, ' $&').replace(/_/g, ' ').replace(/^./, str => str.toUpperCase())
 }
 
+export function truncate (str, length = 200, ending = '...') {
+  if (str && str.length > length) {
+    return str.substring(0, length - ending.length) + ending
+  } else {
+    return str
+  }
+}
+
 export function randomString(len) {
   const p = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   return [...Array(len)].reduce(a=>a+p[~~(Math.random()*p.length)],'')

@@ -14,12 +14,13 @@ export default {
         const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(), this)
         directUpload.create((error, attributes) => {
           if (error) {
-            console.log('attachment upload failed', error)
+            console.log('attachment direct upload failed', error)
             // Vue.set(attachment, 'error', `Upload failed: ${error}`)
             const message = `Upload failed: ${error}`
             Vue.set(attachment, 'error', message)
             reject(message)
           } else {
+            console.log('attachment direct upload success', attributes, attachment)
 
             // Associate the attachment with the resource
             axios.post(this.attachmentUploadUrl(attachment), {
@@ -37,7 +38,7 @@ export default {
               })
               .catch(error => {
                 console.log('attachment upload association failed', status, error)
-                const message = 'Upload failed' // `Upload failed: ${error}`
+                const message = `Upload failed: ${error}` // 'Upload failed' //
                 Vue.set(attachment, 'error', message)
                 reject(message)
               })
@@ -100,7 +101,7 @@ export default {
 
     directUploadWillCreateBlobWithXHR (xhr) {
       if (this.accessToken())
-        xhr.setRequestHeader('Authorization', this.accessToken())
+        xhr.setRequestHeader('Authorization', `Bearer ${this.accessToken()}`)
     },
 
 

@@ -1,6 +1,6 @@
 <template lang="pug">
   .placeholder(:class='mode' :style='backgroundCss')
-    icon(:name='icon' size='64')
+    icon(:name='icon' size='32')
 </template>
 
 <script>
@@ -35,25 +35,24 @@ export default {
 }
 </script>
 
-<style lang="scss">
-$placebolder-background-color:  #f3f2f9 !default;
+<style scoped lang="scss">
+$placebolder-background-color: #f3f2f9 !default;
 
 .placeholder {
   position: relative;
   background-color: $placebolder-background-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .icon {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -32px;
-    margin-left: -32px;
-
-    // /deep/ svg {
-    svg {
-      fill: darken($placebolder-background-color, 5);
-    }
+  /deep/ .icon {
+    // display: inline-block;
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // margin-top: -16px;
+    // margin-left: -16px;
+    fill: darken($placebolder-background-color, 5);
   }
 }
 </style>

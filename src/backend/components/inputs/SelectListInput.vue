@@ -38,7 +38,7 @@
         input(type='hidden' :name='field || name' :value='option.value')
         .label.flex-fill {{ option.label }}
         button.btn.ml-1(@click.prevent="select(option)")
-          icon(name='trash-alt')
+          icon(name='trash' size='14')
           //- i.fal.fa-trash-alt
     //- div.mb-2 {{ options }}
     //- div {{ value }}
@@ -51,7 +51,7 @@ import Input from '../../mixins/input'
 // import { randomString } from 'designer/app/javascript/base/utils'
 
 export default {
-  name: 'select-list',
+  name: 'select-list-input',
   extends: Input,
   props: {
     dropup: {

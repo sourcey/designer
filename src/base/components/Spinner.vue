@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <div class="text-center">
+    <div class="text-center" :class="{ overlay: overlay }">
       <svg class="spinner" :class="{ show: show }" v-show="show" :width="`${size}px`" :height="`${size}px`" viewBox="0 0 44 44">
         <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle>
       </svg>
@@ -16,18 +16,34 @@ export default {
       type: Boolean,
       default: true
     },
+    overlay: {
+      type: Boolean,
+      default: false
+    },
     size: {
       type: [Number, String],
       default: 44,
     }
   },
-  serverCacheKey: props => `${props.show}::${props.size}`
+  serverCacheKey: props => `${props.show}::${props.overlay}::${props.size}`
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $offset: 126;
 $duration: 1.4s;
+
+.overlay {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(white, .75);
+}
 
 .spinner {
   transition: opacity .15s ease;

@@ -122,8 +122,10 @@ export default {
         //   this.$set(this.currentObject, this.name, value)
         // }
         if (this.currentObject && typeof(newValue) !== 'undefined') {
+          console.log('input: set current object value', this.name, value)
           this.$set(this.currentObject, this.name, value)
         }
+        console.log('input: set current value', this.name, value)
         this.$emit('input', value)
       }
     },
@@ -237,7 +239,7 @@ export default {
         this.$emit('select', this.name)
     },
     emitUpdate () {
-      // console.log('!!!! emit update', this.name, this.currentValue, this.value) //model[this.name || this.name])
+      console.log('!!!! emit update', this.name, this.currentValue, this.value) //model[this.name || this.name])
       this.$emit('input', this.currentValue)
       // if (this.enableEvents)
       //

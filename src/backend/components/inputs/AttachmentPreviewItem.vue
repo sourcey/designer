@@ -2,7 +2,8 @@
 .preview-item(v-if='attachmentVisible(attachment)' :class="{'is-invalid': attachment.error}")
   .preview-overlay.flex-center
     .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
-      i.fas.fa-exclamation-triangle
+      icon(name='exclamation-triangle' size='32')
+      //- i.fas.fa-exclamation-triangle
     spinner(v-else-if='!attachment.key')
   a.delete(href='#' @click.prevent='$emit("remove", attachment)')
   img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')

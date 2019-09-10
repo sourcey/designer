@@ -7,6 +7,7 @@
 
 // Generic
 import './assets/images/icons/plus.svg?sprite=true'
+import './assets/images/icons/camera.svg?sprite=true'
 import './assets/images/icons/cross.svg?sprite=true'
 import './assets/images/icons/back-arrow.svg?sprite=true'
 import './assets/images/icons/move-v.svg?sprite=true'
@@ -15,6 +16,7 @@ import './assets/images/icons/ellipsis-v.svg?sprite=true'
 import './assets/images/icons/ellipsis-v-solid.svg?sprite=true'
 import './assets/images/icons/ellipsis-h.svg?sprite=true'
 import './assets/images/icons/ellipsis-h-solid.svg?sprite=true'
+import './assets/images/icons/exclamation-triangle.svg?sprite=true'
 import './assets/images/icons/settings.svg?sprite=true'
 import './assets/images/icons/image-placeholder.svg?sprite=true'
 import './assets/images/icons/video-placeholder.svg?sprite=true'

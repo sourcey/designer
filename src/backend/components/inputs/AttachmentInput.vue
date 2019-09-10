@@ -4,7 +4,11 @@
     //- div {{ attachment }}
     //- div {{ currentValue }}
     label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
-    //- div {{currentAttachmentName}}
+    //- div --------------
+    //- div {{tempAttachment}}
+    //- div --------------
+    //- div {{currentValue}}
+    //- div --------------
     attachment-preview-item(v-if='attachmentVisible(currentAttachment)' :attachment='currentAttachment' @remove='removeAttachment')
     //- attachment-preview-item(v-if='tempAttachment' :attachment='tempAttachment || currentValue' @remove='')
     //- attachment-preview-item(v-else :attachment='currentValue')
@@ -129,7 +133,7 @@ export default {
         if (attachment.key)
           this.destroyAttachment(attachment)
         this.currentValue = null
-        // this.tempAttachment = null
+        this.tempAttachment = null
         // this.emitUpdate()
 
         // HACK: Save when a new image is uploaded or it may be lost in space
