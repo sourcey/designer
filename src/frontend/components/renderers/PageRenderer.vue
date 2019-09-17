@@ -1,4 +1,5 @@
 <template lang="pug">
+//- div {{designerPage}}
 div(v-if='dynamicSections && dynamicSections.length')
   div(v-for='(section, index) in dynamicSections' :key='index')
     slot(v-if='section.main')

@@ -84,6 +84,9 @@ export default {
         //   css['padding-bottom'] = (100 / this.aspectRatio) + '%'
         // }
         css['object-fit'] = this.fit
+        if (this.image && this.image.cover_position) {
+          css['object-position'] = this.image.cover_position
+        }
       }
       if (this.backgroundColor) {
         css['background-color'] = this.backgroundColor

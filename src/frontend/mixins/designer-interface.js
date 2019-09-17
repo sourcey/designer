@@ -15,6 +15,9 @@ export default {
   // },
   computed: {
     designerPage () {
+      // console.log('DESIGNER PAGE GETTER', this.$store.getters)
+
+      // return this.$store.state.designer.designerPage //(this.$route.meta.id)
       return this.$store.getters.designerPage //(this.$route.meta.id)
     },
     pageData () {

@@ -63,12 +63,6 @@ export default {
     },
 
     designerPage: (state) => {
-      // if (state.designer)
-      return state.designerPage
-    },
-
-    designerPage: (state) => {
-      // if (state.designer)
       return state.designerPage
     },
 
