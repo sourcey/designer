@@ -1,12 +1,12 @@
 <template lang="pug">
 .item-wrap.designer-tags-input
   .form-group
-    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
     //- .col
     //- no-ssr
     //- div {{options}}
-    //- div {{existingTags}}
     //- div {{currentValue}}
+    //- div {{existingTags}}
     voerro-tags-input(
         ref='tags'
         v-model='currentValue'
@@ -20,7 +20,7 @@
         :limit='max'
         @tags-updated='emitCustomUpdate')
         //- :existing-tags='tagArrayToObject(options)'
-    .hint.mt-075(v-if='hint' v-html='hint')
+    .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
       default: false
     },
     options: {
-      type: Object,
+      type: [Object, Array],
       // default: () => []
       // [Object, Array]
     },
@@ -52,20 +52,21 @@ export default {
   },
   computed: {
     existingTags () {
-      if (isObject(this.options)) {
-        return this.options
-      } else if (Array.isArray(this.options)) {
+      if (Array.isArray(this.options)) {
         return this.options.reduce((acc, cur, i) => {
           acc[cur] = cur
           return acc
         }, {})
+      } else if (isObject(this.options)) {
+        return this.options
       }
     }
   },
   methods: {
     emitCustomUpdate (value) {
       // Ensure the outside form receives input events when tags change
-      this.$refs.tags.$refs.taginput.dispatchEvent(new Event('input', { bubbles: true }))
+      if (this.$refs.tags && this.$refs.tags.$refs.taginput)
+        this.$refs.tags.$refs.taginput.dispatchEvent(new Event('input', { bubbles: true }))
       // this.emitUpdate()
     }
   }

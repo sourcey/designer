@@ -2,14 +2,14 @@
 #designer.designer-ui
   #designer-sidebar
     .designer-actions
-      a.btn.btn-icon.text-primary(@click.prevent='saveResource' href='#' v-b-tooltip title="Save")
+      a.btn.btn-icon.text-primary(@click.prevent='saveResource' href='#' v-b-tooltip.hover title="Save")
         i.fa.fa-save
       //- li.nav-object.flex-fill
       //- li.nav-item(v-if='designerBackendState.enableRefresh !== false')
-      //-   a.nav-link(@click='refreshPreview' href='#' v-b-tooltip title="'Refresh Preview'")
+      //-   a.nav-link(@click='refreshPreview' href='#' v-b-tooltip.hover title="'Refresh Preview'")
       //-     i.fa.fa-sync
       //- li.nav-item
-      //-   a.nav-link(@click='save' href='#' v-b-tooltip title="'Save'")
+      //-   a.nav-link(@click='save' href='#' v-b-tooltip.hover title="'Save'")
       //-     i.fa.fa-save
     b-tabs(nav-wrapper-class='designer-tabs')
       slot(name='tabs-start')

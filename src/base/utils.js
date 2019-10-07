@@ -115,7 +115,11 @@ export function formatMoney(number, currency, locale) {
     return null // do not parse non-numbers
   try {
     // console.log('format currency', number)
-    return number.toLocaleString(locale, { style: 'currency', currency: currency })
+    return number.toLocaleString(locale, {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 0
+    })
   } catch (e) {
     console.log('format currency failed', e)
     return number.toFixed(2)

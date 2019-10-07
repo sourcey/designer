@@ -5,7 +5,7 @@
     a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     .d-flex
       .designer-range-input-wrap
-        label.flex-fill(:for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+        label.flex-fill(:for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
         input(type='range'
             v-model.number='decimalValue'
             :min='min'

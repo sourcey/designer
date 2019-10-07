@@ -5,7 +5,7 @@
       //- div {{value}}
       //- div {{currentValue}}
       //- div {{typeof(currentValue)}}
-      label.flex-fill(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+      label.flex-fill(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
       .custom-control.custom-switch
         input.custom-control-input(
             type='checkbox'
@@ -17,7 +17,7 @@
         //- @change='emitUpdate'
         label.custom-control-label(:for='inputId')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
-    .hint.mt-075(v-if='hint' v-html='hint')
+    .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>

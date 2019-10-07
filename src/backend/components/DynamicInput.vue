@@ -108,7 +108,7 @@ export default {
         if (component)
           return component
       }
-      return () => import(`./inputs/${this.componentName}.vue`)
+      return () => import(/* webpackChunkName: "designer" */ `./inputs/${this.componentName}.vue`)
     }
   }
 }

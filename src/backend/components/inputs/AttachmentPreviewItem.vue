@@ -1,7 +1,7 @@
 <template lang="pug">
 .preview-item(v-if='attachmentVisible(attachment)' :class="{'is-invalid': attachment.error}")
   .preview-overlay.flex-center
-    .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
+    .error.text-danger(v-if='attachment.error' v-b-tooltip.hover :title='attachment.error')
       icon(name='exclamation-triangle' size='32')
       //- i.fas.fa-exclamation-triangle
     spinner(v-else-if='!attachment.key')

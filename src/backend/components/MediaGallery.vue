@@ -89,7 +89,7 @@
     .col-4.col-lg-3(v-for='(attachment, index) in attachments')
       .preview-item.mt-05
         .overlay.center-container.h-100
-          .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
+          .error.text-danger(v-if='attachment.error' v-b-tooltip.hover :title='attachment.error')
             i.fas.fa-exclamation-triangle
           .loader.spinner-border(v-else-if='!attachment.key' role='status')
             span.sr-only Loading...

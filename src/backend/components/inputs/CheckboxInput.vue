@@ -9,10 +9,10 @@
           :name='field || name'
           :id='inputId')
       //- @change='emitUpdate'
-      label.custom-control-label(:for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+      label.custom-control-label(:for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
     //- Right aligned checkbox
     .d-flex.align-items-center(v-else)
-      label.flex-fill(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+      label.flex-fill(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
       .custom-control.custom-checkbox
         input.custom-control-input(
             type='checkbox'
@@ -22,7 +22,7 @@
         //- @change='emitUpdate'
         label.custom-control-label(:for='inputId')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
-    .hint.mt-075(v-if='hint' v-html='hint')
+    .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>

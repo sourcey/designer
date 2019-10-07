@@ -9,7 +9,7 @@
     //- (v-if="spec.type === 'string' && spec.multiline")
     //- a.float-right(href='#' @click="openMarkdownEditor()")
       i.fa.fa-edit
-    label.control-label(v-if='spec.label !== false' :for='inputId' v-b-tooltip :title='spec.hint') {{ inputLabel }}
+    label.control-label(v-if='spec.label !== false' :for='inputId' v-b-tooltip.hover :title='spec.hint') {{ inputLabel }}
     textarea.form-control(:id='inputId' ref='textarea' rows='5'
         v-model='object[name]'
         :placeholder='spec.placeholder'

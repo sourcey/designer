@@ -3,7 +3,7 @@
   //- .form-group.align-items-center
   //- div {{item}}
   //- div {{value}}
-  label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+  label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
   .input-group
     slot(name='prepend')
     //- div {{currentValue}}
@@ -11,6 +11,7 @@
         :value='displayValue'
         :name='field || name'
         :placeholder='placeholder'
+        :required='required'
         :class="{'is-invalid': errorMessage}"
         @blur='currentValue = $event.target.value'
         @focusin='emitSelect(); focused = true'
@@ -20,7 +21,7 @@
     //- @input='emitUpdate'
     slot(name='append')
   .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
-  .hint.mt-075(v-if='hint' v-html='hint')
+  .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>

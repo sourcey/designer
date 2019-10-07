@@ -4,7 +4,7 @@
   img(v-if='!this.fit' :src='url' v-on="$listeners")
 .image(:class='classNames' :style='backgroundCss')
   placeholder(v-if='empty')
-  img(v-else :src='url' :style='imageCss' v-on="$listeners")
+  img(v-else-if='!this.isCover' :src='url' :style='imageCss' v-on="$listeners")
 </template>
 
 <script>
@@ -60,34 +60,47 @@ export default {
         'empty': this.empty,
         'fill-parent': this.fillParent,
         'scale-width': this.scaleWidth,
-        'auto-size': this.aspectRatio
+        'auto-size': this.autoSize //isCover && this.scaleRatio
       }
     },
     isCover () {
       return this.fit && (this.fit === 'cover' || this.fit === 'contain')
     },
+    autoSize () {
+      return this.isCover && this.scaleRatio
+    },
     backgroundCss () {
       const css = {}
-      if (this.aspectRatio && this.isCover) {
-        css['padding-bottom'] = (100 / this.aspectRatio) + '%'
-        // css['background-color'] = this.backgroundColor
+      if (this.isCover) {
+        css['background-image'] = 'url("' + this.url + '")'
+        css['background-size'] = this.fit // === 'contain' ? 'contain' : 'cover'
+        if (this.image && this.image.cover_position) {
+          css['background-position'] = this.image.cover_position
+        }
+        if (this.scaleRatio) { // && this.autoSize && !this.fillParent
+          css['padding-bottom'] = (100 / this.scaleRatio) + '%'
+        }
       }
+      // if (this.autoSize) { // isCover && this.scaleRatio) {
+      //   css['padding-bottom'] = (100 / this.scaleRatio) + '%'
+      //   // css['background-color'] = this.backgroundColor
+      // }
       return css
     },
     imageCss () {
       const css = {}
-      if (this.isCover) {
-        // css['background-image'] = 'url("' + this.url + '")'
-        // css['background-size'] = this.fit === 'contain' ? 'contain' : 'cover'
-        // if (this.aspectRatio) { // && this.autoSize && !this.fillParent
-        //   // css['height'] = 0
-        //   css['padding-bottom'] = (100 / this.aspectRatio) + '%'
-        // }
-        css['object-fit'] = this.fit
-        if (this.image && this.image.cover_position) {
-          css['object-position'] = this.image.cover_position
-        }
-      }
+      // if (this.isCover) {
+      //   // css['background-image'] = 'url("' + this.url + '")'
+      //   // css['background-size'] = this.fit === 'contain' ? 'contain' : 'cover'
+      //   // if (this.aspectRatio) { // && this.autoSize && !this.fillParent
+      //   //   // css['height'] = 0
+      //   //   css['padding-bottom'] = (100 / this.aspectRatio) + '%'
+      //   // }
+      //   css['object-fit'] = this.fit
+      //   if (this.image && this.image.cover_position) {
+      //     css['object-position'] = this.image.cover_position
+      //   }
+      // }
       if (this.backgroundColor) {
         css['background-color'] = this.backgroundColor
       }
@@ -104,6 +117,8 @@ export default {
     // which is used to set the height of the element when used with background
     // cover styles and the height is unknown.
     scaleRatio () {
+      if (this.aspectRatio)
+        return this.aspectRatio
       if (this.image)
         return this.image.aspect_ratio
     }
@@ -151,20 +166,20 @@ export default {
   position: relative;
   overflow: hidden;
   // text-align: center;
-  // background-position: center;
-  // background-repeat: no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
 
   // &.cover {
   //   position: absolute;
   // }
 
   // Fill but don't overflow the parent element
-  img {
-    background-position: center;
-    background-repeat: no-repeat;
-    // max-width: 100%;
-    // height: auto;
-  }
+  // img {
+  //   background-position: center;
+  //   background-repeat: no-repeat;
+  //   // max-width: 100%;
+  //   // height: auto;
+  // }
 
   &:not(.cover),
   &:not(.fill-parent) {
@@ -202,12 +217,18 @@ export default {
     // }
   }
 
+  &.fill-parent {
+    padding-bottom: 0 !important; // disable auto sizing
+  }
+
   &.cover {
     img {
       position: absolute;
       top: 0;
       left: 0;
-      height: 100%;
+      bottom: 0;
+      // height: 100%;
+      min-height: 100%;
       width: 100%;
     }
   }

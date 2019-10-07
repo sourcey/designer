@@ -5,7 +5,7 @@
       //- div {{attachmentThumbnailUrl(attachment)}}
       attachment-preview-item.mb-05(v-if='attachmentVisible(attachment)' :attachment='attachment' @remove='removeAttachment')
       //- .preview-overlay.flex-center
-      //-   .error.text-danger(v-if='attachment.error' v-b-tooltip :title='attachment.error')
+      //-   .error.text-danger(v-if='attachment.error' v-b-tooltip.hover :title='attachment.error')
       //-     i.fas.fa-exclamation-triangle
       //-   spinner(v-else-if='!attachment.key')
       //- a.delete(href='#' @click.prevent='removeAttachment(attachment)')

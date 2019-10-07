@@ -36,6 +36,7 @@ export default {
     //   return this.$store.getters.designerPage
     // },
     dynamicSections () {
+      // console.log('^^^^^^^^^^^^^^^^^^ get synamic sections', this.designerPage)
       if (!this.designerPage || !this.designerPage.content)
         return
       return this.designerPage.content.map((section, index) => {

@@ -2,7 +2,7 @@
 .item-wrap.designer-select-input
   .form-group
     a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
-    label.control-label(v-if='label !== false' :for="inputId" v-b-tooltip :title='tooltip') {{ inputLabel }}
+    label.control-label(v-if='label !== false' :for="inputId" v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
     select.form-control(:id='inputId'
         v-model='currentValue'
         :name='field || name'
@@ -19,7 +19,7 @@
           :selected='optionSelected(value)'
           :value='typeof(key) === "string" ? key : optionValue(value)') {{ optionLabel(value) }}
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
-    .hint.mt-075(v-if='hint') {{ hint }}
+    .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>

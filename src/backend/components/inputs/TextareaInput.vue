@@ -1,7 +1,7 @@
 <template lang="pug">
 .item-wrap.textarea-input
   .form-group
-    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip :title='tooltip') {{ inputLabel }}
+    label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
     p.hint(v-if='hint' v-html='hint')
     textarea.form-control(:id='inputId'
         v-model='currentValue'
