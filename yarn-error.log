@@ -61,13 +61,14 @@ Lockfile:
   # yarn lockfile v1
   
   
-  "@nuxt/opencollective@^0.2.2":
-    version "0.2.2"
-    resolved "https://registry.yarnpkg.com/@nuxt/opencollective/-/opencollective-0.2.2.tgz#17adc7d380457379cd14cbb64a435ea196cc4a6e"
+  "@nuxt/opencollective@^0.3.0":
+    version "0.3.0"
+    resolved "https://registry.yarnpkg.com/@nuxt/opencollective/-/opencollective-0.3.0.tgz#11d8944dcf2d526e31660bb69570be03f8fb72b7"
+    integrity sha512-Vf09BxCdj1iT2IRqVwX5snaY2WCTkvM0O4cWWSO1ThCFuc4if0Q/nNwAgCxRU0FeYHJ7DdyMUNSdswCLKlVqeg==
     dependencies:
-      chalk "^2.4.1"
-      consola "^2.3.0"
-      node-fetch "^2.3.0"
+      chalk "^2.4.2"
+      consola "^2.10.1"
+      node-fetch "^2.6.0"
   
   "@rails/activestorage@^6.0.0-alpha":
     version "6.0.0-alpha"
@@ -120,24 +121,33 @@ Lockfile:
     version "3.5.3"
     resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
   
-  bootstrap-vue@^2.0.0-rc.25:
-    version "2.0.0-rc.25"
-    resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.0.0-rc.25.tgz#5d53876a2547a0910d335fa7bb62b3069c62503c"
+  bootstrap-vue@^2.0.1:
+    version "2.0.4"
+    resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.0.4.tgz#9bf99754a22acece72e02adda3c7965b818ae2bc"
+    integrity sha512-/5WXa3ir5uajcs7ze7jz7QXpYuJGWHjvJ8biMq0+e0IIIxw2jSdh4LsiFKD7C7qtgKre28hhXOfx79RmZX4wcQ==
     dependencies:
-      "@nuxt/opencollective" "^0.2.2"
-      bootstrap "^4.3.1"
-      core-js ">=2.6.5 <3.0.0"
+      "@nuxt/opencollective" "^0.3.0"
+      bootstrap ">=4.3.1 <5.0.0"
       popper.js "^1.15.0"
-      portal-vue "^2.1.5"
+      portal-vue "^2.1.6"
       vue-functional-data-merge "^3.1.0"
   
-  bootstrap@^4.3.1:
+  "bootstrap@>=4.3.1 <5.0.0", bootstrap@^4.3.1:
     version "4.3.1"
     resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
   
   chalk@^2.4.1:
     version "2.4.1"
     resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
+    dependencies:
+      ansi-styles "^3.2.1"
+      escape-string-regexp "^1.0.5"
+      supports-color "^5.3.0"
+  
+  chalk@^2.4.2:
+    version "2.4.2"
+    resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
+    integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
     dependencies:
       ansi-styles "^3.2.1"
       escape-string-regexp "^1.0.5"
@@ -167,19 +177,16 @@ Lockfile:
     version "1.1.3"
     resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   
-  consola@^2.3.0:
-    version "2.7.1"
-    resolved "https://registry.yarnpkg.com/consola/-/consola-2.7.1.tgz#3f7f7c53eb44362240c3aee41b9bb2641d5ca32e"
+  consola@^2.10.1:
+    version "2.10.1"
+    resolved "https://registry.yarnpkg.com/consola/-/consola-2.10.1.tgz#4693edba714677c878d520e4c7e4f69306b4b927"
+    integrity sha512-4sxpH6SGFYLADfUip4vuY65f/gEogrzJoniVhNUYkJHtng0l8ZjnDCqxxrSVRHOHwKxsy8Vm5ONZh1wOR3/l/w==
   
   consolidate@^0.15.1:
     version "0.15.1"
     resolved "https://registry.yarnpkg.com/consolidate/-/consolidate-0.15.1.tgz#21ab043235c71a07d45d9aad98593b0dba56bab7"
     dependencies:
       bluebird "^3.1.1"
-  
-  "core-js@>=2.6.5 <3.0.0":
-    version "2.6.9"
-    resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
   
   de-indent@^1.0.2:
     version "1.0.2"
@@ -217,10 +224,6 @@ Lockfile:
     dependencies:
       debug "=3.1.0"
   
-  font-awesome@^4.7.0:
-    version "4.7.0"
-    resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
-  
   font-picker@^3.0.3:
     version "3.0.3"
     resolved "https://registry.yarnpkg.com/font-picker/-/font-picker-3.0.3.tgz#0eaa8b26f26ea1fdab4955c4fb476df56e27e680"
@@ -256,20 +259,6 @@ Lockfile:
   is-obj@^1.0.0:
     version "1.0.1"
     resolved "http://registry.npmjs.org/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
-  
-  jquery-resizable-dom@^0.32.0:
-    version "0.32.0"
-    resolved "https://registry.yarnpkg.com/jquery-resizable-dom/-/jquery-resizable-dom-0.32.0.tgz#85269fdc604fce3e0b15fe65f2ebb7ca7d4dd247"
-    dependencies:
-      jquery "~3.3.1"
-  
-  jquery-serializejson@^2.8.1:
-    version "2.9.0"
-    resolved "https://registry.yarnpkg.com/jquery-serializejson/-/jquery-serializejson-2.9.0.tgz#03e3764e3a4b42c1c5aae9f93d7f19320c5f35a6"
-  
-  jquery@>=1.12.0, jquery@^3.3.1, jquery@~3.3.1:
-    version "3.3.1"
-    resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   
   json5@^1.0.1:
     version "1.0.1"
@@ -321,9 +310,10 @@ Lockfile:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
   
-  node-fetch@^2.3.0:
+  node-fetch@^2.6.0:
     version "2.6.0"
     resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+    integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
   
   orderedmap@^1.0.0:
     version "1.0.0"
@@ -337,9 +327,10 @@ Lockfile:
     version "1.15.0"
     resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
   
-  portal-vue@^2.1.5:
-    version "2.1.5"
-    resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-2.1.5.tgz#ecd0997cb32958205151cb72f40fd4f38d175e5c"
+  portal-vue@^2.1.6:
+    version "2.1.6"
+    resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-2.1.6.tgz#a7d4790b14a79af7fd159a60ec88c30cddc6c639"
+    integrity sha512-lvCF85D4e8whd0nN32D8FqKwwkk7nYUI3Ku8UAEx4Z1reomu75dv5evRUTZNaj1EalxxWNXiNl0EHRq36fG8WA==
   
   postcss-selector-parser@^3.1.1:
     version "3.1.1"
@@ -466,10 +457,6 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
   
-  rails-ujs@^5.2.1-1:
-    version "5.2.2"
-    resolved "https://registry.yarnpkg.com/rails-ujs/-/rails-ujs-5.2.2.tgz#ab01dd087a323975637b50e93e7afcc0f9068568"
-  
   rope-sequence@^1.2.0:
     version "1.2.2"
     resolved "https://registry.yarnpkg.com/rope-sequence/-/rope-sequence-1.2.2.tgz#49c4e5c2f54a48e990b050926771e2871bcb31ce"
@@ -574,12 +561,6 @@ Lockfile:
       tiptap-commands "^1.10.8"
       tiptap-utils "^1.5.6"
   
-  toastr@^2.1.4:
-    version "2.1.4"
-    resolved "https://registry.yarnpkg.com/toastr/-/toastr-2.1.4.tgz#8b43be64fb9d0c414871446f2db8e8ca4e95f181"
-    dependencies:
-      jquery ">=1.12.0"
-  
   typo-js@*:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/typo-js/-/typo-js-1.0.3.tgz#54d8ebc7949f1a7810908b6002c6841526c99d5a"
@@ -593,10 +574,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/verte/-/verte-0.0.12.tgz#f91b3f82cf2d6ea81ac2ccad66bb9aefe7997503"
     dependencies:
       color-fns "^0.0.10"
-  
-  vue-deepset@^0.6.3:
-    version "0.6.3"
-    resolved "https://registry.yarnpkg.com/vue-deepset/-/vue-deepset-0.6.3.tgz#fdc644c496803bbaf8864bb3b6f639dad7e9a9dd"
   
   vue-functional-data-merge@^3.1.0:
     version "3.1.0"

@@ -28,7 +28,9 @@ import DialogWindow from '../DialogWindow'
 import SelectInput from './SelectInput'
 import Input from '../../mixins/input'
 import { clone } from '../../../base/utils'
-import FontManager from 'font-picker/dist/font-manager/font-manager/FontManager.js'
+// import FontManager from 'font-picker/dist/font-manager/font-manager/FontManager.js'
+import FontManager from '@samuelmeuli/font-manager/dist/index.js'
+// node_modules/@samuelmeuli/font-manager/dist/index.js
 
 export default {
   extends: Input,
