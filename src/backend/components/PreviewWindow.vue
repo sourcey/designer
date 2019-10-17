@@ -1,8 +1,9 @@
 <template lang="pug">
 #preview-window(:class='{"disable-mouse": disableMouse, "expand": $store.getters.designerPreviewExpanded}')
-  spinner(v-if='!previewLoaded')
+  spinner.my-5(v-if='!loaded')
   iframe(
       :src='url'
+      v-show='loaded'
       name='preview'
       ref='preview'
       width='100%'
@@ -136,16 +137,28 @@ export default {
     previewLoaded () {
       this.loaded = true
 
+      console.log('HOIIIIIIIIIIIIIIIIII previewLoadedpreviewLoaded', typeof(this.$refs.preview.contentWindow.app))
+
+
+      // The internal preview iframe must set a current `window.app` instance
+      // to share data with the designer frontend.
       if (this.$refs.preview.contentWindow.app) {
         this.$store.commit('setPreviewApp', this.$refs.preview.contentWindow.app)
 
-        // If the preview app has defined a designerPage,
-        // then set it as the current resource
+        // If the preview app has defined an designerPage instance, then set it
+        // as the current designer resource.
+        console.log('HOIIIIIIIIIIIIIIIIII', this.designerPreviewStore.getters.designerPage)
         if (this.designerPreviewStore.getters.designerPage)
           this.$store.commit('setDesignerResource', this.designerPreviewStore.getters.designerPage)
-        this.designerPreviewState.designer.backend = this.$parent
-        this.designerPreviewState.designer.designerBackendStore = this.designerBackendStore
-        this.designerPreviewState.designer.designerSpec = this.designerBackendState.spec
+        if (this.designerPreviewState.designer) {
+          this.designerPreviewState.designer.backend = this.$parent
+          this.designerPreviewState.designer.designerBackendStore = this.designerBackendStore
+          this.designerPreviewState.designer.designerSpec = this.designerBackendState.spec
+        } else {
+          console.warn('The preview designer store has not been initialized.')
+        }
+      } else {
+        console.warn('The preview designer app instance has not been initialized.')
       }
     },
 

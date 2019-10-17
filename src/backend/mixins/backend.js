@@ -69,7 +69,7 @@ export default {
       // axios.patch(this.routes.dashboardSite(), this.designerPreviewState.site)
       // return axios.patch(this.routes.dashboardSite(), this.$store.state.site)
 
-      console.log('save that shit')
+      // console.log('save that shit')
       this.$store.dispatch('saveResource')
     },
     markUnsaved (flag = true) {

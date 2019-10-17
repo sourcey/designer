@@ -34,6 +34,7 @@ export default {
     attachmentCdnUrl: null,
 
     previewApp: null,
+    previewUrl: null,
     previewExpanded: false,
     backendInterface: null
   },

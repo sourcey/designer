@@ -146,7 +146,7 @@ export default {
       // Scale the width based on the height. This is designed to be used in
       // conjunction with a 100% height layout.
       this.$el.style.width = 'auto'
-      this.$el.style.width = `${this.$el.offsetHeight / this.scaleRatio}px`
+      this.$el.style.width = `${this.$el.offsetHeight * this.scaleRatio}px`
       // console.log('scale image', this.$el.offsetHeight, this.scaleRatio)
       this.triggerLayout()
     },

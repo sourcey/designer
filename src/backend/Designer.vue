@@ -21,7 +21,7 @@
       b-tab(:title='form.label' :key='key' v-for='(form, key) in designerBackendState.spec.forms')
         spinner.mt-3(v-if='!designerBackendState.resource')
         component(v-else is='ResourceForm' :resource='designerBackendState.resource' :spec='form')
-      b-tab(title='Gallery' v-if='designerBackendState.enableGallery')
+      //- b-tab(title='Gallery' v-if='designerBackendState.enableGallery')
         spinner.mt-3(v-if='!designerBackendState.resource')
         component(v-else is='MediaGallery')
       slot(name='tabs-end')
