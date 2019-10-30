@@ -1,11 +1,13 @@
 <template lang="pug">
   component(:is='loadComponent'
-    v-model='model[name]'
     :name='name'
+    :object='model'
     v-bind='spec'
     v-show='visible'
     v-on='$listeners'
     @input='onInput')
+  //- @input='onInput($event.target.value)'
+  //- v-model='model[name]'
   //- :object='object'
   //- :parent='parent'
   //- :root='root'
@@ -15,12 +17,12 @@
 export default {
   name: 'dynamic-input',
   props: ['spec', 'name', 'object', 'parent', 'root'],
+  // data () {
+  //   return {
+  //     loaded: false
+  //   }
+  // },
   computed: {
-    onInput (value) {
-      // Emit the update event for the designer IPC
-      // this.$emit('update', this.name, this.object[this.name])
-      this.$emit('update', this.name, this.value)
-    },
     parentForm () {
       let parent = this.$parent
       while (parent) {
@@ -45,7 +47,7 @@ export default {
         // match value exists
         if (typeof(this.spec.if) === 'string') {
           // console.log('dynamic input: visible: if exists', this.spec.if, this.object[this.spec.if])
-          return !!this.object[this.spec.if]
+          return !!this.model[this.spec.if]
         }
 
         const key = Object.keys(this.spec.if)[0]
@@ -54,19 +56,19 @@ export default {
         // match exact value
         if (typeof(val) === 'string') {
           // console.log('dynamic input: visible: if matches', val, this.object[key])
-          return this.object[key] === val
+          return this.model[key] === val
         }
 
         else if (Array.isArray(val)) {
           // console.log('dynamic input: visible: if contains', val, this.object[key])
-          return this.object[key] && val.includes(this.object[key])
+          return this.model[key] && val.includes(this.model[key])
         }
 
         // console.log('dynamic input: visible: no match')
         return false
       }
       if (this.spec.unless)
-        return !this.object[this.spec.unless]
+        return !this.model[this.spec.unless]
       return true
     },
     componentName () {
@@ -110,6 +112,26 @@ export default {
       }
       return () => import(/* webpackChunkName: "designer" */ `./inputs/${this.componentName}.vue`)
     }
+  },
+  // created () {
+  //
+  // },
+  // mounted () {
+  //   this.$nextTick(() => this.loaded = true)
+  // },
+  methods: {
+    onInput (value) {
+      // HACK: supress early input events
+      // if (!this.loaded) {
+      //   console.log('dynamic input: drop early input', value, this.value, this.model[this.name])
+      //   return
+      // }
+
+      // Emit the update event for the designer IPC
+      // this.$emit('update', this.name, this.object[this.name])
+      // console.log('dynamic input: on input', value, this.value, this.model[this.name])
+      this.$emit('update', this.name, this.model[this.name])
+    },
   }
 }
 </script>

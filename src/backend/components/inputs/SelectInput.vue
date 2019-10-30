@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     displayValue () {
-      return isObject(this.options) ? this.options[this.value] : this.value
+      return isObject(this.options) ? this.options[this.currentValue] : this.currentValue
     },
   },
   methods: {
@@ -68,7 +68,7 @@ export default {
       return isObject(value) && value.disabled
     },
     optionSelected (value) {
-      return this.optionValue(value) === this.value
+      return this.optionValue(value) === this.currentValue
     },
   }
 }

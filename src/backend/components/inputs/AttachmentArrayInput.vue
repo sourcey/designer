@@ -1,5 +1,5 @@
 <template lang="pug">
-.item-wrap.designer-attachment-input.attachment-array-input
+.item-wrap.designer-attachment-input.attachment-array-input(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
   div(v-if='attachments.length')
     div(v-for='(attachment, index) in attachments')
       //- div {{attachmentThumbnailUrl(attachment)}}
@@ -23,6 +23,7 @@
               icon.mb-025(:name='icon || "camera"' size='32')
               .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
+    .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 
 <script>
@@ -73,7 +74,7 @@ export default {
     },
   },
   methods: {
-    filesChange(event) {
+    filesChange (event) {
       console.log('files added', event.target.files)
 
       Array.from(event.target.files).forEach(file => {
@@ -103,19 +104,24 @@ export default {
           .then(() => {
             // HACK: Calling `push` is not triggering reactivity across frame borders,
             // so the instance must be reassigned.
-            // this.value.push(this.serializeAttachment(attachment))
+            // this.currentValue.push(this.serializeAttachment(attachment))
 
             this.triggerUpdate()
             // HACK: Save when an image is uploaded or it may be lost in space
             //this.designerBackendStore.save(this)
+
+            // Try to remove the validation message if set
+            this.clearErrorMessage()
           })
       })
+
+      // Reset the file input
+      event.target.value = ''
     },
     triggerUpdate () {
       // HACK: Calling `push` or `splice` on the array is not triggering reactivity
       // across frame borders, but reassigning the instance does the trick.
       this.currentValue = this.attachments.map(attachment => this.serializeAttachment(attachment))
-      // this.emitUpdate()
     },
     removeAttachment (attachment) {
       if (confirm("Are you sure?")) {
@@ -125,12 +131,12 @@ export default {
           this.destroyAttachment(attachment)
 
         // Remove from object data
-        // const ia = this.value.findIndex(x => Object.is(x, attachment))
-        // if (ia !== -1) this.value.splice(ia, 1)
-        // for (let i = 0; i < this.value.length; i++) {
-        //   // if (this.value[i].key === attachment.key) {
-        //   if (Object.is(this.value[i], attachment)) {
-        //     this.value.splice(i, 1)
+        // const ia = this.currentValue.findIndex(x => Object.is(x, attachment))
+        // if (ia !== -1) this.currentValue.splice(ia, 1)
+        // for (let i = 0; i < this.currentValue.length; i++) {
+        //   // if (this.currentValue[i].key === attachment.key) {
+        //   if (Object.is(this.currentValue[i], attachment)) {
+        //     this.currentValue.splice(i, 1)
         //     break
         //   }
         // }

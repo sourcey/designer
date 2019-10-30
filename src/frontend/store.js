@@ -17,20 +17,22 @@ export default {
 
     setDesignerPage (state, page) {
       console.log('designer frontend store: set page', page)
-      // Vue.set(state, 'designerPage', page)
       state.designerPage = page
     },
 
     setDesignerEditingSection (state, section) {
       console.log('designer frontend store: set editing section', section)
-      // Vue.set(state, 'designerPage', page)
       state.editingSection = section
     },
 
     setDesignerEditingElement (state, element) {
       console.log('designer frontend store: set editing element', element)
-      // Vue.set(state, 'designerPage', page)
       state.editingElement = element
+    },
+
+    setDesignerDragging (state, value) {
+      console.log('designer frontend store: set dragging', value)
+      state.dragging = value
     },
 
     removeDesignerSection (state, sectionId) {

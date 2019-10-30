@@ -113,13 +113,14 @@ const appActions = {
 	},
 
 	updateResourceProperty(vm, command) {
-		console.log('designer ipc: updateResourceProperty', command, vm.$store.state.site)
+		const object = vm.$store.getters.designerPage
+		console.log('designer ipc: updateResourceProperty', command, object)
 		if (command.member)
-			vm.$set(vm.$store.state.site[command.member], command.name, command.value)
+			vm.$set(object[command.member], command.name, command.value)
 		else
-			vm.$set(vm.$store.state.site, command.name, command.value)
+			vm.$set(object, command.name, command.value)
 
-		console.log('designer ipc: updateResourceProperty', vm.$store.state.site[command.member])
+		// console.log('designer ipc: updateResourceProperty', object[command.member])
 		// NOTE: since we are mutating elementData the block.data must contain a
 		// default value for this property or it wont be updated
     // vm.$store.commit('setElementProperty', {

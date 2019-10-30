@@ -201,6 +201,8 @@ export default {
       this.$emit(eventName, data)
     },
     autoPosition () {
+      if (!this.$refs.window)
+        return
 
       // Fix left position
       if (this.left && this.$refs.window.clientWidth) {

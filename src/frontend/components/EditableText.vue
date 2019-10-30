@@ -39,7 +39,7 @@ export default {
       // default: 'div'
     },
     contentClass: {
-      type: String,
+      type: [String, Array],
       // default: null
     },
     // placeholder: {
@@ -61,8 +61,6 @@ export default {
     //   return this.$store.getters.isEditingElement(this.item.id)
     // },
     contentHtml () {
-      // return this.designerPreviewStore.getters.
-      // console.log('IMAGEEEEEEEEEEEEEEEe', this.content, this.value)
       // if (this.content && this.content.length)
       //   return this.content
       // return this.value

@@ -42,7 +42,7 @@ export default {
     },
 
     dragDrop (event) {
-      const draggingMeta = this.$store.state.designerDragging.meta
+      const draggingMeta = this.$store.getters.designerDragging.meta
       // console.log('drop target: drop', event.target, this.meta, draggingMeta)
       SpecTools.moveElement(this.position, draggingMeta, this.meta)
       this.active = false

@@ -34,6 +34,7 @@ export default {
       return this.data.truncate
     },
     tagName () {
+      console.log('heading element: tag name changed', this.size)
       return `h${this.size}`
     },
     classNames () {

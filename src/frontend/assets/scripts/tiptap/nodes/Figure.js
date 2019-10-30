@@ -1,7 +1,6 @@
-import { Node, Plugin } from 'tiptap';
-import BlockEditor from '../utils/block-editor';
+import { Node, Plugin } from 'tiptap'
+import BlockEditor from '../utils/block-editor'
 import { randomString } from '../../../../../base/utils'
-// import { setTextSelection } from 'prosemirror-utils';
 
 
 function tryParseAttachment(attachment) {
@@ -12,11 +11,11 @@ function tryParseAttachment(attachment) {
 
 // https://codesandbox.io/s/5xrm89rmyx
 export default class Figure extends Node {
-  get name() {
+  get name () {
     return 'figure'
   }
 
-  get schema() {
+  get schema () {
     return {
       attrs: {
         src: {
@@ -70,7 +69,7 @@ export default class Figure extends Node {
     }
   }
 
-  commands({ type, schema }) {
+  commands ({ type, schema }) {
     return {
       figure: attrs => (state, dispatch) => {
         const { selection } = state
@@ -84,7 +83,7 @@ export default class Figure extends Node {
     };
   }
 
-  get view() {
+  get view () {
     return {
       extends: BlockEditor,
       data () {
@@ -135,12 +134,12 @@ export default class Figure extends Node {
             :data-alt="node.attrs.alt"
             @click="selectNode">
           <div class="menubar" contenteditable="false">
-            <button title="Regular" class="menubar__button" @click.prevent="updateClass(null, ['pull', 'left', 'right'])" :class="{ 'is-active': isRegular }"><icon name="widget-regular" size='12' /></button>
-            <button title="Wide" class="menubar__button" @click.prevent="updateClass('pull', ['left', 'right'])" :class="{ 'is-active': isPull && !isLeft && !isRight }"><icon name="widget-wide" size='12' /></button>
-            <button title="Float Left" class="menubar__button" @click.prevent="updateClass('left', ['right'])" :class="{ 'is-active': isLeft }"><icon name="widget-left" size='12' /></button>
-            <button title="Float Right" class="menubar__button" @click.prevent="updateClass('right', ['left'])" :class="{ 'is-active': isRight }"><icon name="widget-right" size='12' /></button>
-            <button title="Pull Out" class="menubar__button" @click.prevent="updateClass('pull')" :class="{ 'is-active': isPull && (isLeft || isRight) }"><icon name="widget-left-breakout" size='12' /></button>
-            <label title="Upload" class="menubar__button" :for="inputId"><icon name="widget-replace" size='12' /></label>
+            <button title="Regular" class="menubar__button" @click.prevent="updateClass(null, ['pull', 'left', 'right'])" :class="{ 'is-active': isRegular }"><icon name="editor-widget-regular" size='12' /></button>
+            <button title="Wide" class="menubar__button" @click.prevent="updateClass('pull', ['left', 'right'])" :class="{ 'is-active': isPull && !isLeft && !isRight }"><icon name="editor-widget-wide" size='12' /></button>
+            <button title="Float Left" class="menubar__button" @click.prevent="updateClass('left', ['right'])" :class="{ 'is-active': isLeft }"><icon name="editor-widget-left" size='12' /></button>
+            <button title="Float Right" class="menubar__button" @click.prevent="updateClass('right', ['left'])" :class="{ 'is-active': isRight }"><icon name="editor-widget-right" size='12' /></button>
+            <button title="Pull Out" class="menubar__button" @click.prevent="updateClass('pull')" :class="{ 'is-active': isPull && (isLeft || isRight) }"><icon name="editor-widget-left-breakout" size='12' /></button>
+            <label title="Upload" class="menubar__button" :for="inputId"><icon name="editor-widget-replace" size='12' /></label>
             <button title="Delete" class="menubar__button" @click.prevent="deleteAttachmentAndNode"><icon name="trash" size='12' /></button>
           </div>
           <img v-if="node.attrs.src" :src="node.attrs.src" :title="node.attrs.title" :alt="node.attrs.alt" contenteditable="false" />

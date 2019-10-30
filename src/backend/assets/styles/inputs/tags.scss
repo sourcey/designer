@@ -26,7 +26,12 @@
     background-color: $input-bg;
     background-clip: padding-box;
     border: $input-border-width solid $input-border-color;
+  }
 
+  .is-invalid {
+    .tags-input-wrapper-default {
+      border-color: $form-feedback-invalid-color;
+    }
   }
 
   .tags-input-badge {
@@ -67,9 +72,11 @@
   //   }
   // }
   //
-  // .typeahead-dropdown {
-  //   z-index: 2;
-  // }
+  .typeahead-dropdown {
+    z-index: 2;
+    max-height: 250px;
+    overflow-y: auto;
+  }
   //
   // .tags-input-remove:before,
   // .tags-input-remove:after {

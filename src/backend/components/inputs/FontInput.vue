@@ -81,25 +81,25 @@ export default {
   },
   computed: {
     activeFontFamily () {
-      return this.value ? this.value.family : null
+      return this.currentValue ? this.currentValue.family : null
     },
     // defaultValue () {
     //   return clone(this.default)
     // },
     isDefaultValue () {
-      return !this.default || !this.value || (
-        this.default.family === this.value.family &&
-        this.default.weight === this.value.weight &&
-        this.default.style === this.value.style)
+      return !this.default || !this.currentValue || (
+        this.default.family === this.currentValue.family &&
+        this.default.weight === this.currentValue.weight &&
+        this.default.style === this.currentValue.style)
     },
     isDefaultFontFamily () {
-      return !this.default || !this.value || (
-        this.default.family === this.value.family)
+      return !this.default || !this.currentValue || (
+        this.default.family === this.currentValue.family)
     },
     fontWeightSpec () {
       return {
         label: 'Weight',
-        options: this.value.weights.filter(x => String(x).indexOf('i') === -1),
+        options: this.currentValue.weights.filter(x => String(x).indexOf('i') === -1),
         default: String(this.default.weight || '400'),
         required: true
       }
@@ -156,8 +156,8 @@ export default {
       return {
         family: font.family,
         category: font.category,
-        weight: this.value.weight,
-        style: this.value.style,
+        weight: this.currentValue.weight,
+        style: this.currentValue.style,
         weights: font.variants.map(x => {
           if (x === 'regular')
             return '400'
@@ -168,7 +168,7 @@ export default {
       }
     },
     restoreDefaultFontFamily () {
-      this.value.family = this.defaultValue.family
+      this.currentValue.family = this.defaultValue.family
     },
     fontStyle (fontFamily) {
       return {"font-family": fontFamily}
@@ -176,7 +176,7 @@ export default {
     onChange (font) {
       const data = this.serializeFont(font)
       console.log('font changed', font, data)
-      this.value = data
+      this.currentValue = data
       this.emitUpdate()
     }
 

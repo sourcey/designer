@@ -3,22 +3,22 @@
   editor-menu-bar(v-if='!hideMenu' :editor='editor' ref='menu')
     .menubar(v-if='mode === "basic"' :style='{left: "-" + leftOffset + "px"}' :class="{ 'is-hidden': !focused }" slot-scope='{ commands, isActive }')
       button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
-        icon(name='bold' size='12')
+        icon(name='editor-bold' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
-        icon(name='italic' size='12')
+        icon(name='editor-italic' size='12')
     .menubar(v-else :style='{left: "-" + leftOffset + "px"}' :class="{ 'is-hidden': !focused }" slot-scope='{ commands, isActive }')
       button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
-        icon(name='bold' size='12')
+        icon(name='editor-bold' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
-        icon(name='italic' size='12')
+        icon(name='editor-italic' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.strike() }" @click='commands.strike')
-        icon(name='strike' size='12')
+        icon(name='editor-strike' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.underline() }" @click='commands.underline')
-        icon(name='underline' size='12')
+        icon(name='editor-underline' size='12')
       //- button.menubar__button(:class="{ 'is-active': isActive.code() }" @click='commands.code')
-      //- //-   icon(name='code' size='12')
+      //- //-   icon(name='editor-code' size='12')
       //- button.menubar__button(:class="{ 'is-active': isActive.paragraph() }" @click='commands.paragraph')
-      //-   icon(name='paragraph' size='12')
+      //-   icon(name='editor-paragraph' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 1 }) }" @click='commands.heading({ level: 1 })')
         | H1
       button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 2 }) }" @click='commands.heading({ level: 2 })')
@@ -26,26 +26,26 @@
       button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 3 }) }" @click='commands.heading({ level: 3 })')
         | H3
       button.menubar__button(:class="{ 'is-active': isActive.bullet_list() }" @click='commands.bullet_list')
-        icon(name='ul' size='12')
+        icon(name='editor-ul' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.ordered_list() }" @click='commands.ordered_list')
-        icon(name='ol' size='12')
+        icon(name='editor-ol' size='12')
       //- button.menubar__button(:class="{ 'is-active': isActive.blockquote() }" @click='commands.blockquote')
-      //-   icon(name='quote' size='12')
+      //-   icon(name='editor-quote' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.code_block() }" @click='commands.code_block')
-        icon(name='code' size='12')
+        icon(name='editor-code' size='12')
       //- button.menubar__button(@click='commands.horizontal_rule')
-      //-   icon(name='hr' size='12')
+      //-   icon(name='editor-hr' size='12')
       button.menubar__button(@click='commands.undo')
-        icon(name='undo' size='12')
+        icon(name='editor-undo' size='12')
       button.menubar__button(@click='commands.redo')
-        icon(name='redo' size='12')
+        icon(name='editor-redo' size='12')
       button.menubar__button(@click='commands.figure()')
-        icon(name='image' size='12')
+        icon(name='editor-image' size='12')
       button.menubar__button(@click='commands.quote()')
-        icon(name='quote' size='12')
+        icon(name='editor-quote' size='12')
       //- button.menubar__button(:class="{ 'is-active': isActive.cite() }" @click='commands.cite') cite
       //- button.menubar__button(@click='commands.figure') image{src: "#"}
-      //- icon(name='redo' size='12')
+      //- icon(name='editor-redo' size='12')
       //- button class="menubar__button" @click="commands.figure({src: placeholderSrc})">
       //-     <span>image</span>
       //-   </button>
@@ -135,7 +135,8 @@ export default {
       default: 'Write here …'
     },
     contentClass: {
-      type: String,
+      // type: String,
+      type: [String, Array],
       default: null
     },
     contentTag: {
@@ -192,7 +193,7 @@ export default {
       leftOffset: 0
     }
   },
-  mounted() {
+  mounted () {
     window.addEventListener('click', this.onWindowClick)
 
     console.log('text editor: create', this.contentHtml())
@@ -203,21 +204,55 @@ export default {
     window.removeEventListener('click', this.onWindowClick)
     // console.log('text editor: destroy')
   },
+  // computed: {
+  //   contentHtml () {
+  //     console.log('&&&&&&&&&&&&&& text editor: contentHtml', this.contentTag, this.contentClass, this.content)
+  //     // console.log('CONTENT HTML 1', this.content)
+  //     // console.log('CONTENT HTML 2', this.stripTags(this.content || ''))
+  //     if (this.contentTag) {
+  //       const classNames =
+  //           Array.isArray(this.contentClass) ? this.contentClass.join(' ') :
+  //             this.contentClass ? this.contentClass : ''
+  //       // console.log('CONTENT HTML TAG',
+  //       //   `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`)
+  //       return `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`
+  //     }
+  //     // console.log('CONTENT HTML', this.content)
+  //     return this.content // || ''
+  //   },
+  // },
   methods: {
     contentHtml () {
+      console.log('&&&&&&&&&&&&&& text editor: contentHtml', this.contentTag, this.contentClass, this.content)
+      // console.log('CONTENT HTML 1', this.content)
+      // console.log('CONTENT HTML 2', this.stripTags(this.content || ''))
+      if (this.contentTag) {
+        const classNames =
+            Array.isArray(this.contentClass) ? this.contentClass.join(' ') :
+              this.contentClass ? this.contentClass : ''
+        // console.log('CONTENT HTML TAG',
+        //   `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`)
+        return `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`
+      }
+      // console.log('CONTENT HTML', this.content)
+      return this.content // || ''
+    },
+    editorHtml () {
+      let html = this.editor.getHTML()
       if (this.contentTag)
-        return `<${this.contentTag} class="${this.contentClass || ''}">${this.stripTags(this.content)}</${this.contentTag}>`
-      return this.content
+        html = this.stripTags(html)
+      return html
     },
     stripTags (value) {
       if (value)
         return value.replace(/<\/?[^>]+(>|$)/g, "")
+      return ''
     },
     onFocused (flag) {
-      console.log('text editor: onFocused', this, this.editor)
-      let html = this.editor.getHTML()
-      if (this.contentTag)
-        html = this.stripTags(html)
+      // let html = this.editor.getHTML()
+      // if (this.contentTag)
+      //   html = this.stripTags(html)
+      let html = this.editorHtml()
       console.log('text editor: focused', flag, html)
       this.autoPosition()
       this.focused = flag
@@ -242,6 +277,16 @@ export default {
         this.leftOffset = 0
       }
     }
+  },
+  watch: {
+  	contentTag: function(value) {
+      console.log('$$$ text editor: contentTag changed', value)
+      this.editor.setContent(this.contentHtml())
+    },
+  	contentClass: function(value) {
+      console.log('$$$ text editor: contentClass changed', value)
+      this.editor.setContent(this.contentHtml())
+    },
   }
 }
 </script>

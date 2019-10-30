@@ -53,7 +53,7 @@ export default {
     },
     emitUpdate (sectionName, name, value) {
       const spec = this.spec.sections[sectionName].properties[name] //.properties
-      // console.log('resource form: on update', this.resource, spec, name, value)
+      console.log('resource form: on update', this.resource, spec, name, value)
       this.designerBackendState.unsaved = true
       IpcServer.updateResourceProperty(this.resource, name, value, spec)
       this.$emit('update', name, value, spec)

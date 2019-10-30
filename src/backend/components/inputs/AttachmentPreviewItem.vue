@@ -39,12 +39,12 @@ export default {
   //   console.log('ATTACHMENT!!!!!!!!!!!!!!!!', this.currentValue)
   //   this.attachment = copyValue(this.currentValue)
   //
-  //   // NOTE: It's necessary to initialize the object or `this.value` computed
+  //   // NOTE: It's necessary to initialize the object or `this.currentValue` computed
   //   // getter doesnt update after setting value in upload callback. Just
   //   // initializing to NULL is not sufficient. This issue was noticed when
   //   // changing section layout on Artzine.
-  //   // if (!this.value)
-  //   //   this.value = {}
+  //   // if (!this.currentValue)
+  //   //   this.currentValue = {}
   // },
   // computed: {
   //   attachment () {

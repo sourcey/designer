@@ -1,5 +1,5 @@
-import { Node, Plugin } from 'tiptap';
-import BlockEditor from '../utils/block-editor';
+import { Node, Plugin } from 'tiptap'
+import BlockEditor from '../utils/block-editor'
 import { randomString } from '../../../../../base/utils'
 import { wrappingInputRule, toggleWrap } from 'tiptap-commands'
 // import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-commands'
@@ -70,11 +70,11 @@ export default class Quote extends Node {
       template: `
         <blockquote class="block-editor" :class="node.attrs.class">
           <div class="menubar" contenteditable="false">
-            <button title="Regular" class="menubar__button" @click.prevent="updateClass(null, ['pull', 'left', 'right'])" :class="{ 'is-active': isRegular }"><icon name="widget-regular" size='12' /></button>
-            <button title="Wide" class="menubar__button" @click.prevent="updateClass('pull', ['left', 'right'])" :class="{ 'is-active': isPull && !isLeft && !isRight }"><icon name="widget-wide" size='12' /></button>
-            <button title="Float Left" class="menubar__button" @click.prevent="updateClass('left', ['right'])" :class="{ 'is-active': isLeft }"><icon name="widget-left" size='12' /></button>
-            <button title="Float Right" class="menubar__button" @click.prevent="updateClass('right', ['left'])" :class="{ 'is-active': isRight }"><icon name="widget-right" size='12' /></button>
-            <button title="Pull Out" class="menubar__button" @click.prevent="updateClass('pull')" :class="{ 'is-active': isPull && (isLeft || isRight) }"><icon name="widget-left-breakout" size='12' /></button>
+            <button title="Regular" class="menubar__button" @click.prevent="updateClass(null, ['pull', 'left', 'right'])" :class="{ 'is-active': isRegular }"><icon name="editor-widget-regular" size='12' /></button>
+            <button title="Wide" class="menubar__button" @click.prevent="updateClass('pull', ['left', 'right'])" :class="{ 'is-active': isPull && !isLeft && !isRight }"><icon name="editor-widget-wide" size='12' /></button>
+            <button title="Float Left" class="menubar__button" @click.prevent="updateClass('left', ['right'])" :class="{ 'is-active': isLeft }"><icon name="editor-widget-left" size='12' /></button>
+            <button title="Float Right" class="menubar__button" @click.prevent="updateClass('right', ['left'])" :class="{ 'is-active': isRight }"><icon name="editor-widget-right" size='12' /></button>
+            <button title="Pull Out" class="menubar__button" @click.prevent="updateClass('pull')" :class="{ 'is-active': isPull && (isLeft || isRight) }"><icon name="editor-widget-left-breakout" size='12' /></button>
             <button title="Cite" class="menubar__button" @click.prevent="$parent.editor.commands.cite" :class="{ 'is-active': $parent.editor.isActive.cite() }"><icon name="at" size='12' /></button>
             <button title="Delete" class="menubar__button" @click.prevent="deleteNode"><icon name="trash" size='12' /></button>
           </div>

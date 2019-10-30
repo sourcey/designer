@@ -103,29 +103,33 @@ export default {
   computed: {
     currentValue: {
       get: function () {
-        if (this.value) {
-          // console.log('input: get value', this.name, this.value)
+        if (typeof(this.value) !== 'undefined') {
+          console.log('input: get value', this.name, this.value)
           return this.value
         }
-        if (this.currentObject) {
-          // console.log('input: get object value', this.name, this.currentObject, this.currentObject[this.name])
-          if (typeof(this.currentObject[this.name]) === 'undefined') {
-            this.$set(this.currentObject, this.name, this.defaultValue)
+        else if (this.model) {
+          console.log('input: get object value', this.name, this.model[this.name], this.model)
+          if (typeof(this.model[this.name]) === 'undefined') {
+            this.$set(this.model, this.name, this.defaultValue)
           }
-          // console.log('input: get object value 1', this.name, this.currentObject, this.currentObject[this.name])
-          return this.currentObject[this.name]
+          console.log('input: get object value 1', this.name, this.model[this.name])
+          return this.model[this.name]
+        }
+        else {
+          console.log('input: get default value', this.name, this.default, this.defaultValue)
+          return this.defaultValue
         }
       },
       set: function (newValue) {
         const value = this.sanitizeValue(newValue)
-        // if (this.currentObject && typeof(newValue) !== 'undefined') {
-        //   this.$set(this.currentObject, this.name, value)
+        // if (this.model && typeof(newValue) !== 'undefined') {
+        //   this.$set(this.model, this.name, value)
         // }
-        if (this.currentObject && typeof(newValue) !== 'undefined') {
-          console.log('input: set current object value', this.name, value)
-          this.$set(this.currentObject, this.name, value)
+        if (this.model && typeof(newValue) !== 'undefined') {
+          console.log('!!!! input: set current object value', this.name, value)
+          this.$set(this.model, this.name, value)
         }
-        console.log('input: set current value', this.name, value)
+        console.log('!!!! input: set current value', this.name, value)
         this.$emit('input', value)
       }
     },
@@ -138,16 +142,16 @@ export default {
       },
       // set: function (value) {
       //   // const value = this.formatValue(newValue)
-      //   // if (this.currentObject && typeof(newValue) !== 'undefined') {
-      //   //   this.$set(this.currentObject, this.name, value)
+      //   // if (this.model && typeof(newValue) !== 'undefined') {
+      //   //   this.$set(this.model, this.name, value)
       //   // }
-      //   if (this.currentObject && typeof(value) !== 'undefined') {
-      //     this.$set(this.currentObject, this.name, value)
+      //   if (this.model && typeof(value) !== 'undefined') {
+      //     this.$set(this.model, this.name, value)
       //   }
       //   this.$emit('input', value)
       // }
     },
-    currentObject () {
+    model () {
       if (this.object)
         return this.object
       if (this.parentForm)
@@ -180,14 +184,16 @@ export default {
     errorMessage () {
       // console.log('input: validation errors', this.validationErrors, this.validationErrors[this.name], this.name, this.name)
       if (this.validationErrors) {
-        if (this.validationErrors[this.name])
+        if (this.validationErrors[this.name]) {
           return this.validationErrors[this.name]
-
-        // Sometimes validation error keys will be scoped by the model ie. `user.password`,
-        // so attempt to match the last part of the key.
-        const match = Object.keys(this.validationErrors).find(x => x.endsWith('.' + this.name))
-        if (match) {
-          return this.validationErrors[match]
+        }
+        else {
+          // Sometimes validation error keys will be scoped by the model ie. `user.password`,
+          // so attempt to match the last part of the key.
+          const match = Object.keys(this.validationErrors).find(x => x.endsWith('.' + this.name))
+          if (match && this.validationErrors[match]) {
+            return this.validationErrors[match]
+          }
         }
       }
     }
@@ -231,9 +237,21 @@ export default {
     // This can be called when the outside form is saved to update the initial
     // value, so next time the form is reset it will revert to this value
     saveValue () {
-      this.initialValue = copyValue(this.value || this.currentValue)
+      this.initialValue = copyValue(this.value || this.currentValue || this.defaultValue)
     },
-
+    clearErrorMessage () {
+      if (this.validationErrors) {
+        if (this.validationErrors[this.name]) {
+          this.$delete(this.validationErrors, this.name)
+        }
+        else {
+          const match = Object.keys(this.validationErrors).find(x => x.endsWith('.' + this.name))
+          if (match && this.validationErrors[match]) {
+            this.$delete(this.validationErrors, match)
+          }
+        }
+      }
+    },
     emitSelect () {
       if (this.enableEvents)
         this.$emit('select', this.name)

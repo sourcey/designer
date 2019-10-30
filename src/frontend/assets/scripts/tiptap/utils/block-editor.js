@@ -1,5 +1,3 @@
-// import { setTextSelection } from 'prosemirror-utils';
-
 export default {
   props: ['node', 'view', 'updateAttrs', 'editable', 'getPos'],
   computed: {
@@ -51,13 +49,13 @@ export default {
       //   )
       // }
     },
-    deleteNode() {
+    deleteNode () {
       if (confirm("Are you sure?")) {
-        let tr = this.view.state.tr
-        let pos = this.getPos()
+        const tr = this.view.state.tr
+        const pos = this.getPos()
         tr.delete(pos, pos + this.node.nodeSize)
         this.view.dispatch(tr)
       }
-    },
+    }
   }
 }

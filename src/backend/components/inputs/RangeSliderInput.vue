@@ -32,12 +32,12 @@ export default {
   computed: {
     decimalValue: {
       get: function () {
-        // console.log('GET DECIMAL VAL', this.value, sanitizeDecimal(this.value))
-        return sanitizeDecimal(this.value)
+        // console.log('GET DECIMAL VAL', this.currentValue, sanitizeDecimal(this.currentValue))
+        return sanitizeDecimal(this.currentValue)
       },
       set: function (newValue) {
         // console.log('SET DECIMAL VAL', newValue)
-        this.value = newValue // sanitizeDecimal(newValue)
+        this.currentValue = newValue // sanitizeDecimal(newValue)
       }
     }
   },
@@ -57,7 +57,7 @@ export default {
     // console.log('FORMAT', this.enableEvents, rawValue, decimal)
     // updateValue () {
     //   console.log('BLURRRRRRRRRRRR', this.enableEvents)
-    //   this.value = this.value
+    //   this.currentValue = this.currentValue
     // }
     // parseValue (value) {
     //   if (this.format === 'currency' || this.format === 'decimal')

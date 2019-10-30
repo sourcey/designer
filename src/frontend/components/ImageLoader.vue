@@ -26,18 +26,18 @@ export default {
     //   type: Number,
     //   default: .3
     // },
+    aspectRatio: {
+      type: Number //[Number, Boolean],
+      // default: 1.5
+    },
     fillParent: {
       type: Boolean,
       default: false
     },
-    aspectRatio: {
-      type: Number,
-      // default: 1.5
+    autoSize: {
+      type: Boolean,
+      default: true
     },
-    // autoSize: {
-    //   type: Boolean,
-    //   default: false
-    // },
     scaleWidth: {
       type: Boolean,
       default: false
@@ -66,9 +66,9 @@ export default {
     isCover () {
       return this.fit && (this.fit === 'cover' || this.fit === 'contain')
     },
-    autoSize () {
-      return this.isCover && this.scaleRatio
-    },
+    // autoSize () {
+    //   return this.isCover && this.scaleRatio
+    // },
     backgroundCss () {
       const css = {}
       if (this.isCover) {
@@ -77,7 +77,7 @@ export default {
         if (this.image && this.image.cover_position) {
           css['background-position'] = this.image.cover_position
         }
-        if (this.scaleRatio) { // && this.autoSize && !this.fillParent
+        if (this.autoSize && this.scaleRatio) { // && this.autoSize && !this.fillParent
           css['padding-bottom'] = (100 / this.scaleRatio) + '%'
         }
       }
@@ -117,6 +117,8 @@ export default {
     // which is used to set the height of the element when used with background
     // cover styles and the height is unknown.
     scaleRatio () {
+      // if (this.aspectRatio === false)
+      //   return false
       if (this.aspectRatio)
         return this.aspectRatio
       if (this.image)

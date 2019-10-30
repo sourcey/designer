@@ -7,8 +7,8 @@
   //- span.designer-drop-line-indicator.top(:class="{'show': showDropIndicator === 'top'}")
   //- span.designer-drop-line-indicator.bottom(:class="{'show': showDropIndicator === 'bottom'}")
   //- span {{ showInsertionPoint }}
-  drop-target.row-clip(v-if='$store.state.designerDragging' position='top' :meta='meta')
-  drop-target.row-clip(v-if='$store.state.designerDragging' position='bottom' :meta='meta')
+  drop-target.row-clip(v-if='$store.getters.designerDragging' position='top' :meta='meta')
+  drop-target.row-clip(v-if='$store.getters.designerDragging' position='bottom' :meta='meta')
   //- grid-column(
   //-     v-for='(column, columnIndex) in row.columns'
   //-     :key='columnIndex'

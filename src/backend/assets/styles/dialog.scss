@@ -7,8 +7,8 @@ $dialog-border-color: $border-color;
   z-index: $zindex-modal;
   top: 0;
   left: 0;
-  width: 98%; // allow for scrollbar, may need to fix center positioning
-  height: 100%;
+  // width: 98%; // allow for scrollbar, may need to fix center positioning
+  // height: 100%;
 }
 
 .dialog-window {
@@ -144,9 +144,13 @@ $dialog-border-color: $border-color;
   header {
     clear: left;
     border: 0 !important;
-    background: $border-color-light;
-    border-bottom: 1px solid $border-color;
+    background: lighten($dialog-background-color, 2);
+    // background: $dialog-background-color;
+    // border-bottom: 1px solid $dialog-border-color;
+    // border-bottom: 1px solid darken($border-color, 10);
     padding-top: 0;
+    // padding-left: 1rem;
+    // padding-right: 1rem;
 
     h2 {
       font-weight: 500;
@@ -156,7 +160,7 @@ $dialog-border-color: $border-color;
   .icon-select {
     width: 33%;
     float: left;
-    padding: .75rem 1rem;
+    padding: .75rem .5rem;
     text-align: center;
     color: inherit;
     text-decoration: none;

@@ -13,7 +13,7 @@ dialog-window(
             :key='index'
             href='#'
             @click.prevent='createElement(element.name)')
-          icon(:name='element.icon' size='24')
+          icon(:name='"designer-" + element.icon' size='24')
           .label {{ element.label }}
   .dialog-footer(slot='footer')
     button.btn.btn-black.btn-block.dialog-btn(@click.prevent='$emit("close")') Close

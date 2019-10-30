@@ -1,7 +1,8 @@
 <template lang="pug">
-.element.wrapper
+.element.wrapper(:data-aspect-ratio='data.aspect_ratio')
   placeholder(v-if='empty' icon='video-placeholder')
-  iframe(v-else='' :src='url' allowfullscreen='' allowtransparency='' frameborder='0' allow='autoplay')
+  iframe(v-else :src='url' allowfullscreen='' allowtransparency='' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
+  //- <iframe width="1033" height="480" src="https://www.youtube.com/embed/UbN7LauS-DU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </template>
 
 <script>

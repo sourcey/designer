@@ -87,39 +87,44 @@ export function sanitizeDecimal (value) {
   return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
 }
 
-export function defaultLocale(locale) {
-  if (locale) return locale
+export function getLocale(fallbackLocale = 'en') {
+  // if (locale) return locale
   if (typeof(navigator) !== 'undefined') return navigator.language
-  return 'en'
+  return fallbackLocale
 }
 
-export function formatNumber(number, locale) {
-  locale = defaultLocale(locale)
+export function formatNumber(number, options={}) {
+  // locale = getLocale(locale)locale,
+  // locale = locale || getLocale()
   try {
     number = sanitizeDecimal(number)
-    if (isNaN(number))
-      return null // do not parse non-numbers
-    // if (!number) return 0
-    return number.toLocaleString(locale)
+    if (isNaN(number) || (options.allowZero === false && !number))
+      return null // do not parse non-numbers or 0
+    options.locale = options.locale || getLocale()
+    return number.toLocaleString(options.locale)
   } catch (e) {
     console.log('format number failed', e)
     return number
   }
 }
 
-export function formatMoney(number, currency, locale) {
-  locale = defaultLocale(locale)
-  currency = currency || 'EUR' // FIXME
+export function formatMoney(number, options={}) {
+  // locale, allowZero = false currency, locale,
   number = sanitizeDecimal(number)
-  if (isNaN(number))
-    return null // do not parse non-numbers
+  if (isNaN(number) || (options.allowZero === false && !number))
+    return null // do not parse non-numbers or 0
   try {
+    options.style = 'currency'
+    options.locale = options.locale || getLocale()
+    options.currency = options.currency || 'EUR' // FIXME
+    options.minimumFractionDigits = options.minimumFractionDigits || 0
     // console.log('format currency', number)
-    return number.toLocaleString(locale, {
-      style: 'currency',
-      currency: currency,
-      minimumFractionDigits: 0
-    })
+    return number.toLocaleString(options.locale, options)
+    // {
+    //   style: 'currency',
+    //   currency: currency,
+    //   minimumFractionDigits: options.minimumFractionDigits || 0
+    // })
   } catch (e) {
     console.log('format currency failed', e)
     return number.toFixed(2)

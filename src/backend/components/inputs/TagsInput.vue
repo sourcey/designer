@@ -1,5 +1,5 @@
 <template lang="pug">
-.item-wrap.designer-tags-input
+.item-wrap.designer-tags-input(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
   .form-group
     label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
     //- .col
@@ -12,20 +12,23 @@
         v-model='currentValue'
         :element-id='field || name'
         :id='inputId'
+        :class="{'is-invalid': errorMessage}"
         :placeholder='placeholder'
         :existing-tags='existingTags'
         :typeahead='true'
+        typeahead-style='dropdown'
         :typeahead-activation-threshold='0'
         :only-existing-tags='!custom'
         :limit='max'
+        @tag-added='tagAdded'
         @tags-updated='emitCustomUpdate')
         //- :existing-tags='tagArrayToObject(options)'
+    .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
     .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>
 import Input from '../../mixins/input'
-// import Vue from 'vue'
 import { isObject } from '../../../base/utils'
 // import VoerroTagsInput from '@voerro/vue-tagsinput' // breaks SSR
 import VoerroTagsInput from '@voerro/vue-tagsinput/src/VoerroTagsInput.vue'
@@ -68,6 +71,11 @@ export default {
       if (this.$refs.tags && this.$refs.tags.$refs.taginput)
         this.$refs.tags.$refs.taginput.dispatchEvent(new Event('input', { bubbles: true }))
       // this.emitUpdate()
+    },
+    tagAdded (event) {
+      // HACK: tag input not clearing after adding custom tag with enter key
+      if (this.$refs.tags && this.$refs.tags.$refs.taginput)
+        this.$refs.tags.$refs.taginput.value = ''
     }
   }
 }

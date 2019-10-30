@@ -3,12 +3,12 @@
   //- (:class="'col-md-' + column.span")
   resize-handle.designer-resize-handle.left(v-if='!firstColumn' @drag='resizeLeft($event, meta.row, meta.columnIndex, $el)' @end='resizeEnd')
   resize-handle.designer-resize-handle.right(v-if='!lastColumn' @drag='resizeRight($event, meta.row, meta.columnIndex, $el)' @end='resizeEnd')
-  //- span.designer-drop-line-indicator.left(:class="{'show': $store.state.designerDragging && showDropIndicator === 'left'}")
-  //- span.designer-drop-line-indicator.right(:class="{'show': $store.state.designerDragging && showDropIndicator === 'right'}")
+  //- span.designer-drop-line-indicator.left(:class="{'show': $store.getters.designerDragging && showDropIndicator === 'left'}")
+  //- span.designer-drop-line-indicator.right(:class="{'show': $store.getters.designerDragging && showDropIndicator === 'right'}")
   //- span {{showDropIndicator}}
   //- span.drop-test-top.cola(@mousemove='dropTest')
-  drop-target.column-clip(v-if='$store.state.designerDragging' position='left' :meta='meta')
-  drop-target.column-clip(v-if='$store.state.designerDragging' position='right' :meta='meta')
+  drop-target.column-clip(v-if='$store.getters.designerDragging' position='left' :meta='meta')
+  drop-target.column-clip(v-if='$store.getters.designerDragging' position='right' :meta='meta')
   //- div  {{ column.items }}
   //- div rowIndex: {{ meta.rowIndex }}
   //- div columnIndex: {{ meta.columnIndex }}

@@ -110,16 +110,16 @@ export default {
       this.$nextTick(() => this.$forceUpdate()) // required to update dropdown selected values
 
       // console.log('select', option)
-      // const index = this.value.findIndex(x => x === option.value)
+      // const index = this.currentValue.findIndex(x => x === option.value)
       // const doSelect = index === -1
       // this.$set(option, 'selected', doSelect)
       // if (doSelect)
-      //   this.value.push(option.value)
+      //   this.currentValue.push(option.value)
       // else {
-      //   this.value.splice(index, 1)
+      //   this.currentValue.splice(index, 1)
       // }
-      // console.log('VALS', this.value)
-      // this.$emit('input', this.name, this.value)
+      // console.log('VALS', this.currentValue)
+      // this.$emit('input', this.name, this.currentValue)
       this.$refs.input.dispatchEvent(new Event('input', { bubbles: true }))
     },
     onBodyClick () {

@@ -9,7 +9,7 @@ dialog-window(
           v-for='(template, name) in designerBackendState.spec.templates' :key='name'
           href='#'
           @click.prevent='selectTemplate(name)')
-        icon(:name='"template-" + template.icon' size='32')
+        icon(:name='"designer-template-" + template.icon' size='32')
         .label {{ template.label }}
   .dialog-footer(slot='footer')
     button.btn.btn-block.dialog-btn(@click.prevent='$emit("close")') Close

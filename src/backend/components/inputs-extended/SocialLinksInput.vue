@@ -72,7 +72,7 @@ export default {
           instagram: 'Instagram',
           pinterest: 'Pinterest',
           tumblr: 'Tumblr',
-          url: 'Website URL'
+          website: 'Website URL'
         },
         required: true
       }

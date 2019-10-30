@@ -82,32 +82,23 @@ export default {
     //   (!this.section.items || !this.section.items.length)) {
     //   this.edit()
     // }
-    if (this.section.index === 0)
-      this.edit()
-      // setTimeout(() => { this.edit() }, 5000)
+    // if (this.section.index === 0)
+    //   this.edit()
 
     window.addEventListener('scroll', this.checkOnscreen)
-    // this.initMenuObserver()
   },
   destroyed () {
     window.removeEventListener('scroll', this.checkOnscreen)
-
   },
   methods: {
     checkOnscreen () {
       // const sections = this.$el.querySelectorAll('.section-wrapper')
       // sections.forEach(x => observer.observe(x))
       const rect = this.$parent.$el.getBoundingClientRect()
-
-      // console.log('DDDDDDDDDDDDd', this.scrolled, rect, document.documentElement.scrollTop, this.$parent.$el.offsetTop)
-
       const scrollY = document.documentElement.scrollTop
       const topY = this.$parent.$el.offsetTop
       const bottomY = topY + rect.height - 50
       this.onscreen = scrollY > topY && scrollY < bottomY
-      // if (scrollY > topY && scrollY < bottomY) {
-      //   // console.log('AAAAAAAAAAAAAa', scrollY, topY, bottomY, this.section.id)
-      // }
     },
     // Ensure the menu is stays visible on the viewport while the section is onscreen.
     // initMenuObserver () {
@@ -120,7 +111,6 @@ export default {
     //   })
     //   observer.observe(this.$parent.$el)
     //   // const sectionPos = this.$parent.$el.getBoundingClientRect()
-    //   // console.log('SECTION COORDSSSSSSSSSSSSSSs', sectionPos)
     // },
     edit () {
 

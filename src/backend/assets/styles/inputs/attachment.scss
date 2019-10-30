@@ -24,10 +24,17 @@
     }
   }
 
+  &.is-invalid {
+    .btn-upload {
+      border: $input-border-width solid $form-feedback-invalid-color;
+    }
+  }
+
   input[type="file"] {
     opacity: 0; // invisible but it's there!
     top: 0;
     position: absolute;
+    z-index: -1;
   }
 
   .preview-item {
@@ -56,8 +63,15 @@
       object-fit: contain;
     }
 
-    &.is-invalid img {
-      display: none;
+    &.is-invalid {
+      min-height: 60px;
+      padding: 0 !important;
+      // .preview-overlay {
+      //   min-height: 60px;
+      // }
+      img {
+        display: none;
+      }
     }
 
     a.delete {

@@ -1,14 +1,7 @@
 <template lang="pug">
-.item-wrap.designer-attachment-input.attachment-single-input
+.item-wrap.designer-attachment-input.attachment-single-input(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
   .form-group
-    //- div {{ attachment }}
-    //- div {{ currentValue }}
     label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
-    //- div --------------
-    //- div {{tempAttachment}}
-    //- div --------------
-    //- div {{currentValue}}
-    //- div --------------
     attachment-preview-item(v-if='attachmentVisible(currentAttachment)' :attachment='currentAttachment' @remove='removeAttachment')
     //- attachment-preview-item(v-if='tempAttachment' :attachment='tempAttachment || currentValue' @remove='')
     //- attachment-preview-item(v-else :attachment='currentValue')
@@ -27,6 +20,7 @@
           icon.mb-025(:name='icon || "camera"' size='32')
           .btn-text Upload
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
+    .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 
 <script>
@@ -59,15 +53,14 @@ export default {
     }
   },
   // created () {
-  //   console.log('ATTACHMENT!!!!!!!!!!!!!!!!', this.currentValue)
   //   // this.tempAttachment = copyValue(this.currentValue)
   //
-  //   // NOTE: It's necessary to initialize the object or `this.value` computed
+  //   // NOTE: It's necessary to initialize the object or `this.currentValue` computed
   //   // getter doesnt update after setting value in upload callback. Just
   //   // initializing to NULL is not sufficient. This issue was noticed when
   //   // changing section layout on Artzine.
-  //   // if (!this.value)
-  //   //   this.value = {}
+  //   // if (!this.currentValue)
+  //   //   this.currentValue = {}
   // },
   computed: {
     currentAttachment () {
@@ -82,8 +75,7 @@ export default {
       console.log('files added', event.target.files)
 
       Array.from(event.target.files).forEach(file => {
-        // const attachment =
-        this.tempAttachment = { //this.value =
+        this.tempAttachment = {
           file: file,
           metadata: this.fileMetadata()
         }
@@ -106,7 +98,6 @@ export default {
 
             // this.$nextTick(() => {
             // // this.model[this.name] = this.serializeAttachment(attachment)
-            // console.log('UPPPPPPPPPPP', this.value, this.model[this.name], attachment, this.serializeAttachment(attachment))
             // this.emitUpdate()
             // })
 
@@ -114,6 +105,7 @@ export default {
             //this.designerBackendStore.save(this)
           })
       })
+      event.target.value = ''
     },
     // fileMetadata () {
     //   const meta = {}

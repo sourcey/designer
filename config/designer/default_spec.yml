@@ -437,15 +437,9 @@ elements:
       aspect_ratio:
         label: Aspect ratio
         type: number
-        default: 1.33
+        default: 1.7 # 16:9
         hidden: true
-      #   options:
-      #     -
-      #       - '4:3'
-      #       - 1.33
-      #     -
-      #       - '16:4'
-      #       - 1.73
+
   # announcement:
   #   label: Announcement
   #   category: Basic Elements
@@ -808,6 +802,30 @@ elements:
       #   options:
       #     element_default: Default
       #     element_title_block: Title block
+
+  # ###############################
+  # Integrations
+  #
+  instagram:
+    label: Instagram
+    draggable: true
+    category: Integrations
+    icon: instagram
+    properties:
+      post_id:
+        label: Post ID
+        type: string
+        placeholder: i.e. BT8cmZRlkVJ
+  tweet:
+    label: Tweet
+    draggable: true
+    category: Integrations
+    icon: twitter
+    properties:
+      tweet_id:
+        label: Tweet ID
+        type: string
+        placeholder: i.e. 463440424141459456
 
   # ###############################
   # Forms

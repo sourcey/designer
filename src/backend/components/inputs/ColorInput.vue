@@ -44,7 +44,7 @@ export default {
     }
   },
   mounted () {
-    console.log('color input: ', this.parent, this.object, this.name)
+    // console.log('color input: ', this.parent, this.object, this.name)
 
     this.$nextTick(() => {
       this.loaded = true
@@ -55,7 +55,7 @@ export default {
         const picker = this.$refs.verte.$children[0]
         picker.pickerRect = picker.$refs.canvas.getBoundingClientRect()
         picker.updateSquareColors()
-        picker.handleValue(this.value)
+        picker.handleValue(this.currentValue)
       })
     })
   },
@@ -69,7 +69,7 @@ export default {
         return // drop early events
 
       console.log('color input: picker changed', name, value)
-      this.value = value
+      this.currentValue = value
       this.emitUpdate()
     }
   }
