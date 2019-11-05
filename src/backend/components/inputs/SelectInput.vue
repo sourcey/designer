@@ -65,7 +65,15 @@ export default {
       return value
     },
     optionDisabled (value) {
-      return isObject(value) && value.disabled
+      // For options that are an array of arrays ie:
+      // [ [ 'Facebook', 'facebook', true ] ]
+      if (Array.isArray(value))
+        return value[2]
+
+      // For options that are an array of objects ie:
+      // [ { lable: 'Facebook', value: 'facebook', disabled: true } ]
+      if (isObject(value))
+        return value.disabled
     },
     optionSelected (value) {
       return this.optionValue(value) === this.currentValue

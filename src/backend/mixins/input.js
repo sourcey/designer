@@ -138,6 +138,7 @@ export default {
         // if (this.formatter) {
         //   return this.formatValue(this.currentValue)
         // }
+        console.log('!!!! input: displayValue', this.name, this.currentValue)
         return this.formatValue(this.currentValue)
       },
       // set: function (value) {
