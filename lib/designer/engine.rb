@@ -13,8 +13,8 @@ module Designer
     # config.autoload_paths << Engine.root.join('app', 'jobs', 'designer', '*')
     # += %W(#{config.root}/lib/modules)
 
-    Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', '*')
-    Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', 'components', '*')
+    # Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', '*')
+    # Webpacker::Compiler.watched_paths << Engine.root.join('app', 'javascript', 'designer', 'components', '*')
 
     initializer "designer.acts_as_designer" do
       ActiveSupport.on_load(:active_record) do
