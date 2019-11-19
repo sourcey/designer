@@ -4,7 +4,6 @@
   header.pt-15
     .form-title Media Gallery
     button.btn.btn-sm.btn-success.btn-upload(:for='inputId')
-      icon(name='plus')
       span Upload
   input.input-file(:id='inputId' type='file' multiple='' accept="image/*" @change='filesChange')
   //- div {{attachments}}

@@ -1,13 +1,13 @@
 <template lang="pug">
   component(:is='loadComponent'
     :name='name'
-    :object='model'
+    :object='formObject'
     v-bind='spec'
     v-show='visible'
     v-on='$listeners'
     @input='onInput')
   //- @input='onInput($event.target.value)'
-  //- v-model='model[name]'
+  //- v-formObject='formObject[name]'
   //- :object='object'
   //- :parent='parent'
   //- :root='root'
@@ -22,6 +22,10 @@ export default {
   //     loaded: false
   //   }
   // },
+  created () {
+    if (this.spec.type === 'number' && !this.spec.input)
+      this.spec.input = 'number'
+  },
   computed: {
     parentForm () {
       let parent = this.$parent
@@ -31,14 +35,14 @@ export default {
         parent = parent.$parent
       }
     },
-    model () {
+    formObject () {
       if (this.object)
         return this.object
       else if (this.parentForm && this.parentForm.object)
         return this.parentForm.object
     },
     // value () {
-    //   return this.model[this.name]
+    //   return this.formObject[this.name]
     // },
     visible () {
       if (this.spec.hidden)
@@ -47,7 +51,7 @@ export default {
         // match value exists
         if (typeof(this.spec.if) === 'string') {
           // console.log('dynamic input: visible: if exists', this.spec.if, this.object[this.spec.if])
-          return !!this.model[this.spec.if]
+          return !!this.formObject[this.spec.if]
         }
 
         const key = Object.keys(this.spec.if)[0]
@@ -56,19 +60,19 @@ export default {
         // match exact value
         if (typeof(val) === 'string') {
           // console.log('dynamic input: visible: if matches', val, this.object[key])
-          return this.model[key] === val
+          return this.formObject[key] === val
         }
 
         else if (Array.isArray(val)) {
           // console.log('dynamic input: visible: if contains', val, this.object[key])
-          return this.model[key] && val.includes(this.model[key])
+          return this.formObject[key] && val.includes(this.formObject[key])
         }
 
         // console.log('dynamic input: visible: no match')
         return false
       }
       if (this.spec.unless)
-        return !this.model[this.spec.unless]
+        return !this.formObject[this.spec.unless]
       return true
     },
     componentName () {
@@ -101,6 +105,8 @@ export default {
         return 'RangeSliderInput'
       else if (this.spec.type === 'string' && this.spec.input === 'textarea')
         return 'TextareaInput'
+      else if (this.spec.type === 'number')
+        return 'TextInput'
       else
         return 'TextInput'
     },
@@ -123,14 +129,14 @@ export default {
     onInput (value) {
       // HACK: supress early input events
       // if (!this.loaded) {
-      //   console.log('dynamic input: drop early input', value, this.value, this.model[this.name])
+      //   console.log('dynamic input: drop early input', value, this.value, this.formObject[this.name])
       //   return
       // }
 
       // Emit the update event for the designer IPC
       // this.$emit('update', this.name, this.object[this.name])
-      // console.log('dynamic input: on input', value, this.value, this.model[this.name])
-      this.$emit('update', this.name, this.model[this.name])
+      // console.log('dynamic input: on input', value, this.value, this.formObject[this.name])
+      this.$emit('update', this.name, this.formObject[this.name])
     },
   }
 }

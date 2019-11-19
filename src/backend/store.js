@@ -57,7 +57,7 @@ export default {
       Vue.set(state, 'resource', instance)
     },
 
-    setDesignerAttachemnts (state, attachments) {
+    setDesignerAttachments (state, attachments) {
       Vue.set(state, 'attachments', attachments)
     },
 
@@ -101,69 +101,10 @@ export default {
 
     loadAttachments ({ commit, state, getters }) {
       axios.get(getters.buildResourceUrl(state.attachmentsUrl))
-          .then(response => commit('setDesignerAttachemnts', response.data))
+          .then(response => commit('setDesignerAttachments', response.data))
 
       // attachments
       // this.designerBackendState.attachmentsUrl
-    }
-  },
-
-  // Getters
-  // --------------------------------------------------
-
-  getters: {
-
-    getPageSpec: (state) => (name) => {
-      if (!state.spec.pages[name])
-        throw Error('No page spec for: ' + name)
-      return state.spec.pages[name]
-    },
-
-    getLayoutSpec: (state) => (name) => {
-      if (!state.spec.layouts[name])
-        throw Error('No layout spec for: ' + name)
-      return state.spec.layouts[name]
-    },
-
-    getTemplateSpec: (state) => (name) => {
-      if (!state.spec.templates[name])
-        throw Error('No templates spec for: ' + name)
-      return state.spec.templates[name]
-    },
-
-    getElementSpec: (state) => (name) => {
-      if (!state.spec.elements[name])
-        throw Error('No element spec for: ' + name)
-      return state.spec.elements[name]
-    },
-
-    // Get the default or custom resource URL parameters for making API requests.
-    buildResourceUrl: (state, getters) => (url, params) => {
-      return buildURL(url, getters.resourceUrlParameters(params))
-    },
-
-    // Get the default or custom resource URL parameters for making API requests.
-    resourceUrlParameters: (state) => (params) => {
-      return Object.assign({
-        resource_id: state.resourceId,
-        resource_name: state.resourceName
-      }, state.resourceUrlParameters, params)
-    },
-
-    // This method privides the ability to override the dynamic input component
-    // loadInputComponent: (state) => (spec) => {
-    // },
-
-    designerPreviewApp: (state) => {
-      return state.previewApp
-    },
-
-    designerPreviewExpanded: (state) => {
-      return state.previewExpanded
-    },
-
-    designerBackendInterface: (state) => {
-      return state.backendInterface
     },
 
     // createDefaultPageData () {
@@ -238,5 +179,64 @@ export default {
     //     elementId: element.id
     //   })
     // },
+  },
+
+  // Getters
+  // --------------------------------------------------
+
+  getters: {
+
+    getPageSpec: (state) => (name) => {
+      if (!state.spec.pages[name])
+        throw Error('No page spec for: ' + name)
+      return state.spec.pages[name]
+    },
+
+    getLayoutSpec: (state) => (name) => {
+      if (!state.spec.layouts[name])
+        throw Error('No layout spec for: ' + name)
+      return state.spec.layouts[name]
+    },
+
+    getTemplateSpec: (state) => (name) => {
+      if (!state.spec.templates[name])
+        throw Error('No templates spec for: ' + name)
+      return state.spec.templates[name]
+    },
+
+    getElementSpec: (state) => (name) => {
+      if (!state.spec.elements[name])
+        throw Error('No element spec for: ' + name)
+      return state.spec.elements[name]
+    },
+
+    // Get the default or custom resource URL parameters for making API requests.
+    buildResourceUrl: (state, getters) => (url, params) => {
+      return buildURL(url, getters.resourceUrlParameters(params))
+    },
+
+    // Get the default or custom resource URL parameters for making API requests.
+    resourceUrlParameters: (state) => (params) => {
+      return Object.assign({
+        resource_id: state.resourceId,
+        resource_name: state.resourceName
+      }, state.resourceUrlParameters, params)
+    },
+
+    // This method privides the ability to override the dynamic input component
+    // loadInputComponent: (state) => (spec) => {
+    // },
+
+    designerPreviewApp: (state) => {
+      return state.previewApp
+    },
+
+    designerPreviewExpanded: (state) => {
+      return state.previewExpanded
+    },
+
+    designerBackendInterface: (state) => {
+      return state.backendInterface
+    },
   }
 }

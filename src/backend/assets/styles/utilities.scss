@@ -86,7 +86,7 @@
     margin-right: .5rem;
     font-size: .75rem;
   }
-  .collapse-content {
+  > .collapse-content {
     // transition: max-height 0.3s ease-out;
     // max-height: 0;
     // overflow: hidden;
@@ -97,7 +97,7 @@
     .collapse-caret {
       transform: rotateZ(90deg);
     }
-    .collapse-content {
+    > .collapse-content {
       display: block;
       // height: auto;
       // max-height: 600px;

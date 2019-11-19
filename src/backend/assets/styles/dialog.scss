@@ -157,31 +157,36 @@ $dialog-border-color: $border-color;
     }
   }
 
-  .icon-select {
-    width: 33%;
-    float: left;
-    padding: .75rem .5rem;
-    text-align: center;
+  .dialog-icon-button {
+    // width: 33%;
+    // float: left;
+    // padding: .75rem .5rem;
     color: inherit;
+    text-align: center;
     text-decoration: none;
-    border: 1px solid transparent;
+
+    > span {
+      border: 1px solid transparent;
+
+      .icon {
+        // height: 24px;
+        margin-bottom: .5rem;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .label {
+        font-size: .75rem;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+    }
 
     &:hover {
       // background-color: #eee;
-      border: 1px solid $gray-900;
-    }
-
-    .icon {
-      // height: 24px;
-      margin-bottom: .5rem;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .label {
-      font-size: .75rem;
-      font-weight: 500;
-      line-height: 1.3;
+      > span {
+        border: 1px solid $gray-900;
+      }
     }
   }
 }

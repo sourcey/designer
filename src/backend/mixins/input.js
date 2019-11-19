@@ -26,7 +26,7 @@ export default {
 
     // Input label text
     label: {
-      type: [String,Boolean]
+      // type: [String,Boolean]
     },
 
     // Input must be set to submit the form
@@ -93,8 +93,8 @@ export default {
       // inputId: `input-${randomString(5)}`, // random breaks on SSR
       inputId: `input-${this.name}`,
       defaultValue: copyValue(this.default),
-      initialValue: null, // copyValue(this.model[this.name || this.name]),
-      // currentValue: this.value, // reference value for use with inner v-model
+      initialValue: null, // copyValue(this.formObject[this.name || this.name]),
+      // currentValue: this.value, // reference value for use with inner v-formObject
       focused: false,
       enableEvents: true,
       // recomputeValue: false,
@@ -104,32 +104,32 @@ export default {
     currentValue: {
       get: function () {
         if (typeof(this.value) !== 'undefined') {
-          console.log('input: get value', this.name, this.value)
+          // console.log('input: get value', this.name, this.value)
           return this.value
         }
-        else if (this.model) {
-          console.log('input: get object value', this.name, this.model[this.name], this.model)
-          if (typeof(this.model[this.name]) === 'undefined') {
-            this.$set(this.model, this.name, this.defaultValue)
+        else if (this.formObject) {
+          // console.log('input: get object value', this.name, this.formObject[this.name], this.formObject)
+          if (typeof(this.formObject[this.name]) === 'undefined') {
+            this.$set(this.formObject, this.name, this.defaultValue)
           }
-          console.log('input: get object value 1', this.name, this.model[this.name])
-          return this.model[this.name]
+          // console.log('input: get object value 1', this.name, this.formObject[this.name])
+          return this.formObject[this.name]
         }
         else {
-          console.log('input: get default value', this.name, this.default, this.defaultValue)
+          // console.log('input: get default value', this.name, this.default, this.defaultValue)
           return this.defaultValue
         }
       },
       set: function (newValue) {
         const value = this.sanitizeValue(newValue)
-        // if (this.model && typeof(newValue) !== 'undefined') {
-        //   this.$set(this.model, this.name, value)
+        // if (this.formObject && typeof(newValue) !== 'undefined') {
+        //   this.$set(this.formObject, this.name, value)
         // }
-        if (this.model && typeof(newValue) !== 'undefined') {
-          console.log('!!!! input: set current object value', this.name, value)
-          this.$set(this.model, this.name, value)
+        if (this.formObject && typeof(newValue) !== 'undefined') {
+          // console.log('!!!! input: set current object value', this.name, value)
+          this.$set(this.formObject, this.name, value)
         }
-        console.log('!!!! input: set current value', this.name, value)
+        // console.log('!!!! input: set current value', this.name, value)
         this.$emit('input', value)
       }
     },
@@ -138,21 +138,21 @@ export default {
         // if (this.formatter) {
         //   return this.formatValue(this.currentValue)
         // }
-        console.log('!!!! input: displayValue', this.name, this.currentValue)
+        // console.log('!!!! input: displayValue', this.name, this.currentValue)
         return this.formatValue(this.currentValue)
       },
       // set: function (value) {
       //   // const value = this.formatValue(newValue)
-      //   // if (this.model && typeof(newValue) !== 'undefined') {
-      //   //   this.$set(this.model, this.name, value)
+      //   // if (this.formObject && typeof(newValue) !== 'undefined') {
+      //   //   this.$set(this.formObject, this.name, value)
       //   // }
-      //   if (this.model && typeof(value) !== 'undefined') {
-      //     this.$set(this.model, this.name, value)
+      //   if (this.formObject && typeof(value) !== 'undefined') {
+      //     this.$set(this.formObject, this.name, value)
       //   }
       //   this.$emit('input', value)
       // }
     },
-    model () {
+    formObject () {
       if (this.object)
         return this.object
       if (this.parentForm)
@@ -189,7 +189,7 @@ export default {
           return this.validationErrors[this.name]
         }
         else {
-          // Sometimes validation error keys will be scoped by the model ie. `user.password`,
+          // Sometimes validation error keys will be scoped by the formObject ie. `user.password`,
           // so attempt to match the last part of the key.
           const match = Object.keys(this.validationErrors).find(x => x.endsWith('.' + this.name))
           if (match && this.validationErrors[match]) {
@@ -222,8 +222,8 @@ export default {
       return value
     },
     setInitialValue () {
-      console.log('!!!! set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
-      // this.model[this.name || this.name] !== 'undefined' ? clone(this.model[this.name || this.name]) : null
+      // console.log('!!!! set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
+      // this.formObject[this.name || this.name] !== 'undefined' ? clone(this.formObject[this.name || this.name]) : null
 
       this.currentValue = this.initialValue // this.formatValue(this.initialValue)
       // this.formatValue()
@@ -258,14 +258,14 @@ export default {
         this.$emit('select', this.name)
     },
     emitUpdate () {
-      console.log('!!!! emit update', this.name, this.currentValue, this.value) //model[this.name || this.name])
+      // console.log('!!!! emit update', this.name, this.currentValue, this.value) //formObject[this.name || this.name])
       this.$emit('input', this.currentValue)
       // if (this.enableEvents)
       //
       //   // HACK: We should be passing `this.value` but sometimes the computed
       //   // getter doesnt update after setting the value. This issue was noticed
       //   // when changing section layout and uploading an attachment on Artzine.
-      //   // this.$emit('update', this.name, this.model[this.name || this.name])
+      //   // this.$emit('update', this.name, this.formObject[this.name || this.name])
       //   this.$emit('update', this.name, this.currentValue)
     }
   }

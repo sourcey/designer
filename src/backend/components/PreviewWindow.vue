@@ -5,81 +5,14 @@
       :src='url'
       v-show='loaded'
       name='preview'
-      ref='preview'
+      ref='iframe'
       width='100%'
       height='100%'
       frameborder='0'
       @load='previewLoaded')
-  //- create-element-dialog(
-  //-     v-if='dialogs.createElement'
-  //-     :options='dialogs.createElement.options'
-  //-     @create='dialogs.createElement.callback'
-  //-     @close='$set(dialogs, "createElement", null)'
-  //-     @apply='$set(dialogs, "createElement", null)'
-  //-     @dragStart='setDragging(true)'
-  //-     @dragStop='setDragging(false)')
-  //- edit-element-dialog(
-  //-     v-if='dialogs.editElement'
-  //-     :options='dialogs.editElement.options'
-  //-     @close='$set(dialogs, "editElement", null)'
-  //-     @apply='$set(dialogs, "editElement", null)'
-  //-     @dragStart='setDragging(true)'
-  //-     @dragStop='setDragging(false)')
-  //-     //- :element='dialogs.editElement.element'
-  //- edit-section-dialog(
-  //-     v-if='dialogs.editSection'
-  //-     :options='dialogs.editSection.options'
-  //-     @close='$set(dialogs, "editSection", null)'
-  //-     @apply='$set(dialogs, "editSection", null)'
-  //-     @dragStart='setDragging(true)'
-  //-     @dragStop='setDragging(false)')
-  //-     //- :section='dialogs.editSection.section'
-  //- //- section-manager-dialog(
-  //- //-     v-if='dialogs.manageSections'
-  //- //-     :options='dialogs.manageSections.options'
-  //- //-     :page='dialogs.manageSections.page'
-  //- //-     @close='$set(dialogs, "manageSections", null)'
-  //- //-     @apply='$set(dialogs, "manageSections", null)'
-  //- //-     @dragStart='setDragging(true)'
-  //- //-     @dragStop='setDragging(false)')
-  //- select-template-dialog(
-  //-     v-if='dialogs.selectTemplate'
-  //-     :options='dialogs.selectTemplate.options'
-  //-     @select='dialogs.selectTemplate.callback'
-  //-     @close='$set(dialogs, "selectTemplate", null)'
-  //-     @apply='$set(dialogs, "selectTemplate", null)'
-  //-     @dragStart='setDragging(true)'
-  //-     @dragStop='setDragging(false)')
-  //- social-links-dialog(
-  //-     v-if='dialogs.socialLinks'
-  //-     :options='dialogs.socialLinks.options'
-  //-     @close='$set(dialogs, "socialLinks", null)'
-  //-     @apply='$set(dialogs, "socialLinks", null)'
-  //-     @dragStart='setDragging(true)'
-  //-     @dragStop='setDragging(false)')
-  //- //- @select='dialogs.socialLinks.callback'
-  //- menu-edit-dialog(
-  //-     v-if='dialogs.menu'
-  //-     :menuName='dialogs.menu.menuName'
-  //-     :options='dialogs.menu.options'
-  //-     @close='$set(dialogs, "menu", null)'
-  //-     @apply='$set(dialogs, "menu", null)'
-  //-     @dragStart='setDragging(true)'
-  //-     @dragStop='setDragging(false)')
-  //- //- @select='dialogs.menu.callback'
 </template>
 
 <script>
-// import Spinner from '../Spinner'
-
-// import CreateElementDialog from './dialogs/CreateElementDialog'
-// import EditElementDialog from './dialogs/EditElementDialog'
-// import EditSectionDialog from './dialogs/EditSectionDialog'
-// import SectionManagerDialog from './dialogs/SectionManagerDialog'
-// import SelectTemplateDialog from './dialogs/SelectTemplateDialog'
-// import SocialLinksDialog from './dialogs/SocialLinksDialog'
-// import MenuEditDialog from './dialogs/MenuEditDialog'
-
 import { clone } from '../../base/utils'
 import axios from 'axios'
 import Vue from 'vue'
@@ -87,23 +20,12 @@ import Vue from 'vue'
 export default {
   name: 'preview-window',
   components: {
-    // CreateElementDialog,
-    // EditElementDialog,
-    // EditSectionDialog,
-    // SectionManagerDialog,
-    // SelectTemplateDialog,
-    // SocialLinksDialog,
-    // MenuEditDialog
   },
   props: {
     url: {
       type: String,
       required: true
-    },
-    // interface: {
-    //   type: Object,
-    //   // required: true
-    // }
+    }
   },
   data () {
     return {
@@ -120,45 +42,50 @@ export default {
     //   return this.$store.getters.designerPreviewApp
     // },
     // designerPreviewStore () {
-    //   if (this.previewApp)
-    //     return this.previewApp.$store
+    //   if (this.iframeApp)
+    //     return this.iframeApp.$store
     // },
     // designerPreviewState () {
-    //   if (this.previewApp)
-    //     return this.previewApp.$store.state
+    //   if (this.iframeApp)
+    //     return this.iframeApp.$store.state
     // },
-  },
-  mounted() {
   },
   methods: {
     setDragging (flag) {
       this.disableMouse = flag
     },
+    reload () {
+      this.$refs.iframe.src += ''
+    },
     previewLoaded () {
       this.loaded = true
 
-      console.log('HOIIIIIIIIIIIIIIIIII previewLoadedpreviewLoaded', typeof(this.$refs.preview.contentWindow.app))
+      // console.log('HOIIIIIIIIIIIIIIIIII previewLoadedpreviewLoaded', typeof(this.$refs.iframe.contentWindow.app))
 
+      try {
+        // The internal preview iframe must set a current `window.app` instance
+        // to share data with the designer frontend.
+        if (this.$refs.iframe.contentWindow.app) {
+          this.$store.commit('setPreviewApp', this.$refs.iframe.contentWindow.app)
 
-      // The internal preview iframe must set a current `window.app` instance
-      // to share data with the designer frontend.
-      if (this.$refs.preview.contentWindow.app) {
-        this.$store.commit('setPreviewApp', this.$refs.preview.contentWindow.app)
-
-        // If the preview app has defined an designerPage instance, then set it
-        // as the current designer resource.
-        console.log('HOIIIIIIIIIIIIIIIIII', this.designerPreviewStore.getters.designerPage)
-        if (this.designerPreviewStore.getters.designerPage)
-          this.$store.commit('setDesignerResource', this.designerPreviewStore.getters.designerPage)
-        if (this.designerPreviewState.designer) {
-          this.designerPreviewState.designer.backend = this.$parent
-          this.designerPreviewState.designer.designerBackendStore = this.designerBackendStore
-          this.designerPreviewState.designer.designerSpec = this.designerBackendState.spec
+          // If the preview app has defined an designerPage instance, then set it
+          // as the current designer resource.
+          console.log('designer page', this.designerPreviewStore.getters.designerPage)
+          if (this.designerPreviewStore.getters.designerPage)
+            this.$store.commit('setDesignerResource', this.designerPreviewStore.getters.designerPage)
+          if (this.designerPreviewState.designer) {
+            this.designerPreviewState.designer.backend = this.$parent
+            this.designerPreviewState.designer.designerBackendStore = this.designerBackendStore
+            this.designerPreviewState.designer.designerSpec = this.designerBackendState.spec
+          } else {
+            console.warn('The preview designer store has not been initialized.')
+          }
         } else {
-          console.warn('The preview designer store has not been initialized.')
+          console.warn('The preview designer app instance has not been initialized.')
         }
-      } else {
-        console.warn('The preview designer app instance has not been initialized.')
+      }
+      catch( e ) {
+          return false;
       }
     },
 
@@ -219,7 +146,7 @@ export default {
     // navigateToPage (path) {
     //   // this.designerApp.$router.push(this.sitePath(page.path))
     //   console.log('designer impl: navigate to', path)
-    //   this.previewApp.$router.push(path)
+    //   this.iframeApp.$router.push(path)
     // },
     // isEditingPage (reference) {
     //   return this.$route.name === 'designer-pages-edit'
@@ -242,8 +169,6 @@ export default {
     //     // this.$refs.sidebar.markUnsaved(flag)
     //   }
     // },
-
-
   }
 }
 </script>

@@ -39,8 +39,11 @@ module Designer
       @designer_config = Designer.configuration[model_name.route_key].dup
       # @designer_config['spec'] ||= {}
       # @designer_config['spec'].reverse_merge!(Designer.default_spec)
-      @designer_config['spec'] = Designer.default_spec.dup.deep_merge(@designer_config['spec'])
+      if @designer_config['enable_default_spec'] != false
+        @designer_config['spec'] = Designer.default_spec.dup.deep_merge(@designer_config['spec'])
+      end
       @designer_config.deep_merge!(designer_custom_config) if designer_custom_config.present?
+      # p "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555"
       @designer_config
     end
 
@@ -52,6 +55,7 @@ module Designer
 
     # Returns the full designer data object for this instance
     def designer_data
+      # p "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7"
       Designer::DataBuilder.new(self).perform
     end
 
@@ -87,7 +91,7 @@ module Designer
     # Calls `find_element` internally to check for existence.
     def enqueue_attachment_cleanup
       # FIXME: AttachmentCleanupJob is undefined?
-      require_dependency Designer::Engine.root.join('app', 'jobs', 'designer', 'attachemnt_cleanup_job').to_s
+      require_dependency Designer::Engine.root.join('app', 'jobs', 'designer', 'attachment_cleanup_job').to_s
 
       if Rails.env.production?
         Designer::AttachmentCleanupJob.perform_later(self)

@@ -74,14 +74,6 @@ export function toggleFullscreen(elem) {
   }
 }
 
-export function isSet(value) {
-  if (typeof(value) === 'string')
-    return value.length > 0
-  if (typeof(value) === 'number')
-    return value > 0
-  return value !== null && typeof(value) !== 'undefined'
-}
-
 export function sanitizeDecimal (value) {
   // if (typeof(value) !=)
   return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
@@ -176,6 +168,16 @@ export function sortItemsBy (objects, member) {
   return res
 }
 
+export function isSet(value) {
+  if (typeof(value) === 'string')
+    return value.length > 0
+  if (typeof(value) === 'number')
+    return value > 0
+  if (Array.isArray(value))
+    return value.length > 0
+  return value !== null && typeof(value) !== 'undefined'
+}
+
 export function pick(object, keys) {
   return keys.reduce((result, key) => {
     result[key] = object[key]
@@ -215,4 +217,42 @@ export function resetObject (target, source) {
   Object.keys(target).forEach(key => { Vue.delete(target, key) })
   if (source)
     return mergeObject(target, source)
+}
+
+export function cleanObject (obj) {
+  Object.entries(obj).forEach(([key, val]) => {
+    if (!isSet(obj[key])) delete obj[key]
+    else if (val && typeof val === 'object') cleanObject(val)
+  })
+  return obj
+}
+
+
+//
+// == UI & DOM Helpers
+
+export function isInViewport (element) {
+  var rect = element.getBoundingClientRect()
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  )
+}
+
+export function scrollToElement (element) {
+	// console.log('scrollToElement', element)
+	if (isInViewport(element))
+		return
+
+  const scrollTop = (window.pageYOffset || document.documentElement.scrollTop)
+  let offset = 0, y = 0, dy, call = setInterval(() => {
+  	if (Math.abs(dy=offset-y)>1) y += dy/8
+    else { clearInterval(call); y = offset }
+    document.documentElement.scrollTop = y
+  }, 10)
+	y = scrollTop
+  offset = element.getBoundingClientRect().top + scrollTop - 100
+	// console.log('scrollToElement offset', element.offsetTop, element.getBoundingClientRect(), offset, y)
 }

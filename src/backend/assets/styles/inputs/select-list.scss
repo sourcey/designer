@@ -12,6 +12,10 @@
         // color: white;
       }
     }
+
+    > :last-child > .dropdown-item {
+      border-bottom: 0;
+    }
   }
 
   .selected-list {

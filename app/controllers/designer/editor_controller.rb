@@ -1,12 +1,12 @@
 require_dependency "designer/application_controller"
-# require_dependency "designer/attachemnt_cleanup_job"
+# require_dependency "designer/attachment_cleanup_job"
 
 
 module Designer
   class EditorController < ApplicationController
     before_action :set_resource
     before_action :reset_default_data
-    # skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
 
     # include DesignerHelper
 
@@ -21,6 +21,8 @@ module Designer
 
     def data
       Designer.reload_configuration! if Rails.env.development?
+      # p "***************************************************"
+      # p @resource.designer_data
       render json: @resource.designer_data.transform_keys{ |key| key.to_s.camelize(:lower) }
       # render json: Designer::ConfigBuilder.new(@resource).perform.transform_keys{ |key| key.to_s.camelize(:lower) }
     end

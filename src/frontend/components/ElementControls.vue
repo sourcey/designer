@@ -210,7 +210,7 @@ export default {
       // const pos = event ? { x: event.clientX + 100, y: event.clientY } : {}
 
       this.$store.commit('setDesignerEditingElement', this.element)
-      this.designerBackend.editElement(event, this.element) // this.spec, this.meta
+      this.designerBackend.editElementDialog(event, this.element) // this.spec, this.meta
     },
     remove () {
       if (confirm("Are you sure?")) {

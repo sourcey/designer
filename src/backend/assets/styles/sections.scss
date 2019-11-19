@@ -21,6 +21,12 @@
       font-weight: 600;
       font-size: .9rem;
     }
+
+    &.secondary {
+      border-top-color: rgba($border-color, .75);
+      background: rgba(white, .5);
+      min-height: auto;
+    }
   }
 
   // .item-wrap,
@@ -28,7 +34,8 @@
     padding: $designer-item-padding-y $designer-section-padding-x;
 
     .item-wrap {
-      padding: 0;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     &:last-child {

@@ -28,6 +28,7 @@ module Designer
 
     initializer "designer.helper" do
       ActiveSupport.on_load(:action_controller_base) do
+        # raise Designer::Engine.helpers.inspect
         helper Designer::Engine.helpers
       end
       config.to_prepare do

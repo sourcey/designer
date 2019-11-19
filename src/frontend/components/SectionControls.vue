@@ -11,7 +11,7 @@
       icon(name='trash' size='12')
     .flex-fill
     a.menu-item(href='#' @click.prevent='insertSection') Insert Section
-    //- a.menu-item(href='#' @click.prevent='editPageSections') Manage Sections
+    //- a.menu-item(href='#' @click.prevent='editPageSectionsDialog') Manage Sections
   .designer-floating-menu.designer-section-menu(v-else)
     span.menu-item {{ label }}
     a.menu-item(href='#' @click.prevent='save') Save
@@ -155,13 +155,13 @@ export default {
     editSettings (event) {
       // const pos = event ? { x: event.clientX + 100, y: event.clientY } : {}
       // const layoutSpec = this.$store.getters.designerLayoutSpec(this.layout)
-      this.designerBackend.editSection(event, this.section) //layoutSpec,
+      this.designerBackend.editSectionDialog(event, this.section) //layoutSpec,
     },
-    editPageSections (event) {
-      this.designerBackend.editPageSections(event, this.designerPage)
+    editPageSectionsDialog (event) {
+      this.designerBackend.editPageSectionsDialog(event, this.designerPage)
     },
     insertSection () {
-      this.designerBackend.insertPageSection(event, this.designerPage, this.section.index)
+      this.designerBackend.createPageSectionDialog(event, this.designerPage, this.section.index)
     },
     save () {
       // this.designerBackend.savePage(this.designerPage)

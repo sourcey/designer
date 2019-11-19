@@ -1,9 +1,7 @@
 <template lang="pug">
 #designer.designer-ui
   #designer-sidebar
-    .designer-actions
-      a.btn.btn-icon.text-primary(@click.prevent='saveResource' href='#' v-b-tooltip.hover title="Save")
-        i.fa.fa-save
+      //- .designer-nav
       //- li.nav-object.flex-fill
       //- li.nav-item(v-if='designerBackendState.enableRefresh !== false')
       //-   a.nav-link(@click='refreshPreview' href='#' v-b-tooltip.hover title="'Refresh Preview'")
@@ -11,21 +9,28 @@
       //- li.nav-item
       //-   a.nav-link(@click='save' href='#' v-b-tooltip.hover title="'Save'")
       //-     i.fa.fa-save
-    b-tabs(nav-wrapper-class='designer-tabs')
-      slot(name='tabs-start')
-      //- b-tab(:title='$store.hasPages() ? "Pages" : "Elements"')
-      b-tab(title='Page')
-        spinner.mt-3(v-if='!designerBackendState.resource')
-        section-form-list(v-else-if='designerBackendState.enableSections' :resource='designerBackendState.resource')
-        element-form-list(v-else)
-      b-tab(:title='form.label' :key='key' v-for='(form, key) in designerBackendState.spec.forms')
-        spinner.mt-3(v-if='!designerBackendState.resource')
-        component(v-else is='ResourceForm' :resource='designerBackendState.resource' :spec='form')
-      //- b-tab(title='Gallery' v-if='designerBackendState.enableGallery')
-        spinner.mt-3(v-if='!designerBackendState.resource')
-        component(v-else is='MediaGallery')
-      slot(name='tabs-end')
-  preview-window(:url='designerBackendState.previewUrl')
+      .designer-actions.d-flex.flex-fill.justify-content-end
+        //- .d-flex.flex-fill
+        slot(name='nav-actions')
+        a.btn.btn-icon(@click.prevent='saveResource' href='#' v-b-tooltip.hover title="Save")
+          icon(name='save' size='14')
+        a.btn.btn-icon(v-if='designerBackendState.enableRefresh !== false' @click.prevent='refreshPreview' href='#' v-b-tooltip.hover title="Refresh")
+          icon(name='sync' size='14')
+      b-tabs(nav-wrapper-class='designer-tabs')
+        slot(name='tabs-start')
+        //- b-tab(:title='$store.hasPages() ? "Pages" : "Elements"')
+        b-tab(title='Page')
+          spinner.mt-3(v-if='!designerBackendState.resource')
+          section-form-list(v-else-if='designerBackendState.enableSections' :resource='designerBackendState.resource')
+          element-form-list(v-else :resource='designerBackendState.resource')
+        b-tab(:title='form.label' :key='key' v-for='(form, key) in designerBackendState.spec.forms')
+          spinner.mt-3(v-if='!designerBackendState.resource')
+          component(v-else is='ResourceForm' :resource='designerBackendState.resource' :spec='form')
+        b-tab(title='Gallery' v-if='designerBackendState.enableGallery')
+          spinner.mt-3(v-if='!designerBackendState.resource')
+          component(v-else is='MediaGallery')
+        slot(name='tabs-end')
+  preview-window(ref='preview' :url='designerBackendState.previewUrl')
 </template>
 
 <script>
@@ -104,6 +109,9 @@ export default {
     // }, 100)
   },
   methods: {
+    refreshPreview () {
+      this.$refs.preview.reload()
+    }
     // save () {
     //   this.$store.dispatch('saveResource')
     //   // this.$store.saveResource(this)
@@ -193,84 +201,95 @@ html, body {
       outline: none !important;
     }
 
-    .designer-actions {
-      position: absolute;
-      right: .4rem;
-      top: .4rem;
-    }
+    // .designer-nav {
+    //   display: flex;
 
-    .tabs {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+      .designer-actions {
+        padding-right: .5rem;
+        position: absolute;
+        right: 0;
+        // padding-right: .25rem;
 
-      .nav-tabs {
-        background: theme-color-level('primary', -9);
-        border-bottom-color: theme-color-level('primary', -6);
-        // display: flex;
-
-        .nav-item {
-          margin-left: -1px;
-          // @include flex-fill;
-          text-align: center;
-
-          &:first-child {
-            margin-left: 0;
-            .nav-link {
-              border-left: 0;
-            }
-          }
-
-          &:last-child {
-            .nav-link {
-              border-right: 0;
-            }
-          }
+        > div, a {
+          // display: inline-block;
+          // height: 100%;
         }
 
-        .nav-link {
-          font-size: .9rem;
-          font-weight: 600;
-          border-radius: 0;
-          border-top: 0;
-          padding: .5rem $designer-section-padding-x;
-          // border-color: theme-color-level('primary', -6);
-          // color: theme-color-level('primary', -6);
-          // theme-color-level($color, 6)
-          // color: white;
-
-          &:hover {
-            border-color: transparent;
-          }
-
-          &:active,
-          &.active {
-            background-color: $designer-background-color;
-            border-color: theme-color-level('primary', -6);
-            border-bottom-color: $designer-background-color;
-          }
+        a {
+          color: #8a0775; //$link-color;
+          // padding: 0 .65rem;
+          height: 40px;
+          padding: $nav-link-padding-y .6rem;
         }
       }
 
-      .tab-content {
-        flex: 1 1 auto;
-        position: relative;
+      .tabs {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
 
-        .tab-pane {
-          @include fill-parent;
-          overflow-y: auto;
+        .nav-tabs {
+          background: theme-color-level('primary', -9);
+          border-bottom-color: theme-color-level('primary', -6);
+
+          .nav-item {
+            margin-left: -1px;
+            text-align: center;
+
+            &:first-child {
+              margin-left: 0;
+              .nav-link {
+                border-left: 0;
+              }
+            }
+
+            &:last-child {
+              .nav-link {
+                border-right: 0;
+              }
+            }
+          }
+
+          .nav-link {
+            font-size: .9rem;
+            font-weight: 600;
+            border-radius: 0;
+            border-top: 0;
+            padding: .5rem $designer-section-padding-x;
+
+            &:hover {
+              border-color: transparent;
+            }
+
+            &:active,
+            &.active {
+              background-color: $designer-background-color;
+              border-color: theme-color-level('primary', -6);
+              border-bottom-color: $designer-background-color;
+            }
+          }
         }
-      }
+
+        .tab-content {
+          flex: 1 1 auto;
+          position: relative;
+
+          .tab-pane {
+            @include fill-parent;
+            overflow-y: auto;
+          }
+        }
+      // }
+
     }
   }
 
   //
-  // == Blocks
+  // == Elements
 
   .element-items {
     position: relative;
     padding: .5rem 0;
   }
 }
-
 </style>

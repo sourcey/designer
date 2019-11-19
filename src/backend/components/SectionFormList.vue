@@ -107,7 +107,7 @@ export default {
     },
     createSection (event) {
       console.log(this.$store.getters.designerBackendInterface)
-      this.$store.getters.designerBackendInterface.insertPageSection(event, this.resource)
+      this.$store.getters.designerBackendInterface.createPageSectionDialog(event, this.resource)
       // .then(() => {
       //   this.markUnsaved() // update after preview store is updated
       // })

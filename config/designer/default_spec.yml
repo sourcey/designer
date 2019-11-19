@@ -614,7 +614,7 @@ elements:
   #       validate:
   #         max: 4
   #       # delete:
-  #       #   path: deleteAttachemnts
+  #       #   path: deleteAttachments
   #     title:
   #       label: Title
   #       type: string

@@ -2,12 +2,13 @@
 .form-group.item-wrap.text-input(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
   //- .form-group.align-items-center
   //- div {{item}}
-  //- div {{value}}
+  //- div {{label}}
+  //- div {{name}}
   label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
   .input-group
     slot(name='prepend')
     //- div {{currentValue}}
-    input.form-control(:type='input || "text"'
+    input.form-control(:type='inputType'
         :value='displayValue'
         :name='field || name'
         :placeholder='placeholder'
@@ -28,6 +29,15 @@
 import Input from '../../mixins/input'
 
 export default {
-  extends: Input
+  extends: Input,
+  computed: {
+    inputType () {
+      if (this.input)
+        return this.input
+      if (this.type === 'number')
+        return 'number'
+      return 'text'
+    }
+  }
 }
 </script>

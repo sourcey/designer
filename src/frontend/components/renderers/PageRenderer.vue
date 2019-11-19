@@ -9,7 +9,7 @@ div(v-if='dynamicSections && dynamicSections.length' :class='{"designer-active":
     .section.section-empty
       | This page is empty.
       span(v-if='designerEnabled')
-        a(href='#' @click='designerBackend.insertPageSection($event, designerPage)') Add
+        a(href='#' @click='designerBackend.createPageSectionDialog($event, designerPage)') Add
         |  a new section to get started.
 </template>
 

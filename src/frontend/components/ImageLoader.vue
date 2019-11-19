@@ -4,7 +4,7 @@
   img(v-if='!this.fit' :src='url' v-on="$listeners")
 .image(:class='classNames' :style='backgroundCss')
   placeholder(v-if='empty')
-  img(v-else-if='!this.isCover' :src='url' :style='imageCss' v-on="$listeners")
+  img(v-else-if='!this.isCover' :src='url' :style='imageCss' :alt='name' v-on="$listeners")
 </template>
 
 <script>
@@ -20,6 +20,10 @@ export default {
     },
     fit: {
       type: String, // fill | contain
+      default: null
+    },
+    name: {
+      type: String,
       default: null
     },
     // overlayOpacity: {

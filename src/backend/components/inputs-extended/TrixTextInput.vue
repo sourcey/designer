@@ -111,7 +111,7 @@ export default {
     emitAttachmentAdd (event) {
       const { attachment, target } = event
 
-      console.log('trix input: attachemnt add', attachment)
+      console.log('trix input: attachment add', attachment)
 
       attachment.metadata = this.fileMetadata ()
 
@@ -165,7 +165,7 @@ export default {
     emitAttachmentRemove (event) {
       const { attachment, target } = event
 
-      console.log('trix input: attachemnt remove', attachment)
+      console.log('trix input: attachment remove', attachment)
       this.destroy(attachment.getAttributes())
       // this.$emit('trix-attachment-remove', file)
     },
@@ -178,7 +178,7 @@ export default {
       // this.$emit('trix-attachment-remove', file)
     },
     // emitHandleFile (file) {
-    //   console.log('trix input: attachemnt handle', file)
+    //   console.log('trix input: attachment handle', file)
     //   // this.$emit('trix-attachment-add', file)
     // },
     // saveEditorState (value) {

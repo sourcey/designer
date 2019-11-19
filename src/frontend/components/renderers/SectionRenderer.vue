@@ -7,7 +7,7 @@
       .section-empty
         | This section is empty.
         span(v-if='designerEnabled')
-          a(href='#' @click='designerBackend.insertPageSection($event, designerPage)')  Edit
+          a(href='#' @click='designerBackend.createPageSectionDialog($event, designerPage)')  Edit
           |  and add some elements to get started.
         span(v-if='designerEditingSection')  Add some elements to get started.
 </template>

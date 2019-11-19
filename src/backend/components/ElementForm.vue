@@ -3,19 +3,20 @@
 //-   div {{ JSON.stringify(item) }}
 //-   div ----------------------------------
 //-   div {{ JSON.stringify(item) }}:id='itemId(item)'
-form(:class="['block-form', 'collapsible', {'expand': showForm}]" @dragstart='onDragElement')
+form.block-form.collapsible(:class="{'expand': showForm}" @dragstart='onDragElement')
   .item-handle
     //- span.collapse-caret
       i.fas.fa-caret-right
     a.label(@click.prevent='showForm = !showForm' href='#') {{ object.title || spec.label }}
-    button.drag-handle.drag-block-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
-      icon(name='move-v')
-    b-dropdown(variant='icon btn-text-secondary' size='sm' no-caret)
-      template(slot='button-content')
-        icon(name='ellipsis-v')
-      b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='copyToClipboard(getEmbedCode(object.id))') Copy embed code
-      b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='object.hidden = !object.hidden') Toggle embedded: ({{ object.hidden }})
-      b-dropdown-item.text-danger(v-if='deletable' href='#' @click.prevent="deleteElement") Delete
+    .actions
+      button.drag-handle.drag-element-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
+        icon(name='move-v')
+      b-dropdown(variant='icon btn-text-secondary' size='sm' no-caret)
+        template(slot='button-content')
+          icon(name='ellipsis-v')
+        b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='copyToClipboard(getEmbedCode(object.id))') Copy embed code
+        b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='object.hidden = !object.hidden') Toggle embedded: ({{ object.hidden }})
+        b-dropdown-item.text-danger(v-if='deletable' href='#' @click.prevent="$emit('remove')") Delete
   form-section.element-items.collapse-content(:spec='spec' :object='object' :root='root')
 </template>
 
@@ -47,11 +48,11 @@ export default {
       event.dataTransfer.setData('id', this.object.id)
       event.dataTransfer.setData('embed', this.getEmbedCode(this.object.id))
     },
-    deleteElement () {
-      if (confirm("Are you sure?")) {
-        this.$emit('remove')
-      }
-    }
+    // deleteElement () {
+    //   if (confirm("Are you sure?")) {
+    //     this.$emit('remove')
+    //   }
+    // }
     // onSelect(name) {
     //   console.log('ElementForm onSelect', name)
     //

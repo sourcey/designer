@@ -8,7 +8,7 @@ dialog-window(
       a.icon-select(
           v-for='(template, name) in designerBackendState.spec.templates' :key='name'
           href='#'
-          @click.prevent='selectTemplate(name)')
+          @click.prevent='selectTemplateDialog(name)')
         icon(:name='"designer-template-" + template.icon' size='32')
         .label {{ template.label }}
   .dialog-footer(slot='footer')
@@ -36,9 +36,9 @@ export default {
   //   }
   // },
   methods: {
-    selectTemplate (name) {
-      // const template = this.designerBackendStore.selectTemplateData(name)
-      // const template = this.designerBackendStore.selectTemplateData(name)
+    selectTemplateDialog (name) {
+      // const template = this.designerBackendStore.selectTemplateDialogData(name)
+      // const template = this.designerBackendStore.selectTemplateDialogData(name)
       // this.designerBackendStore.mergeSpecDefaults(this.section, this.templateSpec)
       // console.log('create template dialog: create template', template)
 

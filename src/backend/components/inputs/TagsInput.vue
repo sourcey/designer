@@ -7,22 +7,35 @@
     //- div {{options}}
     //- div {{currentValue}}
     //- div {{existingTags}}
+    //- div -------------------------------------
+    //- div {{selectedTags}}
+    //- div -------------------------------------
+    //- div {{currentValue}}
     voerro-tags-input(
         ref='tags'
-        v-model='currentValue'
-        :element-id='field || name'
+        v-model='selectedTags'
         :id='inputId'
+        :element-id='null'
         :class="{'is-invalid': errorMessage}"
         :placeholder='placeholder'
         :existing-tags='existingTags'
         :typeahead='true'
         typeahead-style='dropdown'
         :typeahead-activation-threshold='0'
+        :add-tags-on-comma='true'
+        :add-tags-on-space='true'
         :only-existing-tags='!custom'
         :limit='max'
-        @tag-added='tagAdded'
         @tags-updated='emitCustomUpdate')
+        //- @keyup='onKeyUp'
+        //- :element-id='field || name'
+        //- @tag-added='tagAdded'
         //- :existing-tags='tagArrayToObject(options)'
+    input(
+        type='hidden'
+        :name='(field || name) + "[]"'
+        :value='tag'
+        v-for='(tag, index) in currentValue')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
     .hint.mt-05(v-if='hint' v-html='hint')
 </template>
@@ -53,29 +66,45 @@ export default {
       type: Number
     }
   },
+  data () {
+    return {
+      selectedTags: []
+    }
+  },
+  created () {
+    if (Array.isArray(this.currentValue)) {
+      this.selectedTags = this.currentValue.map(x => {
+        return {key: x, value: x.label ? x.label : x}
+      })
+    }
+  },
   computed: {
     existingTags () {
       if (Array.isArray(this.options)) {
-        return this.options.reduce((acc, cur, i) => {
-          acc[cur] = cur
-          return acc
-        }, {})
+        this.options.map(x => { return {key: x.value, value: x.label}})
       } else if (isObject(this.options)) {
-        return this.options
+        const tags = []
+        Object.keys(this.options).forEach(x => tags.push({key: x, value: this.options[x]}))
+        return tags
       }
     }
   },
   methods: {
-    emitCustomUpdate (value) {
+    formatTags (value) {
+      if (Array.isArray(value)) {
+        return value.map(x => { return {key: x.value, value: x.label}})
+      } else if (isObject(value)) {
+        const tags = []
+        Object.keys(value).forEach(x => tags.push({key: x, value: value[x]}))
+        return tags
+      }
+    },
+    emitCustomUpdate () {
+      this.currentValue = this.selectedTags.map(x => x.key.length ? x.key : x.value)
+
       // Ensure the outside form receives input events when tags change
       if (this.$refs.tags && this.$refs.tags.$refs.taginput)
         this.$refs.tags.$refs.taginput.dispatchEvent(new Event('input', { bubbles: true }))
-      // this.emitUpdate()
-    },
-    tagAdded (event) {
-      // HACK: tag input not clearing after adding custom tag with enter key
-      if (this.$refs.tags && this.$refs.tags.$refs.taginput)
-        this.$refs.tags.$refs.taginput.value = ''
     }
   }
 }

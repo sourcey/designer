@@ -41,14 +41,14 @@ export default {
   },
   methods: {
     // savePage (page) {
-    //   console.log('designed interface: save page', page)
+    //   console.log('designer backend: save page', page)
     //
     //   // Update or create the page
     //   // if (page.id) {
     //   //   return axios.patch(this.routes.dashboardSitePage(page.id), {
     //   //     site_page: page
     //   //   }).then(response => {
-    //   //     console.log('designed interface: update page success', response.data)
+    //   //     console.log('designer backend: update page success', response.data)
     //   //     // this.$set(page, 'unsaved', false)
     //   //     this.setPageUnsavedIfCurrent(page.reference, false)
     //   //     this.$toast.success("Page saved successfuly!")
@@ -60,7 +60,7 @@ export default {
     //   //     this.$set(page, 'id', response.data.id)
     //   //     this.setPageUnsavedIfCurrent(page.reference, false)
     //   //     // this.$set(page, 'unsaved', false)
-    //   //     console.log('designed interface: create page success', response.data)
+    //   //     console.log('designer backend: create page success', response.data)
     //   //     this.$toast.success("Page saved successfuly!")
     //   //   })
     //   // }
@@ -69,8 +69,11 @@ export default {
       // axios.patch(this.routes.dashboardSite(), this.designerPreviewState.site)
       // return axios.patch(this.routes.dashboardSite(), this.$store.state.site)
 
-      // console.log('save that shit')
       this.$store.dispatch('saveResource')
+        .then(() => {
+          if (this.designerBackendState.enableRefresh && this.refreshPreview)
+            this.refreshPreview()
+        })
     },
     markUnsaved (flag = true) {
       this.$store.state.unsaved = flag
@@ -91,7 +94,7 @@ export default {
 
     // createElementData (name) {
     //   return this.designerBackendStore.createElementData(name)
-    //   console.log('designed interface: create element', element)
+    //   console.log('designer backend: create element', element)
     // },
     closeDialog (name) {
       const instance = this.dialogs[name]
@@ -124,19 +127,20 @@ export default {
       this.dialogs[name] = instance
       return instance
     },
-    createElement (event, callback) {
-      console.log('designed interface: create element', event)
+    createElementDialog (event, resource, callback) {
+      console.log('designer backend: create element', event)
 
-      const dialog = this.openDialog('create-element', CreateElementDialog, event)
-      dialog.$on('apply', callback)
-      // this.$set(this.dialogs, 'createElement', null)
+      const dialog = this.openDialog('create-element', CreateElementDialog, event, { resource })
+      if (callback)
+        dialog.$on('apply', callback)
+      // this.$set(this.dialogs, 'createResourceElement', null)
       // this.$nextTick(() => {
-      //   this.$set(this.dialogs, 'createElement', {
+      //   this.$set(this.dialogs, 'createResourceElement', {
       //     callback: (element) => {
-      //       console.log('designed interface: element created', element)
+      //       console.log('designer backend: element created', element)
       //
       //       callback(clone(element))
-      //       this.$set(this.dialogs, 'createElement', null)
+      //       this.$set(this.dialogs, 'createResourceElement', null)
       //     },
       //     options: {
       //       x: event.clientX + 100,
@@ -147,19 +151,19 @@ export default {
       //   })
       // })
     },
-    selectTemplate (event, callback) {
-      console.log('designed interface: select layout', event)
+    selectTemplateDialog (event, callback) {
+      console.log('designer backend: select layout', event)
       const dialog = this.openDialog('select-template', SelectTemplateDialog, event)
       dialog.$on('apply', callback)
 
-      // this.$set(this.dialogs, 'selectTemplate', null)
+      // this.$set(this.dialogs, 'selectTemplateDialog', null)
       // this.$nextTick(() => {
-      //   this.$set(this.dialogs, 'selectTemplate', {
+      //   this.$set(this.dialogs, 'selectTemplateDialog', {
       //     callback: (layout) => {
-      //       console.log('designed interface: layout selected', layout)
+      //       console.log('designer backend: layout selected', layout)
       //
       //       callback(layout)
-      //       this.$set(this.dialogs, 'selectTemplate', null)
+      //       this.$set(this.dialogs, 'selectTemplateDialog', null)
       //     },
       //     options: {
       //       x: event.clientX + 100,
@@ -170,15 +174,15 @@ export default {
       //   })
       // })
     },
-    editElement (event, element) { //spec, , meta
-      console.log('designed interface: edit element', event, element)
+    editElementDialog (event, element) { //spec, , meta
+      console.log('designer backend: edit element', event, element)
       this.openDialog('edit-element', EditElementDialog, event)
     },
-    editSection (event, section) {
-      console.log('designed interface: edit section settings', event, section)
+    editSectionDialog (event, section) {
+      console.log('designer backend: edit section settings', event, section)
       this.openDialog('edit-section', EditSectionDialog, event)
 
-      // this.$set(this.dialogs, 'editSection', {
+      // this.$set(this.dialogs, 'editSectionDialog', {
       //   // section: { beep: section.id },
       //   options: {
       //     x: event.clientX + 100,
@@ -188,8 +192,8 @@ export default {
       //   }
       // })
     },
-    editSocialLinks (event) {
-      console.log('designed interface: edit social links', event)
+    editSocialLinksDialog (event) {
+      console.log('designer backend: edit social links', event)
       this.openDialog('social-links', SocialLinksDialog, event)
 
       // this.$set(this.dialogs, 'socialLinks', {
@@ -201,8 +205,8 @@ export default {
       //   }
       // })
     },
-    editMenu (event, menuName) {
-      console.log('designed interface: edit menu', event, menuName)
+    editMenuDialog (event, menuName) {
+      console.log('designer backend: edit menu', event, menuName)
 
       this.openDialog('menu', MenuEditDialog, event)
       // this.$set(this.dialogs, 'menu', {
@@ -215,10 +219,10 @@ export default {
       //   }
       // })
     },
-    editPageSections (event, page) {
-      console.log('designed interface: edit page sections', event, page)
+    editPageSectionsDialog (event, page) {
+      console.log('designer backend: edit page sections', event, page)
 
-      this.openDialog('menu', MenuEditDialog, event)
+      this.openDialog('menu', SectionManagerDialog, event, { page })
       // this.$set(this.dialogs, 'manageSections', {
       //   page: page,
       //   options: {
@@ -229,7 +233,7 @@ export default {
       // })
     },
     // createPage (event) {
-    //   this.selectTemplate(event, (template) => {
+    //   this.selectTemplateDialog(event, (template) => {
     //     const page = this.designerBackendStore.createDefaultPage(template)
     //
     //     // Set the unique page reference if not already set.
@@ -243,7 +247,7 @@ export default {
     //     } else {
     //       page.reference = page.name
     //     }
-    //     console.log('designed interface: created page', page)
+    //     console.log('designer backend: created page', page)
     //
     //     // Add via the site store so page paths can be setup for routing
     //     this.designerPreviewStore.commit('updatePagePath', page)
@@ -263,7 +267,7 @@ export default {
     //     // Only delete the page from the API if it was previously saved
     //     if (page.id) {
     //       axios.delete(this.routes.dashboardSitePage(page.id)).then(response => {
-    //         console.log('designed interface: update page success', response.data)
+    //         console.log('designer backend: update page success', response.data)
     //         this.$toast.success("Page deleted successfuly!")
     //       })
     //     }
@@ -276,13 +280,13 @@ export default {
     //     this.$forceUpdate()
     //   }
     // },
-    insertPageSection (event, page, index) {
-      console.log('designed interface: insert page section', event, page, index)
+    createPageSectionDialog (event, page, index) {
+      console.log('designer backend: insert page section', event, page, index)
       return new Promise((resolve, reject) => {
-        this.selectTemplate(event, (template) => {
+        this.selectTemplateDialog(event, (template) => {
           // this.setPageUnsavedIfCurrent(page.reference, true)
           // this.setCurrentSidebarPage()
-          console.log('designed interface: selected template', template)
+          console.log('designer backend: selected template', template)
 
           this.markUnsaved() // update after preview store is updated
 
@@ -291,22 +295,6 @@ export default {
           resolve(section)
         })
       })
-    },
-    removePageSection (page, sectionId) {
-      if (confirm("Are you sure?")) {
-        // IpcServer.postPreviewMessage('removeSection', {
-        //   // page: page,
-        //   sectionId: sectionId
-        // })
-        this.designerPreviewStore.commit('removeDesignerSection', sectionId)
-
-        this.markUnsaved() // update after preview store is updated
-
-        // // Ensure the page form section list is updated
-        // this.setPageUnsavedIfCurrent(page.reference, true)
-        // this.setCurrentSidebarPage()
-        return true
-      }
     },
 
 
@@ -371,7 +359,7 @@ export default {
     //   return page
     // },
 
-    createSectionData (page, templateName) {
+    createSectionData (templateName) {
       const templateSpec = this.$store.getters.getTemplateSpec(templateName)
       const section = {
         label: 'New Section',
@@ -393,7 +381,7 @@ export default {
     },
 
     createSection (page, templateName, index = -1) {
-      const section = this.createSectionData(page, templateName)
+      const section = this.createSectionData(templateName)
       if (index === -1)
         page.content.push(section)
       else
@@ -402,7 +390,26 @@ export default {
       return section
     },
 
-    createElementData (name, section, data) {
+    removePageSection (page, sectionId) {
+      if (confirm("Are you sure?")) {
+        IpcServer.postPreviewMessage('removeSection', {
+          id: page.id,
+          sectionId: sectionId
+        })
+
+        if (this.designerPreviewStore)
+          this.designerPreviewStore.commit('removeDesignerSection', sectionId)
+
+        this.markUnsaved() // update after preview store is updated
+
+        // // Ensure the page form section list is updated
+        // this.setPageUnsavedIfCurrent(page.reference, true)
+        // this.setCurrentSidebarPage()
+        return true
+      }
+    },
+
+    createElementData (name) { // , section, data
       const spec = this.$store.getters.getElementSpec(name)
       const element = {
         id: name + '-' + randomString(10),
@@ -421,13 +428,56 @@ export default {
     },
 
     // Create a root level element
-    // createElement (name, section) {
-    //   const element = this.createElementData(name, section)
-    //   console.log('createElement', name, section, element)
-    //   state.content.push(element)
-    //   state.unsaved = true
-    //   IpcServer.postPreviewMessage('createElement', element)
-    //   return element
+    createResourceElement (resource, name, index = -1) { //, section
+      const element = this.createElementData(name) //, section
+      console.log('createResourceElement', name, element, resource) //, section
+      if (index === -1)
+        resource.content.push(element)
+      else
+        resource.content.splice(index, 0, element)
+      // section.content = [...section.content] // force reactivity
+
+      // if (section && section.content) {
+      //   section.content.push(element)
+      //   // this.designerBackendState.resource.content = [...this.designerBackendState.resource.content] // force reactivity
+      // }
+      this.markUnsaved()
+      // IpcServer.postPreviewMessage('createElement', element)
+      IpcServer.postPreviewMessage('createElement', {
+        id: resource.id,
+        element: element
+      })
+      return element
+    },
+
+    removeResourceElement (resource, element) {
+      console.log('removeResourceElement', resource, element) //, section
+      if (confirm("Are you sure?")) {
+        resource.content.splice(
+          resource.content.findIndex(x => x.id === element.id), 1)
+        // Hooks.executeDeleteElement(this.designerBackendStore.getters.getElementSpec(element.name), element)
+        IpcServer.postPreviewMessage('removeElement', {
+          id: resource.id,
+          elementId: element.id
+        })
+
+        this.markUnsaved() // update after preview store is updated
+
+        // // Ensure the page form section list is updated
+        // this.setPageUnsavedIfCurrent(page.reference, true)
+        // this.setCurrentSidebarPage()
+        return true
+      }
+    },
+
+    // createSection (page, templateName, index = -1) {
+    //   const section = this.createSectionData(page, templateName)
+    //   if (index === -1)
+    //     page.content.push(section)
+    //   else
+    //     page.content.splice(index, 0, section)
+    //   page.content = [...page.content] // force reactivity
+    //   return section
     // },
 
     // Process items recursively

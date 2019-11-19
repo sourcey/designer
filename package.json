@@ -14,7 +14,7 @@
   "private": true,
   "dependencies": {
     "@rails/activestorage": "^6.0.0-alpha",
-    "@voerro/vue-tagsinput": "^1.11.2",
+    "@voerro/vue-tagsinput": "^2.1.0",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.1",
