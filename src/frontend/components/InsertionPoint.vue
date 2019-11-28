@@ -52,7 +52,7 @@ export default {
     },
     createElement (event) {
       console.log('element: createElement', event)
-      this.designerBackend.createElementDialog(event, (element) => {
+      this.designerBackend.createElementDialog(event, null, (element) => {
         if (this.position === 'top') {
           SpecTools.insertElementTop(element, this.meta)
         } else {

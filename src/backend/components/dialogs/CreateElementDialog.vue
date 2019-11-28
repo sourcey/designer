@@ -51,6 +51,8 @@ export default {
   },
   methods: {
     createElement (name) {
+      console.log('BEFORE create element dialog: create element', this.resource, name)
+
       const element = this.$store.getters.designerBackendInterface.createResourceElement(this.resource, name)
       console.log('create element dialog: create element', element)
 
@@ -59,7 +61,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-
-</style>

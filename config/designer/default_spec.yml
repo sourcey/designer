@@ -354,6 +354,7 @@ elements:
         options:
           padded: Padded
           outline: Outline
+          uppercase: Uppercase
           bold: Bold
           block: Block
       alignment:
@@ -376,6 +377,8 @@ elements:
           default: Default
           inverted: Inverted
           highlight: Highlight
+          black: Black
+          dark: Dark
           clear: Clear
       size:
         label: Size

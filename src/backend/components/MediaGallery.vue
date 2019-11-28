@@ -171,15 +171,7 @@ export default {
       if (confirm("Are you sure?")) {
 
         // Delete from server
-        Attachments.destroy(attachment)
-
-        // Remove from object data
-        // for (let i = 0; i < this.object[this.name].length; i++) {
-        //   if (this.object[this.name][i].key === attachment.key) {
-        //     this.object[this.name].splice(i, 1)
-        //     break
-        //   }
-        // }
+        this.destroyAttachment(attachment)
 
         // Remove from attachments
         for (let i = 0; i < this.attachments.length; i++) {

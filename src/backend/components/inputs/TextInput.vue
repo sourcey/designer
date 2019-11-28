@@ -9,14 +9,16 @@
     slot(name='prepend')
     //- div {{currentValue}}
     input.form-control(:type='inputType'
-        :value='displayValue'
+        :value='focused ? currentValue : displayValue'
         :name='field || name'
         :placeholder='placeholder'
         :required='required'
         :class="{'is-invalid': errorMessage}"
-        @blur='currentValue = $event.target.value'
+        @input='currentValue = $event.target.value'
         @focusin='emitSelect(); focused = true'
         @focusout='focused = false')
+    //- v-model='currentValue'
+    //- @blur='currentValue = $event.target.value'
     //- v-model='currentValue'
     //- v-on='$listeners'
     //- @input='emitUpdate'

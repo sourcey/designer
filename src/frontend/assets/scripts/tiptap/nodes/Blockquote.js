@@ -25,7 +25,7 @@ export default class Quote extends Node {
         {
           tag: 'blockquote',
           getAttrs: dom => {
-            console.log('SCANNING BLOCKQUOTE', dom, dom.getAttribute('class'))
+            // console.log('SCANNING BLOCKQUOTE', dom, dom.getAttribute('class'))
             return ({
             class: dom.getAttribute('class')
           })}
@@ -39,7 +39,7 @@ export default class Quote extends Node {
 
   commands({ type, schema }) {
     return () => {
-      console.log('BLOCKQUOTE TOGGLE', type, schema.nodes.paragraph)
+      // console.log('BLOCKQUOTE TOGGLE', type, schema.nodes.paragraph)
       return toggleWrap(type, schema.nodes.paragraph)
     }
   }
@@ -62,10 +62,10 @@ export default class Quote extends Node {
         // deselectNode (event) {
         //   this.selected = false
         // },
-        toggleCite() {
-          console.log(this.$parent.editor.commands.cite)
-          this.$parent.editor.commands.cite()
-        }
+        // toggleCite() {
+        //   // console.log('toggleCite', this.$parent.editor.commands.citation)
+        //   this.$parent.editor.commands.citation()
+        // }
       },
       template: `
         <blockquote class="block-editor" :class="node.attrs.class">
@@ -75,12 +75,11 @@ export default class Quote extends Node {
             <button title="Float Left" class="menubar__button" @click.prevent="updateClass('left', ['right'])" :class="{ 'is-active': isLeft }"><icon name="editor-widget-left" size='12' /></button>
             <button title="Float Right" class="menubar__button" @click.prevent="updateClass('right', ['left'])" :class="{ 'is-active': isRight }"><icon name="editor-widget-right" size='12' /></button>
             <button title="Pull Out" class="menubar__button" @click.prevent="updateClass('pull')" :class="{ 'is-active': isPull && (isLeft || isRight) }"><icon name="editor-widget-left-breakout" size='12' /></button>
-            <button title="Cite" class="menubar__button" @click.prevent="$parent.editor.commands.cite" :class="{ 'is-active': $parent.editor.isActive.cite() }"><icon name="at" size='12' /></button>
+            <button title="Cite" class="menubar__button" @click.prevent="$parent.editor.commands.citation" :class="{ 'is-active': $parent.editor.isActive.citation() }"><icon name="editor-at" size='12' /></button>
             <button title="Delete" class="menubar__button" @click.prevent="deleteNode"><icon name="trash" size='12' /></button>
           </div>
           <div ref="content" :contenteditable="view.editable.toString()" :class="{ 'is-empty': contentEmpty }" data-empty-text="Enter quote..." />
-        </blockquote>
-      `
+        </blockquote>`
     }
   }
 }

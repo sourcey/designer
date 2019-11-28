@@ -1,4 +1,6 @@
 @import 'variables';
+@import 'functions';
+@import 'mixins';
 @import 'editor/wysiwyg';
 
 // Override this on the outside app to factor in navbar height.
@@ -316,13 +318,13 @@
   .wysiwyg {
     .menubar {
       position: absolute;
-      top: -$wysiwyg-menu-height;
-      left: 0;
+      // top: -$wysiwyg-menu-height;
+      // left: 0;
     }
 
-    > .menubar {
-      top: calc(-#{$wysiwyg-menu-height} + -#{$element-padding}) !important;
-    }
+    // > .menubar {
+    //   top: calc(-#{$wysiwyg-menu-height} + -#{$element-padding}) !important;
+    // }
   }
 
 

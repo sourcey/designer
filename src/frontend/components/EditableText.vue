@@ -1,7 +1,7 @@
 <template lang="pug">
 .wrapper(v-if='designerEditingSection')
   //- component(v-if='editing' :is="textEditor" :content="title" contentClass="h1 teaser" :simpleMode="true") :is='tag' :simple-mode='simpleMode'
-  text-editor(:content='contentHtml' :content-tag='contentTag' :content-class='contentClass' v-bind='editorOptions' @update='onUpdate')
+  text-editor(:content='contentHtml' :content-tag='contentTag' :content-class='contentClass' v-bind='editorOptions' @focused='onEditorFocus' @update='onUpdate')
 div(v-else :is='contentTag || "div"' :class='contentClass' v-html='contentHtml')
 </template>
 
@@ -74,6 +74,9 @@ export default {
       // this.item.data.subtitle = html
       // console.log('onUpdate', html, this.value)
       this.$emit('input', html)
+    },
+    onEditorFocus (flag) {
+      this.$emit('focused', flag)
     }
   }
 }

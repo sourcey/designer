@@ -12,18 +12,42 @@ module Designer
 
         # after_save :enqueue_attachment_cleanup
       end
+
+      def find_element_recursive(items, id)
+        return unless items.present?
+        result = nil
+        items.each do |item|
+          if item['id'] == id # item['type'] == 'element' || !item.has_key?('type')
+            result = item
+          elsif item['type'] == 'row' && item['columns'].present?
+            item['columns'].each do |column|
+              result = find_element_recursive column['items'], id
+              break if result
+            end
+          elsif item['items'].present?
+            result = find_element_recursive item['items'], id
+          end
+          break if result
+        end
+        result
+      end
     end
 
-    def find_element id
-      content.each do |item|
-        return item if item['id'] == id
-        # next unless item['elements']
-        # item['elements'].each do |element|
-        #   return element if element['id'] == id
-        # end
-      end
-      nil
+    def find_element(id)
+      return unless content.present?
+      self.class.find_element_recursive content, id
     end
+
+    # def find_element id
+    #   content.each do |item|
+    #     return item if item['id'] == id
+    #     next unless item['items']
+    #     item['items'].each do |element|
+    #       return element if element['id'] == id
+    #     end
+    #   end
+    #   nil
+    # end
 
     # def find_page id
     #   find_item id
@@ -43,7 +67,6 @@ module Designer
         @designer_config['spec'] = Designer.default_spec.dup.deep_merge(@designer_config['spec'])
       end
       @designer_config.deep_merge!(designer_custom_config) if designer_custom_config.present?
-      # p "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555"
       @designer_config
     end
 
@@ -55,7 +78,6 @@ module Designer
 
     # Returns the full designer data object for this instance
     def designer_data
-      # p "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7"
       Designer::DataBuilder.new(self).perform
     end
 
@@ -90,8 +112,7 @@ module Designer
     # Cleans up attachments for elements that may have been deleted.
     # Calls `find_element` internally to check for existence.
     def enqueue_attachment_cleanup
-      # FIXME: AttachmentCleanupJob is undefined?
-      require_dependency Designer::Engine.root.join('app', 'jobs', 'designer', 'attachment_cleanup_job').to_s
+      return if designer_config['enable_attachment_cleanup'] == false
 
       if Rails.env.production?
         Designer::AttachmentCleanupJob.perform_later(self)

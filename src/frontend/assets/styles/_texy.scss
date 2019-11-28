@@ -55,6 +55,7 @@
     font-size: $font-size * 1.75;
   }
   h3 {
+    margin-top: $block-margin;
     font-size: $font-size * 1.5;
   }
   h4 {
@@ -127,30 +128,21 @@
     }
   }
 
-  .left {
-    float: left;
+  .left,
+  .right {
     max-width: 40%;
     margin-top: $block-margin * .75;
     margin-bottom: $block-margin * .75;
-    margin-right: $block-margin;
+  }
 
-    // &.out,
-    // &.pull {
-    //   margin-left: -$pull-margin;
-    // }
+  .left {
+    float: left;
+    margin-right: $block-margin;
   }
 
   .right {
     float: right;
-    max-width: 40%;
-    margin-top: $block-margin * .75;
-    margin-bottom: $block-margin * .75;
     margin-left: $block-margin;
-
-    // &.out,
-    // &.pull {
-    //   margin-right: -$pull-margin;
-    // }
   }
 
 
@@ -200,8 +192,8 @@
       border-bottom: 1px solid $separator-color;
       padding-top: $paragraph-margin;
       // padding-bottom: $paragraph-margin;
-      // margin-top: $paragraph-margin;
-      // margin-bottom: $paragraph-margin;
+      margin-top: $block-margin;
+      margin-bottom: $block-margin;
 
       cite {
         font-family: $font-sans-serif;
@@ -232,6 +224,8 @@
       border-bottom: 1px solid $text-color;
       padding-top: 1.5rem;
       padding-bottom: 1rem;
+      margin-top: $block-margin * .75;
+      margin-bottom: $block-margin * .75;
       font-weight: 500;
       line-height: 1.725;
 

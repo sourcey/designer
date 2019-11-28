@@ -1,12 +1,12 @@
 <template lang="pug">
 .wysiwyg(:class="{ focused: focused }")
-  editor-menu-bar(v-if='!hideMenu' :editor='editor' ref='menu')
-    .menubar(v-if='mode === "basic"' :style='{left: "-" + leftOffset + "px"}' :class="{ 'is-hidden': !focused }" slot-scope='{ commands, isActive }')
+  editor-menu-bubble(v-if='!hideMenu' :editor='editor' ref='menu' v-slot="{ commands, isActive, menu }")
+    .menubar(v-if='mode === "basic"' :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-hidden': !focused }")
       button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
         icon(name='editor-bold' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
         icon(name='editor-italic' size='12')
-    .menubar(v-else :style='{left: "-" + leftOffset + "px"}' :class="{ 'is-hidden': !focused }" slot-scope='{ commands, isActive }')
+    .menubar(v-else :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-hidden': !focused }")
       button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
         icon(name='editor-bold' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
@@ -43,7 +43,7 @@
         icon(name='editor-image' size='12')
       button.menubar__button(@click='commands.quote()')
         icon(name='editor-quote' size='12')
-      //- button.menubar__button(:class="{ 'is-active': isActive.cite() }" @click='commands.cite') cite
+      button.menubar__button(:class="{ 'is-active': isActive.citation() }" @click='commands.citation()') cite
       //- button.menubar__button(@click='commands.figure') image{src: "#"}
       //- icon(name='editor-redo' size='12')
       //- button class="menubar__button" @click="commands.figure({src: placeholderSrc})">
@@ -54,22 +54,10 @@
 </template>
 
 <script>
-// import Icon from 'designer/app/javascript/base/components/SvgIcon.vue'
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-// import { default as Heading } from '../assets/scripts/tiptap/nodes/Heading.js'
-// import { default as Figure } from '../assets/scripts/tiptap/nodes/Figure.js'
-// import { default as Quote } from '../assets/scripts/tiptap/nodes/Quote.js'
-// import { default as Citation } from '../assets/scripts/tiptap/marks/Cite.js'
-
 import {
-  Division,
-  Heading,
-  Figure,
-  Figcaption,
-  Blockquote,
-  Cite
-} from '../assets/scripts/tiptap/extensions';
-
+  Editor,
+  EditorContent,
+  EditorMenuBubble } from 'tiptap'
 import {
   // Blockquote,
   CodeBlock,
@@ -90,6 +78,14 @@ import {
   History,
   Placeholder
 } from 'tiptap-extensions'
+import {
+  Division,
+  Heading,
+  Figure,
+  Figcaption,
+  Blockquote,
+  Citation
+} from '../assets/scripts/tiptap/extensions';
 
 import '../assets/images/editor/bold.svg?sprite=true'
 import '../assets/images/editor/italic.svg?sprite=true'
@@ -118,8 +114,7 @@ export default {
   name: 'text-editor',
   components: {
     EditorContent,
-    EditorMenuBar,
-    // Icon,
+    EditorMenuBubble
   },
   props: {
     content: {
@@ -135,7 +130,6 @@ export default {
       default: 'Write here …'
     },
     contentClass: {
-      // type: String,
       type: [String, Array],
       default: null
     },
@@ -150,7 +144,6 @@ export default {
   },
   data () {
     return {
-      // editorContent: this.content,
       editor: new Editor({
         extensions: [
           // new Blockquote(),
@@ -182,7 +175,7 @@ export default {
           new Figure(),
           new Figcaption(),
           new Blockquote(),
-          new Cite()
+          new Citation()
         ],
 
         // content: this.content,
@@ -190,42 +183,22 @@ export default {
         onFocus: () => this.onFocused(true)
       }),
       focused: false,
-      leftOffset: 0
+      leftOffset: 0,
+      topOffset: 0
     }
   },
   mounted () {
     window.addEventListener('click', this.onWindowClick)
 
-    console.log('text editor: create', this.contentHtml())
+    // console.log('text editor: create', this.contentHtml())
     // this.editor.commands.heading({ level: 1 })
   },
   beforeDestroy () {
     this.editor.destroy()
     window.removeEventListener('click', this.onWindowClick)
-    // console.log('text editor: destroy')
   },
-  // computed: {
-  //   contentHtml () {
-  //     console.log('&&&&&&&&&&&&&& text editor: contentHtml', this.contentTag, this.contentClass, this.content)
-  //     // console.log('CONTENT HTML 1', this.content)
-  //     // console.log('CONTENT HTML 2', this.stripTags(this.content || ''))
-  //     if (this.contentTag) {
-  //       const classNames =
-  //           Array.isArray(this.contentClass) ? this.contentClass.join(' ') :
-  //             this.contentClass ? this.contentClass : ''
-  //       // console.log('CONTENT HTML TAG',
-  //       //   `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`)
-  //       return `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`
-  //     }
-  //     // console.log('CONTENT HTML', this.content)
-  //     return this.content // || ''
-  //   },
-  // },
   methods: {
     contentHtml () {
-      console.log('&&&&&&&&&&&&&& text editor: contentHtml', this.contentTag, this.contentClass, this.content)
-      // console.log('CONTENT HTML 1', this.content)
-      // console.log('CONTENT HTML 2', this.stripTags(this.content || ''))
       if (this.contentTag) {
         const classNames =
             Array.isArray(this.contentClass) ? this.contentClass.join(' ') :
@@ -234,8 +207,7 @@ export default {
         //   `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`)
         return `<${this.contentTag} class="${classNames}">${this.stripTags(this.content)}</${this.contentTag}>`
       }
-      // console.log('CONTENT HTML', this.content)
-      return this.content // || ''
+      return this.content
     },
     editorHtml () {
       let html = this.editor.getHTML()
@@ -253,7 +225,7 @@ export default {
       // if (this.contentTag)
       //   html = this.stripTags(html)
       let html = this.editorHtml()
-      console.log('text editor: focused', flag, html)
+      console.log('text editor: focused', flag) //, html
       this.autoPosition()
       this.focused = flag
       this.$emit('focused', flag)
@@ -280,128 +252,13 @@ export default {
   },
   watch: {
   	contentTag: function(value) {
-      console.log('$$$ text editor: contentTag changed', value)
+      // console.log('$$$ text editor: contentTag changed', value)
       this.editor.setContent(this.contentHtml())
     },
   	contentClass: function(value) {
-      console.log('$$$ text editor: contentClass changed', value)
+      // console.log('$$$ text editor: contentClass changed', value)
       this.editor.setContent(this.contentHtml())
     },
   }
 }
 </script>
-
-<style scoped lang="scss">
-// // @import '@/assets/styles/_variables.scss';
-// @import '../assets/styles/_variables.scss';
-//
-// // @import '../assets/styles/_texy.scss';
-//
-//
-// // Wysiwyg editor
-// // --------------------------------------------------
-//
-// .editor {
-//   /deep/ .ProseMirror {
-//     outline: 0;
-//     // min-height: 300px;
-//
-//     > *:last-child {
-//       margin-bottom: 0;
-//     }
-//
-//     &:not(.ProseMirror-focused) .is-empty:first-child:before {
-//       content: attr(data-empty-text);
-//       pointer-events: none;
-//       height: 0;
-//       color: #888;
-//     }
-//
-//     //
-//     /// Inline node editor
-//
-//     .block-editor {
-//       white-space: initial;
-//       position: relative;
-//       min-width: 250px;
-//
-//       &:not(.selected) .is-empty:before {
-//         content: attr(data-empty-text);
-//         pointer-events: none;
-//         height: 0;
-//         color: #888;
-//       }
-//     }
-//
-//     figure.block-editor {
-//       white-space: initial;
-//       position: relative;
-//       min-width: 250px;
-//
-//       .dropzone {
-//         display: block;
-//         margin: 0;
-//       }
-//
-//       input[type="file"] {
-//         opacity: 0;
-//         top: 0;
-//         position: absolute;
-//       }
-//     }
-//   }
-//
-//
-//   /deep/ .menubar {
-//     background-color: $designer-base-color;
-//     // margin-bottom: 1rem;
-//     line-height: $line-height-base;
-//     font-size: $font-size-base;
-//     font-family: $font-family-sans-serif;
-//     transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
-//     display: flex;
-//     white-space: nowrap;
-//     z-index: $zindex-fixed;
-//
-//     &.is-hidden {
-//       visibility: hidden;
-//       opacity: 0;
-//     }
-//
-//     &.is-focused {
-//       visibility: visible;
-//       opacity: 1;
-//       transition: visibility 0.2s, opacity 0.2s;
-//     }
-//
-//     &__button {
-//       font-weight: bold;
-//       // display: inline-block;
-//       background: transparent;
-//       border: 0;
-//       // border-radius: 0;
-//       // color: black;
-//       color: white;
-//       padding: 0 0.75rem;
-//       height: 26px;
-//       line-height: 26px;
-//       margin: 0;
-//       font-size: 13px;
-//       cursor: pointer;
-//
-//       svg {
-//         fill: white;
-//       }
-//
-//       &:hover {
-//         background-color: rgba(white, 0.05);
-//       }
-//
-//       &.is-active {
-//         background-color: rgba(white, 0.1);
-//       }
-//     }
-//   }
-// }
-
-</style>

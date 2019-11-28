@@ -41,6 +41,7 @@
       }
 
       .menubar {
+        top: calc(-#{$wysiwyg-menu-height} + -#{$element-padding}) !important;
         opacity: 0;
       }
     }

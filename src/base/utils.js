@@ -75,8 +75,11 @@ export function toggleFullscreen(elem) {
 }
 
 export function sanitizeDecimal (value) {
-  // if (typeof(value) !=)
   return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
+}
+
+export function sanitizeNumber (value) {
+  return Math.round(sanitizeDecimal(value))
 }
 
 export function getLocale(fallbackLocale = 'en') {

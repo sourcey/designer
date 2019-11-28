@@ -85,6 +85,7 @@ export default {
     // if (this.section.index === 0)
     //   this.edit()
 
+    this.checkOnscreen()
     window.addEventListener('scroll', this.checkOnscreen)
   },
   destroyed () {
@@ -98,7 +99,7 @@ export default {
       const scrollY = document.documentElement.scrollTop
       const topY = this.$parent.$el.offsetTop
       const bottomY = topY + rect.height - 50
-      this.onscreen = scrollY > topY && scrollY < bottomY
+      this.onscreen = scrollY >= topY && scrollY <= bottomY
     },
     // Ensure the menu is stays visible on the viewport while the section is onscreen.
     // initMenuObserver () {
@@ -126,7 +127,7 @@ export default {
       // Expand the preview and wait or the animation to complete before
       // rerendering
       this.designerBackend.expandPreview(true)
-      setTimeout(() => { this.$store.commit('setDesignerEditingSection', this.section) }, 500)
+      setTimeout(() => this.$store.commit('setDesignerEditingSection', this.section), 500)
     },
     remove () {
       const removed = this.designerBackend.removePageSection(this.designerPage, this.section.id)
@@ -136,7 +137,7 @@ export default {
     exitPreview () {
       if (!this.editing) return
       this.designerBackend.expandPreview(false)
-      setTimeout(() => { this.$store.commit('setDesignerEditingSection', null) }, 500)
+      setTimeout(() => this.$store.commit('setDesignerEditingSection', null), 500)
     },
     cancel () {
       Object.keys(this.restoreState).forEach(key => {
@@ -165,8 +166,13 @@ export default {
     },
     save () {
       // this.designerBackend.savePage(this.designerPage)
-      this.designerBackend.saveResource()
       this.exitPreview()
+
+      // Give a moment for blur events and the resource content to update
+      // this.$nextTick(this.designerBackend.saveResource)
+      setTimeout(() => this.designerBackend.saveResource(), 500)
+
+      // setTimeout(() => this.designerBackend.saveResource(), 100)
       // this.designerBackend.expandPreview(false)
       // setTimeout(() => { this.$store.commit('setDesignerEditingSection', null) }, 500)
       // this.$store.commit('setDesignerEditingSection', null)

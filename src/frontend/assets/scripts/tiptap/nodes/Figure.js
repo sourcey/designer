@@ -4,6 +4,7 @@ import { randomString } from '../../../../../base/utils'
 
 
 function tryParseAttachment(attachment) {
+  console.log('parsing attachment object', attachment)
   if (attachment && attachment[0] === '{')
     return JSON.parse(attachment)
   return {}
@@ -69,6 +70,12 @@ export default class Figure extends Node {
     }
   }
 
+  // keys({ type }) {
+  //   return {
+  //     Backspace: () => { console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')},
+  //   }
+  // }
+
   commands ({ type, schema }) {
     return {
       figure: attrs => (state, dispatch) => {
@@ -78,9 +85,9 @@ export default class Figure extends Node {
           : selection.$to.pos
         const node = type.create(attrs)
         const transaction = state.tr.insert(position, node)
-        dispatch(transaction);
+        dispatch(transaction)
       }
-    };
+    }
   }
 
   get view () {
@@ -88,15 +95,16 @@ export default class Figure extends Node {
       extends: BlockEditor,
       data () {
         return {
-          // selected: true,
           inputId: `figure-${randomString(5)}`,
           attachment: {}
         }
       },
       methods: {
         deleteAttachmentAndNode () {
-          // FIXME: delete attachment
-          // It should be deleted whnever the outside node is removed
+          // FIXME: Delete attachment when outside node is removed
+          // Ideally this node would not be deletable, but the solution seems
+          // quite complex: https://discuss.prosemirror.net/t/how-to-prevent-node-deletion/130/6
+          this.designerBackend.uploadAttachment(this.attachment)
           this.deleteNode()
         },
         filesChange (event) {
@@ -108,15 +116,11 @@ export default class Figure extends Node {
           Array.from(event.target.files).forEach(file => {
             this.attachment = {
               file: file,
-              // metadata: this.fileMetadata ()
+              metadata: this.designerBackend.fileMetadata()
             }
             this.designerBackend.uploadAttachment(this.attachment)
               .then(() => {
                 this.attachment = this.designerBackend.serializeAttachment(this.attachment)
-                // this.node.attrs.src = this.designerBackend.attachmentCdnUrl(this.attachment)
-                // this.node.attrs.src = this.attachmentUrl(this.attachment)
-                // this.node.attrs.attachment = this.attachment
-
                 this.updateAttrs({
                   src: this.attachmentUrl(this.attachment),
                   attachment: this.attachment

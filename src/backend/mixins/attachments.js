@@ -5,13 +5,13 @@ import axios from 'axios'
 
 export default {
   methods: {
-    uploadAttachment (attachment) {
+    uploadAttachment (attachment, params) {
       return new Promise((resolve, reject) => {
 
         // TODO: Remove @rails/activestorage dependency
         const { DirectUpload } = require('@rails/activestorage')
-        console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl())
-        const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(), this)
+        console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl(params), params)
+        const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(params), this)
         directUpload.create((error, attributes) => {
           if (error) {
             console.log('attachment direct upload failed', error)
@@ -83,9 +83,24 @@ export default {
     // Designer metadata used to associate attachments with elements
     fileMetadata () {
       const meta = {}
-      if (this.parent && this.parent.id) {
+
+      // if (this.$store.getters.designerEditingElement) {
+      //   meta.designer_element_id = this.$store.getters.designerEditingElement.element.id
+      // }
+      // else
+      if (this.designerPreviewStore && this.designerPreviewStore.getters.designerEditingElement) {
+        meta.designer_element_id = this.designerPreviewStore.getters.designerEditingElement.id
+      }
+      // else if (this.parent && this.parent.element) {
+      //   meta.designer_element_id = this.parent.element.id
+      // }
+      else if (this.parent && this.parent.id) {
         meta.designer_element_id = this.parent.id
       }
+      // console.log('METAAAAAAAAAAAAAAAA',
+      //   this.designerPreviewStore.getters.designerEditingSection,
+      //   this.designerPreviewStore.getters.designerEditingElement,
+      //   this.designerPreviewStore)
       return meta
     },
 
@@ -111,25 +126,31 @@ export default {
     buildAttachmentUrl (endpointName, ...rest) {
       // NOTE: If no designer backend store is available then the instance must
       // define the `$api.routes` object.
+      let baseUrl
       if (this.$api && this.$api.routes && typeof this.$api.routes[endpointName] === 'function') {
-        const args = [...rest, this.url_params].filter(_ => _)
-        return this.$api.routes[endpointName].apply(null, args)
+        // const args = [...rest, this.url_params].filter(_ => _)
+
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', rest, this.url_params)
+        const baseUrl = this.$api.routes[endpointName].apply(null, rest)
+        if (this.designerBackendStore)
+          return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.url_params)
+        else
+          return baseUrl
         // (...rest, this.url_params)
       }
       else if (this.designerBackendStore) {
         const baseUrl = this.designerBackendState[endpointName]
         return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.url_params)
       }
-      else {
-        alert('Attachment endpoint not defined: ' + endpointName)
-      }
+
+      alert('Attachment endpoint not defined: ' + endpointName)
     },
 
     attachmentDirectUploadUrl (params) {
-      return this.buildAttachmentUrl('attachmentDirectUploadUrl')
+      return this.buildAttachmentUrl('attachmentDirectUploadUrl', params)
     },
 
-    attachmentUploadUrl (attachment) {
+    attachmentUploadUrl (attachment, params) {
       return this.buildAttachmentUrl('attachmentUploadUrl', attachment.name)
                 .replace(':name', attachment.name ? attachment.name : 'attachments')
                 .replace('%3Aname', attachment.name ? attachment.name : 'attachments')

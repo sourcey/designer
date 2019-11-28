@@ -52,7 +52,7 @@ module Designer
     end
 
     def process_element element, config
-      element['id'] = item_id(element)
+      element['id'] ||= item_id(element)
       spec = config['spec']['elements'][element['name']]
       merge_item_defaults element, spec
       process_grid element['items'], config

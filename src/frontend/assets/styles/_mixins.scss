@@ -5,8 +5,16 @@
 //
 
 @mixin dynamic-property($name, $property) {
-  #{$name}: #{theme-option($property)}; // fallback for older browsers
-  #{$name}: var(--#{$property});
+  @if theme-option($property) {
+    #{$name}: #{theme-option($property)};
+    #{$name}: var(--#{$property}, #{theme-option($property)});
+  } @else {
+    #{$name}: var(--#{$property});
+  }
+  // #{$name}: #{theme-option($property)}; // fallback for older browsers
+  // #{$name}: var(--#{$property});
+  // @if $circle {
+  // #{$name}: var(--#{$property}, #{theme-option($property)});
 }
 
 @mixin dynamic-font-property($property) {

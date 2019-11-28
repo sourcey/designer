@@ -11,11 +11,14 @@
   background-color: transparent;
   border: 1px solid transparent; //1px
   transition: $btn-transition;
-  // font-weight: $btn-font-weight;
   text-decoration: none !important;
   outline: 0 !important;
   cursor: pointer;
   z-index: 1;
+
+  &:hover {
+    opacity: 0.9;
+  }
 
   @include dynamic-property('color', 'button-color');
   @include dynamic-property('font-size', 'btn-font-size');
@@ -25,14 +28,8 @@
   @include dynamic-property('padding-left', 'btn-padding-x');
   @include dynamic-property('padding-right', 'btn-padding-x');
 
-  // @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
-
   svg {
     fill: currentColor;
-  }
-
-  &:hover {
-    opacity: 0.9;
   }
 
 
@@ -68,7 +65,6 @@
   }
 
   &.btn-highlight {
-    // @include theme-button('button-color');
     @include theme-button('highlight-color');
   }
 
@@ -87,7 +83,6 @@
   }
 
   &.btn-outline {
-    // handled inside @theme-button
   }
 
   &.btn-bold {

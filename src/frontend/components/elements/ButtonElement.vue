@@ -1,6 +1,7 @@
 <template lang="pug">
 .element(:class="'text-' + alignment")
-  router-link.btn(:to='sitePath(link)' :class='classNames') {{ label }}
+  //- router-link.btn(:to='sitePath(link)' :class='classNames') {{ label }}
+  router-link.btn(:to='link' :class='classNames') {{ label }}
 </template>
 
 <script>

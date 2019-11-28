@@ -115,7 +115,7 @@ export default {
     // console.log(this.element.name)
     // if (this.element.name === 'poster') this.edit()
   },
-  beforeDestroy () {
+  destroyed () {
     this.$parent.$el.removeEventListener('click', this.onParentClick)
     window.removeEventListener('click', this.onWindowClick) //
     // window.removeEventListener('resize', this.onWindowResize) //

@@ -15,6 +15,9 @@
 </template>
 
 <script>
+// import { debounce } from '~/designer/src/base/utils'
+import { debounce } from '../../base/utils'
+
 export default {
   props: ['id', 'title', 'options'],
   data () {
@@ -55,29 +58,32 @@ export default {
     if (this.draggable) {
       document.addEventListener('mousemove', this.mouseMove, { passive: true })
       document.addEventListener('mouseup', this.mouseUp)
-      window.addEventListener('resize', this.autoPosition.bind(this))
+
+      this._autoPosition = debounce(this.autoPosition)
+      window.addEventListener('resize', this._autoPosition)
+      // window.addEventListener('resize', this.autoPosition.bind(this))
     }
 
     if (this.centered) {
       this.$nextTick(() => {
         this.center()
-        // this.$nextTick(this.autoPosition)
-        // this.autoPosition()
         this.emit('ready')
       })
     } else {
       this.$nextTick(() => {
         this.autoPosition()
-        // this.$nextTick(this.autoPosition)
+        setTimeout(this.autoPosition, 50) // give content a chance to render
+        // setTimeout(this.autoPosition, 100)
         this.emit('ready')
       })
     }
   },
-  beforeDestroy () {
+  destroyed () {
     if (this.draggable) {
       document.removeEventListener('mousemove', this.mouseMove)
       document.removeEventListener('mouseup', this.mouseUp)
-      window.removeEventListener('resize', this.autoPosition.bind(this))
+      // window.removeEventListener('resize', this.autoPosition.bind(this))
+      window.removeEventListener('resize', this._autoPosition)
     }
   },
   // watch: {
@@ -208,7 +214,7 @@ export default {
       if (this.left && this.$refs.window.clientWidth) {
         const viewWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
         const leftOffset = (this.left + this.$refs.window.clientWidth) - viewWidth //  + document.body.scrollLeft
-        console.log('dialog window: auto bottom position', this.left, viewWidth, leftOffset)
+        console.log('dialog window: auto left position', this.left, viewWidth, leftOffset)
         if (leftOffset > 0)
           this.left -= leftOffset + 20
       }

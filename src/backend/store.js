@@ -53,14 +53,12 @@ export default {
     },
 
     setDesignerResource (state, instance) {
-      // console.log('$$$$$$$$$$$$$$$$$$$$$ setDesignerResource', instance)
       Vue.set(state, 'resource', instance)
     },
 
     setDesignerAttachments (state, attachments) {
       Vue.set(state, 'attachments', attachments)
-    },
-
+    }
   },
 
 

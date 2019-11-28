@@ -26,6 +26,7 @@
         :add-tags-on-space='true'
         :only-existing-tags='!custom'
         :limit='max'
+        @initialized='onTagsInitialized'
         @tags-updated='emitCustomUpdate')
         //- @keyup='onKeyUp'
         //- :element-id='field || name'
@@ -68,13 +69,14 @@ export default {
   },
   data () {
     return {
-      selectedTags: []
+      selectedTags: [],
+      skipEvents: true
     }
   },
   created () {
     if (Array.isArray(this.currentValue)) {
       this.selectedTags = this.currentValue.map(x => {
-        return {key: x, value: x.label ? x.label : x}
+        return {key: x, value: this.tagLabel(x)}
       })
     }
   },
@@ -99,7 +101,25 @@ export default {
         return tags
       }
     },
+    tagLabel (key) {
+      if (Array.isArray(this.options)) {
+        const option = this.options.filter(x => x.value === key)
+        if (option && option.label)
+          return option.label
+      } else if (isObject(this.options) && this.options[key]) {
+        return this.options[key]
+      }
+      return key
+    },
+    onTagsInitialized () {
+      this.$nextTick(() => this.skipEvents = false)
+    },
     emitCustomUpdate () {
+      // BUG: The tags-update event always fires on init so just skip them
+      if (this.skipEvents) {
+        return
+      }
+
       this.currentValue = this.selectedTags.map(x => x.key.length ? x.key : x.value)
 
       // Ensure the outside form receives input events when tags change
@@ -111,5 +131,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~@voerro/vue-tagsinput/dist/style.css'
+@import '~@voerro/vue-tagsinput/dist/style.css';
 </style>

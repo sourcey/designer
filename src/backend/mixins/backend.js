@@ -23,12 +23,12 @@ export default {
   ],
   computed: {
     // url () {
-    //   return `/site-proxy/?subdomain=${this.$store.state.site.subdomain}`
+    //   return `/site-proxy/?subdomain=${this.designerBackendStore.state.site.subdomain}`
     // },
     previewApp () {
       // if (this.loaded)
         // return this.$refs.preview.contentWindow.app
-      return this.$store.getters.designerPreviewApp
+      return this.designerBackendStore.getters.designerPreviewApp
     },
     designerPreviewStore () {
       if (this.previewApp)
@@ -67,20 +67,20 @@ export default {
     // },
     saveResource () {
       // axios.patch(this.routes.dashboardSite(), this.designerPreviewState.site)
-      // return axios.patch(this.routes.dashboardSite(), this.$store.state.site)
+      // return axios.patch(this.routes.dashboardSite(), this.designerBackendStore.state.site)
 
-      this.$store.dispatch('saveResource')
+      this.designerBackendStore.dispatch('saveResource')
         .then(() => {
           if (this.designerBackendState.enableRefresh && this.refreshPreview)
             this.refreshPreview()
         })
     },
     markUnsaved (flag = true) {
-      this.$store.state.unsaved = flag
+      this.designerBackendStore.state.unsaved = flag
       this.$forceUpdate()
     },
     expandPreview (flag) {
-      this.$store.commit('setPreviewExpanded', flag)
+      this.designerBackendStore.commit('setPreviewExpanded', flag)
 
       // if (flag)
       //   setTimeout(() => { this.setCurrentSidebarPage() }, 500)
@@ -115,7 +115,7 @@ export default {
       }, propsData.options)
       this.closeDialog(name)
       const ComponentClass = Vue.extend(clazz)
-      const store = this.$store
+      const store = this.designerBackendStore
       const instance = new ComponentClass({
           store,
           propsData: propsData
@@ -128,7 +128,7 @@ export default {
       return instance
     },
     createElementDialog (event, resource, callback) {
-      console.log('designer backend: create element', event)
+      console.log('designer backend: create element', event, resource)
 
       const dialog = this.openDialog('create-element', CreateElementDialog, event, { resource })
       if (callback)
@@ -353,14 +353,14 @@ export default {
     //     page.content = [ section ]
     //   }
     //   console.log('createDefaultPage', page)
-    //   // this.$store.getters.state.content.push(page)
-    //   // this.$store.getters.state.unsaved = true
+    //   // this.designerBackendStore.getters.state.content.push(page)
+    //   // this.designerBackendStore.getters.state.unsaved = true
     //   // IpcServer.postPreviewMessage('createPage', page)
     //   return page
     // },
 
     createSectionData (templateName) {
-      const templateSpec = this.$store.getters.getTemplateSpec(templateName)
+      const templateSpec = this.designerBackendStore.getters.getTemplateSpec(templateName)
       const section = {
         label: 'New Section',
         items: templateSpec.items && templateSpec.items.length ? templateSpec.items : [],
@@ -370,7 +370,7 @@ export default {
       // templateSpec ? templateSpec.items : []
 
       // Merge spec defaults into element data
-      // const spec = this.$store.getters.getLayoutSpec(layout)
+      // const spec = this.designerBackendStore.getters.getLayoutSpec(layout)
 
       // Add all template values to the section
       mergeSpecDefaults(section, templateSpec)
@@ -410,7 +410,7 @@ export default {
     },
 
     createElementData (name) { // , section, data
-      const spec = this.$store.getters.getElementSpec(name)
+      const spec = this.designerBackendStore.getters.getElementSpec(name)
       const element = {
         id: name + '-' + randomString(10),
         name: name,
@@ -430,23 +430,28 @@ export default {
     // Create a root level element
     createResourceElement (resource, name, index = -1) { //, section
       const element = this.createElementData(name) //, section
-      console.log('createResourceElement', name, element, resource) //, section
-      if (index === -1)
-        resource.content.push(element)
-      else
-        resource.content.splice(index, 0, element)
+      console.log('createResourceElement', resource, name, element) //, section
+
+      if (resource && resource.id) {
+        if (index === -1)
+          resource.content.push(element)
+        else
+          resource.content.splice(index, 0, element)
+
+        IpcServer.postPreviewMessage('createElement', {
+          id: resource.id,
+          element: element
+        })
+      }
       // section.content = [...section.content] // force reactivity
 
       // if (section && section.content) {
       //   section.content.push(element)
       //   // this.designerBackendState.resource.content = [...this.designerBackendState.resource.content] // force reactivity
       // }
-      this.markUnsaved()
       // IpcServer.postPreviewMessage('createElement', element)
-      IpcServer.postPreviewMessage('createElement', {
-        id: resource.id,
-        element: element
-      })
+      
+      this.markUnsaved()
       return element
     },
 
@@ -501,7 +506,7 @@ export default {
 
       items.forEach(item => {
         if (item.type === 'element') {
-          const elementSpec = this.$store.getters.getElementSpec(item.name)
+          const elementSpec = this.designerBackendStore.getters.getElementSpec(item.name)
           mergeSpecDefaults(item, elementSpec)
           this.processItems(item.items)
         } else if (item.type === 'row' && item.columns && item.columns.length) {
