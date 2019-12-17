@@ -5,18 +5,21 @@
     p.hint(v-if='hint') {{ hint }}
     //- div {{ object }}
     //- div ------------------------
+    //- div {{ currentValue }}
     //- div {{ value }}
-    .dropdown(:class='{"dropup": dropup}' @click='$event.stopPropagation()')
+    //- @click='$event.stopPropagation()'
+    .dropdown(:class='{dropup: dropup}')
       .input-group.transparent-input-group
         slot(name='prepend')
         input.form-control(
             ref='input'
             type='text'
-            v-model='filterValue'
             :placeholder='placeholder'
             :class="{'is-invalid': errorMessage}"
-            @focusin='focused = true'
-            @focusout='focused = false')
+            @input='filterValue = $event.target.value'
+            @focusin='focused = true')
+            //- @focusout='focused = false'
+            //- v-model='filterValue'
             //- @input='filterValue = $event.target.value'
             //- @focusout='$nextTick(() => focused = false)'
             //- :required='required'
@@ -24,9 +27,9 @@
             //- @focusout='focused = false'
             //- @input="$emit('update', name, value)"
         slot(name='append')
-      .dropdown-menu(:class="{'show': focused}")
+      .dropdown-menu(:class="{show: focused}")
         div(v-if='visibleOptions.length')
-          a.dropdown-item(:class="{'active': option.selected, 'disabled': option.disabled}"
+          a.dropdown-item(:class="{active: option.selected, disabled: option.disabled}"
               v-for='(option, index) in visibleOptions'
               href='#'
               @click.prevent='select(option)') {{ option.label }}
@@ -41,16 +44,10 @@
         .label.flex-fill {{ option.label }}
         button.btn.ml-1(@click.prevent="select(option)")
           icon(name='trash' size='14')
-          //- i.fal.fa-trash-alt
-    //- div.mb-2 {{ options }}
-    //- div {{ value }}
 </template>
 
 <script>
-// import Vue from 'vue'
-// import { randomString } from '../../base/utils'
 import Input from '../../mixins/input'
-// import { randomString } from 'designer/app/javascript/base/utils'
 
 export default {
   name: 'select-list-input',
@@ -61,10 +58,9 @@ export default {
       default: false
     },
     options: {
-      type: Array,
+      type: Array, // [Object, Array]
       default: () => []
-      // [Object, Array]
-    },
+    }
   },
   data () {
     return {
@@ -89,12 +85,7 @@ export default {
           this.$set(option, 'selected', false)
       })
       return result
-    },
-    // value () {
-    //   if (!this.object[this.name])
-    //     this.$set(this.object, this.name, [])
-    //   return this.object[this.name]
-    // }
+    }
   },
   methods: {
     select (option) {
@@ -122,27 +113,22 @@ export default {
       // this.$emit('input', this.name, this.currentValue)
       this.$refs.input.dispatchEvent(new Event('input', { bubbles: true }))
     },
-    onBodyClick () {
-      this.focused = false
-    },
+    onWindowClick () {
+      // console.log('onWindowClick', this.$el.contains(event.target))
+      if (!this.$el.contains(event.target)) {
+        this.focused = false
+      }
+    }
   },
   watch: {
     focused (val) {
+      // console.log('WATCH focused', val)
       if (val) {
-        document.body.addEventListener('click', this.onBodyClick, false)
+        window.addEventListener('click', this.onWindowClick, false)
       } else {
-        document.body.removeEventListener('click', this.onBodyClick)
+        window.removeEventListener('click', this.onWindowClick)
       }
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-// @import 'stylesheets/_dashboard-theme';
-// @import 'stylesheets/_dashboard-mixins';
-
-// .select-list-input {
-//   position: relative;
-// }
-</style>
