@@ -67,6 +67,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../assets/styles/_variables.scss';
+@import '../assets/styles/_variables-bootstrap.scss';
+
 #toasts {
   position: fixed;
   top: 10%;
@@ -85,6 +88,14 @@ export default {
   color: white;
   transition: opacity .3s ease-in-out;
   opacity: 0;
+
+  &.success {
+    background-color: darken(theme-color('success'), 10);
+  }
+
+  &.error {
+    background-color: darken(theme-color('danger'), 10);
+  }
 
   &.show {
     opacity: 1;

@@ -12,10 +12,12 @@
         input.form-control(
             ref='input'
             type='text'
+            v-model='filterValue'
             :placeholder='placeholder'
             :class="{'is-invalid': errorMessage}"
             @focusin='focused = true'
-            @input='filterValue = $event.target.value')
+            @focusout='focused = false')
+            //- @input='filterValue = $event.target.value'
             //- @focusout='$nextTick(() => focused = false)'
             //- :required='required'
             //- v-model='object[name]'
@@ -72,7 +74,7 @@ export default {
   },
   computed: {
     visibleOptions () {
-      if (this.currentValue && this.filterValue)
+      if (this.filterValue)
         return this.options.filter(x => x.label.toLowerCase().indexOf(this.filterValue) !== -1)
       return this.options
     },
@@ -93,8 +95,6 @@ export default {
     //     this.$set(this.object, this.name, [])
     //   return this.object[this.name]
     // }
-  },
-  mounted () {
   },
   methods: {
     select (option) {

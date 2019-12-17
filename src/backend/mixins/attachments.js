@@ -1,17 +1,23 @@
 import Vue from 'vue'
 import { pick } from '../../base/utils'
+import buildURL from 'axios/lib/helpers/buildURL'
 import axios from 'axios'
 
 
 export default {
+  computed: {
+    arrachmentUrlParams () {
+      return this.url_params
+    }
+  },
   methods: {
-    uploadAttachment (attachment, params) {
+    uploadAttachment (attachment) {
       return new Promise((resolve, reject) => {
 
         // TODO: Remove @rails/activestorage dependency
         const { DirectUpload } = require('@rails/activestorage')
-        console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl(params), params)
-        const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(params), this)
+        console.log('uploading attachment', attachment, this.attachmentDirectUploadUrl())
+        const directUpload = new DirectUpload(attachment.file, this.attachmentDirectUploadUrl(), this)
         directUpload.create((error, attributes) => {
           if (error) {
             console.log('attachment direct upload failed', error)
@@ -126,31 +132,30 @@ export default {
     buildAttachmentUrl (endpointName, ...rest) {
       // NOTE: If no designer backend store is available then the instance must
       // define the `$api.routes` object.
-      let baseUrl
       if (this.$api && this.$api.routes && typeof this.$api.routes[endpointName] === 'function') {
         // const args = [...rest, this.url_params].filter(_ => _)
 
-        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', rest, this.url_params)
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', rest, this.arrachmentUrlParams)
         const baseUrl = this.$api.routes[endpointName].apply(null, rest)
         if (this.designerBackendStore)
-          return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.url_params)
+          return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.arrachmentUrlParams)
         else
-          return baseUrl
-        // (...rest, this.url_params)
+          return buildURL(baseUrl, this.arrachmentUrlParams)
+        // (...rest, this.url_params), this.url_params
       }
       else if (this.designerBackendStore) {
         const baseUrl = this.designerBackendState[endpointName]
-        return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.url_params)
+        return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.arrachmentUrlParams)
       }
 
       alert('Attachment endpoint not defined: ' + endpointName)
     },
 
-    attachmentDirectUploadUrl (params) {
-      return this.buildAttachmentUrl('attachmentDirectUploadUrl', params)
+    attachmentDirectUploadUrl () {
+      return this.buildAttachmentUrl('attachmentDirectUploadUrl')
     },
 
-    attachmentUploadUrl (attachment, params) {
+    attachmentUploadUrl (attachment) {
       return this.buildAttachmentUrl('attachmentUploadUrl', attachment.name)
                 .replace(':name', attachment.name ? attachment.name : 'attachments')
                 .replace('%3Aname', attachment.name ? attachment.name : 'attachments')

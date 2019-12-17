@@ -5,7 +5,7 @@
       //- div {{value}}
       //- div {{currentValue}}
       //- div {{typeof(currentValue)}}
-      label.flex-fill.mb-0(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
+      label.control-label.flex-fill.mb-0(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
       .custom-control.custom-switch
         input.custom-control-input(
             type='checkbox'

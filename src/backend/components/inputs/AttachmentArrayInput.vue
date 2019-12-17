@@ -100,7 +100,7 @@ export default {
         this.attachments.push(attachment)
 
         this.createThumbnail(attachment)
-        this.uploadAttachment(attachment)
+        this.uploadAttachment(attachment, this.url_params)
           .then(() => {
             // HACK: Calling `push` is not triggering reactivity across frame borders,
             // so the instance must be reassigned.
@@ -128,7 +128,7 @@ export default {
 
         // Delete from server
         if (attachment.key)
-          this.destroyAttachment(attachment)
+          this.destroyAttachment(attachment, this.url_params)
 
         // Remove from object data
         // const ia = this.currentValue.findIndex(x => Object.is(x, attachment))

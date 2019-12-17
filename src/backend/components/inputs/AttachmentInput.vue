@@ -90,7 +90,7 @@ export default {
         }
 
         this.createThumbnail(this.tempAttachment)
-        this.uploadAttachment(this.tempAttachment)
+        this.uploadAttachment(this.tempAttachment, this.url_params)
           .then(() => {
             this.currentValue = this.serializeAttachment(this.tempAttachment)
             this.tempAttachment = null
