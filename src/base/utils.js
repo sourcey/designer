@@ -78,17 +78,20 @@ export function sanitizeDecimal (value) {
   return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
 }
 
-export function sanitizeNumber (value) {
-  return Math.round(sanitizeDecimal(value))
+export function sanitizeNumber (value, options={}) {
+  const result = Math.round(sanitizeDecimal(value))
+  if (options.allowZero === false && result === 0)
+    return null
+  return result
 }
 
-export function getLocale(fallbackLocale = 'en') {
+export function getLocale (fallbackLocale = 'en') {
   // if (locale) return locale
   if (typeof(navigator) !== 'undefined') return navigator.language
   return fallbackLocale
 }
 
-export function formatNumber(number, options={}) {
+export function formatNumber (number, options={}) {
   // locale = getLocale(locale)locale,
   // locale = locale || getLocale()
   try {
@@ -103,7 +106,7 @@ export function formatNumber(number, options={}) {
   }
 }
 
-export function formatMoney(number, options={}) {
+export function formatMoney (number, options={}) {
   // locale, allowZero = false currency, locale,
   number = sanitizeDecimal(number)
   if (isNaN(number) || (options.allowZero === false && !number))

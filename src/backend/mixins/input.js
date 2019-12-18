@@ -104,20 +104,20 @@ export default {
     currentValue: {
       get: function () {
         if (typeof(this.value) !== 'undefined') {
-          // console.log('input: get value', this.name, this.value)
-          return this.value
+          console.log('input: get value', this.name, this.value)
+          return this.sanitizeValue(this.value)
         }
         else if (this.formObject) {
           // console.log('input: get object value', this.name, this.formObject[this.name], this.formObject)
           if (typeof(this.formObject[this.name]) === 'undefined') {
-            this.$set(this.formObject, this.name, this.defaultValue)
+            this.$set(this.formObject, this.name, this.sanitizeValue(this.defaultValue))
           }
-          // console.log('input: get object value 1', this.name, this.formObject[this.name])
-          return this.formObject[this.name]
+          console.log('input: get form object', this.name, this.formObject[this.name])
+          return this.sanitizeValue(this.formObject[this.name])
         }
         else {
-          // console.log('input: get default value', this.name, this.default, this.defaultValue)
-          return this.defaultValue
+          console.log('input: get default value', this.name, this.default, this.defaultValue)
+          return this.sanitizeValue(this.defaultValue)
         }
       },
       set: function (newValue) {
