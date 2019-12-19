@@ -1,5 +1,5 @@
 <template lang="pug">
-.item-wrap.designer-attachment-input.attachment-array-input(:class="{'is-invalid': errorMessage, 'is-focus': focused, 'is-empty': !value}")
+.item-wrap.designer-attachment-input.attachment-array-input(:class="{'is-invalid': !!errorMessage, 'is-focus': focused, 'is-empty': !value}")
   div(v-if='attachments.length')
     div(v-for='(attachment, index) in attachments')
       //- div {{attachmentThumbnailUrl(attachment)}}

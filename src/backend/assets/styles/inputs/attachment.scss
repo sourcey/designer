@@ -26,7 +26,7 @@
 
   &.is-invalid {
     .btn-upload {
-      border: $input-border-width solid $form-feedback-invalid-color;
+      border: $input-border-width solid $form-feedback-invalid-color !important;
     }
   }
 

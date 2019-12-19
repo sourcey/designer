@@ -34,6 +34,10 @@ export function titleize (str) {
   return str.replace(/[A-Z]/g, ' $&').replace(/_/g, ' ').replace(/^./, str => str.toUpperCase())
 }
 
+export function numerize (value) {
+  return String(value).replace(/[^0-9\.-]+/g,'')
+}
+
 export function truncate (str, length = 200, ending = '...') {
   if (str && str.length > length) {
     return str.substring(0, length - ending.length) + ending
@@ -74,15 +78,24 @@ export function toggleFullscreen(elem) {
   }
 }
 
-export function sanitizeDecimal (value) {
-  return parseFloat(String(value).replace(/[^0-9\.-]+/g,''))
+export function sanitizeDecimal (value, options={}) {
+  let number = parseFloat(numerize(value))
+  if (isNaN(number) || (options.allowZero === false && number === 0))
+    return null
+  // console.log('PRECISION', number, number.toFixed(options.precision), options)
+  if (options.precision) {
+    number = parseFloat(number.toFixed(options.precision))
+    // number = number.toPrecision(options.precision)
+
+  }
+  return number
 }
 
 export function sanitizeNumber (value, options={}) {
-  const result = Math.round(sanitizeDecimal(value))
-  if (options.allowZero === false && result === 0)
+  let number = Math.round(parseFloat(numerize(value)))
+  if (isNaN(number) || (options.allowZero === false && number === 0))
     return null
-  return result
+  return number
 }
 
 export function getLocale (fallbackLocale = 'en') {

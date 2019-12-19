@@ -104,7 +104,7 @@ export default {
     currentValue: {
       get: function () {
         if (typeof(this.value) !== 'undefined') {
-          console.log('input: get value', this.name, this.value)
+          // console.log('input: get value', this.name, this.value)
           return this.sanitizeValue(this.value)
         }
         else if (this.formObject) {
@@ -112,11 +112,11 @@ export default {
           if (typeof(this.formObject[this.name]) === 'undefined') {
             this.$set(this.formObject, this.name, this.sanitizeValue(this.defaultValue))
           }
-          console.log('input: get form object', this.name, this.formObject[this.name])
+          // console.log('input: get form object', this.name, this.formObject[this.name])
           return this.sanitizeValue(this.formObject[this.name])
         }
         else {
-          console.log('input: get default value', this.name, this.default, this.defaultValue)
+          // console.log('input: get default value', this.name, this.default, this.defaultValue)
           return this.sanitizeValue(this.defaultValue)
         }
       },
@@ -126,10 +126,10 @@ export default {
         //   this.$set(this.formObject, this.name, value)
         // }
         if (this.formObject && typeof(newValue) !== 'undefined') {
-          // console.log('!!!! input: set current object value', this.name, value)
+          // console.log('input: set current object value', this.name, value)
           this.$set(this.formObject, this.name, value)
         }
-        // console.log('!!!! input: set current value', this.name, value)
+        // console.log('input: set current value', this.name, value)
         this.$emit('input', value)
       }
     },
@@ -138,7 +138,7 @@ export default {
         // if (this.formatter) {
         //   return this.formatValue(this.currentValue)
         // }
-        // console.log('!!!! input: displayValue', this.name, this.currentValue)
+        // console.log('input: displayValue', this.name, this.currentValue)
         return this.formatValue(this.currentValue)
       },
       // set: function (value) {
@@ -208,8 +208,6 @@ export default {
     // mergePropsIntoSpec () {
     //   Object.assign(this.spec,
     //     ...Object.entries(this.$props).map(([key, value]) => (value !== undefined && { [key]: value })))
-    //
-    //   // console.log('PROPS', this.spec, this.$props)
     // },
     formatValue (value) {
       if (typeof(this.formatter) === 'function')
@@ -222,15 +220,14 @@ export default {
       return value
     },
     setInitialValue () {
-      // console.log('!!!! set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
+      // console.log('set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
       // this.formObject[this.name || this.name] !== 'undefined' ? clone(this.formObject[this.name || this.name]) : null
-
       this.currentValue = this.initialValue // this.formatValue(this.initialValue)
       // this.formatValue()
       // this.emitUpdate()
     },
     setDefaultValue () {
-      // console.log('!!!! set default value', this.value, this.name, this.defaultValue)
+      // console.log('set default value', this.value, this.name, this.defaultValue)
       this.currentValue = this.defaultValue
       // this.emitUpdate()
     },
@@ -258,10 +255,9 @@ export default {
         this.$emit('select', this.name)
     },
     emitUpdate () {
-      // console.log('!!!! emit update', this.name, this.currentValue, this.value) //formObject[this.name || this.name])
+      // console.log('emit update', this.name, this.currentValue, this.value) //formObject[this.name || this.name])
       this.$emit('input', this.currentValue)
       // if (this.enableEvents)
-      //
       //   // HACK: We should be passing `this.value` but sometimes the computed
       //   // getter doesnt update after setting the value. This issue was noticed
       //   // when changing section layout and uploading an attachment on Artzine.
