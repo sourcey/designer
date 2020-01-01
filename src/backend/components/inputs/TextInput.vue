@@ -14,6 +14,7 @@
         :placeholder='placeholder'
         :required='required'
         :class="{'is-invalid': errorMessage}"
+        v-bind='attributes'
         @input='currentValue = $event.target.value'
         @focusin='emitSelect(); focused = true'
         @focusout='focused = false')

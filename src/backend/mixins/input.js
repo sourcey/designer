@@ -70,11 +70,10 @@ export default {
       type: String
     },
 
-    // The spec definition for this input.
-    // spec: {
-    //   type: Object,
-    //   default: () => { return {} }
-    // },
+    // Extra HTML input attributes.
+    attributes: {
+      type: Object
+    },
 
     // @deprecated
     // parent: {

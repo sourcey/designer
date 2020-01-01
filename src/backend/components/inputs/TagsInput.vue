@@ -20,7 +20,7 @@
         :placeholder='placeholder'
         :existing-tags='existingTags'
         :typeahead='true'
-        typeahead-style='dropdown'
+        typeahead-style='badges'
         :typeahead-activation-threshold='0'
         :add-tags-on-comma='true'
         :add-tags-on-space='true'
@@ -113,6 +113,9 @@ export default {
     },
     onTagsInitialized () {
       this.$nextTick(() => this.skipEvents = false)
+
+      // this.$
+      // tabIndex="-1"
     },
     emitCustomUpdate () {
       // BUG: The tags-update event always fires on init so just skip them

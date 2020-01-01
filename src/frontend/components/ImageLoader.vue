@@ -76,10 +76,12 @@ export default {
     backgroundCss () {
       const css = {}
       if (this.isCover) {
-        css['background-image'] = 'url("' + this.url + '")'
-        css['background-size'] = this.fit // === 'contain' ? 'contain' : 'cover'
-        if (this.image && this.image.cover_position) {
-          css['background-position'] = this.image.cover_position
+        if (!this.empty) {
+          css['background-image'] = 'url("' + this.url + '")'
+          css['background-size'] = this.fit // === 'contain' ? 'contain' : 'cover'
+          if (this.image && this.image.cover_position) {
+            css['background-position'] = this.image.cover_position
+          }
         }
         if (this.autoSize && this.scaleRatio) { // && this.autoSize && !this.fillParent
           css['padding-bottom'] = (100 / this.scaleRatio) + '%'

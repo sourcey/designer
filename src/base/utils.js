@@ -105,8 +105,6 @@ export function getLocale (fallbackLocale = 'en') {
 }
 
 export function formatNumber (number, options={}) {
-  // locale = getLocale(locale)locale,
-  // locale = locale || getLocale()
   try {
     number = sanitizeDecimal(number)
     if (isNaN(number) || (options.allowZero === false && !number))
@@ -120,15 +118,19 @@ export function formatNumber (number, options={}) {
 }
 
 export function formatMoney (number, options={}) {
-  // locale, allowZero = false currency, locale,
   number = sanitizeDecimal(number)
   if (isNaN(number) || (options.allowZero === false && !number))
     return null // do not parse non-numbers or 0
+
+  // Allow trimming extra zeros for whole dollar amounts
+  if (options.trimExtraZeros && (number % 1 === 0))
+    options.minimumFractionDigits = 0
+
   try {
     options.style = 'currency'
     options.locale = options.locale || getLocale()
     options.currency = options.currency || 'EUR' // FIXME
-    options.minimumFractionDigits = options.minimumFractionDigits || 0
+    // options.minimumFractionDigits = options.minimumFractionDigits || 0
     // console.log('format currency', number)
     return number.toLocaleString(options.locale, options)
     // {
