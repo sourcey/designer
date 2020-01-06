@@ -29,10 +29,14 @@ export default {
             console.log('attachment direct upload success', attributes, attachment)
 
             // Associate the attachment with the resource
+            const headers = {}
+            if (this.accessToken())
+              headers['Authorization'] = `Bearer ${this.accessToken()}`
+            console.log('attachment associate with the resource', headers)
             axios.post(this.attachmentUploadUrl(attachment), {
                 file: attributes.signed_id,
                 metadata: attachment.metadata
-              })
+              }, { headers })
               .then(response => {
                 console.log('attachment upload association success', attributes)
                 Vue.set(attachment, 'key', attributes.key)
@@ -103,10 +107,6 @@ export default {
       else if (this.parent && this.parent.id) {
         meta.designer_element_id = this.parent.id
       }
-      // console.log('METAAAAAAAAAAAAAAAA',
-      //   this.designerPreviewStore.getters.designerEditingSection,
-      //   this.designerPreviewStore.getters.designerEditingElement,
-      //   this.designerPreviewStore)
       return meta
     },
 
@@ -135,7 +135,6 @@ export default {
       if (this.$api && this.$api.routes && typeof this.$api.routes[endpointName] === 'function') {
         // const args = [...rest, this.url_params].filter(_ => _)
 
-        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', rest, this.arrachmentUrlParams)
         const baseUrl = this.$api.routes[endpointName].apply(null, rest)
         if (this.designerBackendStore)
           return this.designerBackendStore.getters.buildResourceUrl(baseUrl, this.arrachmentUrlParams)
