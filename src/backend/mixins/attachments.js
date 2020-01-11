@@ -29,14 +29,15 @@ export default {
             console.log('attachment direct upload success', attributes, attachment)
 
             // Associate the attachment with the resource
-            const headers = {}
-            if (this.accessToken())
-              headers['Authorization'] = `Bearer ${this.accessToken()}`
+            // const headers = {}
+            // if (this.accessToken())
+            //   headers['Authorization'] = `Bearer ${this.accessToken()}`
+
             console.log('attachment associate with the resource', headers)
             axios.post(this.attachmentUploadUrl(attachment), {
                 file: attributes.signed_id,
                 metadata: attachment.metadata
-              }, { headers })
+              }) //, { headers }
               .then(response => {
                 console.log('attachment upload association success', attributes)
                 Vue.set(attachment, 'key', attributes.key)

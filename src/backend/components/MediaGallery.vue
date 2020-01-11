@@ -100,20 +100,15 @@
 
 <script>
 import Attachments from '../mixins/attachments'
-// import { randomString } from '../utils'
 import { randomString } from '../../base/utils'
-import axios from 'axios'
 
 export default {
-  // props: ['spec', 'name', 'object', 'parent', 'root'],
   mixins: [
     Attachments
   ],
   data () {
     return {
       inputId: `file-${randomString(5)}`
-      // object: this.model, // || {}
-      // attachments: [],
     }
   },
   created () {

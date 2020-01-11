@@ -13,10 +13,6 @@
 </template>
 
 <script>
-import { clone } from '../../base/utils'
-import axios from 'axios'
-import Vue from 'vue'
-
 export default {
   name: 'preview-window',
   components: {
@@ -59,8 +55,6 @@ export default {
     },
     previewLoaded () {
       this.loaded = true
-
-      // console.log('HOIIIIIIIIIIIIIIIIII previewLoadedpreviewLoaded', typeof(this.$refs.iframe.contentWindow.app))
 
       try {
         // The internal preview iframe must set a current `window.app` instance
