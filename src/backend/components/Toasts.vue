@@ -72,17 +72,18 @@ export default {
 
 #toasts {
   position: fixed;
-  top: 8%;
+  top: 10%;
   text-align: center;
-  width: 80%;
+  width: 100%;
   z-index: 2001;
 }
 
 .toast {
   margin: 0 auto .5rem;
   padding: .875rem;
-  // min-width: 275px;
-  // max-width: 500px;
+  max-width: 80vw;
+  width: 475px;
+
   border-radius: 3rem;
   background-color: black;
   color: white;
