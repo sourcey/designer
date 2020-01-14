@@ -1,8 +1,8 @@
 <template>
   <transition>
     <div class="text-center" :class="{ overlay: overlay }">
-      <svg class="spinner" :class="{ show: show }" v-show="show" :width="`${size}px`" :height="`${size}px`" viewBox="0 0 44 44">
-        <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle>
+      <svg class="spinner" :class="{ show: show }" v-show="show" :width="`${size}px`" :height="`${size}px`" :viewBox="`0 0 ${size} ${size}`">
+        <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" :cx="size / 2" :cy="size / 2" :r="(size / 2) - 2"></circle>
       </svg>
     </div>
   </transition>
