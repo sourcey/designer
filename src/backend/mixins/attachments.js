@@ -33,7 +33,6 @@ export default {
             // if (this.accessToken())
             //   headers['Authorization'] = `Bearer ${this.accessToken()}`
 
-            console.log('attachment associate with the resource', headers)
             axios.post(this.attachmentUploadUrl(attachment), {
                 file: attributes.signed_id,
                 metadata: attachment.metadata
