@@ -64,3 +64,17 @@ body {
 .layout-col {
   position: relative;
 }
+
+// Content from the WYSIWYG
+.text-content {
+  position: relative;
+  // line-height: 1.75;
+  // @include dynamic-property('color', 'primary-color');
+
+  > .ProseMirror > :only-child,
+  > .ProseMirror > :last-child,
+  > :only-child,
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
