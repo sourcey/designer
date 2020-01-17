@@ -11,6 +11,7 @@ div
       :options="{handle:'.drag-element-handle'}")
     //- @change='onReorderElements'
     element-form(
+        v-if='$store.getters.getElementSpec(element.name)'
         v-for='(element, index) in resource.content'
         :key='element.id'
         :object='element'

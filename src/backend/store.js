@@ -186,25 +186,29 @@ export default {
 
     getPageSpec: (state) => (name) => {
       if (!state.spec.pages[name])
-        throw Error('No page spec for: ' + name)
+        // throw Error('No page spec for: ' + name)
+        console.warn('No page spec for: ' + name)
       return state.spec.pages[name]
     },
 
     getLayoutSpec: (state) => (name) => {
       if (!state.spec.layouts[name])
-        throw Error('No layout spec for: ' + name)
+        console.warn('No layout spec for: ' + name)
+        // throw Error('No layout spec for: ' + name)
       return state.spec.layouts[name]
     },
 
     getTemplateSpec: (state) => (name) => {
       if (!state.spec.templates[name])
-        throw Error('No templates spec for: ' + name)
+        console.warn('No template spec for: ' + name)
+        // throw Error('No template spec for: ' + name)
       return state.spec.templates[name]
     },
 
     getElementSpec: (state) => (name) => {
       if (!state.spec.elements[name])
-        throw Error('No element spec for: ' + name)
+        // throw Error('No element spec for: ' + name)
+        console.warn('No element spec for: ' + name)
       return state.spec.elements[name]
     },
 

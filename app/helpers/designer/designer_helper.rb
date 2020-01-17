@@ -16,7 +16,9 @@ module Designer::DesignerHelper
     elsif lookup_context.exists?(element[:name], 'designer/elements', true)
       render "designer/elements/#{element[:name]}", designer_element_options(element)
     else
-      raise "Missing designer template `#{element[:name]}`"
+      Rails.logger.error "Missing designer template `#{element[:name]}`"
+      # raise "Missing designer template `#{element[:name]}`"
+      ''
     end
   end
 

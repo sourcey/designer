@@ -17,12 +17,7 @@ module Designer
     end
 
     def endpoints
-      # raise designer.thumbnail_attachment_path(":key").inspect
-      # raise  Rails.application.routes.default_url_options[:host].inspect
-
       # Yes, we are doing this. Why is `default_url_options` always a pain in the ass. Bleh
-      # designer.routes.default_url_options[:host] = Rails.application.routes.default_url_options[:host]
-      # designer.routes.default_url_options[:protocol] = Rails.application.routes.default_url_options[:protocol]
       designer.routes.default_url_options = Rails.application.routes.default_url_options
 
       @endpoints ||= {
