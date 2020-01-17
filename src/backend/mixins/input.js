@@ -132,24 +132,12 @@ export default {
         this.$emit('input', value)
       }
     },
-    displayValue: {
-      get: function () {
-        // if (this.formatter) {
-        //   return this.formatValue(this.currentValue)
-        // }
-        // console.log('input: displayValue', this.name, this.currentValue)
-        return this.formatValue(this.currentValue)
-      },
-      // set: function (value) {
-      //   // const value = this.formatValue(newValue)
-      //   // if (this.formObject && typeof(newValue) !== 'undefined') {
-      //   //   this.$set(this.formObject, this.name, value)
-      //   // }
-      //   if (this.formObject && typeof(value) !== 'undefined') {
-      //     this.$set(this.formObject, this.name, value)
-      //   }
-      //   this.$emit('input', value)
+    displayValue () {
+      // if (this.formatter) {
+      //   return this.formatValue(this.currentValue)
       // }
+      // console.log('input: displayValue', this.name, this.currentValue)
+      return this.formatValue(this.currentValue)
     },
     formObject () {
       if (this.object)

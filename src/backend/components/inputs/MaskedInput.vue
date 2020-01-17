@@ -8,18 +8,10 @@
   .input-group
     slot(name='prepend')
     //- div {{currentValue}}
-    input.form-control(:id='inputId'
-        v-model='currentValue'
-        v-bind='attributes'
-        :type='inputType'
-        :name='field || name'
-        :placeholder='placeholder'
-        :class="{'is-invalid': errorMessage}"
-        @focusin='emitSelect(); focused = true'
-        @focusout='focused = false')
-    //- input.form-control(:type='inputType'
+    //- The display input contains the styles input while the
+    //- hidden input contains the real value.
+    input.form-control(:type='inputType'
         :value='focused ? currentValue : displayValue'
-        :name='field || name'
         :placeholder='placeholder'
         :required='required'
         :class="{'is-invalid': errorMessage}"
@@ -27,6 +19,8 @@
         @input='currentValue = $event.target.value'
         @focusin='emitSelect(); focused = true'
         @focusout='focused = false')
+    input(type='hidden' :name='field || name' v-model='currentValue')
+    //- :name='field || name'
     //- v-model='currentValue'
     //- @blur='currentValue = $event.target.value'
     //- v-model='currentValue'
