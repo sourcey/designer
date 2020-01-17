@@ -450,7 +450,7 @@ export default {
       //   // this.designerBackendState.resource.content = [...this.designerBackendState.resource.content] // force reactivity
       // }
       // IpcServer.postPreviewMessage('createElement', element)
-      
+
       this.markUnsaved()
       return element
     },

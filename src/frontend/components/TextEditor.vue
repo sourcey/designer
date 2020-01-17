@@ -1,12 +1,15 @@
 <template lang="pug">
 .wysiwyg(:class="{ focused: focused }")
-  editor-menu-bubble(v-if='!hideMenu' :editor='editor' ref='menu' v-slot="{ commands, isActive, menu }")
-    .menubar(v-if='mode === "basic"' :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-hidden': !focused }")
+  //- v-show='!hideMenu'
+  editor-menu-bubble(:editor='editor' :keep-in-bounds='true' ref='menu' v-slot="{ commands, isActive, menu }")
+    //- .menubar(v-if='mode === "basic"' :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-hidden': !focused }")
+    .menubar(v-if='mode === "basic"' :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-active': menu.isActive }")
       button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
         icon(name='editor-bold' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
         icon(name='editor-italic' size='12')
-    .menubar(v-else :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-hidden': !focused }")
+    //- .menubar(v-else :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-hidden': !focused }")
+    .menubar(v-else :style='{left: "-" + leftOffset + "px", bottom: menu.bottom + "px"}' :class="{ 'is-active': menu.isActive }")
       button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
         icon(name='editor-bold' size='12')
       button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')

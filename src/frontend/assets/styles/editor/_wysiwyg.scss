@@ -41,7 +41,8 @@
       }
 
       .menubar {
-        top: calc(-#{$wysiwyg-menu-height} + -#{$element-padding}) !important;
+        // top: calc(-#{$wysiwyg-menu-height} + -#{$element-padding}) !important;
+        top: -#{$wysiwyg-menu-height};
         opacity: 0;
       }
     }
@@ -62,6 +63,8 @@
 
   &.focused .block-editor:hover .menubar {
     opacity: 1;
+    // z-index: 1;
+    z-index: $zindex-fixed;
   }
 
   .menubar {
@@ -74,16 +77,21 @@
     // transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
     display: flex;
     white-space: nowrap;
-    z-index: $zindex-fixed;
+    // z-index: $zindex-fixed;
+    // visibility: hidden;
+    opacity: 0;
+    z-index: -1;
 
-    &.is-hidden {
-      visibility: hidden;
-      opacity: 0;
-    }
+    // &.is-hidden {
+    //   visibility: hidden;
+    //   opacity: 0;
+    // }
 
+    &.is-active,
     &.is-focused {
       visibility: visible;
       opacity: 1;
+      z-index: $zindex-fixed;
       // transition: visibility 0.2s, opacity 0.2s;
     }
 
