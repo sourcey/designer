@@ -67,6 +67,7 @@ export default {
       return !!this.$store.getters.designerResizing
     },
     label () {
+      console.log('SECTION LABELLLLLLL', this.section.data)
       return this.section.data && this.section.data.label ?
           this.section.data.label :
           this.section.label

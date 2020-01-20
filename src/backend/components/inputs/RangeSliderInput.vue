@@ -29,6 +29,17 @@ import { sanitizeDecimal } from '../../../base/utils'
 
 export default {
   extends: Input,
+  props: {
+    min: {
+      type: Number
+    },
+    max: {
+      type: Number
+    },
+    step: {
+      type: Number
+    }
+  },
   computed: {
     decimalValue: {
       get: function () {

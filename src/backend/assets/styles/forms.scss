@@ -12,11 +12,15 @@
   }
 
   .form-header {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
+
+    // + .form-section {
+    //   padding-top: 0;
+    // }
   }
 
   .form-section {
-    padding: $designer-item-padding-y 0;
+    // padding: $designer-item-padding-y 0;
   }
 
   .form-group {
