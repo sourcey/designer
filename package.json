@@ -1,7 +1,7 @@
 {
   "name": "designer",
   "version": "0.2.0",
-  "description": "Design rich text markdown pages in Rails applications",
+  "description": "Design rich text pages for Rails applications",
   "files": [
     "src/*"
   ],
@@ -13,7 +13,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@rails/activestorage": "^6.0.0-alpha",
+    "@rails/activestorage": "^6.0.0",
     "@voerro/vue-tagsinput": "^2.1.0",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",

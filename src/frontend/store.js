@@ -35,6 +35,11 @@ export default {
       state.dragging = value
     },
 
+    setDesignerResizing (state, value) {
+      console.log('designer frontend store: set resizing', value)
+      state.resizing = value
+    },
+
     removeDesignerSection (state, sectionId) {
       // const page = state.site.pages.find(x => x.id === params.pageId)
       // const index = page.sections.findIndex(x => x.id === params.sectionId)

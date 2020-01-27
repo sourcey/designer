@@ -251,8 +251,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-// @import 'designer/app/assets/stylesheets/base/_variables';
-// @import 'stylesheets/_dashboard-theme';
-</style>
