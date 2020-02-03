@@ -84,11 +84,12 @@
         left: 0;
         right: 0;
         bottom: -.25rem;
-        z-index: -1;
+        // z-index: -1;
         border-bottom: 2px solid lighten($link-color, 30%);
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         text-decoration: none;
         color: black;
 

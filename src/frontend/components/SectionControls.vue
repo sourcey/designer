@@ -67,7 +67,6 @@ export default {
       return !!this.$store.getters.designerResizing
     },
     label () {
-      console.log('SECTION LABELLLLLLL', this.section.data)
       return this.section.data && this.section.data.label ?
           this.section.data.label :
           this.section.label
@@ -149,7 +148,7 @@ export default {
     },
     addElement (event) {
       console.log('element: createElement', event)
-      this.designerBackend.createElement(event, (element) => {
+      this.designerBackend.createElementDialog(event, null, (element) => {
         SpecTools.createRow(element, this.section.items)
         // this.section.items = [...this.section.items]
       })
