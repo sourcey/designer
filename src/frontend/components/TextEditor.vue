@@ -24,50 +24,65 @@
           icon(name='editor-remove')
         template(v-show='!linkMenuIsActive')
       template(v-else)
-        button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
-          icon(name='editor-bold' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
-          icon(name='editor-italic' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.strike() }" @click='commands.strike')
-          icon(name='editor-strike' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.underline() }" @click='commands.underline')
-          icon(name='editor-underline' size='12')
-        //- button.menubar__button(:class="{ 'is-active': isActive.code() }" @click='commands.code')
-        //- //-   icon(name='editor-code' size='12')
-        //- button.menubar__button(:class="{ 'is-active': isActive.paragraph() }" @click='commands.paragraph')
-        //-   icon(name='editor-paragraph' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 1 }) }" @click='commands.heading({ level: 1 })')
-          | H1
-        button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 2 }) }" @click='commands.heading({ level: 2 })')
-          | H2
-        button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 3 }) }" @click='commands.heading({ level: 3 })')
-          | H3
-        button.menubar__button(:class="{ 'is-active': isActive.bullet_list() }" @click='commands.bullet_list')
-          icon(name='editor-ul' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.ordered_list() }" @click='commands.ordered_list')
-          icon(name='editor-ol' size='12')
-        //- button.menubar__button(:class="{ 'is-active': isActive.blockquote() }" @click='commands.blockquote')
-        //-   icon(name='editor-quote' size='12')
+        .d-flex
+          button.menubar__button(:class="{ 'is-active': isActive.bold() }" @click='commands.bold')
+            icon(name='editor-bold' size='12')
+          button.menubar__button(:class="{ 'is-active': isActive.italic() }" @click='commands.italic')
+            icon(name='editor-italic' size='12')
+          button.menubar__button(:class="{ 'is-active': isActive.strike() }" @click='commands.strike')
+            icon(name='editor-strike' size='12')
+          button.menubar__button(:class="{ 'is-active': isActive.underline() }" @click='commands.underline')
+            icon(name='editor-underline' size='12')
+          //- button.menubar__button(:class="{ 'is-active': isActive.code() }" @click='commands.code')
+          //- //-   icon(name='editor-code' size='12')
+          //- button.menubar__button(:class="{ 'is-active': isActive.paragraph() }" @click='commands.paragraph')
+          //-   icon(name='editor-paragraph' size='12')
+          button.menubar__button(:class="{ 'is-active': getMarkAttrs('align') && getMarkAttrs('align').textAlign === 'center' }" @click='commands.align({ textAlign: "center" })')
+            icon(name='editor-align-center' size='12')
 
-        button.menubar__button(:class="{ 'is-active': isActive.link() }" @click="showLinkMenu(getMarkAttrs('link'))")
-          //- span {{ isActive.link() ? &apos;Update Link&apos; : &apos;Add Link&apos;}}
-          icon(name='editor-link' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.code_block() }" @click='commands.code_block')
-          icon(name='editor-code' size='12')
-        //- button.menubar__button(@click='commands.horizontal_rule')
-        //-   icon(name='editor-hr' size='12')
-        button.menubar__button(@click='commands.undo')
-          icon(name='editor-undo' size='12')
-        button.menubar__button(@click='commands.redo')
-          icon(name='editor-redo' size='12')
-        button.menubar__button(@click='commands.figure()')
-          icon(name='editor-image' size='12')
-        button.menubar__button(@click='commands.quote()')
-          icon(name='editor-quote' size='12')
-        button.menubar__button(:class="{ 'is-active': isActive.citation() }" @click='commands.citation()') cite
-        //- button.menubar__button(@click='commands.figure') image{src: "#"}
-        //- icon(name='editor-redo' size='12')
-        //- button class="menubar__button" @click="commands.figure({src: placeholderSrc})"
+          //- <button
+          //-     :class="{ 'is-active': getMarkAttrs('align').textAlign === 'center' }"
+          //-     @click="commands.align({ textAlign: 'center' })"
+          //-     class="menububble__button"
+          //- >
+          //-     <icon name="align-center" />
+          //- </button>
+          button.menubar__button(:class="{ 'is-active': isActive.bullet_list() }" @click='commands.bullet_list')
+            icon(name='editor-ul' size='12')
+          button.menubar__button(:class="{ 'is-active': isActive.ordered_list() }" @click='commands.ordered_list')
+            icon(name='editor-ol' size='12')
+          //- button.menubar__button(:class="{ 'is-active': isActive.blockquote() }" @click='commands.blockquote')
+          //-   icon(name='editor-quote' size='12')
+
+          button.menubar__button(:class="{ 'is-active': isActive.link() }" @click="showLinkMenu(getMarkAttrs('link'))")
+            //- span {{ isActive.link() ? &apos;Update Link&apos; : &apos;Add Link&apos;}}
+            icon(name='editor-link' size='12')
+          button.menubar__button(:class="{ 'is-active': isActive.code_block() }" @click='commands.code_block')
+            icon(name='editor-code' size='12')
+          //- button.menubar__button(@click='commands.horizontal_rule')
+          //-   icon(name='editor-hr' size='12')
+          button.menubar__button(@click='commands.figure()')
+            icon(name='editor-image' size='12')
+          //- button.menubar__button(@click='commands.figure') image{src: "#"}
+          //- icon(name='editor-redo' size='12')
+          //- button class="menubar__button" @click="commands.figure({src: placeholderSrc})"
+        .d-flex
+          button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 1 }) }" @click='commands.heading({ level: 1 })')
+            | H1
+          button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 2 }) }" @click='commands.heading({ level: 2 })')
+            | H2
+          button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 3 }) }" @click='commands.heading({ level: 3 })')
+            | H3
+          button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 3 }) }" @click='commands.heading({ level: 4 })')
+            | H4
+          button.menubar__button(@click='commands.quote()')
+            icon(name='editor-quote' size='12')
+          button.menubar__button(:class="{ 'is-active': isActive.citation() }" @click='commands.citation()') cite
+          .flex-fill
+          button.menubar__button(@click='commands.undo')
+            icon(name='editor-undo' size='12')
+          button.menubar__button(@click='commands.redo')
+            icon(name='editor-redo' size='12')
   editor-content(:editor='editor' :class='contentClass')
   //- .text-content
 </template>
@@ -103,7 +118,8 @@ import {
   Figure,
   Figcaption,
   Blockquote,
-  Citation
+  Citation,
+  Align
 } from '../assets/scripts/tiptap/extensions';
 
 import '../icons'
@@ -173,7 +189,8 @@ export default {
           new Figure(),
           new Figcaption(),
           new Blockquote(),
-          new Citation()
+          new Citation(),
+          new Align()
         ],
 
         // content: this.content,
@@ -233,13 +250,13 @@ export default {
       }
     },
     menuLeftPos (left) {
-      if (!this.$refs.menu || !this.$refs.menu.$el)
+      if (!this.$refs.menu || !this.$refs.menu.$el || !this.$refs.menu.$el.getBoundingClientRect)
         return left
 
+      console.log('text editor: menuLeftPos', left, this.$refs.menu.$el, this.$refs.menu.$el.getBoundingClientRect)
       const viewWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
       const parentRect = this.$parent.$el.getBoundingClientRect()
       const menuRect = this.$refs.menu.$el.getBoundingClientRect()
-      // console.log('text editor: menuLeftPos', left, menuRect.width, (left + menuRect.width) > viewWidth)
 
       // Ensure the menu width doesnt exceed the parent
       if ((left + menuRect.width + parentRect.left) > viewWidth)
