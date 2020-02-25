@@ -253,7 +253,7 @@ export default {
       if (!this.$refs.menu || !this.$refs.menu.$el || !this.$refs.menu.$el.getBoundingClientRect)
         return left
 
-      console.log('text editor: menuLeftPos', left, this.$refs.menu.$el, this.$refs.menu.$el.getBoundingClientRect)
+      // console.log('text editor: menuLeftPos', left, this.$refs.menu.$el, this.$refs.menu.$el.getBoundingClientRect)
       const viewWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
       const parentRect = this.$parent.$el.getBoundingClientRect()
       const menuRect = this.$refs.menu.$el.getBoundingClientRect()

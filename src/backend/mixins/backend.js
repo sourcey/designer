@@ -362,7 +362,7 @@ export default {
     createSectionData (templateName) {
       const templateSpec = this.designerBackendStore.getters.getTemplateSpec(templateName)
       const section = {
-        label: 'New Section',
+        label: templateSpec.label || 'New Section', // 'New Section',
         items: templateSpec.items && templateSpec.items.length ? templateSpec.items : [],
         data: {}
       }
@@ -387,13 +387,19 @@ export default {
       else
         page.content.splice(index, 0, section)
       page.content = [...page.content] // force reactivity
+
+      IpcServer.postPreviewMessage('removeSection', {
+        pageId: page.id,
+        section: section
+      })
+
       return section
     },
 
     removePageSection (page, sectionId) {
       if (confirm("Are you sure?")) {
         IpcServer.postPreviewMessage('removeSection', {
-          id: page.id,
+          pageId: page.id,
           sectionId: sectionId
         })
 
@@ -432,17 +438,18 @@ export default {
       const element = this.createElementData(name) //, section
       console.log('createResourceElement', resource, name, element) //, section
 
-      if (resource && resource.id) {
+      if (resource && resource.content) {
         if (index === -1)
           resource.content.push(element)
         else
           resource.content.splice(index, 0, element)
-
-        IpcServer.postPreviewMessage('createElement', {
-          id: resource.id,
-          element: element
-        })
       }
+
+      IpcServer.postPreviewMessage('createElement', {
+        pageId: resource ? resource.id : null,
+        element: element
+      })
+
       // section.content = [...section.content] // force reactivity
 
       // if (section && section.content) {
@@ -458,11 +465,13 @@ export default {
     removeResourceElement (resource, element) {
       console.log('removeResourceElement', resource, element) //, section
       if (confirm("Are you sure?")) {
-        resource.content.splice(
-          resource.content.findIndex(x => x.id === element.id), 1)
+        if (resource && resource.content) {
+          resource.content.splice(
+            resource.content.findIndex(x => x.id === element.id), 1)
+        }
         // Hooks.executeDeleteElement(this.designerBackendStore.getters.getElementSpec(element.name), element)
         IpcServer.postPreviewMessage('removeElement', {
-          id: resource.id,
+          pageId: resource ? resource.id : null,
           elementId: element.id
         })
 

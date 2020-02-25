@@ -1,15 +1,16 @@
 <template lang="pug">
 .section-wrapper(:id='section.id')
-  component(v-if='designerEnabled' :is='designerSectionControls' :section='section')
+  component(v-if='designerEnabled' ref='controls' :is='designerSectionControls' :section='section')
   component.section-layout(:is='layoutComponent' :item='section' :data='section.data')
     items-renderer(v-if='section.items && section.items.length' :item='section')
-    .element.element-layout(v-else='')
+    .element.element-layout(v-else)
       .section-empty
-        | This section is empty.
+        | This section is empty.&nbsp;
         span(v-if='designerEnabled')
-          a(href='#' @click='designerBackend.createPageSectionDialog($event, designerPage)')  Edit
+          //- a(href='#' @click='designerBackend.createPageSectionDialog($event, designerPage)') Edit
+          a(href='#' @click='$refs.controls.edit()') Edit
           |  and add some elements to get started.
-        span(v-if='designerEditingSection')  Add some elements to get started.
+        span(v-if='designerEditingSection') Add some elements to get started.
 </template>
 
 <script>
@@ -34,8 +35,13 @@ export default {
   ],
   computed: {
     layout () {
-      return this.section.data && this.section.data.layout ?
-          this.section.data.layout : 'section_default'
+      if (this.section.layout)
+        return this.section.layout
+      if (this.section.data && this.section.data.layout)
+        return this.section.data.layout
+      return 'section_default'
+      // return this.section.data && this.section.data.layout ?
+      //     this.section.data.layout : 'section_default'
     },
     layoutComponent () {
       // return this.importElement(this.element.name)

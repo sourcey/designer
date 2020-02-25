@@ -6,8 +6,8 @@ div(v-if='dynamicSections && dynamicSections.length' :class='{"designer-active":
     section-renderer(v-else :ref='section.name' :id='section.id' :section='section')
 .main.container(v-else)
   .section-wrapper.section-layout
-    .section.section-empty
-      | This page is empty.
+    .section.section-empty.page-empty
+      | This page is empty.&nbsp;
       span(v-if='designerEnabled')
         a(href='#' @click='designerBackend.createPageSectionDialog($event, designerPage)') Add
         |  a new section to get started.
@@ -117,20 +117,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-
-// .overlay {
-//   background-position: center;
-//   // background-repeat: no-repeat;
-//   @include fill-parent;
-//
-//   &.solid {
-//     background-color: rgba(black, .3);
-//   }
-//
-//   &.pattern {
-//     background-image: url('../assets/images/overlay-pattern.png');
-//   }
-// }
-</style>

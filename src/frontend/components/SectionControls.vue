@@ -86,6 +86,7 @@ export default {
     //   this.edit()
 
     this.checkOnscreen()
+    setTimeout(this.checkOnscreen, 500)
     window.addEventListener('scroll', this.checkOnscreen)
   },
   destroyed () {
@@ -99,6 +100,8 @@ export default {
       const scrollY = document.documentElement.scrollTop
       const topY = this.$parent.$el.offsetTop
       const bottomY = topY + rect.height - 50
+
+      console.log('!!!! checkOnscreen', scrollY, topY, scrollY >= topY, scrollY <= bottomY, scrollY >= topY && scrollY <= bottomY)
       this.onscreen = scrollY >= topY && scrollY <= bottomY
     },
     // Ensure the menu is stays visible on the viewport while the section is onscreen.
@@ -127,7 +130,10 @@ export default {
       // Expand the preview and wait or the animation to complete before
       // rerendering
       this.designerBackend.expandPreview(true)
-      setTimeout(() => this.$store.commit('setDesignerEditingSection', this.section), 500)
+      setTimeout(() => {
+        this.$store.commit('setDesignerEditingSection', this.section)
+        this.checkOnscreen()
+      }, 500)
     },
     remove () {
       const removed = this.designerBackend.removePageSection(this.designerPage, this.section.id)

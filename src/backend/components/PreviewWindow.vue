@@ -56,6 +56,8 @@ export default {
     previewLoaded () {
       this.loaded = true
 
+      console.log('designer page: preview loaded', this.$refs.iframe.contentWindow.app)
+
       try {
         // The internal preview iframe must set a current `window.app` instance
         // to share data with the designer frontend.

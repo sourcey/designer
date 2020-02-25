@@ -1,35 +1,35 @@
 <template lang="pug">
 #designer.designer-ui
   #designer-sidebar
-      //- .designer-nav
-      //- li.nav-object.flex-fill
-      //- li.nav-item(v-if='designerBackendState.enableRefresh !== false')
-      //-   a.nav-link(@click='refreshPreview' href='#' v-b-tooltip.hover title="'Refresh Preview'")
-      //-     i.fa.fa-sync
-      //- li.nav-item
-      //-   a.nav-link(@click='save' href='#' v-b-tooltip.hover title="'Save'")
-      //-     i.fa.fa-save
-      .designer-actions.d-flex.flex-fill.justify-content-end
-        //- .d-flex.flex-fill
-        slot(name='nav-actions')
-        a.btn.btn-icon(@click.prevent='saveResource' href='#' v-b-tooltip.hover title="Save")
-          icon(name='save' size='14')
-        a.btn.btn-icon(v-if='designerBackendState.enableRefresh !== false' @click.prevent='refreshPreview' href='#' v-b-tooltip.hover title="Refresh")
-          icon(name='sync' size='14')
-      b-tabs(nav-wrapper-class='designer-tabs')
-        slot(name='tabs-start')
-        //- b-tab(:title='$store.hasPages() ? "Pages" : "Elements"')
-        b-tab(title='Page')
-          spinner.mt-3(v-if='!designerBackendState.resource')
-          section-form-list(v-else-if='designerBackendState.enableSections' :resource='designerBackendState.resource')
-          element-form-list(v-else :resource='designerBackendState.resource')
-        b-tab(:title='form.label' :key='key' v-for='(form, key) in designerBackendState.spec.forms')
-          spinner.mt-3(v-if='!designerBackendState.resource')
-          component(v-else is='ResourceForm' :resource='designerBackendState.resource' :spec='form')
-        b-tab(title='Gallery' v-if='designerBackendState.enableGallery')
-          spinner.mt-3(v-if='!designerBackendState.resource')
-          component(v-else is='MediaGallery')
-        slot(name='tabs-end')
+    //- .designer-nav
+    //- li.nav-object.flex-fill
+    //- li.nav-item(v-if='designerBackendState.enableRefresh !== false')
+    //-   a.nav-link(@click='refreshPreview' href='#' v-b-tooltip.hover title="'Refresh Preview'")
+    //-     i.fa.fa-sync
+    //- li.nav-item
+    //-   a.nav-link(@click='save' href='#' v-b-tooltip.hover title="'Save'")
+    //-     i.fa.fa-save
+    .designer-actions.d-flex.flex-fill.justify-content-end
+      //- .d-flex.flex-fill
+      slot(name='nav-actions')
+      a.btn.btn-icon(@click.prevent='saveResource' href='#' v-b-tooltip.hover title="Save")
+        icon(name='save' size='14')
+      a.btn.btn-icon(v-if='designerBackendState.enableRefresh !== false' @click.prevent='refreshPreview' href='#' v-b-tooltip.hover title="Refresh")
+        icon(name='sync' size='14')
+    b-tabs(nav-wrapper-class='designer-tabs')
+      slot(name='tabs-start')
+      //- b-tab(:title='$store.hasPages() ? "Pages" : "Elements"')
+      b-tab(title='Page')
+        spinner.mt-3(v-if='!designerBackendState.resource')
+        section-form-list(v-else-if='designerBackendState.enableSections' :resource='designerBackendState.resource')
+        element-form-list(v-else :resource='designerBackendState.resource')
+      b-tab(:title='form.label' :key='key' v-for='(form, key) in designerBackendState.spec.forms')
+        spinner.mt-3(v-if='!designerBackendState.resource')
+        component(v-else is='ResourceForm' :resource='designerBackendState.resource' :spec='form')
+      b-tab(title='Gallery' v-if='designerBackendState.enableGallery')
+        spinner.mt-3(v-if='!designerBackendState.resource')
+        component(v-else is='MediaGallery')
+      slot(name='tabs-end')
   preview-window(ref='preview' :url='designerBackendState.previewUrl')
 </template>
 

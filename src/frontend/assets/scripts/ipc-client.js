@@ -39,6 +39,10 @@ const utils = {
 
 	removeClass (element, className) {
 		element.classList.remove(className)
+	},
+
+	pageId (vm, command) {
+		return command.pageId || vm.$root.designerPage.id
 	}
 }
 
@@ -53,7 +57,7 @@ const appActions = {
 	removePage (vm, command) {
 		// if (command.path)
 		console.log('designer ipc: removePage', vm.$store.state.pageId, command.id)
-		if (vm.$store.state.pageId == command.id)
+		if (vm.$store.state.pageId === command.id)
 			vm.$router.push('/')
 		vm.$store.commit('removePage', command.id)
 		// vm.$store.commit('addPage', command)
@@ -67,45 +71,43 @@ const appActions = {
 			vm.$router.push(vm.sitePath(command.path))
 	},
 
-	// createElement(vm, command) {
-	// 	vm.$store.commit('addElement', {
-	// 		pageId: command.id,
-	// 		block: command.block
-	// 	})
-	// },
-	//
+	createElement(vm, command) {
+		vm.$store.commit('addElement', {
+			pageId: command.pageId,
+			element: command.element
+		})
+	},
+
 	// removeElement(vm, command) {
 	// 	vm.$store.commit('removeElement', {
-	// 		pageId: command.id,
-	// 		blockId: command.blockId
+	// 		pageId: command.pageId,
+	// 		elementId: command.elementId
 	// 	})
 	// },
 	//
 	// reorderElement(vm, command) {
 	// 	vm.$store.commit('reorderElement', {
 	// 		pageId: vm.$root.designerPage.id,
-	// 		blockId: command.id,
+	// 		elementId: command.id,
 	// 		oldIndex: command.oldIndex,
 	// 		newIndex: command.newIndex
 	// 	})
 	// },
 	//
 	// selectElement (vm, command) {
-	// 	const element = document.getElementById(command.blockId)
+	// 	const element = document.getElementById(command.elementId)
 	// 	utils.scrollTo(element) // FIXME
-	// 	utils.pulseClass(element, 'block-selected')
+	// 	utils.pulseClass(element, 'element-selected')
 	// },
 	//
 	// selectProperty (vm, command, elementData) {
-	// 	const element = document.getElementById(command.blockId)
+	// 	const element = document.getElementById(command.elementId)
 	// 	const property = element.querySelector(`[data-bind="${command.name}"]`)
 	// 	if (property && property.classList) {
 	// 		utils.scrollTo(property)
 	// 		utils.pulseClass(property, 'property-selected')
 	// 	}
 	// },
-
-
 
 	removeSection (vm, command) {
 		console.log('designer ipc: removeSection', command)
@@ -121,7 +123,7 @@ const appActions = {
 			vm.$set(object, command.name, command.value)
 
 		// console.log('designer ipc: updateResourceProperty', object[command.member])
-		// NOTE: since we are mutating elementData the block.data must contain a
+		// NOTE: since we are mutating elementData the element.data must contain a
 		// default value for this property or it wont be updated
     // vm.$store.commit('setElementProperty', {
     //   data: vm.designerPage(command.pageId),
@@ -151,12 +153,12 @@ const appActions = {
 		console.log('designer ipc: updateElementProperty data', vm.$store.getters.designerEditingElement.element)
 		vm.$set(data, command.name, command.value)
 		// vm.$store.getters.designerEditingElement.$forceUpdate()
-		// vm.$set(vm.findElementData(command.blockId), command.name, command.value)
+		// vm.$set(vm.findElementData(command.elementId), command.name, command.value)
 
-		// NOTE: since we are mutating elementData the block.data must contain a
+		// NOTE: since we are mutating elementData the element.data must contain a
 		// default value for this property or it wont be updated
     // vm.$store.commit('setProperty', {
-    //   data: vm.findElementData(command.blockId),
+    //   data: vm.findElementData(command.elementId),
     //   name: command.name,
     //   value: command.value
     // })
@@ -271,9 +273,9 @@ export default {
 // 	handlers[vm] = (event) => {
 // 		if (event.data.data &&
 // 			event.data.data.id == id &&
-// 			blockActions[event.data.action]) {
-// 			// console.log('designer ipc block', event.data)
-// 			blockActions[event.data.action](vm, event.data.data, elementData)
+// 			elementActions[event.data.action]) {
+// 			// console.log('designer ipc element', event.data)
+// 			elementActions[event.data.action](vm, event.data.data, elementData)
 // 		}
 // 	}
 // 	window.addEventListener('message', handlers[vm])
@@ -295,9 +297,9 @@ export default {
 // 		handlers[vm] = (event) => {
 // 			if (event.data.data &&
 // 				event.data.data.id == id &&
-// 				blockActions[event.data.action]) {
-// 				// console.log('designer ipc block', event.data)
-// 				blockActions[event.data.action](vm, event.data.data, elementData)
+// 				elementActions[event.data.action]) {
+// 				// console.log('designer ipc element', event.data)
+// 				elementActions[event.data.action](vm, event.data.data, elementData)
 // 			}
 // 		}
 // 		window.addEventListener('message', handlers[vm])
