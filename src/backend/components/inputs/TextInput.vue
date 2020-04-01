@@ -8,21 +8,22 @@
   .input-group
     slot(name='prepend')
     //- div {{currentValue}}
-    input.form-control(:id='inputId'
+    input(:id='inputId'
         v-model='currentValue'
         v-bind='attributes'
         :type='inputType'
         :name='field || name'
         :placeholder='placeholder'
-        :class="{'is-invalid': errorMessage}"
+        :required='required'
+        :class="[inputClass, {'is-invalid': errorMessage}]"
         @focusin='emitSelect(); focused = true'
         @focusout='focused = false')
-    //- input.form-control(:type='inputType'
+    //- input(:type='inputType'
         :value='focused ? currentValue : displayValue'
         :name='field || name'
         :placeholder='placeholder'
         :required='required'
-        :class="{'is-invalid': errorMessage}"
+        :class="[inputClass, {'is-invalid': errorMessage}]"
         v-bind='attributes'
         @input='currentValue = $event.target.value'
         @focusin='emitSelect(); focused = true'

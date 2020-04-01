@@ -15,7 +15,7 @@
     select(:id='inputId'
         v-model='currentValue'
         :name='field || name'
-        :class="{'is-invalid': errorMessage}"
+        :class="[inputClass, {'is-invalid': errorMessage}]"
         @focusin='emitSelect'
         @change='emitUpdate')
       option(v-if='!required' value='') {{ placeholder || 'Select an option' }}

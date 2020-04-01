@@ -3,10 +3,10 @@
   .form-group
     a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     label.control-label(v-if='label !== false' :for="inputId" v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
-    select.form-control(:id='inputId'
+    select(:id='inputId'
         v-model='currentValue'
         :name='field || name'
-        :class="{'is-invalid': errorMessage}"
+        :class="[inputClass, {'is-invalid': errorMessage}]"
         @focusin='emitSelect')
       //- @change='emitUpdate'
       option(v-if='!required' value='' :selected='!value') {{ placeholder || 'Select an option' }}

@@ -78,9 +78,14 @@ export function toggleFullscreen(elem) {
   }
 }
 
+export function isNullNumber (number, options={}) {
+  return (number === null || typeof number === 'undefined' ||
+      isNaN(number)  || (options.allowZero === false && number === 0))
+}
+
 export function sanitizeDecimal (value, options={}) {
   let number = parseFloat(numerize(value))
-  if (isNaN(number) || (options.allowZero === false && number === 0))
+  if (isNullNumber(number, options))
     return null
   // console.log('PRECISION', number, number.toFixed(options.precision), options)
   if (options.precision) {
@@ -93,7 +98,7 @@ export function sanitizeDecimal (value, options={}) {
 
 export function sanitizeNumber (value, options={}) {
   let number = Math.round(parseFloat(numerize(value)))
-  if (isNaN(number) || (options.allowZero === false && number === 0))
+  if (isNullNumber(number, options))
     return null
   return number
 }
@@ -107,7 +112,7 @@ export function getLocale (fallbackLocale = 'en') {
 export function formatNumber (number, options={}) {
   try {
     number = sanitizeDecimal(number)
-    if (isNaN(number) || (options.allowZero === false && !number))
+    if (isNullNumber(number, options))
       return null // do not parse non-numbers or 0
     options.locale = options.locale || getLocale()
     return number.toLocaleString(options.locale)
@@ -119,7 +124,7 @@ export function formatNumber (number, options={}) {
 
 export function formatMoney (number, options={}) {
   number = sanitizeDecimal(number)
-  if (isNaN(number) || (options.allowZero === false && !number))
+  if (isNullNumber(number, options))
     return null // do not parse non-numbers or 0
 
   // Allow trimming extra zeros for whole dollar amounts
@@ -140,7 +145,7 @@ export function formatMoney (number, options={}) {
     // })
   } catch (e) {
     console.log('format currency failed', e)
-    return number.toFixed(2)
+    return number //.toFixed(2)
   }
 }
 

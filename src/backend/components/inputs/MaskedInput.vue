@@ -10,11 +10,11 @@
     //- div {{currentValue}}
     //- The display input contains the styles input while the
     //- hidden input contains the real value.
-    input.form-control(:type='inputType'
+    input(:type='inputType'
         :value='focused ? currentValue : displayValue'
         :placeholder='placeholder'
         :required='required'
-        :class="{'is-invalid': errorMessage}"
+        :class="[inputClass, {'is-invalid': errorMessage}]"
         v-bind='attributes'
         @input='currentValue = $event.target.value'
         @focusin='emitSelect(); focused = true'

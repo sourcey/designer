@@ -3,12 +3,12 @@
   .form-group
     label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
     p.hint(v-if='hint' v-html='hint')
-    textarea.form-control(:id='inputId'
+    textarea(:id='inputId'
         v-model='currentValue'
         :name='field || name'
         :rows='rows'
         :placeholder='placeholder'
-        :class="{'is-invalid': errorMessage}"
+        :class="[inputClass, {'is-invalid': errorMessage}]"
         @focusin='emitSelect(); focused = true'
         @focusout='focused = false')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}

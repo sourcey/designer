@@ -5,7 +5,7 @@
     a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
     label.control-label.col-10.col-form-label(:for='inputId') {{ inputLabel }}
     //- .col
-      input.form-control(type='text', :value='object', @focusin='emitSelect', @change="$emit('update', name, object = $event.target.value)")
+      input(type='text', :value='object', @focusin='emitSelect', @change="$emit('update', name, object = $event.target.value)")
       // v-model="object[name]"
     .col
       //- verte(

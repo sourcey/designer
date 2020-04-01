@@ -70,6 +70,12 @@ export default {
       type: String
     },
 
+    // The HTML input type ie. text, password
+    inputClass: {
+      type: String,
+      default: 'form-control'
+    },
+
     // Extra HTML input attributes.
     attributes: {
       type: Object

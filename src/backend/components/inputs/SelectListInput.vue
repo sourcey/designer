@@ -11,11 +11,11 @@
     .dropdown(:class='{dropup: dropup}')
       .input-group.transparent-input-group
         slot(name='prepend')
-        input.form-control(
+        input(
             ref='input'
             type='text'
             :placeholder='placeholder'
-            :class="{'is-invalid': errorMessage}"
+            :class="[inputClass, {'is-invalid': errorMessage}]"
             @input='filterValue = $event.target.value'
             @focusin='focused = true')
             //- @focusout='focused = false'
