@@ -35,7 +35,7 @@
           //- span(v-else='') No Image
         td
           //- div {{ attachment }}
-          .filename {{ attachment.filename }}
+          .filename.truncate {{ attachment.filename }}
           .text-danger(v-if='attachment.error') {{ attachment.error }}
           .spinner(v-else-if='!attachment.key')
           .small.text-muted(v-else)
@@ -119,6 +119,7 @@ export default {
     this.$store.dispatch('loadAttachments')
   },
   mounted () {
+    console.log(this.$parent)
     // if (!Array.isArray(this.object[this.name])) {
     //   this.object[this.name] = []
     // } else {
@@ -145,7 +146,7 @@ export default {
       Array.from(event.target.files).forEach(file => {
         let attachment = { file: file }
         this.attachments.push(attachment)
-        Attachments.upload(attachment)
+        this.uploadAttachment(attachment)
           .then(() => {
 
             // Store the data we want on the object
@@ -160,7 +161,8 @@ export default {
             this.$emit('upload', attachment)
 
             // HACK: Save when an image is uploaded or it may be lost in space
-            this.designerBackendStore.save(this)
+            // this.designerBackendStore.save(this)
+            this.designerBackendStore.dispatch('saveResource')
           })
       })
     },
@@ -188,3 +190,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+table {
+  img {
+    min-width: 80px;
+  }
+  .filename {
+    max-width: 200px;
+  }
+}
+</style>
