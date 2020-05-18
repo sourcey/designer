@@ -22,6 +22,27 @@
         color: inherit; //theme-color('dark');
       }
     }
+
+    // NOTE: adding button inside parent as its stopped
+    // firing click events on gallery
+    input[type="file"] {
+      // -webkit-appearance: none;
+      // opacity: 0; // invisible but it's there!
+      // top: 0;
+      // bottom: 0;
+      // left: 0;
+      // right: 0;
+      // position: absolute;
+      // z-index: -1;
+      -webkit-appearance:none;
+      position:absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
   }
 
   &.is-invalid {

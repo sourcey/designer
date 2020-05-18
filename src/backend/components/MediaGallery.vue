@@ -1,11 +1,13 @@
 <template lang="pug">
-#gallery.designer-attachment-input
+#gallery
+  //-
   //- div {{ attachments }}
   header.pt-15
     .form-title Media Gallery
-    button.btn.btn-sm.btn-success.btn-upload(:for='inputId')
-      span Upload
-  input.input-file(:id='inputId' type='file' multiple='' accept="image/*" @change='filesChange')
+    .designer-attachment-input
+      button.btn.btn-sm.btn-success.btn-upload(type='button' :for='inputId')
+        span Upload
+        input.input-file(:id='inputId' type='file' multiple='' accept="image/*" @change='filesChange')
   //- div {{attachments}}
   table.table.table-hover
     //- thead
@@ -108,7 +110,7 @@ export default {
   ],
   data () {
     return {
-      inputId: `file-${randomString(5)}`
+      inputId: 'file-upload' //`file-${randomString(5)}`
     }
   },
   created () {
