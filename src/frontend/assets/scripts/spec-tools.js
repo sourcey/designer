@@ -198,7 +198,7 @@ export default {
     // Remove the row if it's empty
     if (meta.row && !meta.row.columns.length) {
       const rowIndex = this.rowIndex(meta)
-      console.log('spec tools: !!!!!!!!! delete empty row', meta, rowIndex)
+      console.log('spec tools: delete empty row', meta, rowIndex)
       meta.parent.items.splice(rowIndex, 1)
       meta.parent.items = [...meta.parent.items]
       // meta.parent.items = []

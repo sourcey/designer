@@ -581,7 +581,8 @@ elements:
     properties:
       images:
         label: Images
-        type: attachment_array
+        type: attachment
+        array: true
         accept: image/*
       aspect_ratio:
         label: Aspect ratio
@@ -956,7 +957,8 @@ layouts:
       images:
         label: Images
         name: images
-        type: attachment_array
+        type: attachment
+        array: true
         accept: image/*
         max: 4
       <<: *section_banner_properties

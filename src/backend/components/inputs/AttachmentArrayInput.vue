@@ -1,28 +1,19 @@
 <template lang="pug">
 .item-wrap.designer-attachment-input.attachment-array-input(:class="{'is-invalid': !!errorMessage, 'is-focus': focused, 'is-empty': !value}")
-  div(v-if='attachments.length')
-    div(v-for='(attachment, index) in attachments')
-      //- div {{attachmentThumbnailUrl(attachment)}}
-      attachment-preview-item.mb-05(v-if='attachmentVisible(attachment)' :attachment='attachment' @remove='removeAttachment')
-      //- .preview-overlay.flex-center
-      //-   .error.text-danger(v-if='attachment.error' v-b-tooltip.hover :title='attachment.error')
-      //-     i.fas.fa-exclamation-triangle
-      //-   spinner(v-else-if='!attachment.key')
-      //- a.delete(href='#' @click.prevent='removeAttachment(attachment)')
-      //- img.img-fluid(v-if='attachment.thumbnail' :src='attachment.thumbnail')
-      //- img.img-fluid(v-else-if='attachment.key || attachment.asset' :src='attachmentThumbnailUrl(attachment)')
-      //- img.img-fluid(v-else-if='attachment.url' :src='attachment.url')
   .form-group
     label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
     small.text-muted.font-italic(v-if='validateMax') Maximum {{ max }} images
-    div(v-else)
-      label(:for='inputId')
-        slot(name='button')
-          .btn-upload.dropzone.flex-center.p-1
-            .icon-wrap
-              icon.mb-025(:name='icon || "camera"' size='32')
-              .btn-text Upload
-      input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
+    .d-flex
+      attachment-preview-item(v-for='(attachment, index) in attachments' :key='index' v-if='attachmentVisible(attachment)' :attachment='attachment' @remove='removeAttachment')
+      div
+        label(v-if='!validateMax' :for='inputId')
+          slot(name='button')
+            .btn-upload.dropzone.flex-center.p-1
+              .icon-wrap
+                icon.mb-025(:name='icon || "camera"' size='32')
+                .btn-text Upload
+        input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
+      //- .flex-fill.preview-images(v-if='attachments.length')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
 

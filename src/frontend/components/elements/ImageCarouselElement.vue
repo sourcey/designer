@@ -1,8 +1,12 @@
 <template lang="pug">
 .element.wrapper
-  flickity.carousel.fill-parent.invert-arrows(v-if='images.length > 0' ref='flickity' :options='flickityOptions')
-    .carousel-cell.h-100(v-for='(image, index) in images' :key='index')
-      image-loader(:image='image' size='zoom' :scalewidth='true')
+  no-ssr
+    flickity.carousel.fill-parent.invert-arrows(v-if='images && images.length > 0' ref='flickity' :options='flickityOptions')
+      .carousel-cell.w-100.h-100(v-for='(image, index) in images' :key='index')
+        image-loader.h-100(:image='image' size='zoom' fit='contain' :scale-width='true')
+    //- flickity.carousel.fill-parent.invert-arrows(v-if='listings.length > 0' ref='flickity' :options='flickityOptions')
+      .carousel-cell(v-for='(listing, index) in listings' :key='index')
+        listing-item.h-100(type='cover' :listing='listing' :imageoptions='{scaleWidth: true}')
 </template>
 
 <script>

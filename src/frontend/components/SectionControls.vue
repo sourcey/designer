@@ -101,7 +101,6 @@ export default {
       const topY = this.$parent.$el.offsetTop
       const bottomY = topY + rect.height - 50
 
-      console.log('!!!! checkOnscreen', scrollY, topY, scrollY >= topY, scrollY <= bottomY, scrollY >= topY && scrollY <= bottomY)
       this.onscreen = scrollY >= topY && scrollY <= bottomY
     },
     // Ensure the menu is stays visible on the viewport while the section is onscreen.

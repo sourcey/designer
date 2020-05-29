@@ -105,6 +105,10 @@
       .designer-section-menu {
         background: $designer-base-color;
       }
+
+      .flickity-page-dots {
+        display: none;
+      }
     }
 
     &:hover {

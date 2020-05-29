@@ -117,7 +117,8 @@
 
   // Show the page dots inside the carousel so they dont overlay other elements.
   .flickity-page-dots {
-    bottom: 20px;
+    // bottom: 20px;
+    margin: 0;
     z-index: 1;
   }
 

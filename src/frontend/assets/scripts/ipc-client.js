@@ -72,10 +72,11 @@ const appActions = {
 	},
 
 	createElement(vm, command) {
-		vm.$store.commit('addElement', {
-			pageId: command.pageId,
-			element: command.element
-		})
+		// NOTE: disabling addElement because it was removed from store.js
+		// vm.$store.commit('addElement', {
+		// 	pageId: command.pageId,
+		// 	element: command.element
+		// })
 	},
 
 	// removeElement(vm, command) {
