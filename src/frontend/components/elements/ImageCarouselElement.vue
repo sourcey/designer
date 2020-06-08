@@ -2,8 +2,10 @@
 .element.wrapper
   no-ssr
     flickity.carousel.fill-parent.invert-arrows(v-if='images && images.length > 0' ref='flickity' :options='flickityOptions')
-      .carousel-cell.w-100.h-100(v-for='(image, index) in images' :key='index')
-        image-loader.h-100(:image='image' size='zoom' fit='contain' :scale-width='true')
+      .carousel-cell.w-100.h-100(v-if='image.key' v-for='(image, index) in images' :key='index')
+        //- image-loader.h-100(:image='image' size='zoom' fit='cover' :scale-width='true')
+        image-loader.h-100(:image='image' size='zoom')
+        //- fit='cover' :auto-size='false'
     //- flickity.carousel.fill-parent.invert-arrows(v-if='listings.length > 0' ref='flickity' :options='flickityOptions')
       .carousel-cell(v-for='(listing, index) in listings' :key='index')
         listing-item.h-100(type='cover' :listing='listing' :imageoptions='{scaleWidth: true}')
