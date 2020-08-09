@@ -64,7 +64,7 @@ module Designer
       # @designer_config['spec'] ||= {}
       # @designer_config['spec'].reverse_merge!(Designer.default_spec)
       if @designer_config['enable_default_spec'] != false
-        @designer_config['spec'] = Designer.default_spec.dup.deep_merge(@designer_config['spec'])
+        @designer_config['spec'] = Designer.default_spec.dup.deep_merge(@designer_config['spec'] || {})
       end
       @designer_config.deep_merge!(designer_custom_config) if designer_custom_config.present?
       @designer_config
