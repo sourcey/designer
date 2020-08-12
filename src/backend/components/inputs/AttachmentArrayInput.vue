@@ -3,9 +3,9 @@
   .form-group
     label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
     small.text-muted.font-italic(v-if='validateMax') Maximum {{ max }} images
-    .d-flex
+    .attachment-preview-wrap.d-flex.flex-fill
       attachment-preview-item(v-for='(attachment, index) in attachments' :key='index' v-if='attachmentVisible(attachment)' :attachment='attachment' @remove='removeAttachment')
-      div
+      .btn-upload-wrap
         label(v-if='!validateMax' :for='inputId')
           slot(name='button')
             .btn-upload.dropzone.flex-center.p-1

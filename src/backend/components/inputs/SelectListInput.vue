@@ -14,10 +14,12 @@
         input(
             ref='input'
             type='text'
+            autocomplete='new-password'
             :placeholder='placeholder'
             :class="[inputClass, {'is-invalid': errorMessage}]"
             @input='filterValue = $event.target.value'
-            @focusin='focused = true')
+            @focusin='focused = true'
+            @keydown.esc='$event.target.blur(); focused = false')
             //- @focusout='focused = false'
             //- v-model='filterValue'
             //- @input='filterValue = $event.target.value'
@@ -28,11 +30,11 @@
             //- @input="$emit('update', name, value)"
         slot(name='append')
       .dropdown-menu(:class="{show: focused}")
-        div(v-if='visibleOptions.length')
-          a.dropdown-item(:class="{active: option.selected, disabled: option.disabled}"
-              v-for='(option, index) in visibleOptions'
-              href='#'
-              @click.prevent='select(option)') {{ option.label }}
+        div(v-if='visibleOptions.length' v-for='(option, index) in visibleOptions')
+          h6(v-if="option.title" class="dropdown-header") {{ option.label }}
+          a.dropdown-item(v-else :class="{active: option.selected, disabled: option.disabled}"
+            href='#'
+            @click.prevent='select(option)') {{ option.label }}
         .dropdown-item.no-data(v-else) No options to display
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
         //- :value='Array.isArray(value) ? value[1] : value'v-if='!option.hidden'
@@ -42,7 +44,7 @@
       .selected-item.flex-v-center(v-for='(option, index) in selectedOptions')
         input(type='hidden' :name='field || name' :value='option.value')
         .label.flex-fill {{ option.label }}
-        button.btn.ml-1(@click.prevent="select(option)")
+        button.btn.ml-1(type='button' @click.prevent="select(option)")
           icon(name='trash' size='14')
 </template>
 
@@ -70,8 +72,10 @@ export default {
   },
   computed: {
     visibleOptions () {
-      if (this.filterValue)
-        return this.options.filter(x => x.label.toLowerCase().indexOf(this.filterValue) !== -1)
+      if (this.filterValue) {
+        const search = this.filterValue.toLowerCase()
+        return this.options.filter(x => x.label.toLowerCase().indexOf(search) !== -1)
+      }
       return this.options
     },
     selectedOptions () {

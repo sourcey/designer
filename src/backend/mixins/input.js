@@ -142,7 +142,7 @@ export default {
       // if (this.formatter) {
       //   return this.formatValue(this.currentValue)
       // }
-      // console.log('input: displayValue', this.name, this.currentValue)
+      // console.log('input: display value', this.name, this.currentValue)
       return this.formatValue(this.currentValue)
     },
     formObject () {
@@ -213,14 +213,14 @@ export default {
       return value
     },
     setInitialValue () {
-      // console.log('set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
+      // console.log('input: set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
       // this.formObject[this.name || this.name] !== 'undefined' ? clone(this.formObject[this.name || this.name]) : null
       this.currentValue = this.initialValue // this.formatValue(this.initialValue)
       // this.formatValue()
       // this.emitUpdate()
     },
     setDefaultValue () {
-      // console.log('set default value', this.value, this.name, this.defaultValue)
+      // console.log('input: set default value', this.value, this.name, this.defaultValue)
       this.currentValue = this.defaultValue
       // this.emitUpdate()
     },
@@ -248,7 +248,7 @@ export default {
         this.$emit('select', this.name)
     },
     emitUpdate () {
-      // console.log('emit update', this.name, this.currentValue, this.value) //formObject[this.name || this.name])
+      // console.log('input: emit update', this.name, this.currentValue, this.value) //formObject[this.name || this.name])
       this.$emit('input', this.currentValue)
       // if (this.enableEvents)
       //   // HACK: We should be passing `this.value` but sometimes the computed
