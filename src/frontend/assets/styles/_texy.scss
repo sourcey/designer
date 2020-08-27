@@ -207,14 +207,14 @@
       border-top: 3px solid $accent-color;
       border-bottom: 1px solid $separator-color;
       padding-top: $paragraph-margin;
-      // padding-bottom: $paragraph-margin;
+      padding-bottom: 1.5rem; // $paragraph-margin;
       margin-top: $block-margin;
       margin-bottom: $block-margin;
 
       cite {
         font-family: $font-sans-serif;
         margin-top: 1rem;
-        margin-bottom: 1.25rem;
+        // margin-bottom: 1.25rem;
         display: block;
         // font-style: normal;
       }
@@ -237,7 +237,7 @@
     &.right {
       font-size: $font-size;
       border-top: 6px solid $accent-color;
-      border-bottom: 1px solid $text-color;
+      // border-bottom: 1px solid $text-color;
       padding-top: 1.5rem;
       padding-bottom: 1rem;
       margin-top: $block-margin * .75;
