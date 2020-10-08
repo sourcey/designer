@@ -59,21 +59,24 @@ module Designer
     end
 
     def merge_layout_defaults item, config, default_layout
-      layout = item.dig('data', 'layout') || default_layout
+      layout = item.dig('data', 'layout')
+
+      # NOTE: Fallback to default layout if the specified one doesnt exist
+      layout = default_layout unless config['spec']['layouts'][layout]
       spec = config['spec']['layouts'][layout]
-      raise "Unknown layout: #{layout}" unless spec
+      raise "Unknown layout: #{layout}" if !spec
+      item['data'] ||= {}
+
+      # Set the layout incase the default fallback is used
+      item['data']['layout'] = layout
       merge_item_defaults item, spec
     end
 
     def merge_item_defaults item, spec
       item['data'] ||= {}
-      # p "---------------------------------------"
-      # p item
-      # p spec
       return unless spec && spec['properties']
       spec['properties'].each do |name, prop|
         if !item['data'].has_key?(name)
-          # if prop.has_key?('default')
 
           # NOTE: This will set all properties to nil if undefined for reactivity
           item['data'][name] = prop['default'].presence

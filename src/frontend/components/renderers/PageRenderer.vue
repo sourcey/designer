@@ -1,10 +1,10 @@
 <template lang="pug">
-//- div {{designerPage}}
 div(v-if='dynamicSections && dynamicSections.length' :class='{"designer-active": $store.getters.designerEnabled}')
   div(v-for='(section, index) in dynamicSections' :key='index')
     slot(v-if='section.main')
     section-renderer(v-else :ref='section.name' :id='section.id' :section='section')
 .main.container(v-else)
+  //- div {{designerPage}}
   .section-wrapper.section-layout
     .section.section-empty.page-empty
       | This page is empty.&nbsp;
