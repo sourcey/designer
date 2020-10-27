@@ -230,8 +230,9 @@ export default {
       // Process links
       if (html) {
         console.log('text editor: replacing nofollow links')
-        html = html.replace('noopener noreferrer nofollow', '')
+        html = html.replaceAll('noopener noreferrer nofollow', '')
       }
+      // noopener noreferrer nofollow
       return html
     },
     stripTags (value) {
