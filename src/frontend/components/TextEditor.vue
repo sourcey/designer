@@ -226,9 +226,12 @@ export default {
       let html = this.editor.getHTML()
       if (this.contentTag)
         html = this.stripTags(html)
+
       // Process links
-      if (html)
+      if (html) {
+        console.log('text editor: replacing nofollow links')
         html = html.replace('noopener noreferrer nofollow', '')
+      }
       return html
     },
     stripTags (value) {
