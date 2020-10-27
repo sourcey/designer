@@ -226,11 +226,14 @@ export default {
       let html = this.editor.getHTML()
       if (this.contentTag)
         html = this.stripTags(html)
+      // Process links
+      if (html)
+        html = html.replace('noopener noreferrer nofollow', '')
       return html
     },
     stripTags (value) {
       if (value)
-        return value.replace(/<\/?[^>]+(>|$)/g, "")
+        return value.replace(/<\/?[^>]+(>|$)/g, '')
       return ''
     },
     onFocused (flag) {
