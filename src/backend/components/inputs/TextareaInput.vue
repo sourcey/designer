@@ -22,7 +22,7 @@ export default {
   props: {
     rows: {
       type: Number,
-      default: 5
+      default: null
     }
   },
 }
