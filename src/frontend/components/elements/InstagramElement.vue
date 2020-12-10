@@ -57,14 +57,19 @@ export default {
       if (!this.postId) return
       this.validateUrl()
       const maxWidth = this.maxWidth >= 320 ? this.maxWidth : 320
-      const url = `https://api.instagram.com/oembed?url=${this.url}&maxwidth=${maxWidth}&hidecaption=${this.hideCaption}&omitscript=${this.omitScript}`;
+      const accessToken = process.env.FACEBOOK_APP_ID + "|" + process.env.FACEBOOK_CLIENT_TOKEN
+      // console.log('instagram embed: accessToken', accessToken)
+      const url = `https://graph.facebook.com/v8.0/instagram_oembed?url=${this.url}&access_token=${accessToken}&maxwidth=${maxWidth}&hidecaption=${this.hideCaption}&omitscript=${this.omitScript}`;
+      // const url = `https://api.instagram.com/oembed?url=${this.url}&maxwidth=${maxWidth}&hidecaption=${this.hideCaption}&omitscript=${this.omitScript}`;
       fetch(url)
         .then(res => {
+          console.log('instagram embed: response', res)
           if (res.ok) {
             return res.json()
           }
         })
         .then(data => {
+          console.log('instagram embed: response data', data)
           this.html = data.html
           this.$nextTick(() => window.instgrm.Embeds.process())
         })
