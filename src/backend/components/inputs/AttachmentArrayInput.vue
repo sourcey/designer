@@ -2,7 +2,6 @@
 .item-wrap.designer-attachment-input.attachment-array-input(:class="{'is-invalid': !!errorMessage, 'is-focus': focused, 'is-empty': !value}")
   .form-group
     label.control-label.d-block(v-if='label !== false' :for='inputId') {{ inputLabel }}
-    small.text-muted.font-italic(v-if='validateMax') Maximum {{ max }} images
     .attachment-preview-wrap.d-flex.flex-fill
       attachment-preview-item(v-for='(attachment, index) in attachments' :key='index' v-if='attachmentVisible(attachment)' :attachment='attachment' @remove='removeAttachment')
       .btn-upload-wrap
@@ -14,7 +13,8 @@
                 .btn-text Upload
         input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
       //- .flex-fill.preview-images(v-if='attachments.length')
-    .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
+    small.text-muted.font-italic.d-block.mt-05(v-if='validateMax') Maximum {{ max }} images
+    .invalid-feedback.d-block.mt-05(v-if='errorMessage') {{ errorMessage }}
 </template>
 
 <script>
