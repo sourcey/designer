@@ -4,6 +4,7 @@
       ref='toast'
       v-for='(toast, index) in toasts'
       :key='index'
+      :data-toast='toast.id'
       :class='toast.variant'
       @click='dismiss(toast)') {{ toast.message }}
   //- b-alert.mb-025(v-for='(toast, index) in toasts' v-bind:key='index'
@@ -56,11 +57,21 @@ export default {
       })
     },
 
-    dismiss (toast) {
-      const index = this.toasts.findIndex(x => x.id === toast.id)
+    hide (id) {
+      const index = this.toasts.findIndex(x => x.id === id)
       if (index === -1) return
       this.$refs.toast[index].classList.remove('show')
-      setTimeout(() => this.toasts.splice(index, 1), 500)
+    },
+
+    remove (id) {
+      const index = this.toasts.findIndex(x => x.id === id)
+      if (index === -1) return
+      this.toasts.splice(index, 1)
+    },
+
+    dismiss (toast) {
+      this.hide(toast.id)
+      setTimeout(() => this.remove(toast.id), 500)
     }
   }
 }
