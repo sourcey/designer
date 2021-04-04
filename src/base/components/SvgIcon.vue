@@ -12,15 +12,18 @@ export default {
     name: {
     },
     size: {
-      default: '16',
+      default: false,
     }
   },
   computed: {
     svgStyle () {
-      return {
-        width: this.size + 'px',
-        height: this.size + 'px'
+      if (this.size) {
+        return {
+          width: this.size + 'px',
+          height: this.size + 'px'
+        }
       }
+      return {}
     }
   }
 }

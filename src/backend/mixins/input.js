@@ -213,7 +213,7 @@ export default {
       return value
     },
     setInitialValue () {
-      // console.log('input: set initial value', this.value, this.name, this.initialValue, this.formatValue(this.initialValue))
+      // console.log('input: set initial value', this.value, this.name, this.initialValue)
       // this.formObject[this.name || this.name] !== 'undefined' ? clone(this.formObject[this.name || this.name]) : null
       this.currentValue = this.initialValue // this.formatValue(this.initialValue)
       // this.formatValue()
@@ -221,14 +221,17 @@ export default {
     },
     setDefaultValue () {
       // console.log('input: set default value', this.value, this.name, this.defaultValue)
-      this.currentValue = this.defaultValue
+      this.currentValue = this.defaultValue || null
       // this.emitUpdate()
     },
 
     // This can be called when the outside form is saved to update the initial
     // value, so next time the form is reset it will revert to this value
     saveValue () {
-      this.initialValue = copyValue(this.value || this.currentValue || this.defaultValue)
+      const value = typeof(this.value) !== 'undefined' ? this.value :
+                    typeof(this.currentValue) !== 'undefined' ? this.currentValue :
+                    typeof(this.defaultValue) !== 'undefined' ? this.defaultValue : undefined
+      this.initialValue = copyValue(value)
     },
     clearErrorMessage () {
       if (this.validationErrors) {
