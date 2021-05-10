@@ -12,7 +12,7 @@
       button.drag-handle.drag-menu-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
         icon(name='move-v' size='14')
   a.item-handle.text-btn.text-success.py-075(v-if='!showHeader' @click.prevent='createItem' href='#')
-    icon(name='plus')
+    icon(name='plus' size='14')
     span Add link
   dialog-window(v-if='editingItem && editDialogOptions' :title='editDialogTitle' :options='editDialogOptions' @close='editDialogOptions = null')
     select-input(:object='editingItem' name='type' :spec='itemTypeSpec')

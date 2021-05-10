@@ -68,7 +68,7 @@ export default {
       }
     },
     isCover () {
-      return this.fit && (this.fit === 'cover' || this.fit === 'contain')
+      return this.aspectRatio || (this.fit && (this.fit === 'cover' || this.fit === 'contain'))
     },
     // autoSize () {
     //   return this.isCover && this.scaleRatio
@@ -78,7 +78,7 @@ export default {
       if (this.isCover) {
         if (!this.empty) {
           css['background-image'] = 'url("' + this.url + '")'
-          css['background-size'] = this.fit // === 'contain' ? 'contain' : 'cover'
+          css['background-size'] = this.fit || 'cover' // === 'contain' ? 'contain' : 'cover'
           if (this.image && this.image.cover_position) {
             css['background-position'] = this.image.cover_position
           }

@@ -4,7 +4,7 @@ div
     .form-title Elements
     .actions
       button.btn.btn-icon(@click.prevent='createElement')
-        icon(name='plus')
+        icon(name='plus' size='14')
   draggable.border-bottom-0(
       element='section'
       v-model='resource.content'

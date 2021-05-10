@@ -1,104 +1,35 @@
 .designer-tags-input {
-
-  .tags-input-wrapper-default {
-    // padding: 0 !important;
-    // background: transparent;
-    // border-radius: 0;
-    // border: 0;
-    // padding: .275rem .5rem;
-    // min-height: $designer-input-height;
-
-    // padding: .275rem .5rem;
-    // min-height: $designer-input-height;
-    // border-radius: $border-radius;
-    // border-color: $border-color;
-    // background-color: white;
-
-    // display: block;
-    // width: 100%;
-    height: $input-height;
-    padding: $input-padding-y $input-padding-x;
-    // font-family: $input-font-family;
-    // @include font-size($input-font-size);
-    // font-weight: $input-font-weight;
-    // line-height: $input-line-height;
-    color: $input-color;
-    background-color: $input-bg;
-    background-clip: padding-box;
-    border: $input-border-width solid $input-border-color;
+  .b-form-tag {
+    margin-bottom: 0.25rem;
+    cursor: pointer;
   }
 
-  .is-invalid {
-    .tags-input-wrapper-default {
-      border-color: $form-feedback-invalid-color;
+  &.has-max-tags {
+    .b-from-tags-field {
+      display: none;
+    }
+    .b-form-tags {
+      .form-text {
+        line-height: 1;
+        margin-top: 0.25rem;
+      }
     }
   }
 
-  .tags-input-badge {
-    // display: inline-block;
-    // padding: 0.25em 0.4em;
-    // font-size: 75%;
-    // font-weight: 700;
-    // line-height: 1;
-    // text-align: center;
-    // white-space: nowrap;
-    // vertical-align: baseline;
-    // border-radius: 0.25rem;
+  .dropdown-tags {
+    line-height: 1.75;
 
-    padding: .3rem .5rem !important;
-    border-radius: 10rem !important;
+    .badge {
+      cursor: pointer;
+    }
   }
 
-  .typeahead-badges {
-    margin-top: .25rem;
-  }
+  .dropdown-toggle:not(.disabled) {
+    border-color: darken($input-border-color, 10);
 
-  // .typeahead-badges {
-  //   margin-top: .5rem;
-  //
-  //   .tags-input-badge {
-  //     // display: inline-block;
-  //     // padding: 0.25em 0.4em;
-  //     // font-size: 75%;
-  //     // font-weight: 700;
-  //     // line-height: 1;
-  //     // text-align: center;
-  //     // white-space: nowrap;
-  //     // vertical-align: baseline;
-  //     // border-radius: 0.25rem;
-  //
-  //     padding: .375rem .6rem !important;
-  //     border-radius: 10rem !important;
-  //   }
-  // }
-  //
-  .typeahead-dropdown {
-    z-index: 2;
-    max-height: 250px;
-    overflow-y: auto;
+    &:active,
+    &.active {
+      border-color: theme-color(secondary);
+    }
   }
-  //
-  // .tags-input-remove:before,
-  // .tags-input-remove:after {
-  //   background: white;
-  // }
-  //
-  // .tags-input-badge-selected-default {
-  //   color: white;
-  //   background-color: theme-color('info');
-  // }
-  //
-  //
-  // .tags-input-typeahead-item-default {
-  //   background-color: theme-color('info');
-  // }
-  //
-  // .tags-input-typeahead-item-highlighted-default {
-  //   background-color: theme-color('success');
-  // }
-  //
-  // .tags-input-badge-pill {
-  //   padding: .375rem .6rem !important;
-  //   border-radius: 10rem !important;
-  // }
 }

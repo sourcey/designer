@@ -10,7 +10,7 @@
       .dropdown-label-text
         | {{ inputLabel }}
         span(v-if='displayValue') : {{ displayValue }}
-      icon(name='caret-down' size='16')
+      icon(name='caret-down' size='14')
     //- .form-control
     select(:id='inputId'
         v-model='currentValue'

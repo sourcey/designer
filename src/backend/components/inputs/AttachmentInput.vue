@@ -18,7 +18,7 @@
       label.btn-upload.dropzone.flex-center.p-15(:for='inputId')
         .icon-wrap
           icon.mb-025(:name='icon || "camera"' size='32')
-          .btn-text Upload
+          .btn-text {{ upload_label }}
       input(:id='inputId' type='file' multiple='' accept='image/*' @change='filesChange')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
 </template>
@@ -44,6 +44,10 @@ export default {
     },
     url_params: {
       type: Object
+    },
+    upload_label: {
+      type: String,
+      default: 'Upload'
     }
   },
   data () {

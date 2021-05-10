@@ -5,7 +5,7 @@
       a.input-reset(v-if='!isDefaultValue' @click.prevent='setDefaultValue' href='#') x
       label.dropdown-label(:for='inputId' v-b-tooltip.hover :title='tooltip' @click.prevent='showFontDialog')
         .dropdown-label-text {{ inputLabel }}
-        icon(name='caret-down' size='16')
+        icon(name='caret-down' size='14')
       .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
   dialog-window(v-if='fontDialogOptions' :options='fontDialogOptions' @close='fontDialogOptions = null')
     .item-wrap
@@ -14,7 +14,7 @@
         label.dropdown-label(:for='inputId' v-b-tooltip.hover :title='tooltip' @click.prevent='showFamilyDialog')
           .dropdown-label-text.font-name(:style='fontStyle(activeFontFamily)') {{activeFontFamily}}
           span.icon.spinner-border.spinner-border-sm(v-if="state.loadingStatus === 'loading'" role='status' aria-hidden='true')
-          icon(name='caret-down' size='16')
+          icon(name='caret-down' size='14')
     designer-select-input(v-if='value && value.weights' :object='value' name='weight' :spec='fontWeightSpec' @update='emitUpdate')
     designer-select-input(v-if='value' :object='value' name='style' :spec='fontStyleSpec' @update='emitUpdate')
   //- .wrapper.mx-2(v-if='showFamilyDialog')

@@ -2,7 +2,7 @@
 .item-wrap.textarea-input
   .form-group
     label.control-label(v-if='label !== false' :for='inputId' v-b-tooltip.hover :title='tooltip') {{ inputLabel }}
-    p.hint(v-if='hint' v-html='hint')
+    //- p.hint(v-if='hint' v-html='hint')
     textarea(:id='inputId'
         v-model='currentValue'
         :name='field || name'
@@ -12,6 +12,7 @@
         @focusin='emitSelect(); focused = true'
         @focusout='focused = false')
     .invalid-feedback.d-block(v-if='errorMessage') {{ errorMessage }}
+    .hint.mt-05(v-if='hint' v-html='hint')
 </template>
 
 <script>
