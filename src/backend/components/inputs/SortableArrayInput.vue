@@ -16,7 +16,7 @@ draggable(v-on='$listeners' v-model='currentValue' :options="{handle:'.drag-chil
         span(v-else='') Item {{ index }}
       .actions
         button.drag-handle.drag-child-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
-          icon(name='move-v')
+          icon(name='move-v' size='14')
         button.drag-handle.drag-child-handle.btn.btn-icon.btn-text-secondary(@click.prevent='currentValue.splice(index, 1)')
           icon(name='trash')
         //- a.btn.btn-sm.float-right(@click.prevent='currentValue.splice(index, 1)' href='#')

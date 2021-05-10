@@ -7,7 +7,7 @@
     .form-title {{ value.label || spec.label }}
     .actions
       button.btn.btn-icon(@click.prevent='createItem')
-        icon(name='plus')
+        icon(name='plus' size='14')
   draggable(v-model='value.items' :class='showHeader ? "border-bottom" : ""' @change='emitUpdate')
     //- element='section'.border-bottom
     .item-handle(
@@ -22,7 +22,7 @@
   a.item-handle.text-btn.text-success.py-075(v-if='!showHeader' @click.prevent='createItem' href='#')
     .label Add item
     .btn.btn-icon
-      icon(name='plus')
+      icon(name='plus' size='14')
   dialog-window(v-if='dialogOptions && editingItem' title='Edit Menu Item' :options='dialogOptions' @close='dialogOptions = null')
     select-input(:object='editingItem' name='type' :spec='itemTypeSpec')
     select-input(v-if='editingItem.type === "page"' :object='editingItem' name='reference' :spec='itemPageSelectSpec')

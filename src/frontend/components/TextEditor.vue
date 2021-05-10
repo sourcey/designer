@@ -229,8 +229,8 @@ export default {
 
       // Process links
       if (html) {
-        // console.log('text editor: replacing nofollow links')
-        html = html.replaceAll('noopener noreferrer nofollow', '')
+        // console.log('text editor: replacing nofollow links', html)
+        html = html.replace(/noopener noreferrer nofollow/g, '')
       }
       return html
     },

@@ -4,7 +4,7 @@ div
     .form-title Sections
     .actions
       button.btn.btn-icon(@click.prevent='createSection')
-        icon(name='plus')
+        icon(name='plus' size='14')
   //- Reset the form on change event to handle bugged iframe reactivity.
   draggable.border-bottom(
       v-if='resource.content.length > 0'

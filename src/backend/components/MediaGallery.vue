@@ -57,7 +57,7 @@
         td.pr-125(align='right')
           b-dropdown(variant='icon btn-text-secondary' size='sm' no-caret)
             template(slot='button-content')
-              icon(name='ellipsis-v')
+              icon(name='ellipsis-v' size='14')
             //- div(v-if='!attachment.persisted && !attachment.success')
               //- b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='copyToClipboard(getEmbedCode(object.id))') Copy embed code
               //- b-dropdown-item(:class="{disabled: !attachment.active}" href='#' @click.prevent="attachment.active ? $refs.upload.update(file, {error: 'cancel'}) : false") Cancel

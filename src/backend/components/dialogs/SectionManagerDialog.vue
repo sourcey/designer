@@ -15,7 +15,7 @@ dialog-window(
           //- button.btn.btn-icon.btn-text-secondary(@click.prevent='page.sections.splice(index, 1)')
             i.fas.fa-trash
           button.drag-handle.drag-page-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
-            icon(name='move-v')
+            icon(name='move-v' size='14')
       .item-handle
         //- (@click='createPageSection(page)')
         a.title(@click.prevent='createPageSection' href='#')

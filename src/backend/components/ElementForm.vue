@@ -10,10 +10,10 @@ form.block-form.collapsible(:class="{'expand': showForm}" @dragstart='onDragElem
     a.label(@click.prevent='showForm = !showForm' href='#') {{ object.title || spec.label }}
     .actions
       button.drag-handle.drag-element-handle.btn.btn-icon.btn-text-secondary(@click.prevent)
-        icon(name='move-v')
+        icon(name='move-v' size='14')
       b-dropdown(variant='icon btn-text-secondary' size='sm' no-caret)
         template(slot='button-content')
-          icon(name='ellipsis-v')
+          icon(name='ellipsis-v' size='14')
         b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='copyToClipboard(getEmbedCode(object.id))') Copy embed code
         b-dropdown-item(v-if='designerBackendState.enableElementEmbeds' href='#' @click='object.hidden = !object.hidden') Toggle embedded: ({{ object.hidden }})
         b-dropdown-item.text-danger(v-if='deletable' href='#' @click.prevent="$emit('remove')") Delete
