@@ -7,7 +7,7 @@ dialog-window(
   slot
     //- v-if='renderForm'
     form-section.py-05(v-if='renderForm' :spec='layoutSpec' :object='section' :root='section' @update='emitUpdate')
-      text-input(slot='start' :object='section.data' name='label' :spec='sectionLabelSpec' @update='emitUpdate')
+      text-input(slot='start' :object='section.data' name='label' :spec='sectionLabelSpec' @input='e => emitUpdate("label", e)')
 
   .dialog-footer(slot='footer')
     button.btn.w-50.dialog-btn.btn-cancel(@click.prevent='$emit("close")') Cancel

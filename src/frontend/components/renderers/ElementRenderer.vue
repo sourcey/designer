@@ -67,7 +67,24 @@ export default {
         //   if (element)
         //     return element
         // }
-        return () => import(/* webpackChunkName: "designer" */ `../elements/${name}.vue`)
+
+        const availableItems = [
+          'BannerElement',
+          'ButtonElement',
+          'CardElement',
+          'HeadingElement',
+          'ImageCarouselElement',
+          'ImageElement',
+          'InstagramElement',
+          'SeparatorElement',
+          'TextElement',
+          'TweetElement',
+          'VideoElement'
+        ]
+        if (availableItems.includes(name))
+          return () => import(/* webpackChunkName: "designer" */ `../elements/${name}.vue`)
+        else
+          return () => import(/* webpackChunkName: "designer" */ `../elements/UnknownElement.vue`)
       // }
       // return this.designerEditingSection && spec && spec.override ?
       //   importDesignerElement(this.element.name) :
