@@ -32,9 +32,15 @@
         //- :element-id='field || name'
         //- @tag-added='tagAdded'
         //- :existing-tags='tagArrayToObject(options)'
-
-    b-form-tags(v-if='!optionLabels.length' v-model='selectedTags' :input-id='inputId' :limit='max' tag-variant='info' separator=' ' no-outer-focus remove-on-delete)
-    b-form-tags.tag-select(v-else v-model='selectedTags' :input-id='inputId' :limit='max' separator=' ' no-outer-focus)
+    b-form-tags(v-if='!optionLabels.length'
+        v-model='selectedTags'
+        :input-id='inputId'
+        :limit='max'
+        tag-variant='info'
+        :separator='separator'
+        no-outer-focus
+        remove-on-delete)
+    b-form-tags.tag-select(v-else v-model='selectedTags' :input-id='inputId' :limit='max' :separator='separator' no-outer-focus)
       template(v-slot='{ tags, disabled, addTag, removeTag }')
         ul.list-unstyled.mb-0.d-flex.flex-wrap.align-items-center
           b-form-tag(v-for='tag in tags' :key='tag' tag='li' @remove='removeTag(tag)' :title='tag' :disabled='disabled' variant='info') {{ tag }}
@@ -81,6 +87,11 @@ export default {
     },
     options: {
       type: [Object, Array],
+      // default: () => []
+    },
+    separator: {
+      type: [String, Array],
+      default: '.;' //[',', ';']
       // default: () => []
     },
     max: {
