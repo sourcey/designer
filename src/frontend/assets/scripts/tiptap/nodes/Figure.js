@@ -70,12 +70,6 @@ export default class Figure extends Node {
     }
   }
 
-  // keys({ type }) {
-  //   return {
-  //     Backspace: () => { console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')},
-  //   }
-  // }
-
   commands ({ type, schema }) {
     return {
       figure: attrs => (state, dispatch) => {

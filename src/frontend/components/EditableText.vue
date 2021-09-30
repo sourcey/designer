@@ -30,10 +30,10 @@ export default {
       type: String,
       // required: true
     },
-    content: {
-      type: String,
-      // required: true
-    },
+    // content: {
+    //   type: String,
+    //   // required: true
+    // },
     contentTag: {
       type: String,
       // default: 'div'
@@ -64,15 +64,16 @@ export default {
       // if (this.content && this.content.length)
       //   return this.content
       // return this.value
-      return this.content || this.value
+      // this.content ||
+      return this.value
     }
   },
   created () {
   },
   methods: {
     onUpdate (html) {
-      // this.item.data.subtitle = html
-      // console.log('onUpdate', html, this.value)
+      // this.item.data.subtitle = html, ', content=', this.content
+      // console.log('onUpdate', 'html=', html, ', value=', this.value)
       this.$emit('input', html)
     },
     onEditorFocus (flag) {

@@ -1,6 +1,10 @@
 <template lang="pug">
 //- .element.text-content(v-html='contentHtml')
-editable-text(v-model='data.content' :content='contentHtml' content-class='element text-content' @focused='onEditorFocus')
+div
+  editable-text(v-model='data.content'
+                :content='contentHtml'
+                content-class='element text-content'
+                @focused='onEditorFocus')
 </template>
 
 <script>
@@ -23,7 +27,7 @@ export default {
   },
   computed: {
     contentHtml () {
-      return this.data.content || this.data.placeholder || 'Write here...'
+      return this.data.content // || this.data.placeholder || 'Write here...'
     }
   },
   methods: {

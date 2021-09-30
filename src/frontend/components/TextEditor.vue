@@ -195,7 +195,8 @@ export default {
 
         // content: this.content,
         content: this.contentHtml(),
-        onFocus: () => this.onFocused(true)
+        onFocus: () => this.onFocused(true),
+        onBlur: () => this.onFocused(false)
       }),
       focused: false,
       linkUrl: null,
@@ -203,14 +204,14 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('click', this.onWindowClick)
+    // window.addEventListener('click', this.onWindowClick)
 
     // console.log('text editor: create', this.contentHtml())
     // this.editor.commands.heading({ level: 1 })
   },
   beforeDestroy () {
     this.editor.destroy()
-    window.removeEventListener('click', this.onWindowClick)
+    // window.removeEventListener('click', this.onWindowClick)
   },
   methods: {
     contentHtml () {
@@ -250,11 +251,12 @@ export default {
       this.$emit('focused', flag)
       this.$emit('update', html)
     },
-    onWindowClick (event) {
-      if (this.focused && !this.$el.contains(event.target)) {
-        this.onFocused(false)
-      }
-    },
+    // onWindowClick (event) {
+    //   if (this.focused && !this.$parent.$el.contains(event.target)) {
+    //     console.log('@@@onWindowClick', this.$el.contains(event.target), this.$parent.$el, event.target, event)
+    //     this.onFocused(false)
+    //   }
+    // },
     menuLeftPos (left) {
       if (!this.$refs.menu || !this.$refs.menu.$el || !this.$refs.menu.$el.getBoundingClientRect)
         return left

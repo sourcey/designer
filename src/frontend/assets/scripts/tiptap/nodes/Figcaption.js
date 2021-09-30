@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { wrappingInputRule, toggleWrap } from 'tiptap-commands'
 
-export default class Division extends Node {
+export default class Figcaption extends Node {
 
   get name() {
     return 'figcaption'
