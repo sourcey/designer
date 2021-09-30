@@ -69,6 +69,7 @@ module Designer
 
       # Set the layout incase the default fallback is used
       item['data']['layout'] = layout
+      item['data']['label'] ||= item['label']
       merge_item_defaults item, spec
     end
 

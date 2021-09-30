@@ -58,7 +58,7 @@ export default {
         return value[0]
 
       // For options that are an array of objects ie:
-      // [ { lable: 'Facebook', value: 'facebook' } ]
+      // [ { label: 'Facebook', value: 'facebook' } ]
       if (isObject(value) && value.label)
         return value.label
 
