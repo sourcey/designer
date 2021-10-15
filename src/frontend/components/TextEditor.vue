@@ -196,7 +196,7 @@ export default {
         // content: this.content,
         content: this.contentHtml(),
         onFocus: () => this.onFocused(true),
-        onBlur: () => this.onFocused(false)
+        onBlur: this.onBlur //() => Focused(false)
       }),
       focused: false,
       linkUrl: null,
@@ -251,6 +251,18 @@ export default {
       this.$emit('focused', flag)
       this.$emit('update', html)
     },
+    onBlur (event) {
+      console.log('text editor: blur', event)
+      // const parent = this.$el.closest(selectors)
+      // if (this.focused && (!this.$parent.$el.contains(event.event.target) || !this.$parent.$el.contains(event.event.relatedTarget))) {
+      if (this.focused && !this.$el.contains(event.event.relatedTarget)) {
+         // || !this.$parent.$el.contains(event.event.relatedTarget).$parent
+        // console.log('@@@onWindowClick', this.$el.contains(event.event.target), this.$parent.$el.contains(event.event.target), this.$parent.$el.contains(event.target), this.$parent.$el, event.target, event)
+        this.onFocused(false)
+      }
+    },
+    // onFocus: () => this.onFocused(true),
+    // onBlur: this.onBlur //() => Focused(false)
     // onWindowClick (event) {
     //   if (this.focused && !this.$parent.$el.contains(event.target)) {
     //     console.log('@@@onWindowClick', this.$el.contains(event.target), this.$parent.$el, event.target, event)
